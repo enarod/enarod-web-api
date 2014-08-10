@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DBAF3A5C-DBF6-4BDB-B580-564AEBC2288A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Infopulse.EDemocracy.Data</RootNamespace>
+    <AssemblyName>Infopulse.EDemocracy.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Interfaces\IAgreementRepository.cs" />
+    <Compile Include="Interfaces\IParticipantRepository.cs" />
+    <Compile Include="Interfaces\IPeopleRepository.cs" />
+    <Compile Include="Interfaces\IPetitionRepository.cs" />
+    <Compile Include="Interfaces\IPetitionVoteRepository.cs" />
+    <Compile Include="Interfaces\IUaCryptoRepository.cs" />
+    <Compile Include="Interfaces\IVerificationRepository.cs" />
+    <Compile Include="Repositories\AgreementRepository.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\DpaVerificationRepository.cs" />
+    <Compile Include="Repositories\ParticipantRepository.cs" />
+    <Compile Include="Repositories\PeopleRepository.cs" />
+    <Compile Include="Repositories\PetitionRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\PetitionVoteRepository.cs" />
+    <Compile Include="Service References\Verification.Dpa\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Repositories\UaCryptoVerificationRepository.cs" />
+    <Compile Include="Service References\Verification.UaCrypto\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infopulse.EDemocracy.Model\Infopulse.EDemocracy.Model.csproj">
+      <Project>{044c41cb-2df9-40da-8a41-d6a54379c76c}</Project>
+      <Name>Infopulse.EDemocracy.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="Service References\Verification.Dpa\Infopulse.EDemocracy.Data.Verification.Dpa.cryptResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Verification.Dpa\Infopulse.EDemocracy.Data.Verification.Dpa.decryptResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Verification.Dpa\Infopulse.EDemocracy.Data.Verification.Dpa.getCrtListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Verification.Dpa\Infopulse.EDemocracy.Data.Verification.Dpa.signAttachResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Verification.Dpa\Infopulse.EDemocracy.Data.Verification.Dpa.signDetachResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Verification.Dpa\Infopulse.EDemocracy.Data.Verification.Dpa.verifyAttachResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Verification.Dpa\UACryptoWS.wsdl" />
+    <None Include="Service References\Verification.Dpa\UACryptoWS.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Verification.UaCrypto\Infopulse.EDemocracy.Data.Verification.UaCrypto.cryptResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Verification.UaCrypto\Infopulse.EDemocracy.Data.Verification.UaCrypto.decryptResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Verification.UaCrypto\Infopulse.EDemocracy.Data.Verification.UaCrypto.getCrtListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Verification.UaCrypto\Infopulse.EDemocracy.Data.Verification.UaCrypto.signAttachResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Verification.UaCrypto\Infopulse.EDemocracy.Data.Verification.UaCrypto.signDetachResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Verification.UaCrypto\Infopulse.EDemocracy.Data.Verification.UaCrypto.verifyAttachResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Verification.UaCrypto\UACryptoWS.wsdl" />
+    <None Include="Service References\Verification.UaCrypto\UACryptoWS.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\Verification.Dpa\" />
+    <WCFMetadataStorage Include="Service References\Verification.UaCrypto\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Verification.Dpa\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Verification.Dpa\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Verification.Dpa\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Verification.UaCrypto\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Verification.UaCrypto\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Verification.UaCrypto\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

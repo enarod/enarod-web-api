@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://uacrypto/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="UACryptoWS" targetNamespace="http://uacrypto/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://192.168.42.13:8080/UACryptoServer/UACryptoWS?xsd=1" namespace="http://uacrypto/" />
+    </xsd:schema>
+  </types>
+  <message name="decrypt">
+    <part name="parameters" element="tns:decrypt" />
+  </message>
+  <message name="decryptResponse">
+    <part name="parameters" element="tns:decryptResponse" />
+  </message>
+  <message name="signAttach">
+    <part name="parameters" element="tns:signAttach" />
+  </message>
+  <message name="signAttachResponse">
+    <part name="parameters" element="tns:signAttachResponse" />
+  </message>
+  <message name="getCrtList">
+    <part name="parameters" element="tns:getCrtList" />
+  </message>
+  <message name="getCrtListResponse">
+    <part name="parameters" element="tns:getCrtListResponse" />
+  </message>
+  <message name="verifyAttach">
+    <part name="parameters" element="tns:verifyAttach" />
+  </message>
+  <message name="verifyAttachResponse">
+    <part name="parameters" element="tns:verifyAttachResponse" />
+  </message>
+  <message name="signDetach">
+    <part name="parameters" element="tns:signDetach" />
+  </message>
+  <message name="signDetachResponse">
+    <part name="parameters" element="tns:signDetachResponse" />
+  </message>
+  <message name="crypt">
+    <part name="parameters" element="tns:crypt" />
+  </message>
+  <message name="cryptResponse">
+    <part name="parameters" element="tns:cryptResponse" />
+  </message>
+  <portType name="UACryptoWS">
+    <operation name="decrypt">
+      <input wsam:Action="http://uacrypto/UACryptoWS/decryptRequest" message="tns:decrypt" />
+      <output wsam:Action="http://uacrypto/UACryptoWS/decryptResponse" message="tns:decryptResponse" />
+    </operation>
+    <operation name="signAttach">
+      <input wsam:Action="http://uacrypto/UACryptoWS/signAttachRequest" message="tns:signAttach" />
+      <output wsam:Action="http://uacrypto/UACryptoWS/signAttachResponse" message="tns:signAttachResponse" />
+    </operation>
+    <operation name="getCrtList">
+      <input wsam:Action="http://uacrypto/UACryptoWS/getCrtListRequest" message="tns:getCrtList" />
+      <output wsam:Action="http://uacrypto/UACryptoWS/getCrtListResponse" message="tns:getCrtListResponse" />
+    </operation>
+    <operation name="verifyAttach">
+      <input wsam:Action="http://uacrypto/UACryptoWS/verifyAttachRequest" message="tns:verifyAttach" />
+      <output wsam:Action="http://uacrypto/UACryptoWS/verifyAttachResponse" message="tns:verifyAttachResponse" />
+    </operation>
+    <operation name="signDetach">
+      <input wsam:Action="http://uacrypto/UACryptoWS/signDetachRequest" message="tns:signDetach" />
+      <output wsam:Action="http://uacrypto/UACryptoWS/signDetachResponse" message="tns:signDetachResponse" />
+    </operation>
+    <operation name="crypt">
+      <input wsam:Action="http://uacrypto/UACryptoWS/cryptRequest" message="tns:crypt" />
+      <output wsam:Action="http://uacrypto/UACryptoWS/cryptResponse" message="tns:cryptResponse" />
+    </operation>
+  </portType>
+  <binding name="UACryptoWSPortBinding" type="tns:UACryptoWS">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="decrypt">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="signAttach">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="getCrtList">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="verifyAttach">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="signDetach">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="crypt">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="UACryptoWS">
+    <port name="UACryptoWSPort" binding="tns:UACryptoWSPortBinding">
+      <soap:address location="http://192.168.42.13:8080/UACryptoServer/UACryptoWS" />
+    </port>
+  </service>
+</definitions>

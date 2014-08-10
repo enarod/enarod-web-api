@@ -1,0 +1,2347 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="_Invitation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvitationID" Type="bigint" Nullable="false" />
+          <Property Name="ActionID" Type="bigint" Nullable="false" />
+          <Property Name="StatusID" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Agreement">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ShortDesc" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CandidateID" Type="bigint" Nullable="false" />
+          <Property Name="StatusID" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="AgreementVote">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AgreementID" Type="bigint" Nullable="false" />
+          <Property Name="PersonID" Type="bigint" Nullable="false" />
+          <Property Name="CertificateID" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="SignedData" Type="text" Nullable="false" />
+          <Property Name="SignedHash" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Candidate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonID" Type="bigint" Nullable="false" />
+          <Property Name="TypeID" Type="bigint" Nullable="false" />
+          <Property Name="StatusID" Type="bigint" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Certificate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeID" Type="bigint" Nullable="false" />
+          <Property Name="PersonID" Type="bigint" Nullable="false" />
+          <Property Name="SerialNumber" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonID" Type="bigint" Nullable="false" />
+          <Property Name="ContactTypeID" Type="bigint" Nullable="false" />
+          <Property Name="StatusID" Type="bigint" Nullable="false" />
+          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContactGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupID" Type="bigint" Nullable="false" />
+          <Property Name="ContactTypeID" Type="bigint" Nullable="false" />
+          <Property Name="StatusID" Type="bigint" Nullable="false" />
+          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Entity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EntityGroupID" Type="bigint" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EntityGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParentID" Type="bigint" />
+          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Function">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StatusID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StatusID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Invitation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupID" Type="bigint" Nullable="false" />
+          <Property Name="PersonID" Type="bigint" Nullable="false" />
+          <Property Name="StatusID" Type="bigint" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InvitationLink">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="InvitationID" Type="bigint" Nullable="false" />
+          <Property Name="StatusID" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="RunDate" Type="datetime" />
+          <Property Name="RunBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="People">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Petition">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LevelID" Type="bigint" Nullable="false" />
+          <Property Name="AddressedTo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CategoryID" Type="bigint" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Requirements" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="KeyWords" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="EffectiveFrom" Type="datetime" Nullable="false" />
+          <Property Name="EffectiveTo" Type="datetime" Nullable="false" />
+          <Property Name="Limit" Type="bigint" />
+        </EntityType>
+        <EntityType Name="PetitionLevel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Limit" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PetitionVote">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PetitionID" Type="bigint" Nullable="false" />
+          <Property Name="PersonID" Type="bigint" Nullable="false" />
+          <Property Name="CertificateID" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="SignedData" Type="text" Nullable="false" />
+          <Property Name="SignedHash" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Photo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonID" Type="bigint" Nullable="false" />
+          <Property Name="StatusID" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="Photo" Type="image" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StatusID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RoleFunction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleID" Type="bigint" Nullable="false" />
+          <Property Name="FunctionID" Type="bigint" Nullable="false" />
+          <Property Name="StatusID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RolePeople">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupID" Type="bigint" Nullable="false" />
+          <Property Name="RoleID" Type="bigint" Nullable="false" />
+          <Property Name="PersonID" Type="bigint" Nullable="false" />
+          <Property Name="StatusID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwAgreements">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="ShortDesc" />
+            <PropertyRef Name="Description" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ShortDesc" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NumberOfVotes" Type="int" />
+        </EntityType>
+        <Association Name="FK__Invitation_Entity">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="_Invitation" Type="Self._Invitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="_Invitation">
+              <PropertyRef Name="ActionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Invitation_Entity1">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="_Invitation" Type="Self._Invitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="_Invitation">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Invitation_Invitation">
+          <End Role="Invitation" Type="Self.Invitation" Multiplicity="1" />
+          <End Role="_Invitation" Type="Self._Invitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invitation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="_Invitation">
+              <PropertyRef Name="InvitationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agreement_Candidate">
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="1" />
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="CandidateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agreement_Entity">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agreement_People">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agreement_People1">
+          <End Role="People" Type="Self.People" Multiplicity="0..1" />
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="UpdatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgreementVote_Agreement">
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="1" />
+          <End Role="AgreementVote" Type="Self.AgreementVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agreement">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AgreementVote">
+              <PropertyRef Name="AgreementID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgreementVote_Certificate">
+          <End Role="Certificate" Type="Self.Certificate" Multiplicity="1" />
+          <End Role="AgreementVote" Type="Self.AgreementVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Certificate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AgreementVote">
+              <PropertyRef Name="CertificateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgreementVote_People">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="AgreementVote" Type="Self.AgreementVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AgreementVote">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Candidate_Entity">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Candidate">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Candidate_Entity1">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Candidate">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Candidate_People">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Candidate">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Certificate_Entity">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="Certificate" Type="Self.Certificate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Certificate">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Certificate_People">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="Certificate" Type="Self.Certificate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Certificate">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contact_Entity">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="ContactTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contact_Entity1">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contact_People">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContactGroup_Entity">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="ContactGroup" Type="Self.ContactGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ContactGroup">
+              <PropertyRef Name="ContactTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContactGroup_Entity1">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="ContactGroup" Type="Self.ContactGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ContactGroup">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContactGroup_Groups">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="1" />
+          <End Role="ContactGroup" Type="Self.ContactGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ContactGroup">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Entity_EntityGroup">
+          <End Role="EntityGroup" Type="Self.EntityGroup" Multiplicity="1" />
+          <End Role="Entity" Type="Self.Entity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Entity">
+              <PropertyRef Name="EntityGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Function_Entity">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="Function" Type="Self.Function" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Function">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Groups_Entity">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="Groups" Type="Self.Groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Groups">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invitation_Entity">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="Invitation" Type="Self.Invitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invitation">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invitation_Groups">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="1" />
+          <End Role="Invitation" Type="Self.Invitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invitation">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invitation_People">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="Invitation" Type="Self.Invitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invitation">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvitationLink_Entity">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="InvitationLink" Type="Self.InvitationLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="InvitationLink">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvitationLink_Invitation">
+          <End Role="Invitation" Type="Self.Invitation" Multiplicity="1" />
+          <End Role="InvitationLink" Type="Self.InvitationLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invitation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="InvitationLink">
+              <PropertyRef Name="InvitationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Petition_Entity">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="Petition" Type="Self.Petition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Petition">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Petition_People">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="Petition" Type="Self.Petition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Petition">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Petition_PetitionLevel">
+          <End Role="PetitionLevel" Type="Self.PetitionLevel" Multiplicity="1" />
+          <End Role="Petition" Type="Self.Petition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PetitionLevel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Petition">
+              <PropertyRef Name="LevelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PetitionVote_Certificate">
+          <End Role="Certificate" Type="Self.Certificate" Multiplicity="1" />
+          <End Role="PetitionVote" Type="Self.PetitionVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Certificate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PetitionVote">
+              <PropertyRef Name="CertificateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PetitionVote_People">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="PetitionVote" Type="Self.PetitionVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PetitionVote">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PetitionVote_Petition">
+          <End Role="Petition" Type="Self.Petition" Multiplicity="1" />
+          <End Role="PetitionVote" Type="Self.PetitionVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Petition">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PetitionVote">
+              <PropertyRef Name="PetitionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Photo_Entity">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="Photo" Type="Self.Photo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Photo">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Photo_People">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="Photo" Type="Self.Photo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Photo">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Role_Entity">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="Role" Type="Self.Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Role">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleFunction_Entity">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="RoleFunction" Type="Self.RoleFunction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleFunction">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleFunction_Function">
+          <End Role="Function" Type="Self.Function" Multiplicity="1" />
+          <End Role="RoleFunction" Type="Self.RoleFunction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Function">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleFunction">
+              <PropertyRef Name="FunctionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleFunction_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="RoleFunction" Type="Self.RoleFunction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleFunction">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolePeople_Entity">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="RolePeople" Type="Self.RolePeople" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RolePeople">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolePeople_Groups">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="1" />
+          <End Role="RolePeople" Type="Self.RolePeople" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RolePeople">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolePeople_People">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="RolePeople" Type="Self.RolePeople" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RolePeople">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolePeople_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="RolePeople" Type="Self.RolePeople" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RolePeople">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EDModelStoreContainer">
+          <EntitySet Name="_Invitation" EntityType="Self._Invitation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Agreement" EntityType="Self.Agreement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AgreementVote" EntityType="Self.AgreementVote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Candidate" EntityType="Self.Candidate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Certificate" EntityType="Self.Certificate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContactGroup" EntityType="Self.ContactGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Entity" EntityType="Self.Entity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EntityGroup" EntityType="Self.EntityGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Function" EntityType="Self.Function" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invitation" EntityType="Self.Invitation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvitationLink" EntityType="Self.InvitationLink" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="People" EntityType="Self.People" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Petition" EntityType="Self.Petition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PetitionLevel" EntityType="Self.PetitionLevel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PetitionVote" EntityType="Self.PetitionVote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Photo" EntityType="Self.Photo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleFunction" EntityType="Self.RoleFunction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RolePeople" EntityType="Self.RolePeople" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vwAgreements" EntityType="Self.vwAgreements" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwAgreements].[ID] AS [ID], 
+    [vwAgreements].[Name] AS [Name], 
+    [vwAgreements].[ShortDesc] AS [ShortDesc], 
+    [vwAgreements].[Description] AS [Description], 
+    [vwAgreements].[NumberOfVotes] AS [NumberOfVotes]
+    FROM [dbo].[vwAgreements] AS [vwAgreements]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Invitation_Entity" Association="Self.FK__Invitation_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="_Invitation" EntitySet="_Invitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Invitation_Entity1" Association="Self.FK__Invitation_Entity1">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="_Invitation" EntitySet="_Invitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Invitation_Invitation" Association="Self.FK__Invitation_Invitation">
+            <End Role="Invitation" EntitySet="Invitation" />
+            <End Role="_Invitation" EntitySet="_Invitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agreement_Candidate" Association="Self.FK_Agreement_Candidate">
+            <End Role="Candidate" EntitySet="Candidate" />
+            <End Role="Agreement" EntitySet="Agreement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agreement_Entity" Association="Self.FK_Agreement_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="Agreement" EntitySet="Agreement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agreement_People" Association="Self.FK_Agreement_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="Agreement" EntitySet="Agreement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agreement_People1" Association="Self.FK_Agreement_People1">
+            <End Role="People" EntitySet="People" />
+            <End Role="Agreement" EntitySet="Agreement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgreementVote_Agreement" Association="Self.FK_AgreementVote_Agreement">
+            <End Role="Agreement" EntitySet="Agreement" />
+            <End Role="AgreementVote" EntitySet="AgreementVote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgreementVote_Certificate" Association="Self.FK_AgreementVote_Certificate">
+            <End Role="Certificate" EntitySet="Certificate" />
+            <End Role="AgreementVote" EntitySet="AgreementVote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgreementVote_People" Association="Self.FK_AgreementVote_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="AgreementVote" EntitySet="AgreementVote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Candidate_Entity" Association="Self.FK_Candidate_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="Candidate" EntitySet="Candidate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Candidate_Entity1" Association="Self.FK_Candidate_Entity1">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="Candidate" EntitySet="Candidate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Candidate_People" Association="Self.FK_Candidate_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="Candidate" EntitySet="Candidate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Certificate_Entity" Association="Self.FK_Certificate_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="Certificate" EntitySet="Certificate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Certificate_People" Association="Self.FK_Certificate_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="Certificate" EntitySet="Certificate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contact_Entity" Association="Self.FK_Contact_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="Contact" EntitySet="Contact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contact_Entity1" Association="Self.FK_Contact_Entity1">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="Contact" EntitySet="Contact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contact_People" Association="Self.FK_Contact_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="Contact" EntitySet="Contact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContactGroup_Entity" Association="Self.FK_ContactGroup_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="ContactGroup" EntitySet="ContactGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContactGroup_Entity1" Association="Self.FK_ContactGroup_Entity1">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="ContactGroup" EntitySet="ContactGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContactGroup_Groups" Association="Self.FK_ContactGroup_Groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="ContactGroup" EntitySet="ContactGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Entity_EntityGroup" Association="Self.FK_Entity_EntityGroup">
+            <End Role="EntityGroup" EntitySet="EntityGroup" />
+            <End Role="Entity" EntitySet="Entity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Function_Entity" Association="Self.FK_Function_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="Function" EntitySet="Function" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Groups_Entity" Association="Self.FK_Groups_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="Groups" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invitation_Entity" Association="Self.FK_Invitation_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="Invitation" EntitySet="Invitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invitation_Groups" Association="Self.FK_Invitation_Groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Invitation" EntitySet="Invitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invitation_People" Association="Self.FK_Invitation_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="Invitation" EntitySet="Invitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvitationLink_Entity" Association="Self.FK_InvitationLink_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="InvitationLink" EntitySet="InvitationLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvitationLink_Invitation" Association="Self.FK_InvitationLink_Invitation">
+            <End Role="Invitation" EntitySet="Invitation" />
+            <End Role="InvitationLink" EntitySet="InvitationLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Petition_Entity" Association="Self.FK_Petition_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="Petition" EntitySet="Petition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Petition_People" Association="Self.FK_Petition_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="Petition" EntitySet="Petition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Petition_PetitionLevel" Association="Self.FK_Petition_PetitionLevel">
+            <End Role="PetitionLevel" EntitySet="PetitionLevel" />
+            <End Role="Petition" EntitySet="Petition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetitionVote_Certificate" Association="Self.FK_PetitionVote_Certificate">
+            <End Role="Certificate" EntitySet="Certificate" />
+            <End Role="PetitionVote" EntitySet="PetitionVote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetitionVote_People" Association="Self.FK_PetitionVote_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="PetitionVote" EntitySet="PetitionVote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetitionVote_Petition" Association="Self.FK_PetitionVote_Petition">
+            <End Role="Petition" EntitySet="Petition" />
+            <End Role="PetitionVote" EntitySet="PetitionVote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Photo_Entity" Association="Self.FK_Photo_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="Photo" EntitySet="Photo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Photo_People" Association="Self.FK_Photo_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="Photo" EntitySet="Photo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Role_Entity" Association="Self.FK_Role_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="Role" EntitySet="Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleFunction_Entity" Association="Self.FK_RoleFunction_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="RoleFunction" EntitySet="RoleFunction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleFunction_Function" Association="Self.FK_RoleFunction_Function">
+            <End Role="Function" EntitySet="Function" />
+            <End Role="RoleFunction" EntitySet="RoleFunction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleFunction_Role" Association="Self.FK_RoleFunction_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="RoleFunction" EntitySet="RoleFunction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolePeople_Entity" Association="Self.FK_RolePeople_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="RolePeople" EntitySet="RolePeople" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolePeople_Groups" Association="Self.FK_RolePeople_Groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="RolePeople" EntitySet="RolePeople" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolePeople_People" Association="Self.FK_RolePeople_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="RolePeople" EntitySet="RolePeople" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolePeople_Role" Association="Self.FK_RolePeople_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="RolePeople" EntitySet="RolePeople" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="EDEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C_Invitation" EntityType="EDModel.C_Invitation" />
+          <EntitySet Name="Agreements" EntityType="EDModel.Agreement" />
+          <EntitySet Name="AgreementVotes" EntityType="EDModel.AgreementVote" />
+          <EntitySet Name="Candidates" EntityType="EDModel.Candidate" />
+          <EntitySet Name="Certificates" EntityType="EDModel.Certificate" />
+          <EntitySet Name="Contacts" EntityType="EDModel.Contact" />
+          <EntitySet Name="ContactGroups" EntityType="EDModel.ContactGroup" />
+          <EntitySet Name="Entities" EntityType="EDModel.Entity" />
+          <EntitySet Name="EntityGroups" EntityType="EDModel.EntityGroup" />
+          <EntitySet Name="Functions" EntityType="EDModel.Function" />
+          <EntitySet Name="Groups" EntityType="EDModel.Group" />
+          <EntitySet Name="Invitations" EntityType="EDModel.Invitation" />
+          <EntitySet Name="InvitationLinks" EntityType="EDModel.InvitationLink" />
+          <EntitySet Name="People" EntityType="EDModel.Person" />
+          <EntitySet Name="Petitions" EntityType="EDModel.Petition" />
+          <EntitySet Name="PetitionLevels" EntityType="EDModel.PetitionLevel" />
+          <EntitySet Name="PetitionVotes" EntityType="EDModel.PetitionVote" />
+          <EntitySet Name="Photos" EntityType="EDModel.Photo" />
+          <EntitySet Name="Roles" EntityType="EDModel.Role" />
+          <EntitySet Name="RoleFunctions" EntityType="EDModel.RoleFunction" />
+          <EntitySet Name="RolePeoples" EntityType="EDModel.RolePeople" />
+          <AssociationSet Name="FK__Invitation_Entity" Association="EDModel.FK__Invitation_Entity">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="C_Invitation" EntitySet="C_Invitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Invitation_Entity1" Association="EDModel.FK__Invitation_Entity1">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="C_Invitation" EntitySet="C_Invitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Invitation_Invitation" Association="EDModel.FK__Invitation_Invitation">
+            <End Role="Invitation" EntitySet="Invitations" />
+            <End Role="C_Invitation" EntitySet="C_Invitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agreement_Candidate" Association="EDModel.FK_Agreement_Candidate">
+            <End Role="Candidate" EntitySet="Candidates" />
+            <End Role="Agreement" EntitySet="Agreements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agreement_Entity" Association="EDModel.FK_Agreement_Entity">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="Agreement" EntitySet="Agreements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agreement_People" Association="EDModel.FK_Agreement_People">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Agreement" EntitySet="Agreements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agreement_People1" Association="EDModel.FK_Agreement_People1">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Agreement" EntitySet="Agreements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgreementVote_Agreement" Association="EDModel.FK_AgreementVote_Agreement">
+            <End Role="Agreement" EntitySet="Agreements" />
+            <End Role="AgreementVote" EntitySet="AgreementVotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgreementVote_Certificate" Association="EDModel.FK_AgreementVote_Certificate">
+            <End Role="Certificate" EntitySet="Certificates" />
+            <End Role="AgreementVote" EntitySet="AgreementVotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgreementVote_People" Association="EDModel.FK_AgreementVote_People">
+            <End Role="Person" EntitySet="People" />
+            <End Role="AgreementVote" EntitySet="AgreementVotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Candidate_Entity" Association="EDModel.FK_Candidate_Entity">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="Candidate" EntitySet="Candidates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Candidate_Entity1" Association="EDModel.FK_Candidate_Entity1">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="Candidate" EntitySet="Candidates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Candidate_People" Association="EDModel.FK_Candidate_People">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Candidate" EntitySet="Candidates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Certificate_Entity" Association="EDModel.FK_Certificate_Entity">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="Certificate" EntitySet="Certificates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Certificate_People" Association="EDModel.FK_Certificate_People">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Certificate" EntitySet="Certificates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetitionVote_Certificate" Association="EDModel.FK_PetitionVote_Certificate">
+            <End Role="Certificate" EntitySet="Certificates" />
+            <End Role="PetitionVote" EntitySet="PetitionVotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contact_Entity" Association="EDModel.FK_Contact_Entity">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="Contact" EntitySet="Contacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contact_Entity1" Association="EDModel.FK_Contact_Entity1">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="Contact" EntitySet="Contacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contact_People" Association="EDModel.FK_Contact_People">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Contact" EntitySet="Contacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContactGroup_Entity" Association="EDModel.FK_ContactGroup_Entity">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="ContactGroup" EntitySet="ContactGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContactGroup_Entity1" Association="EDModel.FK_ContactGroup_Entity1">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="ContactGroup" EntitySet="ContactGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContactGroup_Groups" Association="EDModel.FK_ContactGroup_Groups">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="ContactGroup" EntitySet="ContactGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Entity_EntityGroup" Association="EDModel.FK_Entity_EntityGroup">
+            <End Role="EntityGroup" EntitySet="EntityGroups" />
+            <End Role="Entity" EntitySet="Entities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Function_Entity" Association="EDModel.FK_Function_Entity">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="Function" EntitySet="Functions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Groups_Entity" Association="EDModel.FK_Groups_Entity">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="Group" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invitation_Entity" Association="EDModel.FK_Invitation_Entity">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="Invitation" EntitySet="Invitations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvitationLink_Entity" Association="EDModel.FK_InvitationLink_Entity">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="InvitationLink" EntitySet="InvitationLinks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Petition_Entity" Association="EDModel.FK_Petition_Entity">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="Petition" EntitySet="Petitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Photo_Entity" Association="EDModel.FK_Photo_Entity">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="Photo" EntitySet="Photos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Role_Entity" Association="EDModel.FK_Role_Entity">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="Role" EntitySet="Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleFunction_Entity" Association="EDModel.FK_RoleFunction_Entity">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="RoleFunction" EntitySet="RoleFunctions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolePeople_Entity" Association="EDModel.FK_RolePeople_Entity">
+            <End Role="Entity" EntitySet="Entities" />
+            <End Role="RolePeople" EntitySet="RolePeoples" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleFunction_Function" Association="EDModel.FK_RoleFunction_Function">
+            <End Role="Function" EntitySet="Functions" />
+            <End Role="RoleFunction" EntitySet="RoleFunctions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invitation_Groups" Association="EDModel.FK_Invitation_Groups">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="Invitation" EntitySet="Invitations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolePeople_Groups" Association="EDModel.FK_RolePeople_Groups">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="RolePeople" EntitySet="RolePeoples" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invitation_People" Association="EDModel.FK_Invitation_People">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Invitation" EntitySet="Invitations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvitationLink_Invitation" Association="EDModel.FK_InvitationLink_Invitation">
+            <End Role="Invitation" EntitySet="Invitations" />
+            <End Role="InvitationLink" EntitySet="InvitationLinks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Petition_People" Association="EDModel.FK_Petition_People">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Petition" EntitySet="Petitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetitionVote_People" Association="EDModel.FK_PetitionVote_People">
+            <End Role="Person" EntitySet="People" />
+            <End Role="PetitionVote" EntitySet="PetitionVotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Photo_People" Association="EDModel.FK_Photo_People">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Photo" EntitySet="Photos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolePeople_People" Association="EDModel.FK_RolePeople_People">
+            <End Role="Person" EntitySet="People" />
+            <End Role="RolePeople" EntitySet="RolePeoples" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Petition_PetitionLevel" Association="EDModel.FK_Petition_PetitionLevel">
+            <End Role="PetitionLevel" EntitySet="PetitionLevels" />
+            <End Role="Petition" EntitySet="Petitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetitionVote_Petition" Association="EDModel.FK_PetitionVote_Petition">
+            <End Role="Petition" EntitySet="Petitions" />
+            <End Role="PetitionVote" EntitySet="PetitionVotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleFunction_Role" Association="EDModel.FK_RoleFunction_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="RoleFunction" EntitySet="RoleFunctions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolePeople_Role" Association="EDModel.FK_RolePeople_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="RolePeople" EntitySet="RolePeoples" />
+          </AssociationSet>
+          <EntitySet Name="vwAgreements" EntityType="EDModel.vwAgreement" />
+        </EntityContainer>
+        <EntityType Name="C_Invitation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvitationID" Type="Int64" Nullable="false" />
+          <Property Name="ActionID" Type="Int64" Nullable="false" />
+          <Property Name="StatusID" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Entity" Relationship="EDModel.FK__Invitation_Entity" FromRole="C_Invitation" ToRole="Entity" />
+          <NavigationProperty Name="Entity1" Relationship="EDModel.FK__Invitation_Entity1" FromRole="C_Invitation" ToRole="Entity" />
+          <NavigationProperty Name="Invitation" Relationship="EDModel.FK__Invitation_Invitation" FromRole="C_Invitation" ToRole="Invitation" />
+        </EntityType>
+        <EntityType Name="Agreement">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ShortDesc" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CandidateID" Type="Int64" Nullable="false" />
+          <Property Name="StatusID" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int64" />
+          <NavigationProperty Name="Candidate" Relationship="EDModel.FK_Agreement_Candidate" FromRole="Agreement" ToRole="Candidate" />
+          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Agreement_Entity" FromRole="Agreement" ToRole="Entity" />
+          <NavigationProperty Name="Person" Relationship="EDModel.FK_Agreement_People" FromRole="Agreement" ToRole="Person" />
+          <NavigationProperty Name="Person1" Relationship="EDModel.FK_Agreement_People1" FromRole="Agreement" ToRole="Person" />
+          <NavigationProperty Name="AgreementVotes" Relationship="EDModel.FK_AgreementVote_Agreement" FromRole="Agreement" ToRole="AgreementVote" />
+        </EntityType>
+        <EntityType Name="AgreementVote">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgreementID" Type="Int64" Nullable="false" />
+          <Property Name="PersonID" Type="Int64" Nullable="false" />
+          <Property Name="CertificateID" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SignedData" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SignedHash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Agreement" Relationship="EDModel.FK_AgreementVote_Agreement" FromRole="AgreementVote" ToRole="Agreement" />
+          <NavigationProperty Name="Certificate" Relationship="EDModel.FK_AgreementVote_Certificate" FromRole="AgreementVote" ToRole="Certificate" />
+          <NavigationProperty Name="Person" Relationship="EDModel.FK_AgreementVote_People" FromRole="AgreementVote" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="Candidate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonID" Type="Int64" Nullable="false" />
+          <Property Name="TypeID" Type="Int64" Nullable="false" />
+          <Property Name="StatusID" Type="Int64" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Agreements" Relationship="EDModel.FK_Agreement_Candidate" FromRole="Candidate" ToRole="Agreement" />
+          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Candidate_Entity" FromRole="Candidate" ToRole="Entity" />
+          <NavigationProperty Name="Entity1" Relationship="EDModel.FK_Candidate_Entity1" FromRole="Candidate" ToRole="Entity" />
+          <NavigationProperty Name="Person" Relationship="EDModel.FK_Candidate_People" FromRole="Candidate" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="Certificate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeID" Type="Int64" Nullable="false" />
+          <Property Name="PersonID" Type="Int64" Nullable="false" />
+          <Property Name="SerialNumber" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AgreementVotes" Relationship="EDModel.FK_AgreementVote_Certificate" FromRole="Certificate" ToRole="AgreementVote" />
+          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Certificate_Entity" FromRole="Certificate" ToRole="Entity" />
+          <NavigationProperty Name="Person" Relationship="EDModel.FK_Certificate_People" FromRole="Certificate" ToRole="Person" />
+          <NavigationProperty Name="PetitionVotes" Relationship="EDModel.FK_PetitionVote_Certificate" FromRole="Certificate" ToRole="PetitionVote" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonID" Type="Int64" Nullable="false" />
+          <Property Name="ContactTypeID" Type="Int64" Nullable="false" />
+          <Property Name="StatusID" Type="Int64" Nullable="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Contact_Entity" FromRole="Contact" ToRole="Entity" />
+          <NavigationProperty Name="Entity1" Relationship="EDModel.FK_Contact_Entity1" FromRole="Contact" ToRole="Entity" />
+          <NavigationProperty Name="Person" Relationship="EDModel.FK_Contact_People" FromRole="Contact" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="ContactGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupID" Type="Int64" Nullable="false" />
+          <Property Name="ContactTypeID" Type="Int64" Nullable="false" />
+          <Property Name="StatusID" Type="Int64" Nullable="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Entity" Relationship="EDModel.FK_ContactGroup_Entity" FromRole="ContactGroup" ToRole="Entity" />
+          <NavigationProperty Name="Entity1" Relationship="EDModel.FK_ContactGroup_Entity1" FromRole="ContactGroup" ToRole="Entity" />
+          <NavigationProperty Name="Group" Relationship="EDModel.FK_ContactGroup_Groups" FromRole="ContactGroup" ToRole="Group" />
+        </EntityType>
+        <EntityType Name="Entity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntityGroupID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="C_Invitation" Relationship="EDModel.FK__Invitation_Entity" FromRole="Entity" ToRole="C_Invitation" />
+          <NavigationProperty Name="C_Invitation1" Relationship="EDModel.FK__Invitation_Entity1" FromRole="Entity" ToRole="C_Invitation" />
+          <NavigationProperty Name="Agreements" Relationship="EDModel.FK_Agreement_Entity" FromRole="Entity" ToRole="Agreement" />
+          <NavigationProperty Name="Candidates" Relationship="EDModel.FK_Candidate_Entity" FromRole="Entity" ToRole="Candidate" />
+          <NavigationProperty Name="Candidates1" Relationship="EDModel.FK_Candidate_Entity1" FromRole="Entity" ToRole="Candidate" />
+          <NavigationProperty Name="Certificates" Relationship="EDModel.FK_Certificate_Entity" FromRole="Entity" ToRole="Certificate" />
+          <NavigationProperty Name="Contacts" Relationship="EDModel.FK_Contact_Entity" FromRole="Entity" ToRole="Contact" />
+          <NavigationProperty Name="Contacts1" Relationship="EDModel.FK_Contact_Entity1" FromRole="Entity" ToRole="Contact" />
+          <NavigationProperty Name="ContactGroups" Relationship="EDModel.FK_ContactGroup_Entity" FromRole="Entity" ToRole="ContactGroup" />
+          <NavigationProperty Name="ContactGroups1" Relationship="EDModel.FK_ContactGroup_Entity1" FromRole="Entity" ToRole="ContactGroup" />
+          <NavigationProperty Name="EntityGroup" Relationship="EDModel.FK_Entity_EntityGroup" FromRole="Entity" ToRole="EntityGroup" />
+          <NavigationProperty Name="Functions" Relationship="EDModel.FK_Function_Entity" FromRole="Entity" ToRole="Function" />
+          <NavigationProperty Name="Groups" Relationship="EDModel.FK_Groups_Entity" FromRole="Entity" ToRole="Group" />
+          <NavigationProperty Name="Invitations" Relationship="EDModel.FK_Invitation_Entity" FromRole="Entity" ToRole="Invitation" />
+          <NavigationProperty Name="InvitationLinks" Relationship="EDModel.FK_InvitationLink_Entity" FromRole="Entity" ToRole="InvitationLink" />
+          <NavigationProperty Name="Petitions" Relationship="EDModel.FK_Petition_Entity" FromRole="Entity" ToRole="Petition" />
+          <NavigationProperty Name="Photos" Relationship="EDModel.FK_Photo_Entity" FromRole="Entity" ToRole="Photo" />
+          <NavigationProperty Name="Roles" Relationship="EDModel.FK_Role_Entity" FromRole="Entity" ToRole="Role" />
+          <NavigationProperty Name="RoleFunctions" Relationship="EDModel.FK_RoleFunction_Entity" FromRole="Entity" ToRole="RoleFunction" />
+          <NavigationProperty Name="RolePeoples" Relationship="EDModel.FK_RolePeople_Entity" FromRole="Entity" ToRole="RolePeople" />
+        </EntityType>
+        <EntityType Name="EntityGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentID" Type="Int64" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Entities" Relationship="EDModel.FK_Entity_EntityGroup" FromRole="EntityGroup" ToRole="Entity" />
+        </EntityType>
+        <EntityType Name="Function">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StatusID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Function_Entity" FromRole="Function" ToRole="Entity" />
+          <NavigationProperty Name="RoleFunctions" Relationship="EDModel.FK_RoleFunction_Function" FromRole="Function" ToRole="RoleFunction" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StatusID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="ContactGroups" Relationship="EDModel.FK_ContactGroup_Groups" FromRole="Group" ToRole="ContactGroup" />
+          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Groups_Entity" FromRole="Group" ToRole="Entity" />
+          <NavigationProperty Name="Invitations" Relationship="EDModel.FK_Invitation_Groups" FromRole="Group" ToRole="Invitation" />
+          <NavigationProperty Name="RolePeoples" Relationship="EDModel.FK_RolePeople_Groups" FromRole="Group" ToRole="RolePeople" />
+        </EntityType>
+        <EntityType Name="Invitation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupID" Type="Int64" Nullable="false" />
+          <Property Name="PersonID" Type="Int64" Nullable="false" />
+          <Property Name="StatusID" Type="Int64" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="C_Invitation" Relationship="EDModel.FK__Invitation_Invitation" FromRole="Invitation" ToRole="C_Invitation" />
+          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Invitation_Entity" FromRole="Invitation" ToRole="Entity" />
+          <NavigationProperty Name="Group" Relationship="EDModel.FK_Invitation_Groups" FromRole="Invitation" ToRole="Group" />
+          <NavigationProperty Name="Person" Relationship="EDModel.FK_Invitation_People" FromRole="Invitation" ToRole="Person" />
+          <NavigationProperty Name="InvitationLinks" Relationship="EDModel.FK_InvitationLink_Invitation" FromRole="Invitation" ToRole="InvitationLink" />
+        </EntityType>
+        <EntityType Name="InvitationLink">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="InvitationID" Type="Int64" Nullable="false" />
+          <Property Name="StatusID" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="RunDate" Type="DateTime" Precision="3" />
+          <Property Name="RunBy" Type="Int64" />
+          <NavigationProperty Name="Entity" Relationship="EDModel.FK_InvitationLink_Entity" FromRole="InvitationLink" ToRole="Entity" />
+          <NavigationProperty Name="Invitation" Relationship="EDModel.FK_InvitationLink_Invitation" FromRole="InvitationLink" ToRole="Invitation" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Agreements" Relationship="EDModel.FK_Agreement_People" FromRole="Person" ToRole="Agreement" />
+          <NavigationProperty Name="Agreements1" Relationship="EDModel.FK_Agreement_People1" FromRole="Person" ToRole="Agreement" />
+          <NavigationProperty Name="AgreementVotes" Relationship="EDModel.FK_AgreementVote_People" FromRole="Person" ToRole="AgreementVote" />
+          <NavigationProperty Name="Candidates" Relationship="EDModel.FK_Candidate_People" FromRole="Person" ToRole="Candidate" />
+          <NavigationProperty Name="Certificates" Relationship="EDModel.FK_Certificate_People" FromRole="Person" ToRole="Certificate" />
+          <NavigationProperty Name="Contacts" Relationship="EDModel.FK_Contact_People" FromRole="Person" ToRole="Contact" />
+          <NavigationProperty Name="Invitations" Relationship="EDModel.FK_Invitation_People" FromRole="Person" ToRole="Invitation" />
+          <NavigationProperty Name="Petitions" Relationship="EDModel.FK_Petition_People" FromRole="Person" ToRole="Petition" />
+          <NavigationProperty Name="PetitionVotes" Relationship="EDModel.FK_PetitionVote_People" FromRole="Person" ToRole="PetitionVote" />
+          <NavigationProperty Name="Photos" Relationship="EDModel.FK_Photo_People" FromRole="Person" ToRole="Photo" />
+          <NavigationProperty Name="RolePeoples" Relationship="EDModel.FK_RolePeople_People" FromRole="Person" ToRole="RolePeople" />
+        </EntityType>
+        <EntityType Name="Petition">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LevelID" Type="Int64" Nullable="false" />
+          <Property Name="AddressedTo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Subject" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryID" Type="Int64" Nullable="false" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Requirements" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="KeyWords" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="EffectiveFrom" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EffectiveTo" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Limit" Type="Int64" />
+          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Petition_Entity" FromRole="Petition" ToRole="Entity" />
+          <NavigationProperty Name="Person" Relationship="EDModel.FK_Petition_People" FromRole="Petition" ToRole="Person" />
+          <NavigationProperty Name="PetitionLevel" Relationship="EDModel.FK_Petition_PetitionLevel" FromRole="Petition" ToRole="PetitionLevel" />
+          <NavigationProperty Name="PetitionVotes" Relationship="EDModel.FK_PetitionVote_Petition" FromRole="Petition" ToRole="PetitionVote" />
+        </EntityType>
+        <EntityType Name="PetitionLevel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Limit" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Petitions" Relationship="EDModel.FK_Petition_PetitionLevel" FromRole="PetitionLevel" ToRole="Petition" />
+        </EntityType>
+        <EntityType Name="PetitionVote">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PetitionID" Type="Int64" Nullable="false" />
+          <Property Name="PersonID" Type="Int64" Nullable="false" />
+          <Property Name="CertificateID" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SignedData" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SignedHash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Certificate" Relationship="EDModel.FK_PetitionVote_Certificate" FromRole="PetitionVote" ToRole="Certificate" />
+          <NavigationProperty Name="Person" Relationship="EDModel.FK_PetitionVote_People" FromRole="PetitionVote" ToRole="Person" />
+          <NavigationProperty Name="Petition" Relationship="EDModel.FK_PetitionVote_Petition" FromRole="PetitionVote" ToRole="Petition" />
+        </EntityType>
+        <EntityType Name="Photo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonID" Type="Int64" Nullable="false" />
+          <Property Name="StatusID" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="Photo1" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Photo_Entity" FromRole="Photo" ToRole="Entity" />
+          <NavigationProperty Name="Person" Relationship="EDModel.FK_Photo_People" FromRole="Photo" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StatusID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Role_Entity" FromRole="Role" ToRole="Entity" />
+          <NavigationProperty Name="RoleFunctions" Relationship="EDModel.FK_RoleFunction_Role" FromRole="Role" ToRole="RoleFunction" />
+          <NavigationProperty Name="RolePeoples" Relationship="EDModel.FK_RolePeople_Role" FromRole="Role" ToRole="RolePeople" />
+        </EntityType>
+        <EntityType Name="RoleFunction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleID" Type="Int64" Nullable="false" />
+          <Property Name="FunctionID" Type="Int64" Nullable="false" />
+          <Property Name="StatusID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Entity" Relationship="EDModel.FK_RoleFunction_Entity" FromRole="RoleFunction" ToRole="Entity" />
+          <NavigationProperty Name="Function" Relationship="EDModel.FK_RoleFunction_Function" FromRole="RoleFunction" ToRole="Function" />
+          <NavigationProperty Name="Role" Relationship="EDModel.FK_RoleFunction_Role" FromRole="RoleFunction" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="RolePeople">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupID" Type="Int64" Nullable="false" />
+          <Property Name="RoleID" Type="Int64" Nullable="false" />
+          <Property Name="PersonID" Type="Int64" Nullable="false" />
+          <Property Name="StatusID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Entity" Relationship="EDModel.FK_RolePeople_Entity" FromRole="RolePeople" ToRole="Entity" />
+          <NavigationProperty Name="Group" Relationship="EDModel.FK_RolePeople_Groups" FromRole="RolePeople" ToRole="Group" />
+          <NavigationProperty Name="Person" Relationship="EDModel.FK_RolePeople_People" FromRole="RolePeople" ToRole="Person" />
+          <NavigationProperty Name="Role" Relationship="EDModel.FK_RolePeople_Role" FromRole="RolePeople" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK__Invitation_Entity">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.C_Invitation" Role="C_Invitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="C_Invitation">
+              <PropertyRef Name="ActionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Invitation_Entity1">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.C_Invitation" Role="C_Invitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="C_Invitation">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Invitation_Invitation">
+          <End Type="EDModel.Invitation" Role="Invitation" Multiplicity="1" />
+          <End Type="EDModel.C_Invitation" Role="C_Invitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invitation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="C_Invitation">
+              <PropertyRef Name="InvitationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agreement_Candidate">
+          <End Type="EDModel.Candidate" Role="Candidate" Multiplicity="1" />
+          <End Type="EDModel.Agreement" Role="Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="CandidateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agreement_Entity">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.Agreement" Role="Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agreement_People">
+          <End Type="EDModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="EDModel.Agreement" Role="Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agreement_People1">
+          <End Type="EDModel.Person" Role="Person" Multiplicity="0..1" />
+          <End Type="EDModel.Agreement" Role="Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="UpdatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgreementVote_Agreement">
+          <End Type="EDModel.Agreement" Role="Agreement" Multiplicity="1" />
+          <End Type="EDModel.AgreementVote" Role="AgreementVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agreement">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AgreementVote">
+              <PropertyRef Name="AgreementID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgreementVote_Certificate">
+          <End Type="EDModel.Certificate" Role="Certificate" Multiplicity="1" />
+          <End Type="EDModel.AgreementVote" Role="AgreementVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Certificate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AgreementVote">
+              <PropertyRef Name="CertificateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgreementVote_People">
+          <End Type="EDModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="EDModel.AgreementVote" Role="AgreementVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AgreementVote">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Candidate_Entity">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.Candidate" Role="Candidate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Candidate">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Candidate_Entity1">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.Candidate" Role="Candidate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Candidate">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Candidate_People">
+          <End Type="EDModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="EDModel.Candidate" Role="Candidate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Candidate">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Certificate_Entity">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.Certificate" Role="Certificate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Certificate">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Certificate_People">
+          <End Type="EDModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="EDModel.Certificate" Role="Certificate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Certificate">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PetitionVote_Certificate">
+          <End Type="EDModel.Certificate" Role="Certificate" Multiplicity="1" />
+          <End Type="EDModel.PetitionVote" Role="PetitionVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Certificate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PetitionVote">
+              <PropertyRef Name="CertificateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contact_Entity">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.Contact" Role="Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="ContactTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contact_Entity1">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.Contact" Role="Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contact_People">
+          <End Type="EDModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="EDModel.Contact" Role="Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContactGroup_Entity">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.ContactGroup" Role="ContactGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ContactGroup">
+              <PropertyRef Name="ContactTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContactGroup_Entity1">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.ContactGroup" Role="ContactGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ContactGroup">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContactGroup_Groups">
+          <End Type="EDModel.Group" Role="Group" Multiplicity="1" />
+          <End Type="EDModel.ContactGroup" Role="ContactGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ContactGroup">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Entity_EntityGroup">
+          <End Type="EDModel.EntityGroup" Role="EntityGroup" Multiplicity="1" />
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Entity">
+              <PropertyRef Name="EntityGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Function_Entity">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.Function" Role="Function" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Function">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Groups_Entity">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.Group" Role="Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invitation_Entity">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.Invitation" Role="Invitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invitation">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvitationLink_Entity">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.InvitationLink" Role="InvitationLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="InvitationLink">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Petition_Entity">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.Petition" Role="Petition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Petition">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Photo_Entity">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.Photo" Role="Photo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Photo">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Role_Entity">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.Role" Role="Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Role">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleFunction_Entity">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.RoleFunction" Role="RoleFunction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleFunction">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolePeople_Entity">
+          <End Type="EDModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="EDModel.RolePeople" Role="RolePeople" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RolePeople">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleFunction_Function">
+          <End Type="EDModel.Function" Role="Function" Multiplicity="1" />
+          <End Type="EDModel.RoleFunction" Role="RoleFunction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Function">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleFunction">
+              <PropertyRef Name="FunctionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invitation_Groups">
+          <End Type="EDModel.Group" Role="Group" Multiplicity="1" />
+          <End Type="EDModel.Invitation" Role="Invitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invitation">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolePeople_Groups">
+          <End Type="EDModel.Group" Role="Group" Multiplicity="1" />
+          <End Type="EDModel.RolePeople" Role="RolePeople" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RolePeople">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invitation_People">
+          <End Type="EDModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="EDModel.Invitation" Role="Invitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invitation">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvitationLink_Invitation">
+          <End Type="EDModel.Invitation" Role="Invitation" Multiplicity="1" />
+          <End Type="EDModel.InvitationLink" Role="InvitationLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invitation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="InvitationLink">
+              <PropertyRef Name="InvitationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Petition_People">
+          <End Type="EDModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="EDModel.Petition" Role="Petition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Petition">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PetitionVote_People">
+          <End Type="EDModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="EDModel.PetitionVote" Role="PetitionVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PetitionVote">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Photo_People">
+          <End Type="EDModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="EDModel.Photo" Role="Photo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Photo">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolePeople_People">
+          <End Type="EDModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="EDModel.RolePeople" Role="RolePeople" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RolePeople">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Petition_PetitionLevel">
+          <End Type="EDModel.PetitionLevel" Role="PetitionLevel" Multiplicity="1" />
+          <End Type="EDModel.Petition" Role="Petition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PetitionLevel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Petition">
+              <PropertyRef Name="LevelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PetitionVote_Petition">
+          <End Type="EDModel.Petition" Role="Petition" Multiplicity="1" />
+          <End Type="EDModel.PetitionVote" Role="PetitionVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Petition">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PetitionVote">
+              <PropertyRef Name="PetitionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleFunction_Role">
+          <End Type="EDModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="EDModel.RoleFunction" Role="RoleFunction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleFunction">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolePeople_Role">
+          <End Type="EDModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="EDModel.RolePeople" Role="RolePeople" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RolePeople">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="vwAgreement">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="ShortDesc" />
+            <PropertyRef Name="Description" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ShortDesc" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NumberOfVotes" Type="Int32" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EDModelStoreContainer" CdmEntityContainer="EDEntities">
+          <EntitySetMapping Name="C_Invitation">
+            <EntityTypeMapping TypeName="EDModel.C_Invitation">
+              <MappingFragment StoreEntitySet="_Invitation">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="ActionID" ColumnName="ActionID" />
+                <ScalarProperty Name="InvitationID" ColumnName="InvitationID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Agreements">
+            <EntityTypeMapping TypeName="EDModel.Agreement">
+              <MappingFragment StoreEntitySet="Agreement">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="CandidateID" ColumnName="CandidateID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ShortDesc" ColumnName="ShortDesc" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AgreementVotes">
+            <EntityTypeMapping TypeName="EDModel.AgreementVote">
+              <MappingFragment StoreEntitySet="AgreementVote">
+                <ScalarProperty Name="SignedHash" ColumnName="SignedHash" />
+                <ScalarProperty Name="SignedData" ColumnName="SignedData" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CertificateID" ColumnName="CertificateID" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="AgreementID" ColumnName="AgreementID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Candidates">
+            <EntityTypeMapping TypeName="EDModel.Candidate">
+              <MappingFragment StoreEntitySet="Candidate">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Certificates">
+            <EntityTypeMapping TypeName="EDModel.Certificate">
+              <MappingFragment StoreEntitySet="Certificate">
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contacts">
+            <EntityTypeMapping TypeName="EDModel.Contact">
+              <MappingFragment StoreEntitySet="Contact">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="ContactTypeID" ColumnName="ContactTypeID" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContactGroups">
+            <EntityTypeMapping TypeName="EDModel.ContactGroup">
+              <MappingFragment StoreEntitySet="ContactGroup">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="ContactTypeID" ColumnName="ContactTypeID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Entities">
+            <EntityTypeMapping TypeName="EDModel.Entity">
+              <MappingFragment StoreEntitySet="Entity">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EntityGroupID" ColumnName="EntityGroupID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EntityGroups">
+            <EntityTypeMapping TypeName="EDModel.EntityGroup">
+              <MappingFragment StoreEntitySet="EntityGroup">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Functions">
+            <EntityTypeMapping TypeName="EDModel.Function">
+              <MappingFragment StoreEntitySet="Function">
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="EDModel.Group">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invitations">
+            <EntityTypeMapping TypeName="EDModel.Invitation">
+              <MappingFragment StoreEntitySet="Invitation">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvitationLinks">
+            <EntityTypeMapping TypeName="EDModel.InvitationLink">
+              <MappingFragment StoreEntitySet="InvitationLink">
+                <ScalarProperty Name="RunBy" ColumnName="RunBy" />
+                <ScalarProperty Name="RunDate" ColumnName="RunDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="InvitationID" ColumnName="InvitationID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="EDModel.Person">
+              <MappingFragment StoreEntitySet="People">
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Petitions">
+            <EntityTypeMapping TypeName="EDModel.Petition">
+              <MappingFragment StoreEntitySet="Petition">
+                <ScalarProperty Name="Limit" ColumnName="Limit" />
+                <ScalarProperty Name="EffectiveTo" ColumnName="EffectiveTo" />
+                <ScalarProperty Name="EffectiveFrom" ColumnName="EffectiveFrom" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="KeyWords" ColumnName="KeyWords" />
+                <ScalarProperty Name="Requirements" ColumnName="Requirements" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="AddressedTo" ColumnName="AddressedTo" />
+                <ScalarProperty Name="LevelID" ColumnName="LevelID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PetitionLevels">
+            <EntityTypeMapping TypeName="EDModel.PetitionLevel">
+              <MappingFragment StoreEntitySet="PetitionLevel">
+                <ScalarProperty Name="Limit" ColumnName="Limit" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PetitionVotes">
+            <EntityTypeMapping TypeName="EDModel.PetitionVote">
+              <MappingFragment StoreEntitySet="PetitionVote">
+                <ScalarProperty Name="SignedHash" ColumnName="SignedHash" />
+                <ScalarProperty Name="SignedData" ColumnName="SignedData" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CertificateID" ColumnName="CertificateID" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="PetitionID" ColumnName="PetitionID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Photos">
+            <EntityTypeMapping TypeName="EDModel.Photo">
+              <MappingFragment StoreEntitySet="Photo">
+                <ScalarProperty Name="Photo1" ColumnName="Photo" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="EDModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoleFunctions">
+            <EntityTypeMapping TypeName="EDModel.RoleFunction">
+              <MappingFragment StoreEntitySet="RoleFunction">
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="FunctionID" ColumnName="FunctionID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RolePeoples">
+            <EntityTypeMapping TypeName="EDModel.RolePeople">
+              <MappingFragment StoreEntitySet="RolePeople">
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwAgreements">
+            <EntityTypeMapping TypeName="EDModel.vwAgreement">
+              <MappingFragment StoreEntitySet="vwAgreements">
+                <ScalarProperty Name="NumberOfVotes" ColumnName="NumberOfVotes" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ShortDesc" ColumnName="ShortDesc" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

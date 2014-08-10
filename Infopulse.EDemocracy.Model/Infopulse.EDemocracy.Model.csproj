@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{044C41CB-2DF9-40DA-8A41-D6A54379C76C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Infopulse.EDemocracy.Model</RootNamespace>
+    <AssemblyName>Infopulse.EDemocracy.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity.Design" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Agreement.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AgreementVote.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AgreementVoteResponse.cs" />
+    <Compile Include="BusinessEntities\Agreement.cs" />
+    <Compile Include="BusinessEntities\AgreementVote.cs" />
+    <Compile Include="BusinessEntities\BaseEntity.cs" />
+    <Compile Include="BusinessEntities\Candidate.cs" />
+    <Compile Include="BusinessEntities\Certificate.cs" />
+    <Compile Include="ClientEntities\EmailVote.cs" />
+    <Compile Include="BusinessEntities\Entity.cs" />
+    <Compile Include="BusinessEntities\EntityGroup.cs" />
+    <Compile Include="BusinessEntities\People.cs" />
+    <Compile Include="BusinessEntities\Petition.cs" />
+    <Compile Include="BusinessEntities\PetitionLevel.cs" />
+    <Compile Include="BusinessEntities\PetitionVote.cs" />
+    <Compile Include="Candidate.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Certificate.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ClientEntities\ClientPetitionVote.cs" />
+    <Compile Include="Common\EntityDictionary.cs" />
+    <Compile Include="Common\OperationResult.cs" />
+    <Compile Include="Common\OperationResultT.cs" />
+    <Compile Include="Contact.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContactGroup.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C_Invitation.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EDModel.Context.cs">
+      <DependentUpon>EDModel.Context.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="EDModel.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="EDModel.Designer.cs">
+      <DependentUpon>EDModel.edmx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Entity.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityGroup.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Function.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Group.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Invitation.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvitationLink.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Person.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Petition.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PetitionLevel.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PetitionVote.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Photo.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Role.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoleFunction.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RolePeople.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ClientEntities\ClientAgreementVote.cs" />
+    <Compile Include="vwAgreement.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <EntityDeploy Include="EDModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EDModel.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>Infopulse.EDemocracy.Model</CustomToolNamespace>
+    </EntityDeploy>
+    <None Include="EDModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EDModel.edmx</DependentUpon>
+      <LastGenOutput>EDModel.Context.cs</LastGenOutput>
+    </None>
+    <None Include="EDModel.edmx.diagram">
+      <DependentUpon>EDModel.edmx</DependentUpon>
+    </None>
+    <None Include="EDModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EDModel.edmx</DependentUpon>
+      <LastGenOutput>EDModel.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

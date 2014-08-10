@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://uacrypto/" targetNamespace="http://uacrypto/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="crypt" type="tns:crypt" />
+  <xs:element name="cryptResponse" type="tns:cryptResponse" />
+  <xs:element name="decrypt" type="tns:decrypt" />
+  <xs:element name="decryptResponse" type="tns:decryptResponse" />
+  <xs:element name="getCrtList" type="tns:getCrtList" />
+  <xs:element name="getCrtListResponse" type="tns:getCrtListResponse" />
+  <xs:element name="signAttach" type="tns:signAttach" />
+  <xs:element name="signAttachResponse" type="tns:signAttachResponse" />
+  <xs:element name="signDetach" type="tns:signDetach" />
+  <xs:element name="signDetachResponse" type="tns:signDetachResponse" />
+  <xs:element name="verifyAttach" type="tns:verifyAttach" />
+  <xs:element name="verifyAttachResponse" type="tns:verifyAttachResponse" />
+  <xs:complexType name="decrypt">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Data" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="decryptResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="signAttach">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="signData" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="signAttachResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="verifyAttach">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="signData" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="verifyAttachResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="signDetach">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="signData" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="signDetachResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="crypt">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Data" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="cryptResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getCrtList">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="getCrtListResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
