@@ -65,6 +65,7 @@
     <Compile Include="BusinessEntities\BaseEntity.cs" />
     <Compile Include="BusinessEntities\Candidate.cs" />
     <Compile Include="BusinessEntities\Certificate.cs" />
+    <Compile Include="BusinessEntities\PetitionEmailVote.cs" />
     <Compile Include="ClientEntities\EmailVote.cs" />
     <Compile Include="BusinessEntities\Entity.cs" />
     <Compile Include="BusinessEntities\EntityGroup.cs" />
@@ -79,6 +80,7 @@
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ClientEntities\ClientPetitionVote.cs" />
+    <Compile Include="Common\EmailService.cs" />
     <Compile Include="Common\EntityDictionary.cs" />
     <Compile Include="Common\OperationResult.cs" />
     <Compile Include="Common\OperationResultT.cs" />
@@ -128,6 +130,9 @@
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Petition.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PetitionEmailVote.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="PetitionLevel.cs">

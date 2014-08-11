@@ -166,6 +166,17 @@
           <Property Name="EffectiveTo" Type="datetime" Nullable="false" />
           <Property Name="Limit" Type="bigint" />
         </EntityType>
+        <EntityType Name="PetitionEmailVote">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PatitionID" Type="bigint" Nullable="false" />
+          <Property Name="email" Type="varchar(max)" Nullable="false" />
+          <Property Name="hash" Type="varchar(max)" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsConfirmed" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="PetitionLevel">
           <Key>
             <PropertyRef Name="ID" />
@@ -624,6 +635,18 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PetitionEmailVote_Petition">
+          <End Role="Petition" Type="Self.Petition" Multiplicity="1" />
+          <End Role="PetitionEmailVote" Type="Self.PetitionEmailVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Petition">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PetitionEmailVote">
+              <PropertyRef Name="PatitionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PetitionVote_Certificate">
           <End Role="Certificate" Type="Self.Certificate" Multiplicity="1" />
           <End Role="PetitionVote" Type="Self.PetitionVote" Multiplicity="*" />
@@ -796,6 +819,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <EntitySet Name="InvitationLink" EntityType="Self.InvitationLink" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="People" EntityType="Self.People" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Petition" EntityType="Self.Petition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PetitionEmailVote" EntityType="Self.PetitionEmailVote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PetitionLevel" EntityType="Self.PetitionLevel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PetitionVote" EntityType="Self.PetitionVote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Photo" EntityType="Self.Photo" Schema="dbo" store:Type="Tables" />
@@ -938,6 +962,10 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <AssociationSet Name="FK_Petition_PetitionLevel" Association="Self.FK_Petition_PetitionLevel">
             <End Role="PetitionLevel" EntitySet="PetitionLevel" />
             <End Role="Petition" EntitySet="Petition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetitionEmailVote_Petition" Association="Self.FK_PetitionEmailVote_Petition">
+            <End Role="Petition" EntitySet="Petition" />
+            <End Role="PetitionEmailVote" EntitySet="PetitionEmailVote" />
           </AssociationSet>
           <AssociationSet Name="FK_PetitionVote_Certificate" Association="Self.FK_PetitionVote_Certificate">
             <End Role="Certificate" EntitySet="Certificate" />
@@ -1199,6 +1227,11 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
             <End Role="RolePeople" EntitySet="RolePeoples" />
           </AssociationSet>
           <EntitySet Name="vwAgreements" EntityType="EDModel.vwAgreement" />
+          <EntitySet Name="PetitionEmailVotes" EntityType="EDModel.PetitionEmailVote" />
+          <AssociationSet Name="FK_PetitionEmailVote_Petition" Association="EDModel.FK_PetitionEmailVote_Petition">
+            <End Role="Petition" EntitySet="Petitions" />
+            <End Role="PetitionEmailVote" EntitySet="PetitionEmailVotes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="C_Invitation">
           <Key>
@@ -1434,6 +1467,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <NavigationProperty Name="Person" Relationship="EDModel.FK_Petition_People" FromRole="Petition" ToRole="Person" />
           <NavigationProperty Name="PetitionLevel" Relationship="EDModel.FK_Petition_PetitionLevel" FromRole="Petition" ToRole="PetitionLevel" />
           <NavigationProperty Name="PetitionVotes" Relationship="EDModel.FK_PetitionVote_Petition" FromRole="Petition" ToRole="PetitionVote" />
+          <NavigationProperty Name="PetitionEmailVotes" Relationship="EDModel.FK_PetitionEmailVote_Petition" FromRole="Petition" ToRole="PetitionEmailVote" />
         </EntityType>
         <EntityType Name="PetitionLevel">
           <Key>
@@ -2063,6 +2097,30 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="NumberOfVotes" Type="Int32" />
         </EntityType>
+        <EntityType Name="PetitionEmailVote">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatitionID" Type="Int64" Nullable="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="hash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsConfirmed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Petition" Relationship="EDModel.FK_PetitionEmailVote_Petition" FromRole="PetitionEmailVote" ToRole="Petition" />
+        </EntityType>
+        <Association Name="FK_PetitionEmailVote_Petition">
+          <End Type="EDModel.Petition" Role="Petition" Multiplicity="1" />
+          <End Type="EDModel.PetitionEmailVote" Role="PetitionEmailVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Petition">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PetitionEmailVote">
+              <PropertyRef Name="PatitionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2317,6 +2375,18 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="ShortDesc" ColumnName="ShortDesc" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PetitionEmailVotes">
+            <EntityTypeMapping TypeName="EDModel.PetitionEmailVote">
+              <MappingFragment StoreEntitySet="PetitionEmailVote">
+                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="hash" ColumnName="hash" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="PatitionID" ColumnName="PatitionID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

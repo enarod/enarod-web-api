@@ -29,15 +29,14 @@ namespace Infopulse.EDemocracy.Web.Controllers
 
 		public ActionResult Vote(string hash)
 		{
-			var redirectUrl = "https://enarod.org/petition/#petition/{0}/{1}";
+			const string redirectUrl = "https://enarod.org/petition/#petition/{0}/{1}";
 			long petitionID = -1;
-			var actionResult = string.Empty;
-
-
+			string actionResult;
+			
 			var confirmedPetitionVoteResult = this.petitionVoteRepository.ConfirmPetitionEmailVote(hash);
 			if (confirmedPetitionVoteResult.Data != null)
 			{
-				petitionID = confirmedPetitionVoteResult.Data.PetitionID;
+				petitionID = confirmedPetitionVoteResult.Data.PatitionID;
 			}
 
 			switch (confirmedPetitionVoteResult.ResultCode)

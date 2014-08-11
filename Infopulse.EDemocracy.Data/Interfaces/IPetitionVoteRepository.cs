@@ -8,7 +8,7 @@ namespace Infopulse.EDemocracy.Data.Interfaces
 	{
 		OperationResult Vote(ClientPetitionVote vote, string certificateSerialNumber);
 		OperationResult EmailVote(EmailVote vote);
-		OperationResult<PetitionVote> ConfirmPetitionEmailVote(string hash);
+		OperationResult<PetitionEmailVote> ConfirmPetitionEmailVote(string hash);
 		OperationResult<Petition> GetPetition(string hash);
 		OperationResult ClearVotes();
 		OperationResult ClearVote(int petitionID);

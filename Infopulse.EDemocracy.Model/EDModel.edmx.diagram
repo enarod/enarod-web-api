@@ -72,6 +72,8 @@
         <AssociationConnector Association="EDModel.FK_RoleFunction_Role" />
         <AssociationConnector Association="EDModel.FK_RolePeople_Role" />
         <EntityTypeShape EntityType="EDModel.vwAgreement" Width="1.5" PointX="0.5" PointY="2.125" FillColor="192, 192, 255" />
+        <EntityTypeShape EntityType="EDModel.PetitionEmailVote" Width="1.5" PointX="7.375" PointY="32.75" />
+        <AssociationConnector Association="EDModel.FK_PetitionEmailVote_Petition" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

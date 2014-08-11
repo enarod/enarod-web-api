@@ -1,9 +1,10 @@
-﻿using System;
-using System.Linq;
-using Infopulse.EDemocracy.Data.Interfaces;
+﻿using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Model;
 using Infopulse.EDemocracy.Model.ClientEntities;
 using Infopulse.EDemocracy.Model.Common;
+using System;
+using System.Linq;
+using businessEntities = Infopulse.EDemocracy.Model.BusinessEntities;
 
 namespace Infopulse.EDemocracy.Data.Repositories
 {
@@ -72,7 +73,11 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			// Hash = [generate hash based on petitionID-email pair]
 
 			// TODO 2: send email to user with link https://emarod.org/app/petition/vote?hash=[generated_hash]
-			throw new NotImplementedException();
+
+            var item = new businessEntities.PetitionEmailVote(vote.petition, vote.Email);
+            item.Save();
+
+            return OperationResult.Success(1, "Vote counted");
 		}
 
 
@@ -81,10 +86,37 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		/// </summary>
 		/// <param name="hash">PetitionID-Email hash.</param>
 		/// <returns>Confirmed PetitionVote.</returns>
-		public OperationResult<PetitionVote> ConfirmPetitionEmailVote(string hash)
+		public OperationResult<PetitionEmailVote> ConfirmPetitionEmailVote(string hash)
 		{
-			// TODO: update PetitionEmailVote record with Hash = [hash], set IsConfirmed = true
-			throw new NotImplementedException();
+			OperationResult<PetitionEmailVote> result;
+
+            try
+            {
+                using (var db = new EDEntities())
+                {
+                    var votes = from p in db.PetitionEmailVotes
+                                where p.hash == hash
+                                select p;
+
+                    var emailVote = votes.FirstOrDefault();
+                    if (emailVote == default(PetitionEmailVote))
+                    {
+						result = OperationResult<PetitionEmailVote>.Fail(-2, "Petition not found");
+                        return result;
+                    }
+
+                    emailVote.IsConfirmed = true;
+                    db.SaveChanges();
+
+					result = OperationResult<PetitionEmailVote>.Success(1, "Petition voted", emailVote);
+                }
+            }
+            catch (Exception ex)
+            {
+				result = OperationResult<PetitionEmailVote>.Fail(-1, ex.Message);
+            }
+
+			return result;
 		}
 
 
