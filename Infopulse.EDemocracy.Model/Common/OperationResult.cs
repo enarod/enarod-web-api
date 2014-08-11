@@ -20,6 +20,15 @@ namespace Infopulse.EDemocracy.Model.Common
 
 
 		/// <summary>
+		/// Indicates whether operation was successful or not.
+		/// </summary>
+		public bool IsSuccess
+		{
+			get { return this.ResultCode > 0; }
+		}
+
+
+		/// <summary>
 		/// Sets general successful operation result.
 		/// </summary>
 		/// <returns>Successful operation result.</returns>

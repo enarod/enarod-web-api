@@ -21,7 +21,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/29/2014 17:24:24</publishTime>
     </File>
     <File Include="bin/Infopulse.EDemocracy.Data.dll">
-      <publishTime>08/07/2014 12:27:41</publishTime>
+      <publishTime>08/12/2014 00:25:33</publishTime>
     </File>
     <File Include="bin/Infopulse.EDemocracy.Data.Entities.dll">
       <publishTime>06/29/2014 17:24:23</publishTime>
@@ -30,19 +30,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/29/2014 17:24:23</publishTime>
     </File>
     <File Include="bin/Infopulse.EDemocracy.Data.pdb">
-      <publishTime>08/07/2014 12:27:41</publishTime>
+      <publishTime>08/12/2014 00:25:33</publishTime>
     </File>
     <File Include="bin/Infopulse.EDemocracy.Model.dll">
-      <publishTime>08/07/2014 12:27:40</publishTime>
+      <publishTime>08/12/2014 00:25:33</publishTime>
     </File>
     <File Include="bin/Infopulse.EDemocracy.Model.pdb">
-      <publishTime>08/07/2014 12:27:40</publishTime>
+      <publishTime>08/12/2014 00:25:33</publishTime>
     </File>
     <File Include="bin/Infopulse.EDemocracy.Web.dll">
-      <publishTime>08/07/2014 12:27:41</publishTime>
+      <publishTime>08/12/2014 00:25:34</publishTime>
     </File>
     <File Include="bin/Infopulse.EDemocracy.Web.pdb">
-      <publishTime>08/07/2014 12:27:41</publishTime>
+      <publishTime>08/12/2014 00:25:34</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>05/07/2014 20:55:49</publishTime>
@@ -84,10 +84,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/07/2014 20:55:49</publishTime>
     </File>
     <File Include="Global.asax">
-      <publishTime>05/07/2014 20:55:46</publishTime>
+      <publishTime>05/07/2014 20:55:48</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>06/29/2014 17:12:39</publishTime>
+      <publishTime>06/29/2014 17:12:40</publishTime>
     </File>
     <File Include="Scripts/jquery-1.10.2.js">
       <publishTime>06/26/2014 22:42:55</publishTime>
@@ -117,13 +117,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2014 22:46:41</publishTime>
     </File>
     <File Include="Views/web.config">
-      <publishTime>05/07/2014 20:55:46</publishTime>
+      <publishTime>05/07/2014 20:55:48</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
       <publishTime>06/26/2014 22:43:03</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/07/2014 12:30:51</publishTime>
+      <publishTime>08/12/2014 00:25:39</publishTime>
     </File>
   </ItemGroup>
 </Project>

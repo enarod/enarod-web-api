@@ -2103,8 +2103,8 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PatitionID" Type="Int64" Nullable="false" />
-          <Property Name="email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="hash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Hash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsConfirmed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Petition" Relationship="EDModel.FK_PetitionEmailVote_Petition" FromRole="PetitionEmailVote" ToRole="Petition" />
@@ -2384,8 +2384,8 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
               <MappingFragment StoreEntitySet="PetitionEmailVote">
                 <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="hash" ColumnName="hash" />
-                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="Hash" ColumnName="hash" />
+                <ScalarProperty Name="Email" ColumnName="email" />
                 <ScalarProperty Name="PatitionID" ColumnName="PatitionID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

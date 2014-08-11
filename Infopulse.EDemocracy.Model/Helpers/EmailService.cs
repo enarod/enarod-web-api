@@ -1,31 +1,28 @@
 ﻿using System.Net;
 using System.Net.Mail;
 
-namespace Infopulse.EDemocracy.Model.Common
+namespace Infopulse.EDemocracy.Model.Helpers
 {
     public static class EmailService
     {
-        public const string login = "EA2ALM";
-        public const string password = "EA2ALM_2013";
-        public const string from = "EA2ALM@gmail.com";
-        public const string host = "smtp.gmail.com";
-
-
         public static bool SendEmail(MailMessage message)
         {
-            message.From = new MailAddress(from);
-            var smtp = new SmtpClient
+	        var senderMailbox = new Mailbox();
+
+			message.From = new MailAddress(senderMailbox.From);
+            var smtpClient = new SmtpClient
             {
-                Host = host,
+                Host = senderMailbox.Host,
                 Port = 587,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(login, password)
+                Credentials = new NetworkCredential(senderMailbox.Login, senderMailbox.Password)
             };
+
             try
             {
-                smtp.Send(message);
+                smtpClient.Send(message);
                 return true;
             }
             catch

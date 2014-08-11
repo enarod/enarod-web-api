@@ -1,6 +1,5 @@
 ﻿using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Model;
-using Infopulse.EDemocracy.Model.ClientEntities;
 using Infopulse.EDemocracy.Model.Common;
 using System;
 using System.Collections.Generic;
@@ -32,7 +31,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 
 					var petition = new clientEntities.Petition(first)
 						{
-							VotesCount = first.PetitionVotes.Count
+							VotesCount = first.PetitionVotes.Count + first.PetitionEmailVotes.Count
 						};
 
 					result = OperationResult<clientEntities.Petition>.Success(1, "Success", petition);
@@ -63,7 +62,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					{
 						var clientPetition = new clientEntities.Petition(item)
 											 {
-												 VotesCount = item.PetitionVotes.Count()
+												 VotesCount = item.PetitionVotes.Count() + item.PetitionEmailVotes.Count
 											 };
 
 						if (clientPetition.VotesCount >= item.Limit)
@@ -108,7 +107,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					{
 						var clientPetition = new clientEntities.Petition(item)
 						{
-							VotesCount = item.PetitionVotes.Count()
+							VotesCount = item.PetitionVotes.Count() + item.PetitionEmailVotes.Count
 						};
 
 						if (clientPetition.VotesCount >= item.Limit)

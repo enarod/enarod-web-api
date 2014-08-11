@@ -16,8 +16,8 @@ namespace Infopulse.EDemocracy.Model
     {
         public long ID { get; set; }
         public long PatitionID { get; set; }
-        public string email { get; set; }
-        public string hash { get; set; }
+        public string Email { get; set; }
+        public string Hash { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public bool IsConfirmed { get; set; }
     

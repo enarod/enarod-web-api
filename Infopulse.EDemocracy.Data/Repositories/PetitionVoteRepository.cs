@@ -4,6 +4,7 @@ using Infopulse.EDemocracy.Model.ClientEntities;
 using Infopulse.EDemocracy.Model.Common;
 using System;
 using System.Linq;
+using Infopulse.EDemocracy.Model.Helpers;
 using businessEntities = Infopulse.EDemocracy.Model.BusinessEntities;
 
 namespace Infopulse.EDemocracy.Data.Repositories
@@ -66,18 +67,43 @@ namespace Infopulse.EDemocracy.Data.Repositories
 
 		public OperationResult EmailVote(EmailVote vote)
 		{
-			// TODO 1: add records to PetitionEmailVote:
-			// PetitionID = vote.ID
-			// Email = vote.Email
-			// IsConfirmed = false;
-			// Hash = [generate hash based on petitionID-email pair]
+			OperationResult result;
 
-			// TODO 2: send email to user with link https://emarod.org/app/petition/vote?hash=[generated_hash]
+			try
+			{
+				using (var db = new EDEntities())
+				{
+					var emailVote = new PetitionEmailVote
+					           {
+						           PatitionID = vote.ID,
+								   Email = vote.Email,
+								   CreatedDate = DateTime.Now,
+								   IsConfirmed = false,
+								   Hash = HashGenerator.Generate()
+					           };
 
-            var item = new businessEntities.PetitionEmailVote(vote.petition, vote.Email);
-            item.Save();
+					db.PetitionEmailVotes.Add(emailVote);
+					db.SaveChanges();
 
-            return OperationResult.Success(1, "Vote counted");
+					var notificationSender = new NotificationSender();
+					var sendingResult = notificationSender.SendPetitionVoteConfirmation(emailVote.Hash, emailVote.Email);
+
+					if (sendingResult.IsSuccess)
+					{
+						result = OperationResult.Success(1, "Ваш голос чекає підтвердження електронної пошти.");
+					}
+					else
+					{
+						result = sendingResult;
+					}
+				}
+			}
+			catch (Exception exc)
+			{
+				result = OperationResult.ExceptionResult(exc);
+			}
+
+			return result;
 		}
 
 
@@ -90,31 +116,34 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		{
 			OperationResult<PetitionEmailVote> result;
 
-            try
-            {
-                using (var db = new EDEntities())
-                {
-                    var votes = from p in db.PetitionEmailVotes
-                                where p.hash == hash
-                                select p;
+			try
+			{
+				using (var db = new EDEntities())
+				{
+					var emailVote = db.PetitionEmailVotes.SingleOrDefault(p => p.Hash == hash);
 
-                    var emailVote = votes.FirstOrDefault();
-                    if (emailVote == default(PetitionEmailVote))
-                    {
-						result = OperationResult<PetitionEmailVote>.Fail(-2, "Petition not found");
-                        return result;
-                    }
+					if (emailVote == default(PetitionEmailVote))
+					{
+						result = OperationResult<PetitionEmailVote>.Fail(-3, "Петиція не знайдена.");
+						return result;
+					}
 
-                    emailVote.IsConfirmed = true;
-                    db.SaveChanges();
+					if (emailVote.IsConfirmed)
+					{
+						result = OperationResult<PetitionEmailVote>.Fail(-2, "Ви вже проголосували за цю петицію.");
+						return result;
+					}
 
-					result = OperationResult<PetitionEmailVote>.Success(1, "Petition voted", emailVote);
-                }
-            }
-            catch (Exception ex)
-            {
+					emailVote.IsConfirmed = true;
+					db.SaveChanges();
+
+					result = OperationResult<PetitionEmailVote>.Success(1, "Ви успішно проголосували за петицію.", emailVote);
+				}
+			}
+			catch (Exception ex)
+			{
 				result = OperationResult<PetitionEmailVote>.Fail(-1, ex.Message);
-            }
+			}
 
 			return result;
 		}

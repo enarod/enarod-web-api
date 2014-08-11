@@ -80,7 +80,8 @@
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ClientEntities\ClientPetitionVote.cs" />
-    <Compile Include="Common\EmailService.cs" />
+    <Compile Include="Helpers\Mailbox.cs" />
+    <Compile Include="Helpers\EmailService.cs" />
     <Compile Include="Common\EntityDictionary.cs" />
     <Compile Include="Common\OperationResult.cs" />
     <Compile Include="Common\OperationResultT.cs" />
@@ -120,6 +121,8 @@
     <Compile Include="Group.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\HashGenerator.cs" />
+    <Compile Include="Helpers\NotificationSender.cs" />
     <Compile Include="Invitation.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
