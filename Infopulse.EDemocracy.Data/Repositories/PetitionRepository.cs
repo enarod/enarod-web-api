@@ -18,23 +18,17 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			{
 				using (var db = new EDEntities())
 				{
-					var petitions = from p in db.Petitions
-									where p.ID == petitionID
-									select p;
-
-					var first = petitions.FirstOrDefault();
-					if (first == default(Petition))
+					var petition = db.Petitions.SingleOrDefault(p => p.ID == petitionID);
+					if (petition == default(Petition))
 					{
 						result = OperationResult<clientEntities.Petition>.Fail(-2, "Petition not found");
 						return result;
 					}
 
-					var petition = new clientEntities.Petition(first)
-						{
-							VotesCount = first.PetitionVotes.Count + first.PetitionEmailVotes.Count
-						};
+					var clientPetition = new clientEntities.Petition(petition);
+					clientPetition.VotesCount = petition.PetitionVotes.Count + petition.PetitionEmailVotes.Count;
 
-					result = OperationResult<clientEntities.Petition>.Success(1, "Success", petition);
+					result = OperationResult<clientEntities.Petition>.Success(1, "Success", clientPetition);
 				}
 			}
 			catch (Exception ex)
@@ -45,7 +39,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			return result;
 		}
 
-		
+
 		public OperationResult<IEnumerable<clientEntities.Petition>> Get()
 		{
 			OperationResult<IEnumerable<clientEntities.Petition>> result;
@@ -60,10 +54,8 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					var list = new List<clientEntities.Petition>();
 					foreach (var item in petitions)
 					{
-						var clientPetition = new clientEntities.Petition(item)
-											 {
-												 VotesCount = item.PetitionVotes.Count() + item.PetitionEmailVotes.Count
-											 };
+						var clientPetition = new clientEntities.Petition(item);
+						clientPetition.VotesCount = item.PetitionVotes.Count + item.PetitionEmailVotes.Count;
 
 						if (clientPetition.VotesCount >= item.Limit)
 						{

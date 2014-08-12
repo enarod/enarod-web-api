@@ -15,7 +15,7 @@ namespace Infopulse.EDemocracy.Model
     public partial class PetitionEmailVote
     {
         public long ID { get; set; }
-        public long PatitionID { get; set; }
+        public long PetitionID { get; set; }
         public string Email { get; set; }
         public string Hash { get; set; }
         public System.DateTime CreatedDate { get; set; }

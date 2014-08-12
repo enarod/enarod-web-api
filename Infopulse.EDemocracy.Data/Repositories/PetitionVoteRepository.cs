@@ -73,28 +73,33 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			{
 				using (var db = new EDEntities())
 				{
-					var emailVote = new PetitionEmailVote
-					           {
-						           PatitionID = vote.ID,
-								   Email = vote.Email,
-								   CreatedDate = DateTime.Now,
-								   IsConfirmed = false,
-								   Hash = HashGenerator.Generate()
-					           };
-
-					db.PetitionEmailVotes.Add(emailVote);
-					db.SaveChanges();
-
-					var notificationSender = new NotificationSender();
-					var sendingResult = notificationSender.SendPetitionVoteConfirmation(emailVote.Hash, emailVote.Email);
-
-					if (sendingResult.IsSuccess)
+					var emailVote = db.PetitionEmailVotes.SingleOrDefault(v => v.PetitionID == vote.ID && v.Email == vote.Email);
+					if (emailVote != null)
 					{
-						result = OperationResult.Success(1, "Ваш голос чекає підтвердження електронної пошти.");
+						result = emailVote.IsConfirmed
+							? OperationResult.Fail(-2, "Ви вже проголосували за цю петицію.")
+							: OperationResult.Success(1, "Ваш голос чекає підтвердження електронної пошти. Перевірте вашу поштову скриньку.");
 					}
 					else
 					{
-						result = sendingResult;
+						emailVote = new PetitionEmailVote
+						{
+							PetitionID = vote.ID,
+							Email = vote.Email,
+							CreatedDate = DateTime.Now,
+							IsConfirmed = false,
+							Hash = HashGenerator.Generate()
+						};
+
+						db.PetitionEmailVotes.Add(emailVote);
+						db.SaveChanges();
+
+						var notificationSender = new NotificationSender();
+						var sendingResult = notificationSender.SendPetitionVoteConfirmation(emailVote.Hash, emailVote.Email);
+
+						result = sendingResult.IsSuccess
+							? OperationResult.Success(1, "Ваш голос чекає підтвердження електронної пошти. Перевірте вашу поштову скриньку.")
+							: sendingResult;
 					}
 				}
 			}
@@ -151,7 +156,29 @@ namespace Infopulse.EDemocracy.Data.Repositories
 
 		public OperationResult<Petition> GetPetition(string hash)
 		{
-			throw new System.NotImplementedException();
+			OperationResult<Petition> result;
+
+			try
+			{
+				using (var db = new EDEntities())
+				{
+					var petitionEmailVote = db.PetitionEmailVotes.SingleOrDefault(v => v.Hash == hash);
+					if (petitionEmailVote == null)
+					{
+						result = OperationResult<Petition>.Fail(-2, "Petition email vote for such hash not found.");
+						return result;
+					}
+
+					var petition = db.Petitions.SingleOrDefault(p => p.ID == petitionEmailVote.PetitionID);
+					result = OperationResult<Petition>.Success(1, "Success.", petition);
+				}
+			}
+			catch (Exception exception)
+			{
+				result = OperationResult<Petition>.ExceptionResult(exception);
+			}
+
+			return result;
 		}
 
 
@@ -164,6 +191,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				using (var db = new EDEntities())
 				{
 					db.PetitionVotes.RemoveRange(db.PetitionVotes);
+					db.PetitionEmailVotes.RemoveRange(db.PetitionEmailVotes);
 					db.SaveChanges();
 					result = OperationResult.Success(1, "All petition votes has beed deleted.");
 				}
@@ -186,6 +214,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				using (var db = new EDEntities())
 				{
 					db.PetitionVotes.RemoveRange(db.PetitionVotes.Where(v => v.PetitionID == petitionID));
+					db.PetitionEmailVotes.RemoveRange(db.PetitionEmailVotes.Where(v => v.PetitionID == petitionID));
 					db.SaveChanges();
 					result = OperationResult.Success(1, string.Format("Petition votes for #{0} has beed deleted.", petitionID));
 				}

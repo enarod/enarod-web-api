@@ -13,14 +13,18 @@ namespace Infopulse.EDemocracy.Model.Helpers
 
 			try
 			{
-				var text = new StringBuilder("Для підтвердження Вашого голосу необхідно натиснути наступний лінк: ");
-				text.Append("https://emarod.org/app/petition/vote?hash=");
-				text.Append(hash);
+				var text =
+					string.Format(
+					"<p>Для підтвердження Вашого голосу перейдіть за наступним посиланням:</p><p><a href='https://enarod.org/app/petition/vote?hash={0}'>проголосувати</a></p>", hash);
+				//new StringBuilder("Для підтвердження Вашого голосу перейдіть за наступним посиланнямнеобхідно натиснути наступний лінк: ");
+				//text.Append("https://enarod.org/app/petition/vote?hash=");
+				//text.Append(hash);
 
 				var message = new MailMessage
 				{
-					Subject = "Petition vote confirmation",
-					Body = text.ToString()
+					Subject = "Підтвердження голосування",
+					Body = text.ToString(),
+					IsBodyHtml = true
 				};
 
 				message.To.Add(sendTo);

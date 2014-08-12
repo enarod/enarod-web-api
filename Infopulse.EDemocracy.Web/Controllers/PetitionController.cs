@@ -36,7 +36,7 @@ namespace Infopulse.EDemocracy.Web.Controllers
 			var confirmedPetitionVoteResult = this.petitionVoteRepository.ConfirmPetitionEmailVote(hash);
 			if (confirmedPetitionVoteResult.Data != null)
 			{
-				petitionID = confirmedPetitionVoteResult.Data.PatitionID;
+				petitionID = confirmedPetitionVoteResult.Data.PetitionID;
 			}
 
 			switch (confirmedPetitionVoteResult.ResultCode)

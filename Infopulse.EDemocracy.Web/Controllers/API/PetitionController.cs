@@ -53,62 +53,62 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		}
 
 
-		[HttpPost]
-		public OperationResult Post(ClientPetitionVote vote)
-		{
-			OperationResult result;
+		//[HttpPost]
+		//public OperationResult Post(ClientPetitionVote vote)
+		//{
+		//	OperationResult result;
 
-			try
-			{
-				if (vote.PetitionID == 0)
-				{
-					result = OperationResult.Fail(-2, "AgreementID was not provided.");
-					return result;
-				}
+		//	try
+		//	{
+		//		if (vote.PetitionID == 0)
+		//		{
+		//			result = OperationResult.Fail(-2, "AgreementID was not provided.");
+		//			return result;
+		//		}
 
-				// verify:
-				IVerificationRepository verificationRepository;
-				switch (vote.CertificateType)
-				{
-					case EntityDictionary.Certificate.Type.DPA:
-						{
-							verificationRepository = new DpaVerificationRepository();
-							break;
-						}
-					case EntityDictionary.Certificate.Type.UACrypto:
-						{
-							verificationRepository = new UaCryptoVerificationRepository();
-							break;
-						}
-					default:
-						{
-							verificationRepository = new UaCryptoVerificationRepository();
-							break;
-						}
-				}
+		//		// verify:
+		//		IVerificationRepository verificationRepository;
+		//		switch (vote.CertificateType)
+		//		{
+		//			case EntityDictionary.Certificate.Type.DPA:
+		//				{
+		//					verificationRepository = new DpaVerificationRepository();
+		//					break;
+		//				}
+		//			case EntityDictionary.Certificate.Type.UACrypto:
+		//				{
+		//					verificationRepository = new UaCryptoVerificationRepository();
+		//					break;
+		//				}
+		//			default:
+		//				{
+		//					verificationRepository = new UaCryptoVerificationRepository();
+		//					break;
+		//				}
+		//		}
 
-				var verificationResult = verificationRepository.Verify(vote.SignedData);
-				var isVerficationSuccessfull =
-					verificationResult.Descendants("Result").SingleOrDefault() != null &&
-					verificationResult.Descendants("Result").SingleOrDefault().Value == "Success" &&
-					verificationResult.Descendants("Serial").SingleOrDefault() != null &&
-					verificationResult.Descendants("Serial").SingleOrDefault().Value.Length > 0;
+		//		var verificationResult = verificationRepository.Verify(vote.SignedData);
+		//		var isVerficationSuccessfull =
+		//			verificationResult.Descendants("Result").SingleOrDefault() != null &&
+		//			verificationResult.Descendants("Result").SingleOrDefault().Value == "Success" &&
+		//			verificationResult.Descendants("Serial").SingleOrDefault() != null &&
+		//			verificationResult.Descendants("Serial").SingleOrDefault().Value.Length > 0;
 
-				if (!isVerficationSuccessfull)
-				{
-					result = OperationResult.Fail(-3, "Certificate verification failed.");
-					return result;
-				}
+		//		if (!isVerficationSuccessfull)
+		//		{
+		//			result = OperationResult.Fail(-3, "Certificate verification failed.");
+		//			return result;
+		//		}
 
-				result = this.petitionVoteRepository.Vote(vote, verificationResult.Descendants("Serial").SingleOrDefault().Value);
-			}
-			catch (Exception exc)
-			{
-				result = OperationResult.ExceptionResult(exc);
-			}
+		//		result = this.petitionVoteRepository.Vote(vote, verificationResult.Descendants("Serial").SingleOrDefault().Value);
+		//	}
+		//	catch (Exception exc)
+		//	{
+		//		result = OperationResult.ExceptionResult(exc);
+		//	}
 
-			return result;
-		}
+		//	return result;
+		//}
 
 
 		[HttpPost]

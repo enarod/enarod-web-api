@@ -2102,7 +2102,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PatitionID" Type="Int64" Nullable="false" />
+          <Property Name="PetitionID" Type="Int64" Nullable="false" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Hash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
@@ -2117,7 +2117,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="PetitionEmailVote">
-              <PropertyRef Name="PatitionID" />
+              <PropertyRef Name="PetitionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2386,7 +2386,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Hash" ColumnName="hash" />
                 <ScalarProperty Name="Email" ColumnName="email" />
-                <ScalarProperty Name="PatitionID" ColumnName="PatitionID" />
+                <ScalarProperty Name="PetitionID" ColumnName="PatitionID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
