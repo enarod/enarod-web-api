@@ -17,21 +17,20 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 	{
 		private readonly IPetitionRepository petitionRepository;
 		private readonly IPetitionVoteRepository petitionVoteRepository;
+		private readonly IPetitionLevelRepository petitionLevelRepository;
+		private readonly IEntityRepository entityRepository;
 
 
 		public PetitionController()
 		{
 			this.petitionRepository = new PetitionRepository();
 			this.petitionVoteRepository = new PetitionVoteRepository();
+			this.petitionLevelRepository = new PetitionLevelRepository();
+			this.entityRepository = new EntityRepository();
 		}
 
 
-		public PetitionController(IPetitionRepository petitionRepository, IPetitionVoteRepository petitionVoteRepository)
-		{
-			this.petitionRepository = petitionRepository;
-			this.petitionVoteRepository = petitionVoteRepository;
-		}
-
+		#region Get petitions
 
 		public OperationResult<IEnumerable<Petition>> Get()
 		{
@@ -44,7 +43,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			return this.petitionRepository.Get(id);
 		}
 
-
+		
 		[HttpGet]
 		[Route("api/petition/search/{query}")]
 		public OperationResult<IEnumerable<Petition>> Search(string query)
@@ -53,71 +52,79 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			return searchResults;
 		}
 
+		#endregion
 
-		//[HttpPost]
-		//public OperationResult Post(ClientPetitionVote vote)
-		//{
-		//	OperationResult result;
 
-		//	try
-		//	{
-		//		if (vote.PetitionID == 0)
-		//		{
-		//			result = OperationResult.Fail(-2, "AgreementID was not provided.");
-		//			return result;
-		//		}
+		#region Vote
 
-		//		// verify:
-		//		IVerificationRepository verificationRepository;
-		//		switch (vote.CertificateType)
-		//		{
-		//			case EntityDictionary.Certificate.Type.DPA:
-		//				{
-		//					verificationRepository = new DpaVerificationRepository();
-		//					break;
-		//				}
-		//			case EntityDictionary.Certificate.Type.UACrypto:
-		//				{
-		//					verificationRepository = new UaCryptoVerificationRepository();
-		//					break;
-		//				}
-		//			default:
-		//				{
-		//					verificationRepository = new UaCryptoVerificationRepository();
-		//					break;
-		//				}
-		//		}
+		[HttpPost]
+		[Route("api/petition/digitalSignatureVote")]
+		public OperationResult DigitalSignatureVote(ClientPetitionVote vote)
+		{
+			OperationResult result;
 
-		//		var verificationResult = verificationRepository.Verify(vote.SignedData);
-		//		var isVerficationSuccessfull =
-		//			verificationResult.Descendants("Result").SingleOrDefault() != null &&
-		//			verificationResult.Descendants("Result").SingleOrDefault().Value == "Success" &&
-		//			verificationResult.Descendants("Serial").SingleOrDefault() != null &&
-		//			verificationResult.Descendants("Serial").SingleOrDefault().Value.Length > 0;
+			try
+			{
+				if (vote.PetitionID == 0)
+				{
+					result = OperationResult.Fail(-2, "PetitionID was not provided.");
+					return result;
+				}
 
-		//		if (!isVerficationSuccessfull)
-		//		{
-		//			result = OperationResult.Fail(-3, "Certificate verification failed.");
-		//			return result;
-		//		}
+				// verify:
+				IVerificationRepository verificationRepository;
+				switch (vote.CertificateType)
+				{
+					case EntityDictionary.Certificate.Type.DPA:
+						{
+							verificationRepository = new DpaVerificationRepository();
+							break;
+						}
+					case EntityDictionary.Certificate.Type.UACrypto:
+						{
+							verificationRepository = new UaCryptoVerificationRepository();
+							break;
+						}
+					default:
+						{
+							verificationRepository = new UaCryptoVerificationRepository();
+							break;
+						}
+				}
 
-		//		result = this.petitionVoteRepository.Vote(vote, verificationResult.Descendants("Serial").SingleOrDefault().Value);
-		//	}
-		//	catch (Exception exc)
-		//	{
-		//		result = OperationResult.ExceptionResult(exc);
-		//	}
+				var verificationResult = verificationRepository.Verify(vote.SignedData);
+				var isVerficationSuccessfull =
+					verificationResult.Descendants("Result").SingleOrDefault() != null &&
+					verificationResult.Descendants("Result").SingleOrDefault().Value == "Success" &&
+					verificationResult.Descendants("Serial").SingleOrDefault() != null &&
+					verificationResult.Descendants("Serial").SingleOrDefault().Value.Length > 0;
 
-		//	return result;
-		//}
+				if (!isVerficationSuccessfull)
+				{
+					result = OperationResult.Fail(-3, "Certificate verification failed.");
+					return result;
+				}
+
+				result = this.petitionVoteRepository.Vote(vote, verificationResult.Descendants("Serial").SingleOrDefault().Value);
+			}
+			catch (Exception exc)
+			{
+				result = OperationResult.ExceptionResult(exc);
+			}
+
+			return result;
+		}
 
 
 		[HttpPost]
-		public OperationResult Post(EmailVote vote)
+		[Route("api/petition")]
+		public OperationResult EmailVote(EmailVote vote)
 		{
 			var result = this.petitionVoteRepository.EmailVote(vote);
 			return result;
 		}
+
+		#endregion
 
 
 		public OperationResult Put(Petition petition)
@@ -128,12 +135,14 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		}
 
 
-		[HttpDelete]
-		public OperationResult Delete()
-		{
-			var result = this.petitionVoteRepository.ClearVotes();
-			return result;
-		}
+		#region Clear votes
+
+		//[HttpDelete]
+		//public OperationResult Delete()
+		//{
+		//	var result = this.petitionVoteRepository.ClearVotes();
+		//	return result;
+		//}
 
 
 		[HttpDelete]
@@ -141,6 +150,26 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		{
 			var result = this.petitionVoteRepository.ClearVote(id);
 			return result;
+		}
+
+		#endregion
+
+
+		[HttpGet]
+		[Route("api/petition/level")]
+		public OperationResult<IEnumerable<PetitionLevel>> GetPetitionLevels()
+		{
+			var result = this.petitionLevelRepository.GetPetitionLevels();
+			return result;
+		}
+
+
+		[HttpGet]
+		[Route("api/petition/category")]
+		public OperationResult<IEnumerable<Entity>> GetPetitionCategories()
+		{
+			var cateroties = this.entityRepository.GetPetitionCategories();
+			return cateroties;
 		}
 	}
 }

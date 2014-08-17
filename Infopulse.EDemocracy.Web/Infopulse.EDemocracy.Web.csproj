@@ -129,9 +129,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\API\AgreementController.cs" />
     <Compile Include="Controllers\API\BaseApiController.cs" />
-    <Compile Include="Controllers\API\CategoryController.cs" />
     <Compile Include="Controllers\API\CryptoController.cs" />
-    <Compile Include="Controllers\API\PetitionLevelController.cs" />
     <Compile Include="Controllers\PetitionController.cs" />
     <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="Models\HashString.cs" />
