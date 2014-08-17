@@ -9,6 +9,7 @@
         {
             this.ID = group.ID;
             this.Parent = group.ParentID.HasValue ? new EntityGroup(group.ParentID.Value) : null;
+	        this.Name = group.Name;
         }
 
         public EntityGroup(long ID)
