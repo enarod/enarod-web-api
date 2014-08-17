@@ -128,18 +128,56 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			{
 				using (var db = new EDEntities())
 				{
-					var s = newPetition.Subject.ToUpper();
-					var list = from p in db.Petitions
-							   where p.Subject.ToUpper() == s
-							   select p;
+					// TODO: add petition already exists check
+					var petition =
+						new Petition()
+						{
+							Subject = newPetition.Subject,
+							Text = newPetition.Text,
+							Requirements = newPetition.Requirements,
+							KeyWords = newPetition.KeyWordsAsSingleString(),
+							EffectiveFrom = newPetition.EffectiveFrom,
+							EffectiveTo = newPetition.EffectiveTo,
+							CreatedDate = DateTime.Now,
+							Limit = newPetition.Limit,
+							AddressedTo = newPetition.AddressedTo
+						};
 
-					if (list.Any())
-						result = OperationResult.Fail(-1, "Petition already exists");
+					// CreatedBy
+					var creator = db.People.SingleOrDefault(p => p.Login == newPetition.CreatedBy.Login) ?? this.GetAnonymousUser(db);
+					petition.CreatedBy = creator.ID;
+					petition.Person = null;
+
+					// Category
+					var petitionCategory = db.Entities.SingleOrDefault(c => c.Name == newPetition.Category.Name);
+					if (petitionCategory == null)
+					{
+						result = OperationResult.Fail(-2, "Unknown petition category.");
+						return result;
+					}
 					else
 					{
-						newPetition.Save(db);
-						result = OperationResult.Success(1, "The petition has successfully been created");
+						petition.CategoryID = petitionCategory.ID;
+						petition.Entity = null;
 					}
+
+					// Level
+					var level = db.PetitionLevels.SingleOrDefault(l => l.ID == newPetition.Level.ID);
+					if (level == null)
+					{
+						result = OperationResult.Fail(-3, "Unknown petition level.");
+						return result;
+					}
+					else
+					{
+						petition.LevelID = level.ID;
+						petition.PetitionLevel = null;
+					}
+
+					db.Petitions.Add(petition);
+					db.SaveChanges();
+
+					result = OperationResult.Success(1, "The petition has successfully been created.");
 				}
 			}
 			catch (Exception exc)

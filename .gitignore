@@ -7,3 +7,7 @@ Infopulse.EDemocracy.Model/obj/
 Infopulse.EDemocracy.Web/bin/
 Infopulse.EDemocracy.Web/obj/
 packages/
+UpgradeLog*.htm
+UpgradeLog*.xml
+*.user
+*.suo

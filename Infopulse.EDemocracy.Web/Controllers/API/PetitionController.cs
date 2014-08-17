@@ -1,4 +1,5 @@
-﻿using Infopulse.EDemocracy.Data.Interfaces;
+﻿using System.Configuration;
+using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Data.Repositories;
 using Infopulse.EDemocracy.Model.BusinessEntities;
 using Infopulse.EDemocracy.Model.ClientEntities;
@@ -121,6 +122,8 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 		public OperationResult Put(Petition petition)
 		{
+			petition.Limit = int.Parse(ConfigurationManager.AppSettings["NewPetitionLimit"]);
+			petition.CreatedBy = new People() { Login = ConfigurationManager.AppSettings["AnonymousUserName"] };
 			return this.petitionRepository.AddNewPetition(petition);
 		}
 

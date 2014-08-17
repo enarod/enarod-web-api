@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Infopulse.EDemocracy.Model.BusinessEntities
@@ -11,7 +12,7 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		public Entity Category { get; set; }
 		public string Text { get; set; }
 		public string Requirements { get; set; }
-		public string KeyWords { get; set; }
+		public List<string> KeyWords { get; set; }
 		public DateTime CreatedDate { get; set; }
 		public People CreatedBy { get; set; }
 		public DateTime EffectiveFrom { get; set; }
@@ -22,14 +23,14 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 
 		public Petition(Model.Petition petition)
 		{
-            this.ID = petition.ID;
+			this.ID = petition.ID;
 			this.Level = new PetitionLevel(petition.PetitionLevel);
 			this.AddressedTo = petition.AddressedTo;
 			this.Subject = petition.Subject;
 			this.Category = new Entity(petition.Entity);
 			this.Text = petition.Text;
 			this.Requirements = petition.Requirements;
-			this.KeyWords = petition.KeyWords;
+			this.KeyWords = petition.KeyWords.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 			this.CreatedDate = petition.CreatedDate;
 			this.CreatedBy = new People(petition.Person);
 			this.EffectiveFrom = petition.EffectiveFrom;
@@ -53,7 +54,7 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 			}
 		}
 
-		Model.Petition Map()
+		public Model.Petition Map()
 		{
 			return new Model.Petition()
 						{
@@ -63,7 +64,7 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 							CategoryID = this.Category.ID,
 							Text = this.Text,
 							Requirements = this.Requirements,
-							KeyWords = this.KeyWords,
+							KeyWords = this.KeyWordsAsSingleString(),
 							CreatedDate = this.CreatedDate,
 							CreatedBy = this.CreatedBy.ID,
 							EffectiveFrom = this.EffectiveFrom,
@@ -72,20 +73,39 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 						};
 		}
 
-		public void Save()
-		{
-			using (var db = new Model.EDEntities())
-            {
-                Save(db);
-            }
-		}
 
-        public void Save(Model.EDEntities db)
-        {
-            var petition = this.Map();
-            db.Petitions.Add(petition);
-            db.SaveChanges();
-            this.ID = petition.ID;
-        }
+		////public void Save()
+		////{
+		////	using (var db = new Model.EDEntities())
+		////	{
+		////		Save(db);
+		////	}
+		////}
+
+
+		////public void Save(Model.EDEntities db)
+		////{
+		////	var petition = this.Map();
+		////	db.Petitions.Add(petition);
+		////	db.SaveChanges();
+		////	this.ID = petition.ID;
+		////}
+
+
+		public string KeyWordsAsSingleString()
+		{
+			var keyWordsString = string.Empty;
+
+			for (int i = 0; i < this.KeyWords.Count; i++)
+			{
+				keyWordsString += this.KeyWords[i];
+				if (i < this.KeyWords.Count - 1)
+				{
+					keyWordsString += ",";
+				}
+			}
+
+			return keyWordsString;
+		}
 	}
 }
