@@ -1,4 +1,5 @@
-﻿using Infopulse.EDemocracy.Data.Interfaces;
+﻿using System.Data.Entity.Infrastructure.MappingViews;
+using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Model;
 using Infopulse.EDemocracy.Model.Common;
 using System;
@@ -51,19 +52,8 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					var petitions = from p in db.Petitions
 									select p;
 
-					var list = new List<clientEntities.Petition>();
-					foreach (var item in petitions)
-					{
-						var clientPetition = new clientEntities.Petition(item);
-						clientPetition.VotesCount = item.PetitionVotes.Count + item.PetitionEmailVotes.Count;
-
-						if (clientPetition.VotesCount >= item.Limit)
-						{
-							list.Add(clientPetition);
-						}
-					}
-
-					result = OperationResult<IEnumerable<clientEntities.Petition>>.Success(list);
+					var clientPetitions = this.GetPetitionsUnderLimit(db, petitions);
+					result = OperationResult<IEnumerable<clientEntities.Petition>>.Success(clientPetitions);
 				}
 			}
 			catch (Exception exc)
@@ -94,21 +84,8 @@ namespace Infopulse.EDemocracy.Data.Repositories
 									   || p.Text.ToUpper().Contains(text.ToUpper())
 									select p;
 
-					var list = new List<clientEntities.Petition>();
-					foreach (var item in petitions)
-					{
-						var clientPetition = new clientEntities.Petition(item)
-						{
-							VotesCount = item.PetitionVotes.Count() + item.PetitionEmailVotes.Count
-						};
-
-						if (clientPetition.VotesCount >= item.Limit)
-						{
-							list.Add(clientPetition);
-						}
-					}
-
-					result = OperationResult<IEnumerable<clientEntities.Petition>>.Success(list);
+					var clientPetitions = this.GetPetitionsUnderLimit(db, petitions);
+					result = OperationResult<IEnumerable<clientEntities.Petition>>.Success(clientPetitions);
 				}
 			}
 			catch (Exception exc)
@@ -117,6 +94,59 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			}
 
 			return result;
+		}
+
+
+		public OperationResult<IEnumerable<clientEntities.Petition>> KeyWordSearch(string tag)
+		{
+			OperationResult<IEnumerable<clientEntities.Petition>> result;
+
+			var script = string.Empty;
+
+			try
+			{
+				using (var db = new EDEntities())
+				{
+					db.Database.Log = s => script += s;
+
+					// TODO: get rid of db.Petitions.ToList():
+					var petitions =
+						//from petition in db.Petitions
+						//where petition.KeyWords.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Contains(tag)
+						//select petition;
+						db.Petitions.ToList().Where(p => p.KeyWords.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Contains(tag));
+					
+					var clientPetitions = this.GetPetitionsUnderLimit(db, petitions);
+					result = OperationResult<IEnumerable<clientEntities.Petition>>.Success(clientPetitions);
+				}
+			}
+			catch (Exception exc)
+			{
+				result = OperationResult<IEnumerable<clientEntities.Petition>>.ExceptionResult(exc);
+			}
+
+			return result;
+		}
+
+
+		private IEnumerable<clientEntities.Petition> GetPetitionsUnderLimit(EDEntities db, IEnumerable<Petition> petitions)
+		{
+			var petitionsUnderLimit = new List<clientEntities.Petition>();
+			foreach (var petition in petitions)
+			{
+				var votesCount = db.PetitionVotes.Count(p => p.PetitionID == petition.ID) +
+				                 db.PetitionEmailVotes.Count(p => p.PetitionID == petition.ID);
+				if (votesCount > petition.Limit)
+				{
+					var clientPetition = new clientEntities.Petition(petition)
+					                     {
+						                     VotesCount = votesCount
+					                     };
+					petitionsUnderLimit.Add(clientPetition);
+				}
+			}
+
+			return petitionsUnderLimit;
 		}
 
 

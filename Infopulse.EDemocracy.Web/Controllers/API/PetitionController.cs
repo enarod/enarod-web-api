@@ -43,7 +43,11 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			return this.petitionRepository.Get(id);
 		}
 
-		
+		#endregion
+
+
+		#region Petition search
+
 		[HttpGet]
 		[Route("api/petition/search/{query}")]
 		public OperationResult<IEnumerable<Petition>> Search(string query)
@@ -52,7 +56,17 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			return searchResults;
 		}
 
-		#endregion
+
+		[HttpGet]
+		[Route("api/petition/tag/{tag}")]
+		public OperationResult<IEnumerable<Petition>> KeyWordSearch(string tag)
+		{
+			var searchResult = this.petitionRepository.KeyWordSearch(tag);
+			return searchResult;
+		}
+
+
+			#endregion
 
 
 		#region Vote

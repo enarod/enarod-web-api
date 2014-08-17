@@ -10,5 +10,6 @@ namespace Infopulse.EDemocracy.Data.Interfaces
 		OperationResult<IEnumerable<E.Petition>> Get();
 		OperationResult AddNewPetition(E.Petition newPetition);
         OperationResult<IEnumerable<E.Petition>> Search(string text);
+		OperationResult<IEnumerable<E.Petition>> KeyWordSearch(string tag);
 	}
 }
