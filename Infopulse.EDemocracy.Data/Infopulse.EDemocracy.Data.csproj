@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Interfaces\IAgreementRepository.cs" />
     <Compile Include="Interfaces\IEntityRepository.cs" />
+    <Compile Include="Interfaces\IPetitionLevelRepository.cs" />
     <Compile Include="Interfaces\IParticipantRepository.cs" />
     <Compile Include="Interfaces\IPeopleRepository.cs" />
     <Compile Include="Interfaces\IPetitionRepository.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\EntityRepository.cs" />
     <Compile Include="Repositories\DpaVerificationRepository.cs" />
+    <Compile Include="Repositories\PetitionLevelRepository.cs" />
     <Compile Include="Repositories\ParticipantRepository.cs" />
     <Compile Include="Repositories\PeopleRepository.cs" />
     <Compile Include="Repositories\PetitionRepository.cs" />
