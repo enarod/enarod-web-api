@@ -32,17 +32,21 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 		#region Get petitions
 
+		[HttpGet]
+		[Route("api/petition")]
 		public OperationResult<IEnumerable<Petition>> Get()
 		{
 			return this.petitionRepository.Get();
 		}
 
 
+		[HttpGet]
+		[Route("api/petition/{id}")]
 		public OperationResult<Petition> Get(int id)
 		{
 			return this.petitionRepository.Get(id);
 		}
-
+		
 		#endregion
 
 
@@ -141,6 +145,8 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		#endregion
 
 
+		[HttpPut]
+		[Route("api/petition")]
 		public OperationResult Put(Petition petition)
 		{
 			petition.Limit = int.Parse(ConfigurationManager.AppSettings["NewPetitionLimit"]);
@@ -152,6 +158,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		#region Clear votes
 
 		//[HttpDelete]
+		//[Route("api/petition")]
 		//public OperationResult Delete()
 		//{
 		//	var result = this.petitionVoteRepository.ClearVotes();
@@ -160,6 +167,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 
 		[HttpDelete]
+		[Route("api/petition/{id}")]
 		public OperationResult Delete([FromUri] int id)
 		{
 			var result = this.petitionVoteRepository.ClearVote(id);
