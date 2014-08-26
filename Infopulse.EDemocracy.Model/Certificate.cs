@@ -26,7 +26,7 @@ namespace Infopulse.EDemocracy.Model
         public string SerialNumber { get; set; }
     
         public virtual ICollection<AgreementVote> AgreementVotes { get; set; }
-        public virtual Entity Entity { get; set; }
+        public virtual Entity Type { get; set; }
         public virtual Person Person { get; set; }
         public virtual ICollection<PetitionVote> PetitionVotes { get; set; }
     }

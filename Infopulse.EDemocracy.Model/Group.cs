@@ -27,7 +27,7 @@ namespace Infopulse.EDemocracy.Model
         public long StatusID { get; set; }
     
         public virtual ICollection<ContactGroup> ContactGroups { get; set; }
-        public virtual Entity Entity { get; set; }
+        public virtual Entity Status { get; set; }
         public virtual ICollection<Invitation> Invitations { get; set; }
         public virtual ICollection<RolePeople> RolePeoples { get; set; }
     }

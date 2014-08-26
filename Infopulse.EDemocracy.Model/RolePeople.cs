@@ -20,7 +20,7 @@ namespace Infopulse.EDemocracy.Model
         public long PersonID { get; set; }
         public long StatusID { get; set; }
     
-        public virtual Entity Entity { get; set; }
+        public virtual Entity Status { get; set; }
         public virtual Group Group { get; set; }
         public virtual Person Person { get; set; }
         public virtual Role Role { get; set; }

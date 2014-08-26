@@ -29,7 +29,7 @@ namespace Infopulse.EDemocracy.Model
         public long CreatedBy { get; set; }
     
         public virtual ICollection<C_Invitation> C_Invitation { get; set; }
-        public virtual Entity Entity { get; set; }
+        public virtual Entity Status { get; set; }
         public virtual Group Group { get; set; }
         public virtual Person Person { get; set; }
         public virtual ICollection<InvitationLink> InvitationLinks { get; set; }

@@ -20,8 +20,8 @@ namespace Infopulse.EDemocracy.Model
         public long StatusID { get; set; }
         public string Value { get; set; }
     
-        public virtual Entity Entity { get; set; }
-        public virtual Entity Entity1 { get; set; }
+        public virtual Entity ContactType { get; set; }
+        public virtual Entity Status { get; set; }
         public virtual Group Group { get; set; }
     }
 }

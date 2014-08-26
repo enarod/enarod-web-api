@@ -53,6 +53,7 @@
     <Compile Include="Interfaces\IPeopleRepository.cs" />
     <Compile Include="Interfaces\IPetitionRepository.cs" />
     <Compile Include="Interfaces\IPetitionVoteRepository.cs" />
+    <Compile Include="Interfaces\IRegionRepository.cs" />
     <Compile Include="Interfaces\IUaCryptoRepository.cs" />
     <Compile Include="Interfaces\IVerificationRepository.cs" />
     <Compile Include="Repositories\AgreementRepository.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Repositories\PetitionRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\PetitionVoteRepository.cs" />
+    <Compile Include="Repositories\RegionRepository.cs" />
     <Compile Include="Service References\Verification.Dpa\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

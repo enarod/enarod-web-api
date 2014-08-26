@@ -26,8 +26,8 @@ namespace Infopulse.EDemocracy.Model
         public string Description { get; set; }
     
         public virtual ICollection<Agreement> Agreements { get; set; }
-        public virtual Entity Entity { get; set; }
-        public virtual Entity Entity1 { get; set; }
+        public virtual Entity Type { get; set; }
+        public virtual Entity Status { get; set; }
         public virtual Person Person { get; set; }
     }
 }

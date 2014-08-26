@@ -31,9 +31,9 @@ namespace Infopulse.EDemocracy.Model
         public Nullable<long> UpdatedBy { get; set; }
     
         public virtual Candidate Candidate { get; set; }
-        public virtual Entity Entity { get; set; }
-        public virtual Person Person { get; set; }
-        public virtual Person Person1 { get; set; }
+        public virtual Entity Status { get; set; }
+        public virtual Person Creator { get; set; }
+        public virtual Person Updater { get; set; }
         public virtual ICollection<AgreementVote> AgreementVotes { get; set; }
     }
 }

@@ -34,7 +34,7 @@ namespace Infopulse.EDemocracy.Model
         public System.DateTime EffectiveTo { get; set; }
         public Nullable<long> Limit { get; set; }
     
-        public virtual Entity Entity { get; set; }
+        public virtual Entity Category { get; set; }
         public virtual Person Person { get; set; }
         public virtual PetitionLevel PetitionLevel { get; set; }
         public virtual ICollection<PetitionVote> PetitionVotes { get; set; }

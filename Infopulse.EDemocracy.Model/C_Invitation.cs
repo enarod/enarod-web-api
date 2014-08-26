@@ -21,8 +21,8 @@ namespace Infopulse.EDemocracy.Model
         public System.DateTime CreatedDate { get; set; }
         public long CreatedBy { get; set; }
     
-        public virtual Entity Entity { get; set; }
-        public virtual Entity Entity1 { get; set; }
+        public virtual Entity Action { get; set; }
+        public virtual Entity Status { get; set; }
         public virtual Invitation Invitation { get; set; }
     }
 }

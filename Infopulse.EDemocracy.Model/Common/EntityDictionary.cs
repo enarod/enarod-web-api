@@ -39,5 +39,20 @@
                 public const string Etc = "P_Petition_Category_Etc";
             }
         }
+
+		public static class Candidate
+		{
+			public static class Status
+			{
+				public const string Active = "P_Candidate_Status_Active";
+				public const string Inactive = "P_Candidate_Status_Inactive";
+			}
+
+			public static class Type
+			{
+				public const string Independent = "P_Candidate_Type_Independent";
+				public const string PartyMember = "P_Candidate_Type_PartyMember";
+			}
+		}
     }
 }

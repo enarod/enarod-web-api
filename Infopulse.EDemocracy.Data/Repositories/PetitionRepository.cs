@@ -188,7 +188,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					else
 					{
 						petition.CategoryID = petitionCategory.ID;
-						petition.Entity = null;
+						petition.Category = null;
 					}
 
 					// Level

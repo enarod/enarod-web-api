@@ -19,7 +19,7 @@ namespace Infopulse.EDemocracy.Model
         public long FunctionID { get; set; }
         public long StatusID { get; set; }
     
-        public virtual Entity Entity { get; set; }
+        public virtual Entity Status { get; set; }
         public virtual Function Function { get; set; }
         public virtual Role Role { get; set; }
     }

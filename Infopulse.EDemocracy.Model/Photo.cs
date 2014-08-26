@@ -21,7 +21,7 @@ namespace Infopulse.EDemocracy.Model
         public long CreatedBy { get; set; }
         public byte[] Photo1 { get; set; }
     
-        public virtual Entity Entity { get; set; }
+        public virtual Entity Status { get; set; }
         public virtual Person Person { get; set; }
     }
 }

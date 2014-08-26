@@ -30,11 +30,11 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 			this.ShortDesc = agreement.ShortDesc;
 			this.Description = agreement.Description;
 			this.Candidate = new Candidate(agreement.Candidate);
-			this.Status = new Entity(agreement.Entity);
+			this.Status = new Entity(agreement.Status);
 			this.CreatedDate = agreement.CreatedDate;
-			this.CreatedBy = new People(agreement.Person);
+			this.CreatedBy = new People(agreement.Creator);
 			this.UpdateDate = agreement.UpdatedDate;
-			this.UpdatedBy = agreement.UpdatedBy != null ? new People(agreement.Person1) : null;
+			this.UpdatedBy = agreement.UpdatedBy != null ? new People(agreement.Updater) : null;
 		}
 
 

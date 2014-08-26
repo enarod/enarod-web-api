@@ -19,6 +19,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		private readonly IPetitionVoteRepository petitionVoteRepository;
 		private readonly IPetitionLevelRepository petitionLevelRepository;
 		private readonly IEntityRepository entityRepository;
+		private readonly IRegionRepository regionRepository;
 
 
 		public PetitionController()
@@ -27,6 +28,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			this.petitionVoteRepository = new PetitionVoteRepository();
 			this.petitionLevelRepository = new PetitionLevelRepository();
 			this.entityRepository = new EntityRepository();
+			this.regionRepository = new RegionRepository();
 		}
 
 
@@ -192,6 +194,15 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		{
 			var cateroties = this.entityRepository.GetPetitionCategories();
 			return cateroties;
+		}
+
+
+		[HttpGet]
+		[Route("api/petition/region/{petitionLevelID}")]
+		public OperationResult<IEnumerable<Region>> GetPetitionRegions(int petitionLevelID)
+		{
+			var regions = this.regionRepository.GetRegions(petitionLevelID);
+			return regions;
 		}
 	}
 }

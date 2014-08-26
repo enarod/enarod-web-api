@@ -1243,8 +1243,8 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="StatusID" Type="Int64" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedBy" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Entity" Relationship="EDModel.FK__Invitation_Entity" FromRole="C_Invitation" ToRole="Entity" />
-          <NavigationProperty Name="Entity1" Relationship="EDModel.FK__Invitation_Entity1" FromRole="C_Invitation" ToRole="Entity" />
+          <NavigationProperty Name="Action" Relationship="EDModel.FK__Invitation_Entity" FromRole="C_Invitation" ToRole="Entity" />
+          <NavigationProperty Name="Status" Relationship="EDModel.FK__Invitation_Entity1" FromRole="C_Invitation" ToRole="Entity" />
           <NavigationProperty Name="Invitation" Relationship="EDModel.FK__Invitation_Invitation" FromRole="C_Invitation" ToRole="Invitation" />
         </EntityType>
         <EntityType Name="Agreement">
@@ -1262,9 +1262,9 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="Int64" />
           <NavigationProperty Name="Candidate" Relationship="EDModel.FK_Agreement_Candidate" FromRole="Agreement" ToRole="Candidate" />
-          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Agreement_Entity" FromRole="Agreement" ToRole="Entity" />
-          <NavigationProperty Name="Person" Relationship="EDModel.FK_Agreement_People" FromRole="Agreement" ToRole="Person" />
-          <NavigationProperty Name="Person1" Relationship="EDModel.FK_Agreement_People1" FromRole="Agreement" ToRole="Person" />
+          <NavigationProperty Name="Status" Relationship="EDModel.FK_Agreement_Entity" FromRole="Agreement" ToRole="Entity" />
+          <NavigationProperty Name="Creator" Relationship="EDModel.FK_Agreement_People" FromRole="Agreement" ToRole="Person" />
+          <NavigationProperty Name="Updater" Relationship="EDModel.FK_Agreement_People1" FromRole="Agreement" ToRole="Person" />
           <NavigationProperty Name="AgreementVotes" Relationship="EDModel.FK_AgreementVote_Agreement" FromRole="Agreement" ToRole="AgreementVote" />
         </EntityType>
         <EntityType Name="AgreementVote">
@@ -1292,8 +1292,8 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="StatusID" Type="Int64" Nullable="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Agreements" Relationship="EDModel.FK_Agreement_Candidate" FromRole="Candidate" ToRole="Agreement" />
-          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Candidate_Entity" FromRole="Candidate" ToRole="Entity" />
-          <NavigationProperty Name="Entity1" Relationship="EDModel.FK_Candidate_Entity1" FromRole="Candidate" ToRole="Entity" />
+          <NavigationProperty Name="Type" Relationship="EDModel.FK_Candidate_Entity" FromRole="Candidate" ToRole="Entity" />
+          <NavigationProperty Name="Status" Relationship="EDModel.FK_Candidate_Entity1" FromRole="Candidate" ToRole="Entity" />
           <NavigationProperty Name="Person" Relationship="EDModel.FK_Candidate_People" FromRole="Candidate" ToRole="Person" />
         </EntityType>
         <EntityType Name="Certificate">
@@ -1305,7 +1305,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="PersonID" Type="Int64" Nullable="false" />
           <Property Name="SerialNumber" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="AgreementVotes" Relationship="EDModel.FK_AgreementVote_Certificate" FromRole="Certificate" ToRole="AgreementVote" />
-          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Certificate_Entity" FromRole="Certificate" ToRole="Entity" />
+          <NavigationProperty Name="Type" Relationship="EDModel.FK_Certificate_Entity" FromRole="Certificate" ToRole="Entity" />
           <NavigationProperty Name="Person" Relationship="EDModel.FK_Certificate_People" FromRole="Certificate" ToRole="Person" />
           <NavigationProperty Name="PetitionVotes" Relationship="EDModel.FK_PetitionVote_Certificate" FromRole="Certificate" ToRole="PetitionVote" />
         </EntityType>
@@ -1318,8 +1318,8 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="ContactTypeID" Type="Int64" Nullable="false" />
           <Property Name="StatusID" Type="Int64" Nullable="false" />
           <Property Name="Value" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Contact_Entity" FromRole="Contact" ToRole="Entity" />
-          <NavigationProperty Name="Entity1" Relationship="EDModel.FK_Contact_Entity1" FromRole="Contact" ToRole="Entity" />
+          <NavigationProperty Name="ContactType" Relationship="EDModel.FK_Contact_Entity" FromRole="Contact" ToRole="Entity" />
+          <NavigationProperty Name="Status" Relationship="EDModel.FK_Contact_Entity1" FromRole="Contact" ToRole="Entity" />
           <NavigationProperty Name="Person" Relationship="EDModel.FK_Contact_People" FromRole="Contact" ToRole="Person" />
         </EntityType>
         <EntityType Name="ContactGroup">
@@ -1331,8 +1331,8 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="ContactTypeID" Type="Int64" Nullable="false" />
           <Property Name="StatusID" Type="Int64" Nullable="false" />
           <Property Name="Value" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Entity" Relationship="EDModel.FK_ContactGroup_Entity" FromRole="ContactGroup" ToRole="Entity" />
-          <NavigationProperty Name="Entity1" Relationship="EDModel.FK_ContactGroup_Entity1" FromRole="ContactGroup" ToRole="Entity" />
+          <NavigationProperty Name="ContactType" Relationship="EDModel.FK_ContactGroup_Entity" FromRole="ContactGroup" ToRole="Entity" />
+          <NavigationProperty Name="Status" Relationship="EDModel.FK_ContactGroup_Entity1" FromRole="ContactGroup" ToRole="Entity" />
           <NavigationProperty Name="Group" Relationship="EDModel.FK_ContactGroup_Groups" FromRole="ContactGroup" ToRole="Group" />
         </EntityType>
         <EntityType Name="Entity">
@@ -1381,7 +1381,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="StatusID" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Function_Entity" FromRole="Function" ToRole="Entity" />
+          <NavigationProperty Name="Status" Relationship="EDModel.FK_Function_Entity" FromRole="Function" ToRole="Entity" />
           <NavigationProperty Name="RoleFunctions" Relationship="EDModel.FK_RoleFunction_Function" FromRole="Function" ToRole="RoleFunction" />
         </EntityType>
         <EntityType Name="Group">
@@ -1393,7 +1393,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="StatusID" Type="Int64" Nullable="false" />
           <NavigationProperty Name="ContactGroups" Relationship="EDModel.FK_ContactGroup_Groups" FromRole="Group" ToRole="ContactGroup" />
-          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Groups_Entity" FromRole="Group" ToRole="Entity" />
+          <NavigationProperty Name="Status" Relationship="EDModel.FK_Groups_Entity" FromRole="Group" ToRole="Entity" />
           <NavigationProperty Name="Invitations" Relationship="EDModel.FK_Invitation_Groups" FromRole="Group" ToRole="Invitation" />
           <NavigationProperty Name="RolePeoples" Relationship="EDModel.FK_RolePeople_Groups" FromRole="Group" ToRole="RolePeople" />
         </EntityType>
@@ -1409,7 +1409,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedBy" Type="Int64" Nullable="false" />
           <NavigationProperty Name="C_Invitation" Relationship="EDModel.FK__Invitation_Invitation" FromRole="Invitation" ToRole="C_Invitation" />
-          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Invitation_Entity" FromRole="Invitation" ToRole="Entity" />
+          <NavigationProperty Name="Status" Relationship="EDModel.FK_Invitation_Entity" FromRole="Invitation" ToRole="Entity" />
           <NavigationProperty Name="Group" Relationship="EDModel.FK_Invitation_Groups" FromRole="Invitation" ToRole="Group" />
           <NavigationProperty Name="Person" Relationship="EDModel.FK_Invitation_People" FromRole="Invitation" ToRole="Person" />
           <NavigationProperty Name="InvitationLinks" Relationship="EDModel.FK_InvitationLink_Invitation" FromRole="Invitation" ToRole="InvitationLink" />
@@ -1463,7 +1463,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="EffectiveFrom" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EffectiveTo" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Limit" Type="Int64" />
-          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Petition_Entity" FromRole="Petition" ToRole="Entity" />
+          <NavigationProperty Name="Category" Relationship="EDModel.FK_Petition_Entity" FromRole="Petition" ToRole="Entity" />
           <NavigationProperty Name="Person" Relationship="EDModel.FK_Petition_People" FromRole="Petition" ToRole="Person" />
           <NavigationProperty Name="PetitionLevel" Relationship="EDModel.FK_Petition_PetitionLevel" FromRole="Petition" ToRole="PetitionLevel" />
           <NavigationProperty Name="PetitionVotes" Relationship="EDModel.FK_PetitionVote_Petition" FromRole="Petition" ToRole="PetitionVote" />
@@ -1503,7 +1503,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedBy" Type="Int64" Nullable="false" />
           <Property Name="Photo1" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Photo_Entity" FromRole="Photo" ToRole="Entity" />
+          <NavigationProperty Name="Status" Relationship="EDModel.FK_Photo_Entity" FromRole="Photo" ToRole="Entity" />
           <NavigationProperty Name="Person" Relationship="EDModel.FK_Photo_People" FromRole="Photo" ToRole="Person" />
         </EntityType>
         <EntityType Name="Role">
@@ -1514,7 +1514,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="StatusID" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Role_Entity" FromRole="Role" ToRole="Entity" />
+          <NavigationProperty Name="Status" Relationship="EDModel.FK_Role_Entity" FromRole="Role" ToRole="Entity" />
           <NavigationProperty Name="RoleFunctions" Relationship="EDModel.FK_RoleFunction_Role" FromRole="Role" ToRole="RoleFunction" />
           <NavigationProperty Name="RolePeoples" Relationship="EDModel.FK_RolePeople_Role" FromRole="Role" ToRole="RolePeople" />
         </EntityType>
@@ -1526,7 +1526,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="RoleID" Type="Int64" Nullable="false" />
           <Property Name="FunctionID" Type="Int64" Nullable="false" />
           <Property Name="StatusID" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Entity" Relationship="EDModel.FK_RoleFunction_Entity" FromRole="RoleFunction" ToRole="Entity" />
+          <NavigationProperty Name="Status" Relationship="EDModel.FK_RoleFunction_Entity" FromRole="RoleFunction" ToRole="Entity" />
           <NavigationProperty Name="Function" Relationship="EDModel.FK_RoleFunction_Function" FromRole="RoleFunction" ToRole="Function" />
           <NavigationProperty Name="Role" Relationship="EDModel.FK_RoleFunction_Role" FromRole="RoleFunction" ToRole="Role" />
         </EntityType>
@@ -1539,7 +1539,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="RoleID" Type="Int64" Nullable="false" />
           <Property Name="PersonID" Type="Int64" Nullable="false" />
           <Property Name="StatusID" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Entity" Relationship="EDModel.FK_RolePeople_Entity" FromRole="RolePeople" ToRole="Entity" />
+          <NavigationProperty Name="Status" Relationship="EDModel.FK_RolePeople_Entity" FromRole="RolePeople" ToRole="Entity" />
           <NavigationProperty Name="Group" Relationship="EDModel.FK_RolePeople_Groups" FromRole="RolePeople" ToRole="Group" />
           <NavigationProperty Name="Person" Relationship="EDModel.FK_RolePeople_People" FromRole="RolePeople" ToRole="Person" />
           <NavigationProperty Name="Role" Relationship="EDModel.FK_RolePeople_Role" FromRole="RolePeople" ToRole="Role" />
