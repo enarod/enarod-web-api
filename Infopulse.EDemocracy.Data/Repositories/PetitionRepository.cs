@@ -179,6 +179,12 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					petition.Person = null;
 
 					// Category
+					if (newPetition.Category == null)
+					{
+						result = OperationResult.Fail(-2, "Unable to get any category info.");
+						return result;
+					}
+
 					var petitionCategory = db.Entities.SingleOrDefault(c => c.Name == newPetition.Category.Name);
 					if (petitionCategory == null)
 					{
@@ -192,6 +198,12 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					}
 
 					// Level
+					if (newPetition.Level == null)
+					{
+						result = OperationResult.Fail(-3, "Unable to get any petition level info.");
+						return result;
+					}
+
 					var level = db.PetitionLevels.SingleOrDefault(l => l.ID == newPetition.Level.ID);
 					if (level == null)
 					{
