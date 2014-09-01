@@ -5,6 +5,10 @@
         public EntityGroup Parent { get; set; }
         public string Name { get; set; }
 
+	    public EntityGroup()
+	    {
+	    }
+
         public EntityGroup(Model.EntityGroup group)
         {
             this.ID = group.ID;

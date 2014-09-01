@@ -23,6 +23,8 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 
 		public Petition(Model.Petition petition)
 		{
+			if (petition == null) return;
+
 			this.ID = petition.ID;
 			this.Level = new PetitionLevel(petition.PetitionLevel);
 			this.AddressedTo = petition.AddressedTo;

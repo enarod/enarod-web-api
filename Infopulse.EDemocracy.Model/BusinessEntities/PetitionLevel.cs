@@ -8,7 +8,6 @@
 
 		public PetitionLevel()
 		{
-			
 		}
 
 		public PetitionLevel(Model.PetitionLevel level)

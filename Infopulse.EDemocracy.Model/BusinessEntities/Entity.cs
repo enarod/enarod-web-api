@@ -9,6 +9,10 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		public string Name { get; set; }
 		public string Description { get; set; }
 
+		public Entity()
+		{
+		}
+
 		public Entity(Model.Entity entity)
 		{
             Map(entity);
@@ -51,7 +55,7 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
             return this.Name.ToUpper().Equals(Name.ToUpper());
         }
 
-        void Map(Model.Entity entity)
+        private void Map(Model.Entity entity)
         {
             this.ID = entity.ID;
             this.Group = new EntityGroup(entity.EntityGroup);

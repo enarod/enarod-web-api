@@ -150,9 +150,9 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		}
 
 
-		public OperationResult AddNewPetition(clientEntities.Petition newPetition)
+		public OperationResult<clientEntities.Petition> AddNewPetition(clientEntities.Petition newPetition)
 		{
-			OperationResult result;
+			OperationResult<clientEntities.Petition> result;
 
 			try
 			{
@@ -166,8 +166,8 @@ namespace Infopulse.EDemocracy.Data.Repositories
 							Text = newPetition.Text,
 							Requirements = newPetition.Requirements,
 							KeyWords = newPetition.KeyWordsAsSingleString(),
-							EffectiveFrom = newPetition.EffectiveFrom,
-							EffectiveTo = newPetition.EffectiveTo,
+							EffectiveFrom = newPetition.EffectiveFrom == default(DateTime) ? DateTime.Now : newPetition.EffectiveFrom,
+							EffectiveTo = newPetition.EffectiveTo == default(DateTime) ? DateTime.Now.AddDays(7) : newPetition.EffectiveTo,
 							CreatedDate = DateTime.Now,
 							Limit = newPetition.Limit,
 							AddressedTo = newPetition.AddressedTo
@@ -181,14 +181,14 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					// Category
 					if (newPetition.Category == null)
 					{
-						result = OperationResult.Fail(-2, "Unable to get any category info.");
+						result = OperationResult<clientEntities.Petition>.Fail(-2, "Unable to get any category info.");
 						return result;
 					}
 
 					var petitionCategory = db.Entities.SingleOrDefault(c => c.Name == newPetition.Category.Name);
 					if (petitionCategory == null)
 					{
-						result = OperationResult.Fail(-2, "Unknown petition category.");
+						result = OperationResult<clientEntities.Petition>.Fail(-2, "Unknown petition category.");
 						return result;
 					}
 					else
@@ -200,14 +200,14 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					// Level
 					if (newPetition.Level == null)
 					{
-						result = OperationResult.Fail(-3, "Unable to get any petition level info.");
+						result = OperationResult<clientEntities.Petition>.Fail(-3, "Unable to get any petition level info.");
 						return result;
 					}
 
 					var level = db.PetitionLevels.SingleOrDefault(l => l.ID == newPetition.Level.ID);
 					if (level == null)
 					{
-						result = OperationResult.Fail(-3, "Unknown petition level.");
+						result = OperationResult<clientEntities.Petition>.Fail(-3, "Unknown petition level.");
 						return result;
 					}
 					else
@@ -216,15 +216,18 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						petition.PetitionLevel = null;
 					}
 
-					db.Petitions.Add(petition);
+					var addedPetition = db.Petitions.Add(petition);
 					db.SaveChanges();
 
-					result = OperationResult.Success(1, "The petition has successfully been created.");
+					result = OperationResult<clientEntities.Petition>.Success(
+						1,
+						"The petition has successfully been created.",
+						new clientEntities.Petition(addedPetition));
 				}
 			}
 			catch (Exception exc)
 			{
-				result = OperationResult.ExceptionResult(exc);
+				result = OperationResult<clientEntities.Petition>.ExceptionResult(exc);
 			}
 
 			return result;

@@ -137,7 +137,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 
 		[HttpPost]
-		[Route("api/petition")]
+		[Route("api/petition/emailVote")]
 		public OperationResult EmailVote(EmailVote vote)
 		{
 			var result = this.petitionVoteRepository.EmailVote(vote);
@@ -147,12 +147,16 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		#endregion
 
 
-		[HttpPut]
+		[HttpPost]
 		[Route("api/petition")]
-		public OperationResult Put(Petition petition)
+		public OperationResult<Petition> Put([FromBody]Petition petition)
 		{
+			if (petition == null) return OperationResult<Petition>.Fail(-1, "Unable to parse incoming petition info.");
+
 			petition.Limit = int.Parse(ConfigurationManager.AppSettings["NewPetitionLimit"]);
 			petition.CreatedBy = new People() { Login = ConfigurationManager.AppSettings["AnonymousUserName"] };
+			
+
 			return this.petitionRepository.AddNewPetition(petition);
 		}
 
