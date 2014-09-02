@@ -1,12 +1,8 @@
-Infopulse.EDemocracy.Data.DB/bin/
-Infopulse.EDemocracy.Data.DB/obj/
-Infopulse.EDemocracy.Data/bin/
-Infopulse.EDemocracy.Data/obj/
-Infopulse.EDemocracy.Model/bin/
-Infopulse.EDemocracy.Model/obj/
-Infopulse.EDemocracy.Web/bin/
-Infopulse.EDemocracy.Web/obj/
+bin/
+obj/
+
 packages/
+
 UpgradeLog*.htm
 UpgradeLog*.xml
 *.user

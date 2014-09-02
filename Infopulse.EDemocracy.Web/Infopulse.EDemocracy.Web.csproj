@@ -146,6 +146,9 @@
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Petition\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -155,7 +158,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Petition\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Infopulse.EDemocracy.Data\Infopulse.EDemocracy.Data.csproj">

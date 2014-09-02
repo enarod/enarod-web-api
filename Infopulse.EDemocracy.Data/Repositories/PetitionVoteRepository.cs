@@ -1,11 +1,11 @@
 ﻿using Infopulse.EDemocracy.Data.Interfaces;
+using Infopulse.EDemocracy.Email;
 using Infopulse.EDemocracy.Model;
 using Infopulse.EDemocracy.Model.ClientEntities;
 using Infopulse.EDemocracy.Model.Common;
+using Infopulse.EDemocracy.Model.Helpers;
 using System;
 using System.Linq;
-using Infopulse.EDemocracy.Model.Helpers;
-using businessEntities = Infopulse.EDemocracy.Model.BusinessEntities;
 
 namespace Infopulse.EDemocracy.Data.Repositories
 {

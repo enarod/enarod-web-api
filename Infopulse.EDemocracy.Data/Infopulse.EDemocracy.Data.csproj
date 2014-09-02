@@ -80,6 +80,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Infopulse.EDemocracy.Email\Infopulse.EDemocracy.Email.csproj">
+      <Project>{c4268eaf-5395-4731-ac21-656893e6de9b}</Project>
+      <Name>Infopulse.EDemocracy.Email</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Infopulse.EDemocracy.Model\Infopulse.EDemocracy.Model.csproj">
       <Project>{044c41cb-2df9-40da-8a41-d6a54379c76c}</Project>
       <Name>Infopulse.EDemocracy.Model</Name>
