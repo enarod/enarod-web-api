@@ -1,22 +1,27 @@
 ﻿using System;
+using System.IO;
+using Infopulse.EDemocracy.Model.BusinessEntities;
 using Infopulse.EDemocracy.Model.Common;
 
 namespace Infopulse.EDemocracy.Email
 {
 	public class NotificationSender
 	{
-		public OperationResult SendPetitionVoteConfirmation(string hash, string sendTo)
+		private const string ConfirmPetitionVoteUrl =
+			//"https://enarod.org/app/petition/vote?hash={0}";
+			"http://localhost:52399/petition/vote?hash={0}";
+		private const string EmailSubject = "Підтвердження голосування";
+		private const bool IsBodyHtml = true;
+
+		public OperationResult SendPetitionVoteConfirmation(Petition petition, PetitionEmailVote emailVote, string sendTo)
 		{
 			OperationResult result;
 
 			try
 			{
-				const string subject = "Підтвердження голосування";
-				var text = string.Format(
-					"<p>Для підтвердження Вашого голосу перейдіть за наступним посиланням:</p><p><a href='https://enarod.org/app/petition/vote?hash={0}'>проголосувати</a></p>", hash);
-				const bool isBodyHtml = true;
-				
-				var sendingStatus = EmailService.SendEmail(sendTo, subject, text, isBodyHtml);
+				var text = this.GetPetitionVoteConfirmationText(petition.Subject, emailVote.Hash);
+			
+				var sendingStatus = EmailService.SendEmail(sendTo, EmailSubject, text, IsBodyHtml);
 
 				if (sendingStatus)
 				{
@@ -35,6 +40,14 @@ namespace Infopulse.EDemocracy.Email
 			}
 
 			return result;
+		}
+
+		public string GetPetitionVoteConfirmationText(string petitionName, string hash)
+		{
+			var text = File.ReadAllText("EmailTemplates/PetitionVoteConfirmation.html")
+				.Replace("{{PETITIONNAME}}", petitionName)
+				.Replace("{{URL}}", string.Format(ConfirmPetitionVoteUrl, hash));
+			return text;
 		}
 	}
 }

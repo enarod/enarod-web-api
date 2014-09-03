@@ -100,7 +100,7 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 
 			for (int i = 0; i < this.KeyWords.Count; i++)
 			{
-				keyWordsString += this.KeyWords[i];
+				keyWordsString += this.KeyWords[i].Trim();
 				if (i < this.KeyWords.Count - 1)
 				{
 					keyWordsString += ",";

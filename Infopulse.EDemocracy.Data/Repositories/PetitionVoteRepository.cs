@@ -74,6 +74,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				using (var db = new EDEntities())
 				{
 					var emailVote = db.PetitionEmailVotes.SingleOrDefault(v => v.PetitionID == vote.ID && v.Email == vote.Email);
+					
 					if (emailVote != null)
 					{
 						result = emailVote.IsConfirmed
@@ -92,14 +93,22 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						};
 
 						db.PetitionEmailVotes.Add(emailVote);
-						db.SaveChanges();
 
+						var petition = new Model.BusinessEntities.Petition(db.Petitions.SingleOrDefault(p => p.ID == emailVote.PetitionID));
+						var clientEmailVote = new Model.BusinessEntities.PetitionEmailVote(petition, emailVote.Email);
 						var notificationSender = new NotificationSender();
-						var sendingResult = notificationSender.SendPetitionVoteConfirmation(emailVote.Hash, emailVote.Email);
+						var sendingResult = notificationSender.SendPetitionVoteConfirmation(petition, clientEmailVote, emailVote.Email);
 
-						result = sendingResult.IsSuccess
-							? OperationResult.Success(1, "Ваш голос чекає підтвердження електронної пошти. Перевірте вашу поштову скриньку.")
-							: sendingResult;
+						if (sendingResult.IsSuccess)
+						{
+							db.SaveChanges();
+							result = OperationResult.Success(1,
+								"Ваш голос чекає підтвердження електронної пошти. Перевірте вашу поштову скриньку.");
+						}
+						else
+						{
+							result = sendingResult;
+						}
 					}
 				}
 			}

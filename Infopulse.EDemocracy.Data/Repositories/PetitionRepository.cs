@@ -1,5 +1,4 @@
-﻿using System.Data.Entity.Infrastructure.MappingViews;
-using Infopulse.EDemocracy.Data.Interfaces;
+﻿using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Model;
 using Infopulse.EDemocracy.Model.Common;
 using System;
