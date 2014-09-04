@@ -1,7 +1,5 @@
 ﻿using Infopulse.EDemocracy.Model.Helpers;
 using System;
-using System.Net.Mail;
-using System.Text;
 
 namespace Infopulse.EDemocracy.Model.BusinessEntities
 {
@@ -12,6 +10,11 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		public string Hash { get; set; }
 		public DateTime CreatedDate { get; set; }
 		public bool IsConfirmed { get; set; }
+		
+
+		public PetitionEmailVote()
+		{
+		}
 
 
 		public PetitionEmailVote(Petition petition, string email)

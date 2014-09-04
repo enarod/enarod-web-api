@@ -95,7 +95,17 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						db.PetitionEmailVotes.Add(emailVote);
 
 						var petition = new Model.BusinessEntities.Petition(db.Petitions.SingleOrDefault(p => p.ID == emailVote.PetitionID));
-						var clientEmailVote = new Model.BusinessEntities.PetitionEmailVote(petition, emailVote.Email);
+						var clientEmailVote =
+							//new Model.BusinessEntities.PetitionEmailVote(petition, emailVote.Email);
+							new Model.BusinessEntities.PetitionEmailVote()
+								{
+									ID = emailVote.ID,
+									Petition = petition,
+									Hash = emailVote.Hash,
+									Email = emailVote.Email,
+									CreatedDate = emailVote.CreatedDate,
+									IsConfirmed = emailVote.IsConfirmed
+								};
 						var notificationSender = new NotificationSender();
 						var sendingResult = notificationSender.SendPetitionVoteConfirmation(petition, clientEmailVote, emailVote.Email);
 
