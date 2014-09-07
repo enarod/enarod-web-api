@@ -19,7 +19,6 @@
         <EntityTypeShape EntityType="EDModel.Invitation" Width="1.5" PointX="10.375" PointY="16.25" />
         <EntityTypeShape EntityType="EDModel.InvitationLink" Width="1.5" PointX="12.625" PointY="11.5" />
         <EntityTypeShape EntityType="EDModel.Person" Width="1.5" PointX="8.125" PointY="28.25" />
-        <EntityTypeShape EntityType="EDModel.Petition" Width="1.5" PointX="5.125" PointY="4.75" />
         <EntityTypeShape EntityType="EDModel.PetitionLevel" Width="1.5" PointX="2.875" PointY="1" />
         <EntityTypeShape EntityType="EDModel.PetitionVote" Width="1.5" PointX="10.375" PointY="8.5" />
         <EntityTypeShape EntityType="EDModel.Photo" Width="1.5" PointX="8.125" PointY="5.625" />
@@ -53,7 +52,6 @@
         <AssociationConnector Association="EDModel.FK_Groups_Entity" />
         <AssociationConnector Association="EDModel.FK_Invitation_Entity" />
         <AssociationConnector Association="EDModel.FK_InvitationLink_Entity" />
-        <AssociationConnector Association="EDModel.FK_Petition_Entity" />
         <AssociationConnector Association="EDModel.FK_Photo_Entity" />
         <AssociationConnector Association="EDModel.FK_Role_Entity" />
         <AssociationConnector Association="EDModel.FK_RoleFunction_Entity" />
@@ -63,18 +61,20 @@
         <AssociationConnector Association="EDModel.FK_RolePeople_Groups" />
         <AssociationConnector Association="EDModel.FK_Invitation_People" />
         <AssociationConnector Association="EDModel.FK_InvitationLink_Invitation" />
-        <AssociationConnector Association="EDModel.FK_Petition_People" />
         <AssociationConnector Association="EDModel.FK_PetitionVote_People" />
         <AssociationConnector Association="EDModel.FK_Photo_People" />
         <AssociationConnector Association="EDModel.FK_RolePeople_People" />
-        <AssociationConnector Association="EDModel.FK_Petition_PetitionLevel" />
-        <AssociationConnector Association="EDModel.FK_PetitionVote_Petition" />
         <AssociationConnector Association="EDModel.FK_RoleFunction_Role" />
         <AssociationConnector Association="EDModel.FK_RolePeople_Role" />
         <EntityTypeShape EntityType="EDModel.vwAgreement" Width="1.5" PointX="0.5" PointY="2.125" FillColor="192, 192, 255" />
         <EntityTypeShape EntityType="EDModel.PetitionEmailVote" Width="1.5" PointX="7.375" PointY="32.75" />
+        <EntityTypeShape EntityType="EDModel.Petition" Width="1.5" PointX="13.375" PointY="15" />
+        <AssociationConnector Association="EDModel.FK_Petition_Entity" />
+        <AssociationConnector Association="EDModel.FK_Petition_People" />
+        <AssociationConnector Association="EDModel.FK_Petition_PetitionLevel" />
         <AssociationConnector Association="EDModel.FK_PetitionEmailVote_Petition" />
-      </Diagram>
+        <AssociationConnector Association="EDModel.FK_PetitionVote_Petition" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

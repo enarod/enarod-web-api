@@ -30,11 +30,11 @@ namespace Infopulse.EDemocracy.Model
             this.Groups = new HashSet<Group>();
             this.Invitations = new HashSet<Invitation>();
             this.InvitationLinks = new HashSet<InvitationLink>();
-            this.Petitions = new HashSet<Petition>();
             this.Photos = new HashSet<Photo>();
             this.Roles = new HashSet<Role>();
             this.RoleFunctions = new HashSet<RoleFunction>();
             this.RolePeoples = new HashSet<RolePeople>();
+            this.Petitions = new HashSet<Petition>();
         }
     
         public long ID { get; set; }
@@ -57,10 +57,10 @@ namespace Infopulse.EDemocracy.Model
         public virtual ICollection<Group> Groups { get; set; }
         public virtual ICollection<Invitation> Invitations { get; set; }
         public virtual ICollection<InvitationLink> InvitationLinks { get; set; }
-        public virtual ICollection<Petition> Petitions { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }
         public virtual ICollection<Role> Roles { get; set; }
         public virtual ICollection<RoleFunction> RoleFunctions { get; set; }
         public virtual ICollection<RolePeople> RolePeoples { get; set; }
+        public virtual ICollection<Petition> Petitions { get; set; }
     }
 }
