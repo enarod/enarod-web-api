@@ -1,6 +1,4 @@
-﻿using System.Configuration;
-using System.Web;
-using Infopulse.EDemocracy.Data.Interfaces;
+﻿using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Data.Repositories;
 using Infopulse.EDemocracy.Model.BusinessEntities;
 using Infopulse.EDemocracy.Model.ClientEntities;
@@ -8,6 +6,7 @@ using Infopulse.EDemocracy.Model.Common;
 using Infopulse.EDemocracy.Web.CORS;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web.Http;
 
@@ -150,7 +149,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 		[HttpPost]
 		[Route("api/petition")]
-		public OperationResult<Petition> Put([FromBody]Petition petition)
+		public OperationResult<Petition> CreatePetition([FromBody]Petition petition)
 		{
 			if (petition == null) return OperationResult<Petition>.Fail(-1, "Unable to parse incoming petition info.");
 			
