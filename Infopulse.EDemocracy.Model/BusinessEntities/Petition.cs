@@ -18,6 +18,7 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		public DateTime EffectiveFrom { get; set; }
 		public DateTime EffectiveTo { get; set; }
 		public long? Limit { get; set; }
+		public string Email { get; set; }
 
 		public int VotesCount { get; set; }
 
@@ -38,22 +39,7 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 			this.EffectiveFrom = petition.EffectiveFrom;
 			this.EffectiveTo = petition.EffectiveTo;
 			this.Limit = petition.Limit;
-		}
-
-		public static Petition Get(long ID)
-		{
-			using (Model.EDEntities db = new Model.EDEntities())
-			{
-				var result = from p in db.Petitions
-							 where p.ID == ID
-							 select p;
-
-				var first = result.FirstOrDefault();
-				if (first == default(Model.Petition))
-					throw new ApplicationException("Petition not found");
-
-				return new Petition(first);
-			}
+			this.Email = petition.Email;
 		}
 
 		public Model.Petition Map()
@@ -71,27 +57,10 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 							CreatedBy = this.CreatedBy.ID,
 							EffectiveFrom = this.EffectiveFrom,
 							EffectiveTo = this.EffectiveTo,
-							Limit = this.Limit
+							Limit = this.Limit,
+							Email = this.Email
 						};
 		}
-
-
-		////public void Save()
-		////{
-		////	using (var db = new Model.EDEntities())
-		////	{
-		////		Save(db);
-		////	}
-		////}
-
-
-		////public void Save(Model.EDEntities db)
-		////{
-		////	var petition = this.Map();
-		////	db.Petitions.Add(petition);
-		////	db.SaveChanges();
-		////	this.ID = petition.ID;
-		////}
 
 
 		public string KeyWordsAsSingleString()

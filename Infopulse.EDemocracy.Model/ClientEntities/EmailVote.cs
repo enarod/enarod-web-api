@@ -2,9 +2,19 @@
 
 namespace Infopulse.EDemocracy.Model.ClientEntities
 {
+	/// <summary>
+	/// Vote via email.
+	/// </summary>
 	public class EmailVote
 	{
-		 public int ID { get; set; }
-		 public string Email { get; set; }
+		/// <summary>
+		/// Entity ID.
+		/// </summary>
+		public long ID { get; set; }
+
+		/// <summary>
+		/// Voter's email.
+		/// </summary>
+		public string Email { get; set; }
 	}
 }

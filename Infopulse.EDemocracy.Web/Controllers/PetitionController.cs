@@ -34,9 +34,20 @@ namespace Infopulse.EDemocracy.Web.Controllers
 			string actionResult;
 			
 			var confirmedPetitionVoteResult = this.petitionVoteRepository.ConfirmPetitionEmailVote(hash);
-			if (confirmedPetitionVoteResult.Data != null)
+			if (confirmedPetitionVoteResult.IsSuccess)
 			{
-				petitionID = confirmedPetitionVoteResult.Data.PetitionID;
+				if (confirmedPetitionVoteResult.Data != null)
+				{
+					petitionID = confirmedPetitionVoteResult.Data.PetitionID;
+				}
+			}
+			else
+			{
+				var petitionByVoteResult = this.petitionVoteRepository.GetPetition(hash);
+				if (petitionByVoteResult.IsSuccess && petitionByVoteResult.Data != null)
+				{
+					petitionID = petitionByVoteResult.Data.ID;
+				}
 			}
 
 			switch (confirmedPetitionVoteResult.ResultCode)

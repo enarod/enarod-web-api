@@ -1,4 +1,5 @@
 ﻿using Infopulse.EDemocracy.Data.Interfaces;
+using Infopulse.EDemocracy.Email;
 using Infopulse.EDemocracy.Model;
 using Infopulse.EDemocracy.Model.Common;
 using System;
@@ -10,6 +11,11 @@ namespace Infopulse.EDemocracy.Data.Repositories
 {
 	public class PetitionRepository : BaseRepository, IPetitionRepository
 	{
+		/// <summary>
+		/// Get petition by ID.
+		/// </summary>
+		/// <param name="petitionID"></param>
+		/// <returns></returns>
 		public OperationResult<clientEntities.Petition> Get(int petitionID)
 		{
 			OperationResult<clientEntities.Petition> result;
@@ -40,6 +46,10 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		}
 
 
+		/// <summary>
+		/// Get all petitions.
+		/// </summary>
+		/// <returns></returns>
 		public OperationResult<IEnumerable<clientEntities.Petition>> Get()
 		{
 			OperationResult<IEnumerable<clientEntities.Petition>> result;
@@ -64,6 +74,11 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		}
 
 
+		/// <summary>
+		/// Search petition by specific word.
+		/// </summary>
+		/// <param name="text"></param>
+		/// <returns></returns>
 		public OperationResult<IEnumerable<clientEntities.Petition>> Search(string text)
 		{
 			OperationResult<IEnumerable<clientEntities.Petition>> result;
@@ -96,6 +111,11 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		}
 
 
+		/// <summary>
+		/// Search petition by specific tag.
+		/// </summary>
+		/// <param name="tag"></param>
+		/// <returns></returns>
 		public OperationResult<IEnumerable<clientEntities.Petition>> KeyWordSearch(string tag)
 		{
 			OperationResult<IEnumerable<clientEntities.Petition>> result;
@@ -149,6 +169,11 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		}
 
 
+		/// <summary>
+		/// Create new petitions.
+		/// </summary>
+		/// <param name="newPetition"></param>
+		/// <returns></returns>
 		public OperationResult<clientEntities.Petition> AddNewPetition(clientEntities.Petition newPetition)
 		{
 			OperationResult<clientEntities.Petition> result;

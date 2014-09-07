@@ -35,7 +35,7 @@ namespace Infopulse.EDemocracy.Model
         public Nullable<long> Limit { get; set; }
         public string Email { get; set; }
     
-        public virtual Entity Entity { get; set; }
+        public virtual Entity Category { get; set; }
         public virtual Person Person { get; set; }
         public virtual PetitionLevel PetitionLevel { get; set; }
         public virtual ICollection<PetitionEmailVote> PetitionEmailVotes { get; set; }

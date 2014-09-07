@@ -12,6 +12,9 @@ using System.Web.Http;
 
 namespace Infopulse.EDemocracy.Web.Controllers.API
 {
+	/// <summary>
+	/// APIs for managing petitions.
+	/// </summary>
 	[CorsPolicyProvider]
 	public class PetitionController : BaseApiController
 	{
@@ -22,6 +25,9 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		private readonly IRegionRepository regionRepository;
 
 
+		/// <summary>
+		/// Default constructor (no DI yet).
+		/// </summary>
 		public PetitionController()
 		{
 			this.petitionRepository = new PetitionRepository();
@@ -34,6 +40,10 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 		#region Get petitions
 
+		/// <summary>
+		/// Get all petitions.
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet]
 		[Route("api/petition")]
 		public OperationResult<IEnumerable<Petition>> Get()
@@ -42,18 +52,28 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		}
 
 
+		/// <summary>
+		/// Get petition by id.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		[HttpGet]
 		[Route("api/petition/{id}")]
 		public OperationResult<Petition> Get(int id)
 		{
 			return this.petitionRepository.Get(id);
 		}
-		
+
 		#endregion
 
 
 		#region Petition search
 
+		/// <summary>
+		/// Search petition by specific word in peetition description or subject.
+		/// </summary>
+		/// <param name="query"></param>
+		/// <returns></returns>
 		[HttpGet]
 		[Route("api/petition/search/{query}")]
 		public OperationResult<IEnumerable<Petition>> Search(string query)
@@ -63,6 +83,11 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		}
 
 
+		/// <summary>
+		/// Search petition by specific tag.
+		/// </summary>
+		/// <param name="tag"></param>
+		/// <returns></returns>
 		[HttpGet]
 		[Route("api/petition/tag/{tag}")]
 		public OperationResult<IEnumerable<Petition>> KeyWordSearch(string tag)
@@ -72,11 +97,16 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		}
 
 
-			#endregion
+		#endregion
 
 
 		#region Vote
 
+		/// <summary>
+		/// Vote for petition by digital signature.
+		/// </summary>
+		/// <param name="vote">Petition vote via digital signature tool.</param>
+		/// <returns></returns>
 		[HttpPost]
 		[Route("api/petition/digitalSignatureVote")]
 		public OperationResult DigitalSignatureVote(ClientPetitionVote vote)
@@ -136,6 +166,11 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		}
 
 
+		/// <summary>
+		/// Vote for petition by email.
+		/// </summary>
+		/// <param name="vote">Petition vote via email.</param>
+		/// <returns></returns>
 		[HttpPost]
 		[Route("api/petition/emailVote")]
 		public OperationResult EmailVote(EmailVote vote)
@@ -147,17 +182,42 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		#endregion
 
 
+		/// <summary>
+		/// Create new petition.
+		/// </summary>
+		/// <param name="petition"></param>
+		/// <returns></returns>
 		[HttpPost]
 		[Route("api/petition")]
 		public OperationResult<Petition> CreatePetition([FromBody]Petition petition)
 		{
+			OperationResult<Petition> result;
+
 			if (petition == null) return OperationResult<Petition>.Fail(-1, "Unable to parse incoming petition info.");
-			
+
 			petition.Limit = int.Parse(ConfigurationManager.AppSettings["NewPetitionLimit"]);
 			petition.CreatedBy = new People() { Login = ConfigurationManager.AppSettings["AnonymousUserName"] };
-			
 
-			return this.petitionRepository.AddNewPetition(petition);
+			var createPetitionResult = this.petitionRepository.AddNewPetition(petition);
+			if (!createPetitionResult.IsSuccess) return createPetitionResult;
+
+			var createPetitionConfirmationResult = this.petitionVoteRepository.EmailVote(new EmailVote { ID = createPetitionResult.Data.ID, Email = petition.Email });
+
+			if (createPetitionConfirmationResult.IsSuccess)
+			{
+				result = OperationResult<Petition>.Success(
+					1,
+					"Для підтвердження створення петиції перейдіть за посиланням, надісланому вам на email.",
+					createPetitionResult.Data);
+			}
+			else
+			{
+				result = OperationResult<Petition>.Fail(
+					createPetitionConfirmationResult.ResultCode,
+					createPetitionConfirmationResult.Message);
+			}
+
+			return result;
 		}
 
 
@@ -172,6 +232,11 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		//}
 
 
+		/// <summary>
+		/// Clear votes for specific petition. [For testing purposes only!]
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		[HttpDelete]
 		[Route("api/petition/{id}")]
 		public OperationResult Delete([FromUri] int id)
@@ -183,6 +248,10 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		#endregion
 
 
+		/// <summary>
+		/// Get all petition levels.
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet]
 		[Route("api/petition/level")]
 		public OperationResult<IEnumerable<PetitionLevel>> GetPetitionLevels()
@@ -192,6 +261,10 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		}
 
 
+		/// <summary>
+		/// Get all petition categories.
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet]
 		[Route("api/petition/category")]
 		public OperationResult<IEnumerable<Entity>> GetPetitionCategories()
@@ -201,6 +274,11 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		}
 
 
+		/// <summary>
+		/// Get all regions for specific petition level.
+		/// </summary>
+		/// <param name="petitionLevelID"></param>
+		/// <returns></returns>
 		[HttpGet]
 		[Route("api/petition/region/{petitionLevelID}")]
 		public OperationResult<IEnumerable<Region>> GetPetitionRegions(int petitionLevelID)

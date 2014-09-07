@@ -2047,7 +2047,7 @@
           <Property Name="EffectiveTo" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Limit" Type="Int64" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Entity" Relationship="EDModel.FK_Petition_Entity" FromRole="Petition" ToRole="Entity" />
+          <NavigationProperty Name="Category" Relationship="EDModel.FK_Petition_Entity" FromRole="Petition" ToRole="Entity" />
           <NavigationProperty Name="Person" Relationship="EDModel.FK_Petition_People" FromRole="Petition" ToRole="Person" />
           <NavigationProperty Name="PetitionLevel" Relationship="EDModel.FK_Petition_PetitionLevel" FromRole="Petition" ToRole="PetitionLevel" />
           <NavigationProperty Name="PetitionEmailVotes" Relationship="EDModel.FK_PetitionEmailVote_Petition" FromRole="Petition" ToRole="PetitionEmailVote" />
