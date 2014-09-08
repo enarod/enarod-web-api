@@ -127,6 +127,7 @@
     <EmbeddedResource Include="EmailTemplates\PetitionVoteConfirmation.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Content Include="App_Data\XmlDocument.xml" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <EmbeddedResource Include="EmailTemplates\PetitionCreateConfirmation.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -214,9 +215,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Infopulse.EDemocracy.Data\Infopulse.EDemocracy.Data.csproj">
       <Project>{dbaf3a5c-dbf6-4bdb-b580-564aebc2288a}</Project>

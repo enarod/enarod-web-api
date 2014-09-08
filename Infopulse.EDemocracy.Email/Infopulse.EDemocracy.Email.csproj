@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Action.cs" />
     <Compile Include="EmailService.cs" />
     <Compile Include="Mailbox.cs" />
     <Compile Include="NotificationSender.cs" />

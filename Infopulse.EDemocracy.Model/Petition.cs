@@ -16,8 +16,8 @@ namespace Infopulse.EDemocracy.Model
     {
         public Petition()
         {
-            this.PetitionEmailVotes = new HashSet<PetitionEmailVote>();
             this.PetitionVotes = new HashSet<PetitionVote>();
+            this.PetitionEmailVotes = new HashSet<PetitionEmailVote>();
         }
     
         public long ID { get; set; }
@@ -38,7 +38,7 @@ namespace Infopulse.EDemocracy.Model
         public virtual Entity Category { get; set; }
         public virtual Person Person { get; set; }
         public virtual PetitionLevel PetitionLevel { get; set; }
-        public virtual ICollection<PetitionEmailVote> PetitionEmailVotes { get; set; }
         public virtual ICollection<PetitionVote> PetitionVotes { get; set; }
+        public virtual ICollection<PetitionEmailVote> PetitionEmailVotes { get; set; }
     }
 }

@@ -39,6 +39,7 @@ namespace Infopulse.EDemocracy.Model
         public virtual DbSet<Invitation> Invitations { get; set; }
         public virtual DbSet<InvitationLink> InvitationLinks { get; set; }
         public virtual DbSet<Person> People { get; set; }
+        public virtual DbSet<Petition> Petitions { get; set; }
         public virtual DbSet<PetitionLevel> PetitionLevels { get; set; }
         public virtual DbSet<PetitionVote> PetitionVotes { get; set; }
         public virtual DbSet<Photo> Photos { get; set; }
@@ -47,6 +48,5 @@ namespace Infopulse.EDemocracy.Model
         public virtual DbSet<RolePeople> RolePeoples { get; set; }
         public virtual DbSet<vwAgreement> vwAgreements { get; set; }
         public virtual DbSet<PetitionEmailVote> PetitionEmailVotes { get; set; }
-        public virtual DbSet<Petition> Petitions { get; set; }
     }
 }

@@ -30,7 +30,13 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 			this.Level = new PetitionLevel(petition.PetitionLevel);
 			this.AddressedTo = petition.AddressedTo;
 			this.Subject = petition.Subject;
-			this.Category = new Entity(petition.CategoryID);
+			this.Category = new Entity()
+							{
+								ID = petition.Category.ID,
+								Name = petition.Category.Name,
+								Description = petition.Category.Description,
+								Group = new EntityGroup(petition.Category.EntityGroup)
+							};
 			this.Text = petition.Text;
 			this.Requirements = petition.Requirements;
 			this.KeyWords = petition.KeyWords.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();

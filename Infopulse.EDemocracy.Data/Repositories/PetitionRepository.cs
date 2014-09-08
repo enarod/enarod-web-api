@@ -133,8 +133,8 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						//from petition in db.Petitions
 						//where petition.KeyWords.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Contains(tag)
 						//select petition;
-						db.Petitions.ToList().Where(p => p.KeyWords.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Contains(tag));
-					
+						db.Petitions.ToList().Where(p => p.KeyWords.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Contains(tag));
+
 					var clientPetitions = this.GetPetitionsUnderLimit(db, petitions);
 					result = OperationResult<IEnumerable<clientEntities.Petition>>.Success(clientPetitions);
 				}
@@ -154,13 +154,13 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			foreach (var petition in petitions)
 			{
 				var votesCount = db.PetitionVotes.Count(p => p.PetitionID == petition.ID) +
-				                 db.PetitionEmailVotes.Count(p => p.PetitionID == petition.ID);
+								 db.PetitionEmailVotes.Count(p => p.PetitionID == petition.ID);
 				if (votesCount > petition.Limit)
 				{
 					var clientPetition = new clientEntities.Petition(petition)
-					                     {
-						                     VotesCount = votesCount
-					                     };
+										 {
+											 VotesCount = votesCount
+										 };
 					petitionsUnderLimit.Add(clientPetition);
 				}
 			}
@@ -182,6 +182,9 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			{
 				using (var db = new EDEntities())
 				{
+					var script = string.Empty;
+					db.Database.Log = s => script += s;
+
 					// TODO: add petition already exists check
 					var petition =
 						new Petition()

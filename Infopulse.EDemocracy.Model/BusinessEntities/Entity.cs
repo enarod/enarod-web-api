@@ -18,12 +18,12 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
             Map(entity);
 		}
 
-        public Entity(string Name)
+        public Entity(string entityName)
         {
-            using (Model.EDEntities db = new EDEntities())
+            using (var db = new EDEntities())
             {
                 var result = from p in db.Entities
-                             where p.Name == Name
+                             where p.Name == entityName
                              select p;
 
                 var first = result.FirstOrDefault();
@@ -34,12 +34,12 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
             }
         }
 
-        public Entity(long ID)
+        public Entity(long entityID)
         {
-            using (Model.EDEntities db = new EDEntities())
+            using (var db = new EDEntities())
             {
                 var result = from p in db.Entities
-                             where p.ID == ID
+                             where p.ID == entityID
                              select p;
 
                 var first = result.FirstOrDefault();
@@ -50,9 +50,9 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
             }
         }
 
-        public bool Equals(string Name)
+        public bool Equals(string entityName)
         {
-            return this.Name.ToUpper().Equals(Name.ToUpper());
+            return this.Name.ToUpper().Equals(entityName.ToUpper());
         }
 
         private void Map(Model.Entity entity)
