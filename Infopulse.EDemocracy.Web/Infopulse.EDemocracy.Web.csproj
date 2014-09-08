@@ -128,6 +128,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <EmbeddedResource Include="EmailTemplates\PetitionCreateConfirmation.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
