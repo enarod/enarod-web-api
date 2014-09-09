@@ -38,7 +38,7 @@ namespace Infopulse.EDemocracy.Web.Controllers
 			{
 				if (confirmedPetitionVoteResult.Data != null)
 				{
-					petitionID = confirmedPetitionVoteResult.Data.PetitionID;
+					petitionID = confirmedPetitionVoteResult.Data.Petition.ID;
 				}
 			}
 			else

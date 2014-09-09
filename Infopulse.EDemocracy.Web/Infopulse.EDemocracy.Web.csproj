@@ -124,14 +124,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EmailTemplates\PetitionVoteConfirmation.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <Content Include="EmailTemplates\PetitionVoteConfirmation.html" />
     <Content Include="App_Data\XmlDocument.xml" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
-    <EmbeddedResource Include="EmailTemplates\PetitionCreateConfirmation.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <Content Include="EmailTemplates\PetitionCreateConfirmation.html" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -220,6 +216,10 @@
     <ProjectReference Include="..\Infopulse.EDemocracy.Data\Infopulse.EDemocracy.Data.csproj">
       <Project>{dbaf3a5c-dbf6-4bdb-b580-564aebc2288a}</Project>
       <Name>Infopulse.EDemocracy.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infopulse.EDemocracy.Email\Infopulse.EDemocracy.Email.csproj">
+      <Project>{c4268eaf-5395-4731-ac21-656893e6de9b}</Project>
+      <Name>Infopulse.EDemocracy.Email</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infopulse.EDemocracy.Model\Infopulse.EDemocracy.Model.csproj">
       <Project>{044C41CB-2DF9-40DA-8A41-D6A54379C76C}</Project>

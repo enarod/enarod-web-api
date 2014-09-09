@@ -197,7 +197,8 @@ namespace Infopulse.EDemocracy.Data.Repositories
 							EffectiveTo = newPetition.EffectiveTo == default(DateTime) ? DateTime.Now.AddDays(7) : newPetition.EffectiveTo,
 							CreatedDate = DateTime.Now,
 							Limit = newPetition.Limit,
-							AddressedTo = newPetition.AddressedTo
+							AddressedTo = newPetition.AddressedTo,
+							Email = newPetition.Email
 						};
 
 					// CreatedBy
@@ -215,7 +216,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					var petitionCategory = db.Entities.SingleOrDefault(c => c.Name == newPetition.Category.Name);
 					if (petitionCategory == null)
 					{
-						result = OperationResult<clientEntities.Petition>.Fail(-2, "Unknown petition category.");
+						result = OperationResult<clientEntities.Petition>.Fail(-2, string.Format("Unknown petition category - {0}.", newPetition.Category.Name));
 						return result;
 					}
 					else

@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,7 +43,15 @@
   <ItemGroup>
     <Compile Include="Action.cs" />
     <Compile Include="EmailService.cs" />
-    <Compile Include="Mailbox.cs" />
+    <Compile Include="eNarod\NotificationService.cs" />
+    <Compile Include="eNarod\Notifications\PetitionCreatedNotification.cs" />
+    <Compile Include="eNarod\Notifications\PetitionVoteNotification.cs" />
+    <Compile Include="EnarodMailbox.cs" />
+    <Compile Include="eNarod\Notifications\NotificationBase.cs" />
+    <Compile Include="eNarod\Templates\PetitionCreatedTemaplte.cs" />
+    <Compile Include="eNarod\Templates\PetitionVoteTemplate.cs" />
+    <Compile Include="eNarod\Templates\Template.cs" />
+    <Compile Include="eNarod\Templates\TemplateMap.cs" />
     <Compile Include="NotificationSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sender.cs" />

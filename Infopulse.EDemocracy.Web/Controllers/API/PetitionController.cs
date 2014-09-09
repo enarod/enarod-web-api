@@ -1,5 +1,8 @@
-﻿using Infopulse.EDemocracy.Data.Interfaces;
+﻿using System.Threading;
+using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Data.Repositories;
+using Infopulse.EDemocracy.Email.eNarod;
+using Infopulse.EDemocracy.Email.eNarod.Notifications;
 using Infopulse.EDemocracy.Model.BusinessEntities;
 using Infopulse.EDemocracy.Model.ClientEntities;
 using Infopulse.EDemocracy.Model.Common;
@@ -175,7 +178,31 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		[Route("api/petition/emailVote")]
 		public OperationResult EmailVote(EmailVote vote)
 		{
-			var result = this.petitionVoteRepository.EmailVote(vote);
+			OperationResult result;
+			var emailVoteAddedResult = this.petitionVoteRepository.EmailVote(vote);
+
+			if (emailVoteAddedResult.IsSuccess)
+			{
+				var notification = new PetitionVoteNotification(emailVoteAddedResult.Data);
+				var sendingResult = NotificationService.Send(notification);
+				if (sendingResult.IsSuccess)
+				{
+					result = OperationResult.Success(sendingResult.ResultCode, sendingResult.Message);
+				}
+				else
+				{
+					result = OperationResult.Fail(
+						-10,
+						string.Format("Сталася помилка при спробі відправити запит на підтвердження голосування на email {0}", vote.Email));
+				}
+			}
+			else
+			{
+				result = OperationResult.Fail(
+					-11,
+					string.Format("Сталася помилка під час спроби проголосувати. Ваш голос не зараховано!"));
+			}
+
 			return result;
 		}
 
@@ -195,15 +222,54 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 			if (petition == null) return OperationResult<Petition>.Fail(-1, "Unable to parse incoming petition info.");
 
+			// HACK:
+			if (petition.Category == null || string.IsNullOrWhiteSpace(petition.Category.Name))
+			{
+				petition.Category = new Entity()
+									{
+										Name = EntityDictionary.Petition.Category.Etc
+									};
+			}
+
+			// HACK:
+			if (petition.Level == null || petition.Level.ID == default(int))
+			{
+				petition.Level = new PetitionLevel()
+								 {
+									 ID = 3
+								 };
+			}
+
+			// HACK:
+			if (string.IsNullOrWhiteSpace(petition.AddressedTo))
+			{
+				petition.AddressedTo = string.Empty;
+			}
+
 			petition.Limit = int.Parse(ConfigurationManager.AppSettings["NewPetitionLimit"]);
 			petition.CreatedBy = new People() { Login = ConfigurationManager.AppSettings["AnonymousUserName"] };
 
+			// create petition:
 			var createPetitionResult = this.petitionRepository.AddNewPetition(petition);
 			if (!createPetitionResult.IsSuccess) return createPetitionResult;
 
-			var createPetitionConfirmationResult = this.petitionVoteRepository.EmailVote(new EmailVote { ID = createPetitionResult.Data.ID, Email = petition.Email });
+			// add email vote record to DB:
+			var emailVoteAdded = this.petitionVoteRepository.EmailVote(new EmailVote { ID = createPetitionResult.Data.ID, Email = petition.Email });
+			if (!emailVoteAdded.IsSuccess)
+			{
+				result = OperationResult<Petition>.Fail(
+					emailVoteAdded.ResultCode,
+					emailVoteAdded.Message);
+				return result;
+			}
 
-			if (createPetitionConfirmationResult.IsSuccess)
+			// send creation confirmation notification:
+			var notification = new PetitionCreatedNotification(
+					createPetitionResult.Data,
+					emailVoteAdded.Data.ConfirmUrl);
+			var sentResult = NotificationService.Send(notification);
+
+			if (sentResult.IsSuccess)
 			{
 				result = OperationResult<Petition>.Success(
 					1,
@@ -213,8 +279,8 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			else
 			{
 				result = OperationResult<Petition>.Fail(
-					createPetitionConfirmationResult.ResultCode,
-					createPetitionConfirmationResult.Message);
+					-13,
+					"Під час спроби відправити листа сталася помилка. Перевірте правильність вказаного вами email'а і спробуйте ще раз.");
 			}
 
 			return result;

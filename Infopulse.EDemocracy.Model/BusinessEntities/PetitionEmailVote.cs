@@ -10,6 +10,19 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		public string Hash { get; set; }
 		public DateTime CreatedDate { get; set; }
 		public bool IsConfirmed { get; set; }
+
+		public string ConfirmUrl
+		{
+			get
+			{
+				if (string.IsNullOrWhiteSpace(this.Hash))
+				{
+					throw new ArgumentException("Hash cannot be empty.", "Hash");
+				}
+
+				return string.Format("https://enarod.org/app/petition/vote?hash={0}", this.Hash);
+			}
+		}
 		
 
 		public PetitionEmailVote()
@@ -17,14 +30,13 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		}
 
 
-		public PetitionEmailVote(Petition petition, string email)
+		public PetitionEmailVote(Model.PetitionEmailVote emailVote)
 		{
-			this.Petition = petition;
-			this.Email = email;
-			this.CreatedDate = DateTime.Now;
-			this.IsConfirmed = false;
-
-			this.Hash = HashGenerator.Generate();
+			this.ID = emailVote.ID;
+			this.Email = emailVote.Email;
+			this.Hash = emailVote.Hash;
+			this.IsConfirmed = emailVote.IsConfirmed;
+			this.CreatedDate = emailVote.CreatedDate;
 		}
 	}
 }

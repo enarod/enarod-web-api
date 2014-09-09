@@ -7,9 +7,9 @@ namespace Infopulse.EDemocracy.Data.Interfaces
 	public interface IPetitionVoteRepository
 	{
 		OperationResult Vote(ClientPetitionVote vote, string certificateSerialNumber);
-		OperationResult EmailVote(EmailVote vote);
-		OperationResult<PetitionEmailVote> ConfirmPetitionEmailVote(string hash);
-		OperationResult<Petition> GetPetition(string hash);
+		OperationResult<Model.BusinessEntities.PetitionEmailVote> EmailVote(EmailVote vote);
+		OperationResult<Model.BusinessEntities.PetitionEmailVote> ConfirmPetitionEmailVote(string hash);
+		OperationResult<Model.BusinessEntities.Petition> GetPetition(string hash);
 		OperationResult ClearVotes();
 		OperationResult ClearVote(int petitionID);
 	}

@@ -36,7 +36,7 @@
                 public const string Transport = "P_Petition_Category_Transport";
                 public const string Ecology = "P_Petition_Category_Ecology";
                 public const string ArrangeState = "P_Petition_Category_ArrangeState";
-                public const string Etc = "P_Petition_Category_Etc";
+				public const string Etc = "P_Petition_Category_Etc";
             }
         }
 

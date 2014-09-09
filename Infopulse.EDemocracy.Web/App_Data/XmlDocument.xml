@@ -581,5 +581,10 @@
             </summary>
             <remarks>See http://www.asp.net/web-api/overview/security/enabling-cross-origin-requests-in-web-api#cors-policy-providers for details.</remarks>
         </member>
+        <member name="T:Infopulse.EDemocracy.Web.Global">
+            <summary>
+            Application.
+            </summary>
+        </member>
     </members>
 </doc>

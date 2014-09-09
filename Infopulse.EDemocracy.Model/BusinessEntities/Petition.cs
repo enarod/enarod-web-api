@@ -22,6 +22,14 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 
 		public int VotesCount { get; set; }
 
+		public string Url
+		{
+			get
+			{
+				return string.Format("https://enarod.org/petition/#petition/{0}", this.ID);
+			}
+		}
+
 		public Petition(Model.Petition petition)
 		{
 			if (petition == null) return;

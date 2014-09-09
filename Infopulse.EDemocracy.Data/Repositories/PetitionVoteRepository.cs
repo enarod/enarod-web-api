@@ -1,11 +1,16 @@
 ﻿using Infopulse.EDemocracy.Data.Interfaces;
-using Infopulse.EDemocracy.Email;
+using Infopulse.EDemocracy.Email.eNarod;
+using Infopulse.EDemocracy.Email.eNarod.Notifications;
 using Infopulse.EDemocracy.Model;
+using Infopulse.EDemocracy.Model.BusinessEntities;
 using Infopulse.EDemocracy.Model.ClientEntities;
 using Infopulse.EDemocracy.Model.Common;
 using Infopulse.EDemocracy.Model.Helpers;
 using System;
 using System.Linq;
+using Certificate = Infopulse.EDemocracy.Model.Certificate;
+using PetitionEmailVote = Infopulse.EDemocracy.Model.PetitionEmailVote;
+using PetitionVote = Infopulse.EDemocracy.Model.PetitionVote;
 
 namespace Infopulse.EDemocracy.Data.Repositories
 {
@@ -65,9 +70,9 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		}
 
 
-		public OperationResult EmailVote(EmailVote vote)
+		public OperationResult<Model.BusinessEntities.PetitionEmailVote> EmailVote(EmailVote vote)
 		{
-			OperationResult result;
+			OperationResult<Model.BusinessEntities.PetitionEmailVote> result;
 
 			try
 			{
@@ -78,8 +83,8 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					if (emailVote != null)
 					{
 						result = emailVote.IsConfirmed
-							? OperationResult.Fail(-2, "Ви вже проголосували за цю петицію.")
-							: OperationResult.Success(1, "Ваш голос чекає підтвердження електронної пошти. Перевірте вашу поштову скриньку.");
+							? OperationResult<Model.BusinessEntities.PetitionEmailVote>.Fail(-2, "Ви вже проголосували за цю петицію.")
+							: OperationResult<Model.BusinessEntities.PetitionEmailVote>.Success(1, string.Format("Ваш голос чекає підтвердження. Перевірте вашу поштову скриньку {0}.", emailVote.Email), null);
 					}
 					else
 					{
@@ -93,10 +98,10 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						};
 
 						db.PetitionEmailVotes.Add(emailVote);
+						db.SaveChanges();
 
 						var petition = new Model.BusinessEntities.Petition(db.Petitions.SingleOrDefault(p => p.ID == emailVote.PetitionID));
 						var clientEmailVote =
-							//new Model.BusinessEntities.PetitionEmailVote(petition, emailVote.Email);
 							new Model.BusinessEntities.PetitionEmailVote()
 								{
 									ID = emailVote.ID,
@@ -106,25 +111,17 @@ namespace Infopulse.EDemocracy.Data.Repositories
 									CreatedDate = emailVote.CreatedDate,
 									IsConfirmed = emailVote.IsConfirmed
 								};
-						var notificationSender = new NotificationSender();
-						var sendingResult = notificationSender.SendPetitionVoteConfirmation(petition, clientEmailVote, emailVote.Email);
 
-						if (sendingResult.IsSuccess)
-						{
-							db.SaveChanges();
-							result = OperationResult.Success(1,
-								"Ваш голос чекає підтвердження електронної пошти. Перевірте вашу поштову скриньку.");
-						}
-						else
-						{
-							result = sendingResult;
-						}
+						result = OperationResult<Model.BusinessEntities.PetitionEmailVote>.Success(
+								1,
+								string.Format("Ваш голос чекає підтвердження. Перевірте вашу поштову скриньку {0}.", emailVote.Email),
+								clientEmailVote);
 					}
 				}
 			}
 			catch (Exception exc)
 			{
-				result = OperationResult.ExceptionResult(exc);
+				result = OperationResult<Model.BusinessEntities.PetitionEmailVote>.ExceptionResult(exc);
 			}
 
 			return result;
@@ -136,9 +133,9 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		/// </summary>
 		/// <param name="hash">PetitionID-Email hash.</param>
 		/// <returns>Confirmed PetitionVote.</returns>
-		public OperationResult<PetitionEmailVote> ConfirmPetitionEmailVote(string hash)
+		public OperationResult<Model.BusinessEntities.PetitionEmailVote> ConfirmPetitionEmailVote(string hash)
 		{
-			OperationResult<PetitionEmailVote> result;
+			OperationResult<Model.BusinessEntities.PetitionEmailVote> result;
 
 			try
 			{
@@ -148,34 +145,36 @@ namespace Infopulse.EDemocracy.Data.Repositories
 
 					if (emailVote == default(PetitionEmailVote))
 					{
-						result = OperationResult<PetitionEmailVote>.Fail(-3, "Петиція не знайдена.");
+						result = OperationResult<Model.BusinessEntities.PetitionEmailVote>.Fail(-3, "Петиція не знайдена.");
 						return result;
 					}
 
 					if (emailVote.IsConfirmed)
 					{
-						result = OperationResult<PetitionEmailVote>.Fail(-2, "Ви вже проголосували за цю петицію.");
+						result = OperationResult<Model.BusinessEntities.PetitionEmailVote>.Fail(-2, "Ви вже проголосували за цю петицію.");
 						return result;
 					}
 
 					emailVote.IsConfirmed = true;
 					db.SaveChanges();
 
-					result = OperationResult<PetitionEmailVote>.Success(1, "Ви успішно проголосували за петицію.", emailVote);
+					var emailVoteBusiness = new Model.BusinessEntities.PetitionEmailVote(emailVote);
+					emailVoteBusiness.Petition = new Model.BusinessEntities.Petition(db.Petitions.SingleOrDefault(p => p.ID == emailVote.PetitionID));
+					result = OperationResult<Model.BusinessEntities.PetitionEmailVote>.Success(1, "Ви успішно проголосували за петицію.", emailVoteBusiness);
 				}
 			}
 			catch (Exception ex)
 			{
-				result = OperationResult<PetitionEmailVote>.Fail(-1, ex.Message);
+				result = OperationResult<Model.BusinessEntities.PetitionEmailVote>.Fail(-1, ex.Message);
 			}
 
 			return result;
 		}
 
 
-		public OperationResult<Petition> GetPetition(string hash)
+		public OperationResult<Model.BusinessEntities.Petition> GetPetition(string hash)
 		{
-			OperationResult<Petition> result;
+			OperationResult<Model.BusinessEntities.Petition> result;
 
 			try
 			{
@@ -184,17 +183,17 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					var petitionEmailVote = db.PetitionEmailVotes.SingleOrDefault(v => v.Hash == hash);
 					if (petitionEmailVote == null)
 					{
-						result = OperationResult<Petition>.Fail(-2, "Petition email vote for such hash not found.");
+						result = OperationResult<Model.BusinessEntities.Petition>.Fail(-2, "Petition email vote for such hash not found.");
 						return result;
 					}
 
 					var petition = db.Petitions.SingleOrDefault(p => p.ID == petitionEmailVote.PetitionID);
-					result = OperationResult<Petition>.Success(1, "Success.", petition);
+					result = OperationResult<Model.BusinessEntities.Petition>.Success(1, "Success.", new Model.BusinessEntities.Petition(petition));
 				}
 			}
 			catch (Exception exception)
 			{
-				result = OperationResult<Petition>.ExceptionResult(exception);
+				result = OperationResult<Model.BusinessEntities.Petition>.ExceptionResult(exception);
 			}
 
 			return result;
