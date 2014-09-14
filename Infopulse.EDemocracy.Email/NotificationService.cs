@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net;
 using System.Net.Mail;
-using Infopulse.EDemocracy.Email.eNarod.Notifications;
+using Infopulse.EDemocracy.Email.Notifications;
 using Infopulse.EDemocracy.Model.Common;
 
-namespace Infopulse.EDemocracy.Email.eNarod
+namespace Infopulse.EDemocracy.Email
 {
 	public static class NotificationService
 	{
@@ -48,7 +48,7 @@ namespace Infopulse.EDemocracy.Email.eNarod
 			{
 				NotificationService.Client.Send(message);
 
-				result = OperationResult.Success(1, notification.SuccessfulySentMessage);
+				result = OperationResult.Success(11, notification.SuccessfulySentMessage);
 			}
 			catch (Exception exception)
 			{

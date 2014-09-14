@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Web;
 
-namespace Infopulse.EDemocracy.Email.eNarod.Templates
+namespace Infopulse.EDemocracy.Email.Templates
 {
 	public abstract class Template
 	{

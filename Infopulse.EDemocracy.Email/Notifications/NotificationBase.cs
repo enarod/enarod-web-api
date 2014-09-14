@@ -1,7 +1,7 @@
-﻿using Infopulse.EDemocracy.Email.eNarod.Templates;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Infopulse.EDemocracy.Email.Templates;
 
-namespace Infopulse.EDemocracy.Email.eNarod.Notifications
+namespace Infopulse.EDemocracy.Email.Notifications
 {
 	public abstract class NotificationBase
 	{

@@ -1,7 +1,7 @@
-using Infopulse.EDemocracy.Model.BusinessEntities;
 using System.Collections.Generic;
+using Infopulse.EDemocracy.Model.BusinessEntities;
 
-namespace Infopulse.EDemocracy.Email.eNarod.Notifications
+namespace Infopulse.EDemocracy.Email.Notifications
 {
 	public class PetitionCreatedNotification : NotificationBase
 	{

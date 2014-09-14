@@ -1,4 +1,4 @@
-namespace Infopulse.EDemocracy.Email.eNarod.Templates
+namespace Infopulse.EDemocracy.Email.Templates
 {
 	public class PetitionCreatedTemaplte : Template
 	{
