@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity.Migrations.Model;
 
 namespace Infopulse.EDemocracy.Model.Common
 {
@@ -17,6 +18,12 @@ namespace Infopulse.EDemocracy.Model.Common
 		/// Operation result message.
 		/// </summary>
 		public string Message { get; set; }
+
+
+		/// <summary>
+		/// Debug message. Should not be displayed to user.
+		/// </summary>
+		public string DebugMessage { get; set; }
 
 
 		/// <summary>
@@ -84,20 +91,30 @@ namespace Infopulse.EDemocracy.Model.Common
 		}
 
 
+		public static OperationResult CopyFrom(OperationResult otherResult)
+		{
+			return new OperationResult
+				   {
+					   ResultCode = otherResult.ResultCode,
+					   Message = otherResult.Message
+				   };
+		}
+
+
 		/// <summary>
 		/// Sets failed operation result caused by unhandled exception.
 		/// </summary>
 		/// <param name="exc">Exception that causued operation failure.</param>
+		/// <param name="resultCode">Optional result code.</param>
 		/// <returns>failed operation result.</returns>
-		public static OperationResult ExceptionResult(Exception exc)
+		public static OperationResult ExceptionResult(Exception exc, int resultCode = -1)
 		{
+			var innerExceptionMessage = OperationResult.GetInnerException(exc).Message;
 			return new OperationResult
 				   {
-					   ResultCode = -1,
-					   Message = string.Format(
-							"Unhandled exception has occued.{0}{1}",
-							Environment.NewLine,
-							OperationResult.GetInnerException(exc).Message)
+					   ResultCode = resultCode,
+					   Message = string.Format("Unhandled exception has occued. Please contact the administrator.{0}Message:{0}{1}", Environment.NewLine, innerExceptionMessage),
+					   DebugMessage = innerExceptionMessage
 				   };
 		}
 

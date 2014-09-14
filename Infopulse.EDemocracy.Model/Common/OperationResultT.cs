@@ -18,7 +18,7 @@ namespace Infopulse.EDemocracy.Model.Common
 		/// Sets successful operation result with specific data.
 		/// </summary>
 		/// <param name="data">Data that has been returned as operation result.</param>
-		/// <returns>Successfull operation result with data.</returns>
+		/// <returns>Successful operation result with data.</returns>
 		public static OperationResult<T> Success(T data)
 		{
 			return OperationResult<T>.Success(1, "Success", data);
@@ -69,6 +69,17 @@ namespace Infopulse.EDemocracy.Model.Common
 				};
 		}
 
+		
+		public static OperationResult<T> CopyFrom(OperationResult originalResult, T data = default(T))
+		{
+			return new OperationResult<T>
+			       {
+				       ResultCode = originalResult.ResultCode,
+				       Message = originalResult.Message,
+				       Data = data
+			       };
+		}
+		
 
 		/// <summary>
 		/// Sets failed operation result casued by unhandled exception.
@@ -77,10 +88,12 @@ namespace Infopulse.EDemocracy.Model.Common
 		/// <returns>Failed operation result.</returns>
 		public static new OperationResult<T> ExceptionResult(Exception exc)
 		{
+			var innerExceptionMessage = OperationResult.GetInnerException(exc).Message;
 			return new OperationResult<T>
 			{
 				ResultCode = -1,
-				Message = OperationResult.GetInnerException(exc).Message,
+				Message = string.Format("Unhandled exception has occued. Please contact the administrator.{0}Message:{0}{1}", Environment.NewLine, innerExceptionMessage),
+				DebugMessage = innerExceptionMessage,
 				Data = default(T)
 			};
 		}
