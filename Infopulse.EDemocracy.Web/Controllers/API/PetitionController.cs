@@ -1,8 +1,7 @@
-﻿using System.Threading;
-using Infopulse.EDemocracy.Data.Interfaces;
+﻿using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Data.Repositories;
-using Infopulse.EDemocracy.Email.eNarod;
-using Infopulse.EDemocracy.Email.eNarod.Notifications;
+using Infopulse.EDemocracy.Email;
+using Infopulse.EDemocracy.Email.Notifications;
 using Infopulse.EDemocracy.Model.BusinessEntities;
 using Infopulse.EDemocracy.Model.ClientEntities;
 using Infopulse.EDemocracy.Model.Common;
@@ -179,28 +178,26 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		public OperationResult EmailVote(EmailVote vote)
 		{
 			OperationResult result;
-			var emailVoteAddedResult = this.petitionVoteRepository.EmailVote(vote);
 
-			if (emailVoteAddedResult.IsSuccess)
+			var emailVoteRequest = this.petitionVoteRepository.CreateEmailVoteRequest(vote);
+
+			if (!emailVoteRequest.IsSuccess)
 			{
-				var notification = new PetitionVoteNotification(emailVoteAddedResult.Data);
-				var sendingResult = NotificationService.Send(notification);
-				if (sendingResult.IsSuccess)
-				{
-					result = OperationResult.Success(sendingResult.ResultCode, sendingResult.Message);
-				}
-				else
-				{
-					result = OperationResult.Fail(
-						-10,
-						string.Format("Сталася помилка при спробі відправити запит на підтвердження голосування на email {0}", vote.Email));
-				}
+				result = emailVoteRequest;
+				return result;
+			}
+
+			var notification = new PetitionVoteNotification(emailVoteRequest.Data);
+			var sendingResult = NotificationService.Send(notification);
+			if (sendingResult.IsSuccess)
+			{
+				result = sendingResult;
 			}
 			else
 			{
 				result = OperationResult.Fail(
 					-11,
-					string.Format("Сталася помилка під час спроби проголосувати. Ваш голос не зараховано!"));
+					string.Format("Не вдалось відправити запит на підтвердження голосування на email {0}", vote.Email));
 			}
 
 			return result;
@@ -254,12 +251,10 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			if (!createPetitionResult.IsSuccess) return createPetitionResult;
 
 			// add email vote record to DB:
-			var emailVoteAdded = this.petitionVoteRepository.EmailVote(new EmailVote { ID = createPetitionResult.Data.ID, Email = petition.Email });
-			if (!emailVoteAdded.IsSuccess)
+			var emailVoteAdded = this.petitionVoteRepository.CreateEmailVoteRequest(new EmailVote { ID = createPetitionResult.Data.ID, Email = petition.Email });
+			if (!emailVoteAdded.IsSuccess || emailVoteAdded.Data == null)
 			{
-				result = OperationResult<Petition>.Fail(
-					emailVoteAdded.ResultCode,
-					emailVoteAdded.Message);
+				result = OperationResult<Petition>.CopyFrom(emailVoteAdded);
 				return result;
 			}
 
@@ -273,7 +268,9 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			{
 				result = OperationResult<Petition>.Success(
 					1,
-					"Для підтвердження створення петиції перейдіть за посиланням, надісланому вам на email.",
+					string.Format(
+						"Для підтвердження створення петиції перейдіть за посиланням, надісланому вам на email {0}.",
+						petition.Email),
 					createPetitionResult.Data);
 			}
 			else
@@ -281,6 +278,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 				result = OperationResult<Petition>.Fail(
 					-13,
 					"Під час спроби відправити листа сталася помилка. Перевірте правильність вказаного вами email'а і спробуйте ще раз.");
+				result.DebugMessage = sentResult.Message;
 			}
 
 			return result;

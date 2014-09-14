@@ -33,7 +33,7 @@ namespace Infopulse.EDemocracy.Web.Controllers
 			long petitionID = -1;
 			string actionResult;
 			
-			var confirmedPetitionVoteResult = this.petitionVoteRepository.ConfirmPetitionEmailVote(hash);
+			var confirmedPetitionVoteResult = this.petitionVoteRepository.ConfirmEmailVoteRequest(hash);
 			if (confirmedPetitionVoteResult.IsSuccess)
 			{
 				if (confirmedPetitionVoteResult.Data != null)

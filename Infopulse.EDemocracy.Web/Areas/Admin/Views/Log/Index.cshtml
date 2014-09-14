@@ -1,0 +1,30 @@
+﻿@using Infopulse.EDemocracy.Data
+@model List<LogMessage>
+@{
+	ViewBag.Title = "eNarod - Admin page - Log";
+}
+
+<h2>Log</h2>
+
+<div class="log-list">
+	@if (Model.Any())
+	{
+		<ul>
+			@foreach (var logMessage in Model)
+			{
+				<li>
+					<div class="log-date">@logMessage.Time.ToLongDateString()</div>
+					<div class="log-message">@logMessage.Message</div>
+					<div class="log-trace">@logMessage.Trace</div>
+				</li>
+			}
+		</ul>
+	}
+	else
+	{
+		<div>There is no records in the log.</div>
+	}
+</div>
+<div>
+	<a href="log/clear">Clear log</a>
+</div>
