@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
@@ -46,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbConnectionHandlerAttribute.cs" />
+    <Compile Include="DbExecuter.cs" />
+    <Compile Include="DbLog.cs" />
     <Compile Include="Interfaces\IAgreementRepository.cs" />
     <Compile Include="Interfaces\IEntityRepository.cs" />
     <Compile Include="Interfaces\IPetitionLevelRepository.cs" />
@@ -56,6 +60,7 @@
     <Compile Include="Interfaces\IRegionRepository.cs" />
     <Compile Include="Interfaces\IUaCryptoRepository.cs" />
     <Compile Include="Interfaces\IVerificationRepository.cs" />
+    <Compile Include="LogMessage.cs" />
     <Compile Include="Repositories\AgreementRepository.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\EntityRepository.cs" />

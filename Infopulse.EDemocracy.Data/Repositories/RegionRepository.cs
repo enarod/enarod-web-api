@@ -10,7 +10,7 @@ using PetitionLevel = Infopulse.EDemocracy.Model.BusinessEntities.PetitionLevel;
 
 namespace Infopulse.EDemocracy.Data.Repositories
 {
-	public class RegionRepository : IRegionRepository
+	public class RegionRepository : BaseRepository, IRegionRepository
 	{
 		public List<Region> FakeRegions = new List<Region>
 		                                  {
@@ -150,29 +150,48 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		                                  };
 
 
+		//public OperationResult<IEnumerable<Region>> GetRegions(int petitonLevelId)
+		//{
+		//	OperationResult<IEnumerable<Region>> result;
+
+		//	try
+		//	{
+		//		using (var db = new EDEntities())
+		//		{
+		//			var regions = this.FakeRegions.Where(r => r.Level != null && r.Level.ID == petitonLevelId);
+		//			foreach (var fakeRegion in this.FakeRegions)
+		//			{
+		//				// load full level info
+		//			}
+
+		//			result = OperationResult<IEnumerable<Region>>.Success(regions);
+		//		}
+		//	}
+		//	catch (Exception exc)
+		//	{
+		//		result = OperationResult<IEnumerable<Region>>.ExceptionResult(exc);
+		//	}
+
+		//	return result;
+		//}
+
+
 		public OperationResult<IEnumerable<Region>> GetRegions(int petitonLevelId)
 		{
-			OperationResult<IEnumerable<Region>> result;
-
-			try
+			Func<EDEntities, OperationResult<IEnumerable<Region>>> getRegions = (db) =>
 			{
-				using (var db = new EDEntities())
+				var regions = this.FakeRegions.Where(r => r.Level != null && r.Level.ID == petitonLevelId);
+				foreach (var fakeRegion in this.FakeRegions)
 				{
-					var regions = this.FakeRegions.Where(r => r.Level != null && r.Level.ID == petitonLevelId);
-					foreach (var fakeRegion in this.FakeRegions)
-					{
-						// load full level info
-					}
-
-					result = OperationResult<IEnumerable<Region>>.Success(regions);
+					// load full level info
 				}
-			}
-			catch (Exception exc)
-			{
-				result = OperationResult<IEnumerable<Region>>.ExceptionResult(exc);
-			}
 
-			return result;
+				var result = OperationResult<IEnumerable<Region>>.Success(regions);
+				return result;
+			};
+			var operationResult = DbExecuter.Execute(getRegions);
+
+			return operationResult;
 		}
 	}
 }

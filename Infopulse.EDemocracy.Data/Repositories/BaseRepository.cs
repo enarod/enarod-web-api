@@ -13,5 +13,10 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		    var anonymousUser = db.People.SingleOrDefault(u => u.Login == "testuser") ?? new Person();
 		    return anonymousUser;
 	    }
+
+	    internal string GetMethodName()
+	    {
+		    return System.Reflection.MethodBase.GetCurrentMethod().Name;
+	    }
     }
 }
