@@ -15,7 +15,8 @@ namespace Infopulse.EDemocracy.Email.Notifications
 				{"PetitionText", createdPetition.Text},
 				{"PetitionRequirements", createdPetition.Requirements},
 				{"ConfirmUrl", confirmCreationUrl},
-				{"PetitionUrl", createdPetition.Url}
+				{"PetitionUrl", createdPetition.Url},
+				{"PetitionLimit", createdPetition.Limit.ToString()}
 			},
 			string.Format("Для підтвердження створення петиції перейдіть за посиланням, надісланому вам на email {0}.", createdPetition.Email)
 			)

@@ -38,5 +38,11 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 			this.IsConfirmed = emailVote.IsConfirmed;
 			this.CreatedDate = emailVote.CreatedDate;
 		}
+
+
+		public PetitionEmailVote(Model.PetitionEmailVote emailVote, Model.Petition petition) : this(emailVote)
+		{
+			this.Petition = new Petition(petition);
+		}
 	}
 }

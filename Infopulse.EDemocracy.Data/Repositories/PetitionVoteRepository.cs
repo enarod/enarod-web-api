@@ -1,9 +1,9 @@
-﻿using System.Data.Entity.Core;
-using Infopulse.EDemocracy.Data.Interfaces;
+﻿using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Model;
 using Infopulse.EDemocracy.Model.ClientEntities;
 using Infopulse.EDemocracy.Model.Common;
 using Infopulse.EDemocracy.Model.Helpers;
+using Infopulse.EDemocracy.Model.Resources;
 using System;
 using System.Linq;
 using Certificate = Infopulse.EDemocracy.Model.Certificate;
@@ -80,42 +80,46 @@ namespace Infopulse.EDemocracy.Data.Repositories
 
 				if (emailVote != null)
 				{
+					var votedPetition = db.Petitions.SingleOrDefault(p => p.ID == vote.ID);
 					result = emailVote.IsConfirmed
-						? OperationResult<Model.BusinessEntities.PetitionEmailVote>.Fail(-2, "Ви вже проголосували за цю петицію.")
-						: OperationResult<Model.BusinessEntities.PetitionEmailVote>.Success(1,
-							string.Format("Ваш голос чекає підтвердження. Перевірте вашу поштову скриньку {0}.", emailVote.Email), null);
+						? OperationResult<Model.BusinessEntities.PetitionEmailVote>.Fail(
+							int.Parse(PetitionVoteOperationResult.AlreadyVotedCode),
+							PetitionVoteOperationResult.AlreadyVotedMessage)
+						: OperationResult<Model.BusinessEntities.PetitionEmailVote>.Success(
+							int.Parse(PetitionVoteOperationResult.WaitingConfirmationCode),
+							string.Format(PetitionVoteOperationResult.WaitingConfirmationMessage, emailVote.Email),
+							new Model.BusinessEntities.PetitionEmailVote(emailVote, votedPetition));
+					return result;
 				}
-				else
+
+				emailVote = new PetitionEmailVote
 				{
-					emailVote = new PetitionEmailVote
-								{
-									PetitionID = vote.ID,
-									Email = vote.Email,
-									CreatedDate = DateTime.Now,
-									IsConfirmed = false,
-									Hash = HashGenerator.Generate()
-								};
+					PetitionID = vote.ID,
+					Email = vote.Email,
+					CreatedDate = DateTime.Now,
+					IsConfirmed = false,
+					Hash = HashGenerator.Generate()
+				};
 
-					db.PetitionEmailVotes.Add(emailVote);
-					db.SaveChanges();
+				db.PetitionEmailVotes.Add(emailVote);
+				db.SaveChanges();
 
-					var petition = new Model.BusinessEntities.Petition(db.Petitions.SingleOrDefault(p => p.ID == emailVote.PetitionID));
-					var clientEmailVote =
-						new Model.BusinessEntities.PetitionEmailVote()
-						{
-							ID = emailVote.ID,
-							Petition = petition,
-							Hash = emailVote.Hash,
-							Email = emailVote.Email,
-							CreatedDate = emailVote.CreatedDate,
-							IsConfirmed = emailVote.IsConfirmed
-						};
+				var petition = new Model.BusinessEntities.Petition(db.Petitions.SingleOrDefault(p => p.ID == emailVote.PetitionID));
+				var clientEmailVote =
+					new Model.BusinessEntities.PetitionEmailVote()
+					{
+						ID = emailVote.ID,
+						Petition = petition,
+						Hash = emailVote.Hash,
+						Email = emailVote.Email,
+						CreatedDate = emailVote.CreatedDate,
+						IsConfirmed = emailVote.IsConfirmed
+					};
 
-					result = OperationResult<Model.BusinessEntities.PetitionEmailVote>.Success(
-						1,
-						string.Format("Ваш голос чекає підтвердження. Перевірте вашу поштову скриньку {0}.", emailVote.Email),
-						clientEmailVote);
-				}
+				result = OperationResult<Model.BusinessEntities.PetitionEmailVote>.Success(
+					int.Parse(PetitionVoteOperationResult.EmailVoteRequestCreatedCode),
+					string.Format(PetitionVoteOperationResult.EmailVoteRequestCreatedMessage, emailVote.Email),
+					clientEmailVote);
 
 				return result;
 			};

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infopulse.EDemocracy.Model {
+namespace Infopulse.EDemocracy.Model.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Infopulse.EDemocracy.Model {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infopulse.EDemocracy.Model.Errors", typeof(Errors).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infopulse.EDemocracy.Model.Resources.Errors", typeof(Errors).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

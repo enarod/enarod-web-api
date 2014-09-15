@@ -32,7 +32,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					}
 
 					var clientPetition = new clientEntities.Petition(petition);
-					clientPetition.VotesCount = petition.PetitionVotes.Count + petition.PetitionEmailVotes.Count;
+					clientPetition.VotesCount = petition.PetitionVotes.Count + petition.PetitionEmailVotes.Count(v => v.IsConfirmed);
 
 					result = OperationResult<clientEntities.Petition>.Success(1, "Success", clientPetition);
 				}
@@ -154,7 +154,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			foreach (var petition in petitions)
 			{
 				var votesCount = db.PetitionVotes.Count(p => p.PetitionID == petition.ID) +
-								 db.PetitionEmailVotes.Count(p => p.PetitionID == petition.ID);
+								 db.PetitionEmailVotes.Count(p => p.PetitionID == petition.ID && p.IsConfirmed);
 				if (votesCount > petition.Limit)
 				{
 					var clientPetition = new clientEntities.Petition(petition)

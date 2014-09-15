@@ -15,7 +15,8 @@ namespace Infopulse.EDemocracy.Email.Notifications
 				{"PetitionText", emailVote.Petition.Text},
 				{"PetitionRequirements", emailVote.Petition.Requirements},
 				{"VoteUrl", emailVote.ConfirmUrl},
-				{"PetitionUrl", emailVote.Petition.Url}
+				{"PetitionUrl", emailVote.Petition.Url},
+				{"PetitionLimit", emailVote.Petition.Limit.ToString()}
 			},
 			string.Format("Для підтврдження голосування перейдіть за посиланням, надісланому вам на email {0}", emailVote.Email)
 			)
