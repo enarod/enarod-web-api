@@ -1,4 +1,4 @@
-﻿using Infopulse.EDemocracy.Model.BusinessEntities;
+﻿using Infopulse.EDemocracy.Model;
 using Infopulse.EDemocracy.Model.Common;
 using System.Collections.Generic;
 

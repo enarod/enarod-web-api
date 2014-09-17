@@ -1,4 +1,5 @@
-﻿using Infopulse.EDemocracy.Data.Interfaces;
+﻿using AutoMapper;
+using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Data.Repositories;
 using Infopulse.EDemocracy.Email;
 using Infopulse.EDemocracy.Email.Notifications;
@@ -320,7 +321,21 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		[Route("api/petition/level")]
 		public OperationResult<IEnumerable<PetitionLevel>> GetPetitionLevels()
 		{
-			var result = this.petitionLevelRepository.GetPetitionLevels();
+			OperationResult<IEnumerable<PetitionLevel>> result;
+
+			try
+			{
+				var petitionLevels = this.petitionLevelRepository.GetPetitionLevels();
+				var clientPetitionLevels = Mapper.Map<IEnumerable<PetitionLevel>>(petitionLevels);
+				result = OperationResult<IEnumerable<PetitionLevel>>.Success(clientPetitionLevels);
+			}
+			catch (Exception exc)
+			{
+				result = OperationResult<IEnumerable<PetitionLevel>>.ExceptionResult(exc);
+			}
+
+			return result;
+
 			return result;
 		}
 
