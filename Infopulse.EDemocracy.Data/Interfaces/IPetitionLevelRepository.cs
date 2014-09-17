@@ -6,6 +6,6 @@ namespace Infopulse.EDemocracy.Data.Interfaces
 {
 	public interface IPetitionLevelRepository
 	{
-		OperationResult<IEnumerable<PetitionLevel>> GetPetitionLevels();
+		IEnumerable<PetitionLevel> GetPetitionLevels();
 	}
 }

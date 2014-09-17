@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Runtime.CompilerServices;
 using Infopulse.EDemocracy.Model;
 
 namespace Infopulse.EDemocracy.Data.Repositories
@@ -17,6 +18,11 @@ namespace Infopulse.EDemocracy.Data.Repositories
 	    internal string GetMethodName()
 	    {
 		    return System.Reflection.MethodBase.GetCurrentMethod().Name;
+	    }
+
+		internal void AddLogging(EDEntities db, [CallerMemberName]string methodName = null)
+	    {
+			db.Database.Log = s => DbLog.Add(s, methodName);
 	    }
     }
 }

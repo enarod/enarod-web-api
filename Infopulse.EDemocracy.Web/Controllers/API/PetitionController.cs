@@ -321,20 +321,12 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		[Route("api/petition/level")]
 		public OperationResult<IEnumerable<PetitionLevel>> GetPetitionLevels()
 		{
-			OperationResult<IEnumerable<PetitionLevel>> result;
-
-			try
+			var result = OperationExecuter.Execute(() =>
 			{
 				var petitionLevels = this.petitionLevelRepository.GetPetitionLevels();
 				var clientPetitionLevels = Mapper.Map<IEnumerable<PetitionLevel>>(petitionLevels);
-				result = OperationResult<IEnumerable<PetitionLevel>>.Success(clientPetitionLevels);
-			}
-			catch (Exception exc)
-			{
-				result = OperationResult<IEnumerable<PetitionLevel>>.ExceptionResult(exc);
-			}
-
-			return result;
+				return OperationResult<IEnumerable<PetitionLevel>>.Success(clientPetitionLevels);
+			});
 
 			return result;
 		}

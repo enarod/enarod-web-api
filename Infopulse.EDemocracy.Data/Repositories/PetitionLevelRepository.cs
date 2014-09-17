@@ -1,29 +1,20 @@
-﻿using System;
-using System.Linq;
-using Infopulse.EDemocracy.Data.Interfaces;
+﻿using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Model;
-using Infopulse.EDemocracy.Model.Common;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Infopulse.EDemocracy.Data.Repositories
 {
-	public class PetitionLevelRepository : IPetitionLevelRepository
+	public class PetitionLevelRepository : BaseRepository, IPetitionLevelRepository
 	{
-		public OperationResult<IEnumerable<PetitionLevel>> GetPetitionLevels()
+		public IEnumerable<PetitionLevel> GetPetitionLevels()
 		{
-			OperationResult<IEnumerable<PetitionLevel>> result;
+			IEnumerable<PetitionLevel> result;
 
-			try
+			using (var db = new EDEntities())
 			{
-				using (var db = new EDEntities())
-				{
-					var levels = db.PetitionLevels.ToList();
-					result = OperationResult<IEnumerable<PetitionLevel>>.Success(levels);
-				}
-			}
-			catch (Exception exc)
-			{
-				result = OperationResult<IEnumerable<PetitionLevel>>.ExceptionResult(exc);
+				this.AddLogging(db);
+				result = db.PetitionLevels.ToList();
 			}
 
 			return result;
