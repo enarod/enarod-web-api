@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using Infopulse.EDemocracy.Model.Common;
-using Infopulse.EDemocracy.Model.BusinessEntities;
+﻿using Infopulse.EDemocracy.Model;
+using System.Collections.Generic;
 
 namespace Infopulse.EDemocracy.Data.Interfaces
 {
 	public interface IEntityRepository
 	{
-		OperationResult<IEnumerable<Entity>> GetPetitionCategories();
+		IEnumerable<Entity> GetPetitionCategories();
 	}
 }

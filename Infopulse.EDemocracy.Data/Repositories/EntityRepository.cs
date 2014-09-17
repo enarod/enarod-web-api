@@ -1,36 +1,26 @@
-﻿using System.Data.Entity;
-using Infopulse.EDemocracy.Data.Interfaces;
+﻿using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Model;
-using Infopulse.EDemocracy.Model.Common;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Entity = Infopulse.EDemocracy.Model.BusinessEntities.Entity;
+
 
 namespace Infopulse.EDemocracy.Data.Repositories
 {
-	public class EntityRepository : IEntityRepository
+	public class EntityRepository : BaseRepository, IEntityRepository
 	{
-		public OperationResult<IEnumerable<Entity>> GetPetitionCategories()
+		public IEnumerable<Entity> GetPetitionCategories()
 		{
-			OperationResult<IEnumerable<Entity>> result;
+			IEnumerable<Entity> result;
 
-			try
+			using (var db = new EDEntities())
 			{
-				using (var db = new EDEntities())
-				{
-					var petitionCategoryEntityGroup = db.EntityGroups.SingleOrDefault(g => g.Name == "Category");
-					var categories = db.Entities
-						.Where(e => e.EntityGroup.ID == petitionCategoryEntityGroup.ID)
-						//.Include("EntityGroup")
-						.ToList();
+				this.AddLogging(db);
 
-					result = OperationResult<IEnumerable<Entity>>.Success(categories.Select(c => new Entity(c)));
-				}
-			}
-			catch (Exception exc)
-			{
-				result = OperationResult<IEnumerable<Entity>>.ExceptionResult(exc);
+				var petitionCategoryEntityGroup = db.EntityGroups.SingleOrDefault(g => g.Name == "Category");
+				result = db.Entities
+					.Where(e => e.EntityGroup.ID == petitionCategoryEntityGroup.ID)
+					//.Include("EntityGroup")
+					.ToList();
 			}
 
 			return result;

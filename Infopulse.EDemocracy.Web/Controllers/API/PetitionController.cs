@@ -340,8 +340,17 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		[Route("api/petition/category")]
 		public OperationResult<IEnumerable<Entity>> GetPetitionCategories()
 		{
-			var cateroties = this.entityRepository.GetPetitionCategories();
-			return cateroties;
+			//var cateroties = this.entityRepository.GetPetitionCategories();
+			//return cateroties;
+
+			OperationResult<IEnumerable<Entity>> result = OperationExecuter.Execute(() =>
+			{
+				var categories = this.entityRepository.GetPetitionCategories();
+				var clientCategories = Mapper.Map<IEnumerable<Entity>>(categories);
+				return OperationResult<IEnumerable<Entity>>.Success(clientCategories);
+			});
+
+			return result;
 		}
 
 
