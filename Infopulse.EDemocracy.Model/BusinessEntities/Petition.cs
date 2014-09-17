@@ -30,6 +30,11 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 			}
 		}
 
+		public Petition()
+		{
+			
+		}
+
 		public Petition(Model.Petition petition)
 		{
 			if (petition == null) return;
