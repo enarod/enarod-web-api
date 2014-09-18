@@ -23,6 +23,10 @@ namespace Infopulse.EDemocracy.Model.Common
 			{
 				result = procedure.Invoke();
 			}
+			catch (HandledException exception)
+			{
+				result = OperationResult.Fail(-1, exception.GetMostInnerException().Message);
+			}
 			catch (EntityException entityException)
 			{
 				result = OperationExecuter.GetDbConnectionFailedResult();
@@ -43,6 +47,10 @@ namespace Infopulse.EDemocracy.Model.Common
 			try
 			{
 				result = procedure.Invoke();
+			}
+			catch (HandledException exception)
+			{
+				result = OperationResult<T>.Fail(-1, exception.GetMostInnerException().Message);
 			}
 			catch (EntityException entityException)
 			{

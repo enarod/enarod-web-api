@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web.Http;
+using DALModel = Infopulse.EDemocracy.Model;
 
 namespace Infopulse.EDemocracy.Web.Controllers.API
 {
@@ -52,6 +53,42 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		public OperationResult<IEnumerable<Petition>> Get()
 		{
 			return this.petitionRepository.Get();
+
+			var result = OperationExecuter.Execute(() =>
+			                                       {
+													   var petition = this.petitionRepository.Get();
+													   if (petition == default(DALModel.Petition))
+													   {
+														   result = OperationResult<clientEntities.Petition>.Fail(-2, "Petition not found");
+														   return result;
+													   }
+			                                       });
+
+			//OperationResult<clientEntities.Petition> result;
+
+			try
+			{
+				using (var db = new EDEntities())
+				{
+					var petition = db.Petitions.SingleOrDefault(p => p.ID == petitionID);
+					if (petition == default(Petition))
+					{
+						result = OperationResult<clientEntities.Petition>.Fail(-2, "Petition not found");
+						return result;
+					}
+
+					var clientPetition = new clientEntities.Petition(petition);
+					clientPetition.VotesCount = petition.PetitionVotes.Count + petition.PetitionEmailVotes.Count(v => v.IsConfirmed);
+
+					result = OperationResult<clientEntities.Petition>.Success(1, "Success", clientPetition);
+				}
+			}
+			catch (Exception ex)
+			{
+				result = OperationResult<clientEntities.Petition>.ExceptionResult(ex);
+			}
+
+			return result;
 		}
 
 
@@ -360,6 +397,9 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		[Route("api/petition/region/{petitionLevelID}")]
 		public OperationResult<IEnumerable<Region>> GetPetitionRegions(int petitionLevelID)
 		{
+			// TODO: RegionRepo is not implemented yet. So this method should
+			// be rewrited after RegionRepo will be rewritten.
+
 			var regions = this.regionRepository.GetRegions(petitionLevelID);
 			return regions;
 		}

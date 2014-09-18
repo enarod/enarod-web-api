@@ -16,33 +16,32 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		/// </summary>
 		/// <param name="petitionID"></param>
 		/// <returns></returns>
-		public OperationResult<clientEntities.Petition> Get(int petitionID)
+		public PetitionWithVote Get(int petitionID)
 		{
-			OperationResult<clientEntities.Petition> result;
-
-			try
+			using (var db = new EDEntities())
 			{
-				using (var db = new EDEntities())
+				var petition = db.Petitions.SingleOrDefault(p => p.ID == petitionID);
+
+				if (petition == null) return null;
+
+				var creatorVote =
+					(from p in db.Petitions
+					 join e in db.PetitionEmailVotes on p.ID equals e.PetitionID
+					 where e.Email == p.Email
+					 select e).SingleOrDefault();
+
+				if (creatorVote == null)
 				{
-					var petition = db.Petitions.SingleOrDefault(p => p.ID == petitionID);
-					if (petition == default(Petition))
-					{
-						result = OperationResult<clientEntities.Petition>.Fail(-2, "Petition not found");
-						return result;
-					}
-
-					var clientPetition = new clientEntities.Petition(petition);
-					clientPetition.VotesCount = petition.PetitionVotes.Count + petition.PetitionEmailVotes.Count(v => v.IsConfirmed);
-
-					result = OperationResult<clientEntities.Petition>.Success(1, "Success", clientPetition);
+					throw new Exception("Ця петиція ще не підтверджена.");
 				}
-			}
-			catch (Exception ex)
-			{
-				result = OperationResult<clientEntities.Petition>.ExceptionResult(ex);
-			}
 
-			return result;
+				var petitionWithVotes = new PetitionWithVote(petition)
+										{
+											VotesCount = this.CountPetitionVotes(db, petition)
+										};
+
+				return petitionWithVotes;
+			}
 		}
 
 
@@ -50,27 +49,19 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		/// Get all petitions.
 		/// </summary>
 		/// <returns></returns>
-		public OperationResult<IEnumerable<clientEntities.Petition>> Get()
+		public IEnumerable<PetitionWithVote> Get()
 		{
-			OperationResult<IEnumerable<clientEntities.Petition>> result;
-
-			try
+			using (var db = new EDEntities())
 			{
-				using (var db = new EDEntities())
-				{
-					var petitions = from p in db.Petitions
-									select p;
+				var petitions = from p in this.GetVisiblePetitons(db)
+								select p;
 
-					var clientPetitions = this.GetPetitionsUnderLimit(db, petitions);
-					result = OperationResult<IEnumerable<clientEntities.Petition>>.Success(clientPetitions);
-				}
+				// TODO: implement following using SP
+				var petitionsWithVotes = petitions
+					.Select(p => new PetitionWithVote(p) { VotesCount = this.CountPetitionVotes(db, p) })
+					.ToList();
+				return petitionsWithVotes;
 			}
-			catch (Exception exc)
-			{
-				result = OperationResult<IEnumerable<clientEntities.Petition>>.ExceptionResult(exc);
-			}
-
-			return result;
 		}
 
 
@@ -79,35 +70,25 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		public OperationResult<IEnumerable<clientEntities.Petition>> Search(string text)
+		public IEnumerable<PetitionWithVote> Search(string text)
 		{
-			OperationResult<IEnumerable<clientEntities.Petition>> result;
-
 			var script = string.Empty;
 
-			try
+			using (var db = new EDEntities())
 			{
-				using (var db = new EDEntities())
-				{
+				db.Database.Log = s => script += s;
+				var petitions = from p in this.GetVisiblePetitons(db)
+								where p.KeyWords.ToUpper().Contains(text.ToUpper())
+								   || p.Requirements.ToUpper().Contains(text.ToUpper())
+								   || p.Subject.ToUpper().Contains(text.ToUpper())
+								   || p.Text.ToUpper().Contains(text.ToUpper())
+								select p;
 
-					db.Database.Log = s => script += s;
-					var petitions = from p in db.Petitions
-									where p.KeyWords.ToUpper().Contains(text.ToUpper())
-									   || p.Requirements.ToUpper().Contains(text.ToUpper())
-									   || p.Subject.ToUpper().Contains(text.ToUpper())
-									   || p.Text.ToUpper().Contains(text.ToUpper())
-									select p;
-
-					var clientPetitions = this.GetPetitionsUnderLimit(db, petitions);
-					result = OperationResult<IEnumerable<clientEntities.Petition>>.Success(clientPetitions);
-				}
+				var result = petitions
+					.Select(p => new PetitionWithVote(p) { VotesCount = this.CountPetitionVotes(db, p) })
+					.ToList();
+				return result;
 			}
-			catch (Exception exc)
-			{
-				result = OperationResult<IEnumerable<clientEntities.Petition>>.ExceptionResult(exc);
-			}
-
-			return result;
 		}
 
 
@@ -116,7 +97,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		/// </summary>
 		/// <param name="tag"></param>
 		/// <returns></returns>
-		public OperationResult<IEnumerable<clientEntities.Petition>> KeyWordSearch(string tag)
+		public IEnumerable<PetitionWithVote> KeyWordSearch(string tag)
 		{
 			OperationResult<IEnumerable<clientEntities.Petition>> result;
 
@@ -148,33 +129,12 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		}
 
 
-		private IEnumerable<clientEntities.Petition> GetPetitionsUnderLimit(EDEntities db, IEnumerable<Petition> petitions)
-		{
-			var petitionsUnderLimit = new List<clientEntities.Petition>();
-			foreach (var petition in petitions)
-			{
-				var votesCount = db.PetitionVotes.Count(p => p.PetitionID == petition.ID) +
-								 db.PetitionEmailVotes.Count(p => p.PetitionID == petition.ID && p.IsConfirmed);
-				if (votesCount > petition.Limit)
-				{
-					var clientPetition = new clientEntities.Petition(petition)
-										 {
-											 VotesCount = votesCount
-										 };
-					petitionsUnderLimit.Add(clientPetition);
-				}
-			}
-
-			return petitionsUnderLimit;
-		}
-
-
 		/// <summary>
 		/// Create new petitions.
 		/// </summary>
 		/// <param name="newPetition"></param>
 		/// <returns></returns>
-		public OperationResult<clientEntities.Petition> AddNewPetition(clientEntities.Petition newPetition)
+		public Petition AddNewPetition(clientEntities.Petition newPetition)
 		{
 			OperationResult<clientEntities.Petition> result;
 
@@ -259,6 +219,50 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			}
 
 			return result;
+		}
+
+
+		private IQueryable<clientEntities.Petition> GetPetitionsUnderLimit(EDEntities db, IQueryable<Petition> petitions)
+		{
+			var petitionsUnderLimit = new List<clientEntities.Petition>();
+			foreach (var petition in petitions)
+			{
+				var votesCount = db.PetitionVotes.Count(p => p.PetitionID == petition.ID) +
+								 db.PetitionEmailVotes.Count(p => p.PetitionID == petition.ID && p.IsConfirmed);
+				if (votesCount >= petition.Limit)
+				{
+					var clientPetition = new clientEntities.Petition(petition)
+					{
+						VotesCount = votesCount
+					};
+					petitionsUnderLimit.Add(clientPetition);
+				}
+			}
+
+			return petitionsUnderLimit;
+		}
+
+
+		private IQueryable<Petition> GetVisiblePetitons(EDEntities db)
+		{
+			// TODO: use stored procedure for getting not Petition, but another model with counted votes
+
+			var petitions = from petition in db.Petitions
+							where petition.PetitionVotes.Count(p => p.PetitionID == petition.ID)
+							+ petition.PetitionEmailVotes.Count(p => p.PetitionID == petition.ID && p.IsConfirmed)
+								  >= petition.Limit
+							select petition;
+			return petitions;
+		}
+
+
+		// TODO: get rid of following method. Use SP instead.
+		private int CountPetitionVotes(EDEntities db, Petition petition)
+		{
+			var votesCount =
+				db.PetitionVotes.Count(p => p.PetitionID == petition.ID)
+				+ db.PetitionEmailVotes.Count(p => p.PetitionID == petition.ID && p.IsConfirmed);
+			return votesCount;
 		}
 	}
 }

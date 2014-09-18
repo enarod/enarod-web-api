@@ -1,15 +1,14 @@
-﻿using Infopulse.EDemocracy.Model.Common;
+﻿using Infopulse.EDemocracy.Model;
 using System.Collections.Generic;
-using E = Infopulse.EDemocracy.Model.BusinessEntities;
 
 namespace Infopulse.EDemocracy.Data.Interfaces
 {
 	public interface IPetitionRepository
 	{
-		OperationResult<E.Petition> Get(int petitionID);
-		OperationResult<IEnumerable<E.Petition>> Get();
-		OperationResult<E.Petition> AddNewPetition(E.Petition newPetition);
-        OperationResult<IEnumerable<E.Petition>> Search(string text);
-		OperationResult<IEnumerable<E.Petition>> KeyWordSearch(string tag);
+		PetitionWithVote Get(int petitionID);
+		IEnumerable<PetitionWithVote> Get();
+		Petition AddNewPetition(Petition newPetition);
+        IEnumerable<PetitionWithVote> Search(string text);
+		IEnumerable<PetitionWithVote> KeyWordSearch(string tag);
 	}
 }

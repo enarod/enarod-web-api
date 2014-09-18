@@ -82,6 +82,8 @@
     </Compile>
     <Compile Include="ClientEntities\ClientPetitionVote.cs" />
     <Compile Include="Common\EntityDictionary.cs" />
+    <Compile Include="Common\ExceptionExtensions.cs" />
+    <Compile Include="Common\HandledException.cs" />
     <Compile Include="Common\OperationResult.cs" />
     <Compile Include="Common\OperationResultT.cs" />
     <Compile Include="Common\OperationExecuter.cs" />
@@ -115,6 +117,7 @@
     <Compile Include="EntityGroup.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="PetitionWithVote.cs" />
     <Compile Include="Resources\Errors.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -205,6 +208,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>PetitionVoteOperationResult.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="pub_Petitions_GetVisible.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
