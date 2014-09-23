@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 
 namespace Infopulse.EDemocracy.Model.BusinessEntities
@@ -26,7 +27,8 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		{
 			get
 			{
-				return string.Format("https://enarod.org/petition/#petition/{0}", this.ID);
+				var domain = ConfigurationManager.AppSettings["AppDomain"];
+				return string.Format("{0}/petition/#petition/{1}", domain, this.ID);
 			}
 		}
 
