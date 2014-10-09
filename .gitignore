@@ -7,3 +7,4 @@ UpgradeLog*.htm
 UpgradeLog*.xml
 *.user
 *.suo
+*.userprefs
