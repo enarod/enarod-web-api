@@ -1,5 +1,5 @@
-﻿using Infopulse.EDemocracy.Model.Helpers;
-using System;
+﻿using System;
+using System.Configuration;
 
 namespace Infopulse.EDemocracy.Model.BusinessEntities
 {
@@ -11,6 +11,7 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		public DateTime CreatedDate { get; set; }
 		public bool IsConfirmed { get; set; }
 
+
 		public string ConfirmUrl
 		{
 			get
@@ -20,7 +21,8 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 					throw new ArgumentException("Hash cannot be empty.", "Hash");
 				}
 
-				return string.Format("https://enarod.org/app/petition/vote?hash={0}", this.Hash);
+				var domain = ConfigurationManager.AppSettings["ServiceDomain"];
+				return string.Format("{0}/petition/vote?hash={1}", domain, this.Hash);
 			}
 		}
 		
