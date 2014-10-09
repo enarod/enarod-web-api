@@ -8,3 +8,4 @@ UpgradeLog*.xml
 *.user
 *.suo
 *.userprefs
+*.orig
