@@ -188,6 +188,7 @@
     <Compile Include="Controllers\API\AgreementController.cs" />
     <Compile Include="Controllers\API\BaseApiController.cs" />
     <Compile Include="Controllers\API\CryptoController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PetitionController.cs" />
     <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="Models\HashString.cs" />
@@ -229,6 +230,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Petition\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Home\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
