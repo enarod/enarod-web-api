@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Data.Entity;
+using AutoMapper;
 using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Data.Repositories;
 using Infopulse.EDemocracy.Email;
@@ -52,41 +53,12 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		[Route("api/petition")]
 		public OperationResult<IEnumerable<Petition>> Get()
 		{
-			return this.petitionRepository.Get();
-
 			var result = OperationExecuter.Execute(() =>
-			                                       {
-													   var petition = this.petitionRepository.Get();
-													   if (petition == default(DALModel.Petition))
-													   {
-														   result = OperationResult<clientEntities.Petition>.Fail(-2, "Petition not found");
-														   return result;
-													   }
-			                                       });
-
-			//OperationResult<clientEntities.Petition> result;
-
-			try
 			{
-				using (var db = new EDEntities())
-				{
-					var petition = db.Petitions.SingleOrDefault(p => p.ID == petitionID);
-					if (petition == default(Petition))
-					{
-						result = OperationResult<clientEntities.Petition>.Fail(-2, "Petition not found");
-						return result;
-					}
-
-					var clientPetition = new clientEntities.Petition(petition);
-					clientPetition.VotesCount = petition.PetitionVotes.Count + petition.PetitionEmailVotes.Count(v => v.IsConfirmed);
-
-					result = OperationResult<clientEntities.Petition>.Success(1, "Success", clientPetition);
-				}
-			}
-			catch (Exception ex)
-			{
-				result = OperationResult<clientEntities.Petition>.ExceptionResult(ex);
-			}
+				var petitions = this.petitionRepository.Get();
+				var clinetPetitions = Mapper.Map<IEnumerable<Petition>>(petitions);
+				return OperationResult<IEnumerable<Petition>>.Success(clinetPetitions);
+			});
 
 			return result;
 		}
@@ -101,7 +73,14 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		[Route("api/petition/{id}")]
 		public OperationResult<Petition> Get(int id)
 		{
-			return this.petitionRepository.Get(id);
+			var result = OperationExecuter.Execute(() =>
+			{
+				var petition = this.petitionRepository.Get(id);
+				var clientPetition = Mapper.Map<Petition>(petition);
+				return OperationResult<Petition>.Success(clientPetition);
+			});
+
+			return result;
 		}
 
 		#endregion
@@ -118,8 +97,14 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		[Route("api/petition/search/{query}")]
 		public OperationResult<IEnumerable<Petition>> Search(string query)
 		{
-			var searchResults = this.petitionRepository.Search(query);
-			return searchResults;
+			var result = OperationExecuter.Execute(() =>
+			{
+				var petitions = this.petitionRepository.Search(query);
+				var clientPetitions = Mapper.Map<IEnumerable<Petition>>(petitions);
+				return OperationResult<IEnumerable<Petition>>.Success(clientPetitions);
+			});
+
+			return result;
 		}
 
 
@@ -132,8 +117,14 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		[Route("api/petition/tag/{tag}")]
 		public OperationResult<IEnumerable<Petition>> KeyWordSearch(string tag)
 		{
-			var searchResult = this.petitionRepository.KeyWordSearch(tag);
-			return searchResult;
+			var result = OperationExecuter.Execute(() =>
+			{
+				var petitions = this.petitionRepository.KeyWordSearch(tag);
+				var clientPetitions = Mapper.Map<IEnumerable<Petition>>(petitions);
+				return OperationResult<IEnumerable<Petition>>.Success(clientPetitions);
+			});
+
+			return result;
 		}
 
 
@@ -285,7 +276,14 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			petition.CreatedBy = new People() { Login = ConfigurationManager.AppSettings["AnonymousUserName"] };
 
 			// create petition:
-			var createPetitionResult = this.petitionRepository.AddNewPetition(petition);
+			var createPetitionResult = OperationExecuter.Execute(() =>
+			{
+				var dalPetition = Mapper.Map<DALModel.Petition>(petition);
+				dalPetition = this.petitionRepository.AddNewPetition(dalPetition);
+				var createdClientPetition = Mapper.Map<Petition>(dalPetition);
+				return OperationResult<Petition>.Success(createdClientPetition);
+			});
+			
 			if (!createPetitionResult.IsSuccess) return createPetitionResult;
 
 			// add email vote record to DB:

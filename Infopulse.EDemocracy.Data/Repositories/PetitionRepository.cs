@@ -99,33 +99,20 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		/// <returns></returns>
 		public IEnumerable<PetitionWithVote> KeyWordSearch(string tag)
 		{
-			OperationResult<IEnumerable<clientEntities.Petition>> result;
-
 			var script = string.Empty;
 
-			try
+			using (var db = new EDEntities())
 			{
-				using (var db = new EDEntities())
-				{
-					db.Database.Log = s => script += s;
+				db.Database.Log = s => script += s;
+				var petitions = this.GetVisiblePetitons(db)
+					.ToList()
+					.Where(p => p.KeyWords.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Contains(tag));
 
-					// TODO: get rid of db.Petitions.ToList():
-					var petitions =
-						//from petition in db.Petitions
-						//where petition.KeyWords.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Contains(tag)
-						//select petition;
-						db.Petitions.ToList().Where(p => p.KeyWords.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Contains(tag));
-
-					var clientPetitions = this.GetPetitionsUnderLimit(db, petitions);
-					result = OperationResult<IEnumerable<clientEntities.Petition>>.Success(clientPetitions);
-				}
+				var result = petitions
+					.Select(p => new PetitionWithVote(p) { VotesCount = this.CountPetitionVotes(db, p) })
+					.ToList();
+				return result;
 			}
-			catch (Exception exc)
-			{
-				result = OperationResult<IEnumerable<clientEntities.Petition>>.ExceptionResult(exc);
-			}
-
-			return result;
 		}
 
 
@@ -134,112 +121,85 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		/// </summary>
 		/// <param name="newPetition"></param>
 		/// <returns></returns>
-		public Petition AddNewPetition(clientEntities.Petition newPetition)
+		public Petition AddNewPetition(Petition newPetition)
 		{
-			OperationResult<clientEntities.Petition> result;
-
-			try
+			using (var db = new EDEntities())
 			{
-				using (var db = new EDEntities())
-				{
-					var script = string.Empty;
-					db.Database.Log = s => script += s;
+				var script = string.Empty;
+				db.Database.Log = s => script += s;
 
-					// TODO: add petition already exists check
-					var petition =
-						new Petition()
-						{
-							Subject = newPetition.Subject,
-							Text = newPetition.Text,
-							Requirements = newPetition.Requirements,
-							KeyWords = newPetition.KeyWordsAsSingleString(),
-							EffectiveFrom = newPetition.EffectiveFrom == default(DateTime) ? DateTime.Now : newPetition.EffectiveFrom,
-							EffectiveTo = newPetition.EffectiveTo == default(DateTime) ? DateTime.Now.AddDays(7) : newPetition.EffectiveTo,
-							CreatedDate = DateTime.Now,
-							Limit = newPetition.Limit,
-							AddressedTo = newPetition.AddressedTo,
-							Email = newPetition.Email
-						};
-
-					// CreatedBy
-					var creator = db.People.SingleOrDefault(p => p.Login == newPetition.CreatedBy.Login) ?? this.GetAnonymousUser(db);
-					petition.CreatedBy = creator.ID;
-					petition.Person = null;
-
-					// Category
-					if (newPetition.Category == null)
+				// TODO: add petition already exists check
+				var petition =
+					new Petition()
 					{
-						result = OperationResult<clientEntities.Petition>.Fail(-2, "Unable to get any category info.");
-						return result;
-					}
-
-					var petitionCategory = db.Entities.SingleOrDefault(c => c.Name == newPetition.Category.Name);
-					if (petitionCategory == null)
-					{
-						result = OperationResult<clientEntities.Petition>.Fail(-2, string.Format("Unknown petition category - {0}.", newPetition.Category.Name));
-						return result;
-					}
-					else
-					{
-						petition.CategoryID = petitionCategory.ID;
-						petition.Category = null;
-					}
-
-					// Level
-					if (newPetition.Level == null)
-					{
-						result = OperationResult<clientEntities.Petition>.Fail(-3, "Unable to get any petition level info.");
-						return result;
-					}
-
-					var level = db.PetitionLevels.SingleOrDefault(l => l.ID == newPetition.Level.ID);
-					if (level == null)
-					{
-						result = OperationResult<clientEntities.Petition>.Fail(-3, "Unknown petition level.");
-						return result;
-					}
-					else
-					{
-						petition.LevelID = level.ID;
-						petition.PetitionLevel = null;
-					}
-
-					var addedPetition = db.Petitions.Add(petition);
-					db.SaveChanges();
-
-					result = OperationResult<clientEntities.Petition>.Success(
-						1,
-						"The petition has successfully been created.",
-						new clientEntities.Petition(addedPetition));
-				}
-			}
-			catch (Exception exc)
-			{
-				result = OperationResult<clientEntities.Petition>.ExceptionResult(exc);
-			}
-
-			return result;
-		}
-
-
-		private IQueryable<clientEntities.Petition> GetPetitionsUnderLimit(EDEntities db, IQueryable<Petition> petitions)
-		{
-			var petitionsUnderLimit = new List<clientEntities.Petition>();
-			foreach (var petition in petitions)
-			{
-				var votesCount = db.PetitionVotes.Count(p => p.PetitionID == petition.ID) +
-								 db.PetitionEmailVotes.Count(p => p.PetitionID == petition.ID && p.IsConfirmed);
-				if (votesCount >= petition.Limit)
-				{
-					var clientPetition = new clientEntities.Petition(petition)
-					{
-						VotesCount = votesCount
+						Subject = newPetition.Subject,
+						Text = newPetition.Text,
+						Requirements = newPetition.Requirements,
+						KeyWords = newPetition.KeyWords,
+						EffectiveFrom = newPetition.EffectiveFrom == default(DateTime) ? DateTime.Now : newPetition.EffectiveFrom,
+						EffectiveTo = newPetition.EffectiveTo == default(DateTime) ? DateTime.Now.AddDays(7) : newPetition.EffectiveTo,
+						CreatedDate = DateTime.Now,
+						Limit = newPetition.Limit,
+						AddressedTo = newPetition.AddressedTo,
+						Email = newPetition.Email
 					};
-					petitionsUnderLimit.Add(clientPetition);
-				}
-			}
 
-			return petitionsUnderLimit;
+				// CreatedBy
+				var creator = db.People.SingleOrDefault(p => p.ID == newPetition.CreatedBy) ?? this.GetAnonymousUser(db);
+				petition.CreatedBy = creator.ID;
+				petition.Person = null;
+
+				// Category
+				if (newPetition.Category == null)
+				{
+					throw new Exception("Unable to get any category info.");
+					//result = OperationResult<clientEntities.Petition>.Fail(-2, "Unable to get any category info.");
+					//return result;
+				}
+
+				var petitionCategory = db.Entities.SingleOrDefault(c => c.Name == newPetition.Category.Name);
+				if (petitionCategory == null)
+				{
+					throw new Exception(string.Format("Unknown petition category - {0}.", newPetition.Category.Name));
+					//result = OperationResult<clientEntities.Petition>.Fail(-2, string.Format("Unknown petition category - {0}.", newPetition.Category.Name));
+					//return result;
+				}
+				else
+				{
+					petition.CategoryID = petitionCategory.ID;
+					petition.Category = null;
+				}
+
+				// Level
+				if (newPetition.LevelID == default(long))
+				{
+					throw new Exception("Unable to get any petition level info.");
+					//result = OperationResult<clientEntities.Petition>.Fail(-3, "Unable to get any petition level info.");
+					//return result;
+				}
+
+				var level = db.PetitionLevels.SingleOrDefault(l => l.ID == newPetition.LevelID);
+				if (level == null)
+				{
+					throw new Exception("Unknown petition level.");
+					//result = OperationResult<clientEntities.Petition>.Fail(-3, "Unknown petition level.");
+					//return result;
+				}
+				else
+				{
+					petition.LevelID = level.ID;
+					petition.PetitionLevel = null;
+				}
+
+				var addedPetition = db.Petitions.Add(petition);
+				db.SaveChanges();
+
+				return addedPetition;
+				//result = OperationResult<clientEntities.Petition>.Success(
+				//	1,
+				//	"The petition has successfully been created.",
+				//	new clientEntities.Petition(addedPetition));
+			}
 		}
 
 
