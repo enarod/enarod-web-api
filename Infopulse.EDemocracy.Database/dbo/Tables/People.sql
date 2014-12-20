@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[People] (
+    [ID]    BIGINT         IDENTITY (1, 1) NOT NULL,
+    [Login] NVARCHAR (MAX) NOT NULL,
+    CONSTRAINT [PK_People] PRIMARY KEY CLUSTERED ([ID] ASC)
+);
+
