@@ -188,9 +188,9 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PatitionID" Type="bigint" Nullable="false" />
-          <Property Name="email" Type="varchar(max)" Nullable="false" />
-          <Property Name="hash" Type="varchar(max)" Nullable="false" />
+          <Property Name="PetitionID" Type="bigint" Nullable="false" />
+          <Property Name="Email" Type="varchar(max)" Nullable="false" />
+          <Property Name="Hash" Type="varchar(max)" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="IsConfirmed" Type="bit" Nullable="false" />
         </EntityType>
@@ -672,7 +672,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="PetitionEmailVote">
-              <PropertyRef Name="PatitionID" />
+              <PropertyRef Name="PetitionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2453,11 +2453,11 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <EntitySetMapping Name="PetitionEmailVotes">
             <EntityTypeMapping TypeName="EDModel.PetitionEmailVote">
               <MappingFragment StoreEntitySet="PetitionEmailVote">
+                <ScalarProperty Name="Hash" ColumnName="Hash" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PetitionID" ColumnName="PetitionID" />
                 <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Hash" ColumnName="hash" />
-                <ScalarProperty Name="Email" ColumnName="email" />
-                <ScalarProperty Name="PetitionID" ColumnName="PatitionID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

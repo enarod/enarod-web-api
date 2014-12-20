@@ -53,14 +53,16 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		{
 			using (var db = new EDEntities())
 			{
-				var petitions = from p in this.GetVisiblePetitons(db)
-								select p;
+				//var petitions = this.GetVisiblePetitons(db);
 
-				// TODO: implement following using SP
-				var petitionsWithVotes = petitions
-					.Select(p => new PetitionWithVote(p) { VotesCount = this.CountPetitionVotes(db, p) })
-					.ToList();
-				return petitionsWithVotes;
+				//// TODO: implement following using SP
+				//var petitionsWithVotes = petitions
+				//	.Select(p => new PetitionWithVote(p) { VotesCount = this.CountPetitionVotes(db, p) })
+				//	.ToList();
+				//return petitionsWithVotes;
+
+				var petitions = db.Database.SqlQuery<PetitionWithVote>("sp_Petition_GetAll").ToList();
+				return petitions;
 			}
 		}
 
