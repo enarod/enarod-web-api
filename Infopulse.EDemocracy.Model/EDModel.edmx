@@ -147,7 +147,8 @@
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="4000" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="PrivateDescription" Type="nvarchar(max)" />
           <Property Name="Logo" Type="nvarchar(max)" />
           <Property Name="AcceptancePolicy" Type="nvarchar(max)" />
           <Property Name="PreliminaryVoteCount" Type="int" />
@@ -2167,7 +2168,8 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PrivateDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Logo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="AcceptancePolicy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PreliminaryVoteCount" Type="Int32" />
@@ -2463,6 +2465,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <EntitySetMapping Name="Organizations">
             <EntityTypeMapping TypeName="EDModel.Organization">
               <MappingFragment StoreEntitySet="Organization">
+                <ScalarProperty Name="PrivateDescription" ColumnName="PrivateDescription" />
                 <ScalarProperty Name="GatheringDays" ColumnName="GatheringDays" />
                 <ScalarProperty Name="VoteCount" ColumnName="VoteCount" />
                 <ScalarProperty Name="PreliminaryGatheringDays" ColumnName="PreliminaryGatheringDays" />

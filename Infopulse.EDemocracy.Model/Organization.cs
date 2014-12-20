@@ -22,6 +22,7 @@ namespace Infopulse.EDemocracy.Model
         public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string PrivateDescription { get; set; }
         public string Logo { get; set; }
         public string AcceptancePolicy { get; set; }
         public Nullable<int> PreliminaryVoteCount { get; set; }

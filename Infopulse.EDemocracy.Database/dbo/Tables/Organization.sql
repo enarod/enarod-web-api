@@ -2,7 +2,8 @@
 (
 	[ID] INT NOT NULL,
 	[Name] NVARCHAR(255) NOT NULL,
-	[Description] NVARCHAR(4000),
+	[Description] NVARCHAR(MAX),
+	[PrivateDescription] NVARCHAR(MAX),
 	[Logo] NVARCHAR(MAX),
 	[AcceptancePolicy] NVARCHAR(MAX),
 	[PreliminaryVoteCount] INT,
