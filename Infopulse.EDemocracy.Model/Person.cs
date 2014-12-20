@@ -17,7 +17,6 @@ namespace Infopulse.EDemocracy.Model
         public Person()
         {
             this.Agreements = new HashSet<Agreement>();
-            this.Agreements1 = new HashSet<Agreement>();
             this.AgreementVotes = new HashSet<AgreementVote>();
             this.Candidates = new HashSet<Candidate>();
             this.Certificates = new HashSet<Certificate>();
@@ -33,7 +32,6 @@ namespace Infopulse.EDemocracy.Model
         public string Login { get; set; }
     
         public virtual ICollection<Agreement> Agreements { get; set; }
-        public virtual ICollection<Agreement> Agreements1 { get; set; }
         public virtual ICollection<AgreementVote> AgreementVotes { get; set; }
         public virtual ICollection<Candidate> Candidates { get; set; }
         public virtual ICollection<Certificate> Certificates { get; set; }

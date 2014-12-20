@@ -1426,7 +1426,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="CreatedBy" Type="Int64" Nullable="false" />
           <Property Name="RunDate" Type="DateTime" Precision="3" />
           <Property Name="RunBy" Type="Int64" />
-          <NavigationProperty Name="Entity" Relationship="EDModel.FK_InvitationLink_Entity" FromRole="InvitationLink" ToRole="Entity" />
+          <NavigationProperty Name="Status" Relationship="EDModel.FK_InvitationLink_Entity" FromRole="InvitationLink" ToRole="Entity" />
           <NavigationProperty Name="Invitation" Relationship="EDModel.FK_InvitationLink_Invitation" FromRole="InvitationLink" ToRole="Invitation" />
         </EntityType>
         <EntityType Name="Person">
@@ -1436,7 +1436,6 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Login" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Agreements" Relationship="EDModel.FK_Agreement_People" FromRole="Person" ToRole="Agreement" />
-          <NavigationProperty Name="Agreements1" Relationship="EDModel.FK_Agreement_People1" FromRole="Person" ToRole="Agreement" />
           <NavigationProperty Name="AgreementVotes" Relationship="EDModel.FK_AgreementVote_People" FromRole="Person" ToRole="AgreementVote" />
           <NavigationProperty Name="Candidates" Relationship="EDModel.FK_Candidate_People" FromRole="Person" ToRole="Candidate" />
           <NavigationProperty Name="Certificates" Relationship="EDModel.FK_Certificate_People" FromRole="Person" ToRole="Certificate" />

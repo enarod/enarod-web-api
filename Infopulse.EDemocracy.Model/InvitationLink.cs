@@ -22,7 +22,7 @@ namespace Infopulse.EDemocracy.Model
         public Nullable<System.DateTime> RunDate { get; set; }
         public Nullable<long> RunBy { get; set; }
     
-        public virtual Entity Entity { get; set; }
+        public virtual Entity Status { get; set; }
         public virtual Invitation Invitation { get; set; }
     }
 }
