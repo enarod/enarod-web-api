@@ -139,6 +139,7 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Log\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\LocalM.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -241,6 +242,10 @@
     <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Infopulse.EDemocracy.Common\Infopulse.EDemocracy.Common.csproj">
+      <Project>{7d3f48c5-4389-4347-b5a8-d9a20557843d}</Project>
+      <Name>Infopulse.EDemocracy.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Infopulse.EDemocracy.Data\Infopulse.EDemocracy.Data.csproj">
       <Project>{dbaf3a5c-dbf6-4bdb-b580-564aebc2288a}</Project>
       <Name>Infopulse.EDemocracy.Data</Name>
