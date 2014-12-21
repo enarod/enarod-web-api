@@ -1,7 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
 using System.Linq;
-using System.Linq.Expressions;
-using AutoMapper;
 using DataModels = Infopulse.EDemocracy.Model;
 using WebModels = Infopulse.EDemocracy.Model.BusinessEntities;
 
@@ -26,6 +24,10 @@ namespace Infopulse.EDemocracy.Web
 			Mapper.CreateMap<DataModels.PetitionVote, WebModels.PetitionVote>();
 			Mapper.CreateMap<DataModels.PetitionEmailVote, WebModels.PetitionEmailVote>();
 			Mapper.CreateMap<DataModels.Petition, WebModels.Petition>()
+				.ForMember(webPetition => webPetition.CreatedBy, createdBy => createdBy.MapFrom(dataPetition => dataPetition.Person))
+				.ForMember(webPetition => webPetition.Level, level => level.MapFrom(dataPetition => dataPetition.PetitionLevel))
+				.ForMember(webPetition => webPetition.KeyWords, keyWords => keyWords.MapFrom(dataPetition => dataPetition.KeyWords.Split(',').Select(w => w.Trim())));
+			Mapper.CreateMap<DataModels.PetitionWithVote, WebModels.Petition>()
 				.ForMember(webPetition => webPetition.CreatedBy, createdBy => createdBy.MapFrom(dataPetition => dataPetition.Person))
 				.ForMember(webPetition => webPetition.Level, level => level.MapFrom(dataPetition => dataPetition.PetitionLevel))
 				.ForMember(webPetition => webPetition.KeyWords, keyWords => keyWords.MapFrom(dataPetition => dataPetition.KeyWords.Split(',').Select(w => w.Trim())));
