@@ -29,6 +29,10 @@ namespace Infopulse.EDemocracy.Model
         public Nullable<int> PreliminaryGatheringDays { get; set; }
         public Nullable<int> VoteCount { get; set; }
         public Nullable<int> GatheringDays { get; set; }
+        public System.DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public string ModifiedBy { get; set; }
     
         public virtual ICollection<Petition> Petitions { get; set; }
     }

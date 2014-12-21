@@ -155,6 +155,10 @@
           <Property Name="PreliminaryGatheringDays" Type="int" />
           <Property Name="VoteCount" Type="int" />
           <Property Name="GatheringDays" Type="int" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="4000" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="4000" />
         </EntityType>
         <EntityType Name="People">
           <Key>
@@ -2180,6 +2184,10 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="VoteCount" Type="Int32" />
           <Property Name="GatheringDays" Type="Int32" />
           <NavigationProperty Name="Petitions" Relationship="EDModel.FK_Petition_Organization" FromRole="Organization" ToRole="Petition" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Petition_Organization">
           <End Type="EDModel.Organization" Role="Organization" Multiplicity="0..1" />
@@ -2468,6 +2476,10 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <EntitySetMapping Name="Organizations">
             <EntityTypeMapping TypeName="EDModel.Organization">
               <MappingFragment StoreEntitySet="Organization">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="PrivateDescription" ColumnName="PrivateDescription" />
                 <ScalarProperty Name="GatheringDays" ColumnName="GatheringDays" />
                 <ScalarProperty Name="VoteCount" ColumnName="VoteCount" />
