@@ -51,6 +51,7 @@
     <Compile Include="DbExecuter.cs" />
     <Compile Include="DbLog.cs" />
     <Compile Include="Interfaces\IAgreementRepository.cs" />
+    <Compile Include="Interfaces\IDictionariesHelper.cs" />
     <Compile Include="Interfaces\IEntityRepository.cs" />
     <Compile Include="Interfaces\IPetitionLevelRepository.cs" />
     <Compile Include="Interfaces\IParticipantRepository.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="LogMessage.cs" />
     <Compile Include="Repositories\AgreementRepository.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\DicitionariesHelper.cs" />
     <Compile Include="Repositories\EntityRepository.cs" />
     <Compile Include="Repositories\DpaVerificationRepository.cs" />
     <Compile Include="Repositories\PetitionLevelRepository.cs" />

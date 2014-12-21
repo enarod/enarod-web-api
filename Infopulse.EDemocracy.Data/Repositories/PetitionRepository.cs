@@ -1,11 +1,10 @@
-﻿using Infopulse.EDemocracy.Data.Interfaces;
-using Infopulse.EDemocracy.Email;
+﻿using System.Data;
+using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Model;
-using Infopulse.EDemocracy.Model.Common;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
-using clientEntities = Infopulse.EDemocracy.Model.BusinessEntities;
 
 namespace Infopulse.EDemocracy.Data.Repositories
 {
@@ -20,27 +19,23 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		{
 			using (var db = new EDEntities())
 			{
-				var petition = db.Petitions.SingleOrDefault(p => p.ID == petitionID);
-
+				var petition = db.Database.SqlQuery<PetitionWithVote>("sp_Petition_GetAll @PetitionID", new SqlParameter("@PetitionID", petitionID))
+					.FirstOrDefault();
+				
 				if (petition == null) return null;
-
-				var creatorVote =
-					(from p in db.Petitions
-					 join e in db.PetitionEmailVotes on p.ID equals e.PetitionID
-					 where e.Email == p.Email
-					 select e).SingleOrDefault();
-
-				if (creatorVote == null)
+				petition.Person = db.People.SingleOrDefault(p => p.ID == petition.CreatedBy);
+				
+				if (!string.IsNullOrWhiteSpace(petition.Email))
 				{
-					throw new Exception("Ця петиція ще не підтверджена.");
+					var creatorVote = db.PetitionEmailVotes.SingleOrDefault(v => v.PetitionID == petitionID && v.Email == petition.Email);
+
+					if (creatorVote == null)
+					{
+						throw new Exception("Ця петиція ще не підтверджена.");
+					}
 				}
 
-				var petitionWithVotes = new PetitionWithVote(petition)
-										{
-											VotesCount = this.CountPetitionVotes(db, petition)
-										};
-
-				return petitionWithVotes;
+				return petition;
 			}
 		}
 
@@ -53,15 +48,8 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		{
 			using (var db = new EDEntities())
 			{
-				//var petitions = this.GetVisiblePetitons(db);
-
-				//// TODO: implement following using SP
-				//var petitionsWithVotes = petitions
-				//	.Select(p => new PetitionWithVote(p) { VotesCount = this.CountPetitionVotes(db, p) })
-				//	.ToList();
-				//return petitionsWithVotes;
-
 				var petitions = db.Database.SqlQuery<PetitionWithVote>("sp_Petition_GetAll").ToList();
+				
 				return petitions;
 			}
 		}

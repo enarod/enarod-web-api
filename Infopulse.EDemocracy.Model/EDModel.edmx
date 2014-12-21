@@ -832,6 +832,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_Petition_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="EDModelStoreContainer">
           <EntitySet Name="_Invitation" EntityType="Self._Invitation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Agreement" EntityType="Self.Agreement" Schema="dbo" store:Type="Tables" />

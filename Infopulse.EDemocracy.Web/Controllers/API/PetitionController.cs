@@ -1,5 +1,7 @@
 ﻿using System.Data.Entity;
 using AutoMapper;
+using Infopulse.EDemocracy.Common.Cache;
+using Infopulse.EDemocracy.Common.Cache.Interfaces;
 using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Data.Repositories;
 using Infopulse.EDemocracy.Email;
@@ -28,7 +30,8 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		private readonly IPetitionLevelRepository petitionLevelRepository;
 		private readonly IEntityRepository entityRepository;
 		private readonly IRegionRepository regionRepository;
-
+		private readonly IDictionariesHelper dictionariesHelper;
+		private readonly ICache cache;
 
 		/// <summary>
 		/// Default constructor (no DI yet).
@@ -40,6 +43,10 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			this.petitionLevelRepository = new PetitionLevelRepository();
 			this.entityRepository = new EntityRepository();
 			this.regionRepository = new RegionRepository();
+			this.dictionariesHelper = new DictionariesHelper();
+			this.cache = new Cache();
+
+			
 		}
 
 
@@ -56,6 +63,9 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			var result = OperationExecuter.Execute(() =>
 			{
 				var petitions = this.petitionRepository.Get();
+				
+				this.SetDictionariesValues(petitions);
+
 				var clinetPetitions = Mapper.Map<IEnumerable<Petition>>(petitions);
 				return OperationResult<IEnumerable<Petition>>.Success(clinetPetitions);
 			});
@@ -63,7 +73,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			return result;
 		}
 
-
+		
 		/// <summary>
 		/// Get petition by id.
 		/// </summary>
@@ -76,6 +86,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			var result = OperationExecuter.Execute(() =>
 			{
 				var petition = this.petitionRepository.Get(id);
+				this.SetDictionariesValues(petition);
 				var clientPetition = Mapper.Map<Petition>(petition);
 				return OperationResult<Petition>.Success(clientPetition);
 			});
@@ -400,6 +411,26 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 			var regions = this.regionRepository.GetRegions(petitionLevelID);
 			return regions;
+		}
+
+
+		private void SetDictionariesValues(IEnumerable<DALModel.Petition> petitions)
+		{
+			var levels = this.cache.Get(CachedElement.PetitionLevel, this.dictionariesHelper.GetPetitionLevels)
+					as IEnumerable<DALModel.PetitionLevel>;
+			var categories = this.cache.Get(CachedElement.PetitionCategory, this.dictionariesHelper.GetCategories)
+				as IEnumerable<DALModel.Entity>;
+
+			foreach (var petition in petitions)
+			{
+				petition.PetitionLevel = levels.SingleOrDefault(l => l.ID == petition.LevelID);
+				petition.Category = categories.SingleOrDefault(c => c.ID == petition.CategoryID);
+			}
+		}
+
+		private void SetDictionariesValues(params DALModel.Petition[] petitions)
+		{
+			this.SetDictionariesValues(petitions.ToList());
 		}
 	}
 }
