@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infopulse.EDemocracy.Web.Te
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Infopulse.EDemocracy.Database", "Infopulse.EDemocracy.Database\Infopulse.EDemocracy.Database.sqlproj", "{C050879B-7633-4ECB-A975-F018DEED919B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infopulse.EDemocracy.Common", "Infopulse.EDemocracy.Common\Infopulse.EDemocracy.Common.csproj", "{7D3F48C5-4389-4347-B5A8-D9A20557843D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{C050879B-7633-4ECB-A975-F018DEED919B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C050879B-7633-4ECB-A975-F018DEED919B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C050879B-7633-4ECB-A975-F018DEED919B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{7D3F48C5-4389-4347-B5A8-D9A20557843D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D3F48C5-4389-4347-B5A8-D9A20557843D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D3F48C5-4389-4347-B5A8-D9A20557843D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D3F48C5-4389-4347-B5A8-D9A20557843D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
