@@ -486,6 +486,29 @@
             The base class for api controllers
             </summary>
         </member>
+        <member name="T:Infopulse.EDemocracy.Web.Controllers.API.OrganizationController">
+            <summary>
+            Controller to operate with Organizrion entity.
+            </summary>
+        </member>
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.OrganizationController.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.OrganizationController.Get">
+            <summary>
+            Gets all organization registered in DB.
+            </summary>
+            <returns>List of organizations.</returns>
+        </member>
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.OrganizationController.Post(Infopulse.EDemocracy.Model.BusinessEntities.Organization)">
+            <summary>
+            Adds new organization.
+            </summary>
+            <param name="organizationToAdd">New organization.</param>
+            <returns>Organization been added.</returns>
+        </member>
         <member name="T:Infopulse.EDemocracy.Web.Controllers.API.PetitionController">
             <summary>
             APIs for managing petitions.

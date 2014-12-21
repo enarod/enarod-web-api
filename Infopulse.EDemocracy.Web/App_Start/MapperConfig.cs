@@ -17,6 +17,7 @@ namespace Infopulse.EDemocracy.Web
 		private static void MapDataToWebModels()
 		{
 			Mapper.CreateMap<DataModels.PetitionLevel, WebModels.PetitionLevel>();
+			Mapper.CreateMap<DataModels.Organization, WebModels.Organization>();
 			Mapper.CreateMap<DataModels.Entity, WebModels.Entity>()
 				.ForMember(webModel => webModel.Group, group => group.MapFrom(dataPetition => dataPetition.EntityGroup));
 			Mapper.CreateMap<DataModels.EntityGroup, WebModels.EntityGroup>();
@@ -37,6 +38,7 @@ namespace Infopulse.EDemocracy.Web
 		private static void MapWebToDataModels()
 		{
 			Mapper.CreateMap<WebModels.PetitionLevel, DataModels.PetitionLevel>();
+			Mapper.CreateMap<WebModels.Organization, DataModels.Organization>();
 			Mapper.CreateMap<WebModels.Entity, DataModels.Entity>()
 				.ForMember(dataModel => dataModel.EntityGroup, group => group.MapFrom(webPetition => webPetition.Group))
 				.ForMember(dataModel => dataModel.EntityGroupID, group => group.MapFrom(webPetition => webPetition.Group.ID));
