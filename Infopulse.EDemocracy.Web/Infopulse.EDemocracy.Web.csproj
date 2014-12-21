@@ -189,6 +189,7 @@
     <Compile Include="Controllers\API\AgreementController.cs" />
     <Compile Include="Controllers\API\BaseApiController.cs" />
     <Compile Include="Controllers\API\CryptoController.cs" />
+    <Compile Include="Controllers\API\OrganizationController.cs" />
     <Compile Include="Controllers\PetitionController.cs" />
     <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="Models\HashString.cs" />

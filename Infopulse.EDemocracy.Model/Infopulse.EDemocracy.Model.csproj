@@ -66,6 +66,7 @@
     <Compile Include="BusinessEntities\BaseEntity.cs" />
     <Compile Include="BusinessEntities\Candidate.cs" />
     <Compile Include="BusinessEntities\Certificate.cs" />
+    <Compile Include="BusinessEntities\Organization.cs" />
     <Compile Include="BusinessEntities\PetitionEmailVote.cs" />
     <Compile Include="BusinessEntities\Region.cs" />
     <Compile Include="Candidate.cs">
