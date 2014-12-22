@@ -40,9 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cache\Cache.cs" />
-    <Compile Include="Cache\Interfaces\ICache.cs" />
+    <Compile Include="Cache\CacheProvider.cs" />
+    <Compile Include="Cache\EntityCache.cs" />
+    <Compile Include="Cache\Interfaces\ICacheProvider.cs" />
     <Compile Include="Cache\CachedElement.cs" />
+    <Compile Include="Cache\Interfaces\IEntityCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

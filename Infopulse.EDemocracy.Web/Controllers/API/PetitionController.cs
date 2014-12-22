@@ -31,7 +31,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		private readonly IEntityRepository entityRepository;
 		private readonly IRegionRepository regionRepository;
 		private readonly IDictionariesHelper dictionariesHelper;
-		private readonly ICache cache;
+		private readonly IEntityCache entityCache;
 
 		/// <summary>
 		/// Default constructor (no DI yet).
@@ -44,9 +44,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			this.entityRepository = new EntityRepository();
 			this.regionRepository = new RegionRepository();
 			this.dictionariesHelper = new DictionariesHelper();
-			this.cache = new Cache();
-
-			
+			this.entityCache = new EntityCache(new CacheProvider());
 		}
 
 
@@ -416,9 +414,9 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 		private void SetDictionariesValues(IEnumerable<DALModel.Petition> petitions)
 		{
-			var levels = this.cache.Get(CachedElement.PetitionLevel, this.dictionariesHelper.GetPetitionLevels)
+			var levels = this.entityCache.Get(CachedElement.PetitionLevel, this.dictionariesHelper.GetPetitionLevels)
 					as IEnumerable<DALModel.PetitionLevel>;
-			var categories = this.cache.Get(CachedElement.PetitionCategory, this.dictionariesHelper.GetCategories)
+			var categories = this.entityCache.Get(CachedElement.PetitionCategory, this.dictionariesHelper.GetCategories)
 				as IEnumerable<DALModel.Entity>;
 
 			foreach (var petition in petitions)
