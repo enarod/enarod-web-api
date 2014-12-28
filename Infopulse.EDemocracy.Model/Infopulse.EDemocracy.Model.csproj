@@ -40,6 +40,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -83,6 +86,8 @@
     <Compile Include="BusinessEntities\PetitionLevel.cs" />
     <Compile Include="BusinessEntities\PetitionVote.cs" />
     <Compile Include="ClientEntities\ClientPetitionVote.cs" />
+    <Compile Include="ClientEntities\v2\EmailVote.cs" />
+    <Compile Include="ClientEntities\v2\PetitionSigner.cs" />
     <Compile Include="Common\EntityDictionary.cs" />
     <Compile Include="Common\ExceptionExtensions.cs" />
     <Compile Include="Common\HandledException.cs" />
@@ -220,6 +225,7 @@
   <ItemGroup>
     <Content Include="pub_Petitions_GetVisible.sql" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
