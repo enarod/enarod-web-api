@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
+using Infopulse.EDemocracy.Model.ClientEntities.v2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DataModels = Infopulse.EDemocracy.Model;
 using WebModels = Infopulse.EDemocracy.Model.BusinessEntities;
@@ -181,6 +182,48 @@ namespace Infopulse.EDemocracy.Web.Tests
 			Assert.IsNotNull(dataPetition1.Person);
 			Assert.AreEqual(dataPetition1.Person.ID, 1);
 			Assert.AreEqual(dataPetition1.CreatedBy, 1);
+		}
+
+
+		[TestMethod]
+		public void Map_PetitionEmailVoteWebToServer_Success()
+		{
+			MapperConfig.Map();
+
+			var webEmailVote = new Infopulse.EDemocracy.Model.ClientEntities.v2.EmailVote
+			{
+				ID = 42,
+				Signer = new PetitionSigner
+				{
+					Email = "jdoe@gmail.com",
+					FirstName = "John",
+					MiddleName = "S",
+					LastName = "Doe",
+					AddressLine1 = "App. 213",
+					AddressLine2 = "13 Main str.",
+					City = "New York",
+					Region = "NY",
+					Country = "USA",
+					CreatedBy = "Unit test",
+					CreatedDate = DateTime.UtcNow,
+					ModifiedBy = null,
+					ModifiedDate = null
+				}
+			};
+			var dalEmailVote = Mapper.Map<Infopulse.EDemocracy.Model.PetitionEmailVote>(webEmailVote);
+
+			Assert.IsNotNull(dalEmailVote);
+			Assert.AreEqual(dalEmailVote.ID, -1);
+			Assert.AreEqual(webEmailVote.ID, dalEmailVote.PetitionID);
+			Assert.AreEqual(webEmailVote.Signer.Email, dalEmailVote.PetitionSigner.Email);
+			Assert.AreEqual(webEmailVote.Signer.FirstName, dalEmailVote.PetitionSigner.FirstName);
+			Assert.AreEqual(webEmailVote.Signer.MiddleName, dalEmailVote.PetitionSigner.MiddleName);
+			Assert.AreEqual(webEmailVote.Signer.LastName, dalEmailVote.PetitionSigner.LastName);
+			Assert.AreEqual(webEmailVote.Signer.AddressLine1, dalEmailVote.PetitionSigner.AddressLine1);
+			Assert.AreEqual(webEmailVote.Signer.AddressLine2, dalEmailVote.PetitionSigner.AddressLine2);
+			Assert.AreEqual(webEmailVote.Signer.Region, dalEmailVote.PetitionSigner.Region);
+			Assert.AreEqual(webEmailVote.Signer.City, dalEmailVote.PetitionSigner.City);
+			Assert.AreEqual(webEmailVote.Signer.Country, dalEmailVote.PetitionSigner.Country);
 		}
 
 		// ReSharper restore InconsistentNaming

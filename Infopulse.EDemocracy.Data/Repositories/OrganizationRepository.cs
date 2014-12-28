@@ -6,10 +6,8 @@ using Infopulse.EDemocracy.Model;
 
 namespace Infopulse.EDemocracy.Data.Repositories
 {
-	public class OrganizationRepository : IOrganizationRepository
+	public class OrganizationRepository : BaseRepository, IOrganizationRepository
 	{
-		private const string DefaultUnknownUsername = "Unknown app user";
-
 		public IEnumerable<Organization> GetAll()
 		{
 			using (var db = new EDEntities())
@@ -34,7 +32,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			{
 				if (string.IsNullOrWhiteSpace(organizationToAdd.CreatedBy))
 				{
-					organizationToAdd.CreatedBy = DefaultUnknownUsername;
+					organizationToAdd.CreatedBy = this.UnknownAppUser;
 				}
 
 				organizationToAdd.CreatedDate = DateTime.UtcNow;
@@ -68,7 +66,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				organization.VoteCount = organizationToUpdate.VoteCount;
 
 				organization.ModifiedBy = string.IsNullOrWhiteSpace(organizationToUpdate.ModifiedBy)
-					? DefaultUnknownUsername
+					? this.UnknownAppUser
 					: organizationToUpdate.ModifiedBy;
 				organization.ModifiedDate = DateTime.UtcNow;
 

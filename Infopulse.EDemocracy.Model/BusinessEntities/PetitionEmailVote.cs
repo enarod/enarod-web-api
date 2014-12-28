@@ -3,6 +3,8 @@ using System.Configuration;
 
 namespace Infopulse.EDemocracy.Model.BusinessEntities
 {
+	using PetitionSigner = Infopulse.EDemocracy.Model.ClientEntities.v2.PetitionSigner;
+
 	public class PetitionEmailVote : BaseEntity
 	{
 		public Petition Petition { get; set; }
@@ -11,6 +13,7 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		public DateTime CreatedDate { get; set; }
 		public bool IsConfirmed { get; set; }
 
+		public PetitionSigner PetitionSigner { get; set; }
 
 		public string ConfirmUrl
 		{

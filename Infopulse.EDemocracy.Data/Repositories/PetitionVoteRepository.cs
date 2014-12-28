@@ -1,4 +1,5 @@
-﻿using Infopulse.EDemocracy.Data.Interfaces;
+﻿using Infopulse.EDemocracy.Data.Exceptions;
+using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Model;
 using Infopulse.EDemocracy.Model.ClientEntities;
 using Infopulse.EDemocracy.Model.Common;
@@ -242,4 +243,90 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			return result;
 		}
 	}
+}
+
+namespace Infopulse.EDemocracy.Data.Repositories.v2
+{
+	using Infopulse.EDemocracy.Data.Interfaces.v2;
+
+	public class PetitionVoteRepository : BaseRepository, IPetitionVoteRepository
+	{
+		public PetitionEmailVote CreateEmailVoteRequest(PetitionEmailVote emailVote)
+		{
+			if (emailVote == null)
+			{
+				throw new NullReferenceException("Unable to create email vote request with null PetitionEmailVote.");
+			}
+
+			if (emailVote.PetitionSigner == null)
+			{
+				throw new ArgumentNullException("emailVote", @"Unable to create email vote requst with null PetitionSigner.");
+			}
+
+			using (var db = new EDEntities())
+			{
+				var dbEmailVote = db.PetitionEmailVotes.SingleOrDefault(v =>
+					v.PetitionID == emailVote.PetitionID &&
+					v.PetitionSigner.Email == emailVote.PetitionSigner.Email);
+
+				if (dbEmailVote != null)
+				{
+					if (!dbEmailVote.IsConfirmed)
+					{
+						throw new PetitionIsNotConfirmedException();
+					}
+
+					throw new PetitionAlreadyVotedWithEmailException();
+				}
+
+				var createdDate = DateTime.UtcNow;
+				var createdBy = string.IsNullOrWhiteSpace(emailVote.PetitionSigner.CreatedBy)
+					? this.UnknownAppUser
+					: emailVote.PetitionSigner.CreatedBy;
+
+				emailVote.Email = emailVote.PetitionSigner.Email;
+				emailVote.Hash = HashGenerator.Generate();
+				emailVote.IsConfirmed = false;
+				emailVote.CreatedDate = createdDate;
+
+				var petitionSigner = db.PetitionSigners.SingleOrDefault(s => s.Email == emailVote.PetitionSigner.Email);
+				if (petitionSigner == null)
+				{
+					emailVote.PetitionSigner.CreatedDate = createdDate;
+					emailVote.PetitionSigner.CreatedBy = createdBy;
+
+					emailVote.PetitionSigner = db.PetitionSigners.Add(emailVote.PetitionSigner);
+					db.SaveChanges();
+				}
+				else
+				{
+					// signer already exists in DB
+					emailVote.PetitionSignerID = petitionSigner.ID;
+					emailVote.PetitionSigner = petitionSigner;
+				}
+
+				emailVote = db.PetitionEmailVotes.Add(emailVote);
+				db.SaveChanges();
+
+				return emailVote;
+			}
+			
+		}
+
+		public PetitionEmailVote ConfirmEmailVoteRequest(PetitionEmailVote emailVote)
+		{
+			throw new NotImplementedException();
+		}
+
+		public PetitionEmailVote CreateRecallVoteRequest(PetitionEmailVote emailVote)
+		{
+			throw new NotImplementedException();
+		}
+
+		public PetitionEmailVote ConfirmRecallVoteRequest(PetitionEmailVote emailVote)
+		{
+			throw new NotImplementedException();
+		}
+	}
+	
 }

@@ -1,8 +1,10 @@
-﻿using Infopulse.EDemocracy.Model.ClientEntities;
+﻿using Infopulse.EDemocracy.Model;
+using Infopulse.EDemocracy.Model.ClientEntities;
 using Infopulse.EDemocracy.Model.Common;
 
 namespace Infopulse.EDemocracy.Data.Interfaces
 {
+	// obsolete
 	public interface IPetitionVoteRepository
 	{
 		OperationResult Vote(ClientPetitionVote vote, string certificateSerialNumber);
@@ -25,5 +27,17 @@ namespace Infopulse.EDemocracy.Data.Interfaces
 		OperationResult<Model.BusinessEntities.Petition> GetPetition(string hash);
 		OperationResult ClearVotes();
 		OperationResult ClearVote(int petitionID);
+	}
+}
+
+namespace Infopulse.EDemocracy.Data.Interfaces.v2
+{
+	public interface IPetitionVoteRepository
+	{
+		PetitionEmailVote CreateEmailVoteRequest(EDemocracy.Model.PetitionEmailVote emailVote);
+		PetitionEmailVote ConfirmEmailVoteRequest(EDemocracy.Model.PetitionEmailVote emailVote);
+		
+		PetitionEmailVote CreateRecallVoteRequest(EDemocracy.Model.PetitionEmailVote emailVote);
+		PetitionEmailVote ConfirmRecallVoteRequest(EDemocracy.Model.PetitionEmailVote emailVote);
 	}
 }

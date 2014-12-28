@@ -50,6 +50,8 @@
     <Compile Include="DbConnectionHandlerAttribute.cs" />
     <Compile Include="DbExecuter.cs" />
     <Compile Include="DbLog.cs" />
+    <Compile Include="Exceptions\PetitionAlreadyVotedWithEmailException.cs" />
+    <Compile Include="Exceptions\PetitionIsNotConfirmedException.cs" />
     <Compile Include="Interfaces\IAgreementRepository.cs" />
     <Compile Include="Interfaces\IDictionariesHelper.cs" />
     <Compile Include="Interfaces\IEntityRepository.cs" />

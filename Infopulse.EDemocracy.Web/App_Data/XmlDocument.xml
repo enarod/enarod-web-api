@@ -560,6 +560,14 @@
             <param name="vote">Petition vote via email.</param>
             <returns></returns>
         </member>
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.EmailVote2(Infopulse.EDemocracy.Model.ClientEntities.v2.EmailVote)">
+            <summary>
+            Vote for petition by email.
+            </summary>
+            <param name="vote">Information about petition signer.</param>
+            <returns></returns>
+            <remarks>Version 2</remarks>
+        </member>
         <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.CreatePetition(Infopulse.EDemocracy.Model.BusinessEntities.Petition)">
             <summary>
             Create new petition.

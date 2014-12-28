@@ -33,6 +33,8 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		private readonly IDictionariesHelper dictionariesHelper;
 		private readonly IEntityCache entityCache;
 
+		private readonly EDemocracy.Data.Interfaces.v2.IPetitionVoteRepository petitionVoteRepository2;
+
 		/// <summary>
 		/// Default constructor (no DI yet).
 		/// </summary>
@@ -45,6 +47,8 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			this.regionRepository = new RegionRepository();
 			this.dictionariesHelper = new DictionariesHelper();
 			this.entityCache = new EntityCache(new CacheProvider());
+
+			this.petitionVoteRepository2 = new EDemocracy.Data.Repositories.v2.PetitionVoteRepository();
 		}
 
 
@@ -237,6 +241,27 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 					-11,
 					string.Format("Не вдалось відправити запит на підтвердження голосування на email {0}", vote.Email));
 			}
+
+			return result;
+		}
+
+
+		/// <summary>
+		/// Vote for petition by email.
+		/// </summary>
+		/// <param name="vote">Information about petition signer.</param>
+		/// <returns></returns>
+		/// <remarks>Version 2</remarks>
+		[HttpPost]
+		[Route("api/petition/v2/emailVote")]
+		public OperationResult EmailVote2(EDemocracy.Model.ClientEntities.v2.EmailVote vote)
+		{
+			var result = OperationExecuter.Execute(() =>
+			{
+				var dalEmailVote = Mapper.Map<EDemocracy.Model.PetitionEmailVote>(vote);
+				var emailVoteRequest = this.petitionVoteRepository2.CreateEmailVoteRequest(dalEmailVote);
+				return OperationResult.Success(1, "Success");
+			});
 
 			return result;
 		}
