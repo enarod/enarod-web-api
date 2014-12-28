@@ -33,5 +33,5 @@ AS
 		*
 	from cte_petitions p
 	where
-		(@PetitionID is not null or p.VotesCount > p.Limit)
-		and (@PetitionID is null or p.ID = @PetitionID)
+		(@PetitionID is not null and p.ID = @PetitionID)
+		or p.VotesCount > p.Limit

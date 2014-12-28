@@ -19,11 +19,13 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		{
 			using (var db = new EDEntities())
 			{
-				var petition = db.Database.SqlQuery<PetitionWithVote>("sp_Petition_GetAll @PetitionID", new SqlParameter("@PetitionID", petitionID))
+				var petition = db.Database
+					.SqlQuery<PetitionWithVote>("sp_Petition_GetAll @PetitionID", new SqlParameter("@PetitionID", petitionID))
 					.FirstOrDefault();
 				
 				if (petition == null) return null;
 				petition.Person = db.People.SingleOrDefault(p => p.ID == petition.CreatedBy);
+				petition.Organization = db.Organizations.SingleOrDefault(o => o.ID == petition.OrganizationID);
 				
 				if (!string.IsNullOrWhiteSpace(petition.Email))
 				{
