@@ -17,6 +17,10 @@ namespace Infopulse.EDemocracy.Model.Helpers
 		};
 
 
+		/// <summary>
+		/// Generates 25-chars unique hash.
+		/// </summary>
+		/// <returns>Unique hash as string.</returns>
 		public static string Generate()
 		{
 			var hash = string.Empty;
