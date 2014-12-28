@@ -194,6 +194,7 @@
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PetitionID" Type="bigint" Nullable="false" />
           <Property Name="Email" Type="varchar(max)" Nullable="false" />
+          <Property Name="PetitionSignerID" Type="int" />
           <Property Name="Hash" Type="varchar(max)" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="IsConfirmed" Type="bit" Nullable="false" />
@@ -205,6 +206,25 @@
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Limit" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PetitionSigner">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="300" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="300" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="300" />
+          <Property Name="AddressLine1" Type="nvarchar" MaxLength="4000" />
+          <Property Name="AddressLine2" Type="nvarchar" MaxLength="4000" />
+          <Property Name="City" Type="nvarchar" MaxLength="300" />
+          <Property Name="Region" Type="nvarchar" MaxLength="300" />
+          <Property Name="Country" Type="nvarchar" MaxLength="300" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="4000" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="4000" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
         </EntityType>
         <EntityType Name="PetitionVote">
           <Key>
@@ -680,6 +700,18 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PetitionEmailVote_PetitionSigner">
+          <End Role="PetitionSigner" Type="Self.PetitionSigner" Multiplicity="0..1" />
+          <End Role="PetitionEmailVote" Type="Self.PetitionEmailVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PetitionSigner">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PetitionEmailVote">
+              <PropertyRef Name="PetitionSignerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PetitionVote_Certificate">
           <End Role="Certificate" Type="Self.Certificate" Multiplicity="1" />
           <End Role="PetitionVote" Type="Self.PetitionVote" Multiplicity="*" />
@@ -858,6 +890,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <EntitySet Name="Petition" EntityType="Self.Petition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PetitionEmailVote" EntityType="Self.PetitionEmailVote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PetitionLevel" EntityType="Self.PetitionLevel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PetitionSigner" EntityType="Self.PetitionSigner" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PetitionVote" EntityType="Self.PetitionVote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Photo" EntityType="Self.Photo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
@@ -1006,6 +1039,10 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           </AssociationSet>
           <AssociationSet Name="FK_PetitionEmailVote_Petition" Association="Self.FK_PetitionEmailVote_Petition">
             <End Role="Petition" EntitySet="Petition" />
+            <End Role="PetitionEmailVote" EntitySet="PetitionEmailVote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetitionEmailVote_PetitionSigner" Association="Self.FK_PetitionEmailVote_PetitionSigner">
+            <End Role="PetitionSigner" EntitySet="PetitionSigner" />
             <End Role="PetitionEmailVote" EntitySet="PetitionEmailVote" />
           </AssociationSet>
           <AssociationSet Name="FK_PetitionVote_Certificate" Association="Self.FK_PetitionVote_Certificate">
@@ -1277,6 +1314,11 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <AssociationSet Name="FK_Petition_Organization" Association="EDModel.FK_Petition_Organization">
             <End Role="Organization" EntitySet="Organizations" />
             <End Role="Petition" EntitySet="Petitions" />
+          </AssociationSet>
+          <EntitySet Name="PetitionSigners" EntityType="EDModel.PetitionSigner" />
+          <AssociationSet Name="FK_PetitionEmailVote_PetitionSigner" Association="EDModel.FK_PetitionEmailVote_PetitionSigner">
+            <End Role="PetitionSigner" EntitySet="PetitionSigners" />
+            <End Role="PetitionEmailVote" EntitySet="PetitionEmailVotes" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="C_Invitation">
@@ -2156,6 +2198,8 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsConfirmed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Petition" Relationship="EDModel.FK_PetitionEmailVote_Petition" FromRole="PetitionEmailVote" ToRole="Petition" />
+          <Property Name="PetitionSignerID" Type="Int32" />
+          <NavigationProperty Name="PetitionSigner" Relationship="EDModel.FK_PetitionEmailVote_PetitionSigner" FromRole="PetitionEmailVote" ToRole="PetitionSigner" />
         </EntityType>
         <Association Name="FK_PetitionEmailVote_Petition">
           <End Type="EDModel.Petition" Role="Petition" Multiplicity="1" />
@@ -2198,6 +2242,38 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
             </Principal>
             <Dependent Role="Petition">
               <PropertyRef Name="OrganizationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PetitionSigner">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="MiddleName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine1" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine2" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="PetitionEmailVotes" Relationship="EDModel.FK_PetitionEmailVote_PetitionSigner" FromRole="PetitionSigner" ToRole="PetitionEmailVote" />
+        </EntityType>
+        <Association Name="FK_PetitionEmailVote_PetitionSigner">
+          <End Type="EDModel.PetitionSigner" Role="PetitionSigner" Multiplicity="0..1" />
+          <End Type="EDModel.PetitionEmailVote" Role="PetitionEmailVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PetitionSigner">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PetitionEmailVote">
+              <PropertyRef Name="PetitionSignerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2464,6 +2540,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <EntitySetMapping Name="PetitionEmailVotes">
             <EntityTypeMapping TypeName="EDModel.PetitionEmailVote">
               <MappingFragment StoreEntitySet="PetitionEmailVote">
+                <ScalarProperty Name="PetitionSignerID" ColumnName="PetitionSignerID" />
                 <ScalarProperty Name="Hash" ColumnName="Hash" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="PetitionID" ColumnName="PetitionID" />
@@ -2489,6 +2566,26 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
                 <ScalarProperty Name="Logo" ColumnName="Logo" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PetitionSigners">
+            <EntityTypeMapping TypeName="EDModel.PetitionSigner">
+              <MappingFragment StoreEntitySet="PetitionSigner">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

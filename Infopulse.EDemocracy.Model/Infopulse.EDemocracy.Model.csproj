@@ -146,6 +146,9 @@
     <Compile Include="PetitionLevel.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="PetitionSigner.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="PetitionVote.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
