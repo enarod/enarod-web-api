@@ -17,6 +17,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Infopulse.EDemocracy.Databa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infopulse.EDemocracy.Common", "Infopulse.EDemocracy.Common\Infopulse.EDemocracy.Common.csproj", "{7D3F48C5-4389-4347-B5A8-D9A20557843D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0CBA597E-F782-4475-A905-D7E77C3F28F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,5 +58,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FCF98693-AE36-49BF-A57D-E5D686CC3F89} = {0CBA597E-F782-4475-A905-D7E77C3F28F3}
 	EndGlobalSection
 EndGlobal
