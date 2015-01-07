@@ -9,7 +9,7 @@ namespace Infopulse.EDemocracy.Common.Services
 		{
 			using (var client = new HttpClient())
 			{
-				var requestTask = client.GetStringAsync(url);
+				var requestTask = client.GetStringAsync(url).ConfigureAwait(false);
 				return await requestTask;
 			}
 		}
@@ -18,7 +18,7 @@ namespace Infopulse.EDemocracy.Common.Services
 		{
 			using (var client = new HttpClient())
 			{
-				var requestTask = client.GetAsync(url);
+				var requestTask = client.GetAsync(url).ConfigureAwait(false);
 				return await requestTask;
 			}
 		}

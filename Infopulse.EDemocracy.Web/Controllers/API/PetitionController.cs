@@ -2,6 +2,8 @@
 using AutoMapper;
 using Infopulse.EDemocracy.Common.Cache;
 using Infopulse.EDemocracy.Common.Cache.Interfaces;
+using Infopulse.EDemocracy.Common.Services;
+using Infopulse.EDemocracy.Common.Services.Models;
 using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Data.Repositories;
 using Infopulse.EDemocracy.Email;
@@ -33,6 +35,8 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		private readonly IDictionariesHelper dictionariesHelper;
 		private readonly IEntityCache entityCache;
 
+		private readonly GeoService geoService;
+
 		private readonly EDemocracy.Data.Interfaces.v2.IPetitionVoteRepository petitionVoteRepository2;
 
 		/// <summary>
@@ -47,6 +51,8 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			this.regionRepository = new RegionRepository();
 			this.dictionariesHelper = new DictionariesHelper();
 			this.entityCache = new EntityCache(new CacheProvider());
+
+			this.geoService = new GeoService();
 
 			this.petitionVoteRepository2 = new EDemocracy.Data.Repositories.v2.PetitionVoteRepository();
 		}
@@ -434,6 +440,20 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 			var regions = this.regionRepository.GetRegions(petitionLevelID);
 			return regions;
+		}
+
+
+		[HttpGet]
+		[Route("api/countries")]
+		public OperationResult<IEnumerable<Country>> GetCountries()
+		{
+			var countries = this.entityCache.Get(CachedElement.CountriesList, () =>
+			{
+				var countriesList = this.geoService.GetCountries();
+				return countriesList;
+			}) as IEnumerable<Country>;
+
+			return OperationResult<IEnumerable<Country>>.Success(countries);
 		}
 
 

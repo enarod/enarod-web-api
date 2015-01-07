@@ -3,6 +3,7 @@
 	public enum CachedElement
 	{
 		PetitionLevel,
-		PetitionCategory
+		PetitionCategory,
+		CountriesList
 	}
 }

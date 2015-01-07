@@ -22,7 +22,8 @@ namespace Infopulse.EDemocracy.Common.Services
 		public ICollection<Country> GetCountries()
 		{
 			var url = string.Format("http://api.geonames.org/countryInfo?username={0}&lang={1}", GeoNamesUsername, GeoNamesLanguage);
-			var response = this.httpService.GetStringAsync(url).Result;
+			var responseTask = this.httpService.GetStringAsync(url);
+			var response = responseTask.Result;
 			var countries = this.ParseResponseToCountries(response);
 			return countries;
 		}
