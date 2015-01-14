@@ -264,9 +264,27 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
-				var dalEmailVote = Mapper.Map<EDemocracy.Model.PetitionEmailVote>(vote);
-				var emailVoteRequest = this.petitionVoteRepository2.CreateEmailVoteRequest(dalEmailVote);
-				return OperationResult.Success(1, "Success");
+				OperationResult voteResult;
+
+				var emailVoteRequest = this.petitionVoteRepository2.CreateEmailVoteRequest(
+					Mapper.Map<Infopulse.EDemocracy.Model.PetitionEmailVote>(vote));
+
+				var webPetitionVote = Mapper.Map<Infopulse.EDemocracy.Model.BusinessEntities.PetitionEmailVote>(emailVoteRequest);
+				var notification = new PetitionVoteNotification(webPetitionVote);
+
+				var sendingResult = NotificationService.Send(notification);
+				if (sendingResult.IsSuccess)
+				{
+					voteResult = sendingResult;
+				}
+				else
+				{
+					voteResult = OperationResult.Fail(
+						-11,
+						string.Format("Не вдалось відправити запит на підтвердження голосування на email {0}", vote.Signer.Email));
+				}
+
+				return voteResult;
 			});
 
 			return result;

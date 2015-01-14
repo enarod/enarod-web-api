@@ -308,6 +308,14 @@ namespace Infopulse.EDemocracy.Data.Repositories.v2
 				emailVote = db.PetitionEmailVotes.Add(emailVote);
 				db.SaveChanges();
 
+				emailVote.Petition = db.Petitions
+					.Include("Category")
+					.Include("Category.EntityGroup")
+					.Include("PetitionLevel")
+					.Include("Organization")
+					.Include("Person")
+					.SingleOrDefault(p => p.ID == emailVote.PetitionID);
+
 				return emailVote;
 			}
 			

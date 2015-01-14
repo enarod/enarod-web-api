@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using Infopulse.EDemocracy.Model.ClientEntities.v2;
+using Infopulse.EDemocracy.Model.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DataModels = Infopulse.EDemocracy.Model;
 using WebModels = Infopulse.EDemocracy.Model.BusinessEntities;
@@ -186,7 +187,7 @@ namespace Infopulse.EDemocracy.Web.Tests
 
 
 		[TestMethod]
-		public void Map_PetitionEmailVoteWebToServer_Success()
+		public void Map_EmailVoteWebToServer_Success()
 		{
 			MapperConfig.Map();
 
@@ -224,6 +225,108 @@ namespace Infopulse.EDemocracy.Web.Tests
 			Assert.AreEqual(webEmailVote.Signer.Region, dalEmailVote.PetitionSigner.Region);
 			Assert.AreEqual(webEmailVote.Signer.City, dalEmailVote.PetitionSigner.City);
 			Assert.AreEqual(webEmailVote.Signer.Country, dalEmailVote.PetitionSigner.Country);
+		}
+
+
+		[TestMethod]
+		public void Map_PetitionEmailVote_ServerToWeb_Success()
+		{
+			var now = DateTime.UtcNow;
+
+			MapperConfig.Map();
+
+			var dalPetitionEmailVote = new Infopulse.EDemocracy.Model.PetitionEmailVote()
+			{
+				ID = -13,
+				Email = "abc@example.com",
+				PetitionID = -111,
+				Hash = "#abcde",
+				IsConfirmed = false,
+				CreatedDate = now,
+				PetitionSignerID = -4,
+				PetitionSigner = new DataModels.PetitionSigner()
+				{
+					ID = -2,
+					Email = "abc@example.com",
+					FirstName = "",
+					LastName = "",
+					MiddleName = "",
+					AddressLine1 = "address 1",
+					AddressLine2 = "address 2",
+					City = "city 2",
+					Region = "region 3",
+					Country = "Ukraine",
+					CreatedDate = now,
+					CreatedBy = "test",
+					ModifiedBy = "test",
+					ModifiedDate = now
+				},
+				Petition = new DataModels.Petition()
+				{
+					ID = -1,
+					Subject = "Test 1",
+					Text = "petition",
+					Requirements = "req",
+					Email = "user2@example.com",
+					AddressedTo = "",
+					CategoryID = -9,
+					Category = new DataModels.Entity()
+					{
+						ID = -19,
+						Name = "Good",
+						EntityGroupID = -20,
+						EntityGroup = new DataModels.EntityGroup()
+						{
+							ID = -21,
+							Name = "Status",
+							ParentID = null
+						}
+					},
+					CreatedDate = now,
+					CreatedBy = -111,
+					Person = new DataModels.Person()
+					{
+						ID = -111,
+						Login = "Test user"
+					},
+					LevelID = 1,
+					PetitionLevel = new DataModels.PetitionLevel()
+					{
+						ID = -31,
+						Name = "Level 1",
+						Limit = 500
+					},
+					Limit = 1000,
+					EffectiveFrom = now.AddDays(-1),
+					EffectiveTo = now.AddDays(1),
+					KeyWords = "abc, cde",
+					OrganizationID = -41,
+					Organization = new DataModels.Organization()
+					{
+						ID = -41,
+						Logo = "abc",
+						Name = "",
+						Description = "",
+						AcceptancePolicy = "",
+						PreliminaryVoteCount = null,
+						PreliminaryGatheringDays = null,
+						PrivateDescription = "",
+						GatheringDays = 10,
+						VoteCount = 10,
+						CreatedBy = "Test",
+						CreatedDate = now,
+						ModifiedBy = null,
+						ModifiedDate = null
+					}
+				}
+			};
+
+			var webPetitionEmailVote = Mapper.Map<Infopulse.EDemocracy.Model.BusinessEntities.PetitionEmailVote>(dalPetitionEmailVote);
+
+			Assert.IsNotNull(webPetitionEmailVote);
+			Assert.AreEqual(dalPetitionEmailVote.Petition.ID, webPetitionEmailVote.Petition.ID);
+			Assert.AreEqual(dalPetitionEmailVote.PetitionSigner.FirstName, webPetitionEmailVote.PetitionSigner.FirstName);
+			Assert.AreEqual(dalPetitionEmailVote.Petition.Organization.ID, webPetitionEmailVote.Petition.Organization.ID);
 		}
 
 		// ReSharper restore InconsistentNaming
