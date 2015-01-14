@@ -34,4 +34,4 @@ AS
 	from cte_petitions p
 	where
 		(@PetitionID is not null and p.ID = @PetitionID)
-		or p.VotesCount > p.Limit
+		or (@PetitionID is null and p.VotesCount > p.Limit)
