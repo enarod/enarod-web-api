@@ -255,19 +255,19 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// <summary>
 		/// Vote for petition by email.
 		/// </summary>
-		/// <param name="vote">Information about petition signer.</param>
+		/// <param name="vote2">Information about petition signer.</param>
 		/// <returns></returns>
 		/// <remarks>Version 2</remarks>
 		[HttpPost]
 		[Route("api/petition/v2/emailVote")]
-		public OperationResult EmailVote2(EDemocracy.Model.ClientEntities.v2.EmailVote vote)
+		public OperationResult EmailVote2(EDemocracy.Model.ClientEntities.v2.EmailVote2 vote2)
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
 				OperationResult voteResult;
 
 				var emailVoteRequest = this.petitionVoteRepository2.CreateEmailVoteRequest(
-					Mapper.Map<Infopulse.EDemocracy.Model.PetitionEmailVote>(vote));
+					Mapper.Map<Infopulse.EDemocracy.Model.PetitionEmailVote>(vote2));
 
 				var webPetitionVote = Mapper.Map<Infopulse.EDemocracy.Model.BusinessEntities.PetitionEmailVote>(emailVoteRequest);
 				var notification = new PetitionVoteNotification(webPetitionVote);
@@ -281,7 +281,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 				{
 					voteResult = OperationResult.Fail(
 						-11,
-						string.Format("Не вдалось відправити запит на підтвердження голосування на email {0}", vote.Signer.Email));
+						string.Format("Не вдалось відправити запит на підтвердження голосування на email {0}", vote2.Signer.Email));
 				}
 
 				return voteResult;

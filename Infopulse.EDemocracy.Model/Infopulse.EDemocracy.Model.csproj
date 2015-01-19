@@ -113,7 +113,7 @@
     <Compile Include="BusinessEntities\PetitionLevel.cs" />
     <Compile Include="BusinessEntities\PetitionVote.cs" />
     <Compile Include="ClientEntities\ClientPetitionVote.cs" />
-    <Compile Include="ClientEntities\v2\EmailVote.cs" />
+    <Compile Include="ClientEntities\v2\EmailVote2.cs" />
     <Compile Include="ClientEntities\v2\PetitionSigner.cs" />
     <Compile Include="Common\EntityDictionary.cs" />
     <Compile Include="Common\ExceptionExtensions.cs" />

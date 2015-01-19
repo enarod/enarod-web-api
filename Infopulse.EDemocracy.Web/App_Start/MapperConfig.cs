@@ -57,7 +57,7 @@ namespace Infopulse.EDemocracy.Web
 				.ForMember(dataPetition => dataPetition.OrganizationID, organizationID => organizationID.MapFrom(webPetition => webPetition.Organization == null ? -1 : webPetition.Organization.ID));
 			Mapper.CreateMap<EDemocracy.Model.ClientEntities.v2.PetitionSigner, EDemocracy.Model.PetitionSigner>()
 				.ForMember(dalSigner => dalSigner.ID, field => field.UseValue(-1));
-			Mapper.CreateMap<Infopulse.EDemocracy.Model.ClientEntities.v2.EmailVote, Infopulse.EDemocracy.Model.PetitionEmailVote>()
+			Mapper.CreateMap<Infopulse.EDemocracy.Model.ClientEntities.v2.EmailVote2, Infopulse.EDemocracy.Model.PetitionEmailVote>()
 				.ForMember(dalVote => dalVote.ID, field => field.UseValue(-1))
 				.ForMember(dalVote => dalVote.Email, field => field.MapFrom(webVote => webVote.Signer.Email))
 				.ForMember(dalVote => dalVote.PetitionID, field => field.MapFrom(webVote => webVote.ID))

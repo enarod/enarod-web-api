@@ -191,7 +191,7 @@ namespace Infopulse.EDemocracy.Web.Tests
 		{
 			MapperConfig.Map();
 
-			var webEmailVote = new Infopulse.EDemocracy.Model.ClientEntities.v2.EmailVote
+			var webEmailVote = new Infopulse.EDemocracy.Model.ClientEntities.v2.EmailVote2
 			{
 				ID = 42,
 				Signer = new PetitionSigner
