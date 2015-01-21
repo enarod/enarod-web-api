@@ -128,7 +128,8 @@
     <Build Include="dbo\Tables\PetitionSigner.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Compares\DBToProject.scmp" />
-    <None Include="Compares\ProjectToDB.scmp" />
+    <None Include="Compares\ProdToProject.scmp" />
+    <None Include="Compares\ProjectToProd.scmp" />
+    <None Include="Compares\ProjectToDev.scmp" />
   </ItemGroup>
 </Project>
