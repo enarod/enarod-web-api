@@ -19,16 +19,10 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		{
 			using (var db = new EDEntities())
 			{
-				var petition = db.Database
-					.SqlQuery<PetitionWithVote>(
-						"sp_Petition_GetAll @PetitionID",
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.Int,
-							Direction = ParameterDirection.Input,
-							ParameterName = "PetitionID",
-							Value = petitionID
-						})
+				var petition = db.Database.SqlQuery<PetitionWithVote>(
+						"sp_Petition_GetAll @PetitionID, @ShowPreliminaryPetitions",
+						new SqlParameter("PetitionID", petitionID),
+						new SqlParameter("ShowPreliminaryPetitions", true))
 					.SingleOrDefault();
 				
 				if (petition == null) return null;
@@ -58,7 +52,11 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		{
 			using (var db = new EDEntities())
 			{
-				var petitions = db.Database.SqlQuery<PetitionWithVote>("sp_Petition_GetAll").ToList();
+				var petitions = db.Database.SqlQuery<PetitionWithVote>(
+					"sp_Petition_GetAll @PetitionID, @ShowPreliminaryPetitions",
+						new SqlParameter("PetitionID", DBNull.Value),
+						new SqlParameter("ShowPreliminaryPetitions", true))
+					.ToList();
 				
 				return petitions;
 			}
