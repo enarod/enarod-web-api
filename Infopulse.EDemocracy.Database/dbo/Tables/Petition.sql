@@ -12,7 +12,7 @@
     [EffectiveFrom] DATETIME       NOT NULL,
     [EffectiveTo]   DATETIME       NOT NULL,
     [Limit]         BIGINT         NULL,
-    [Email]         VARCHAR (MAX)  NULL,
+    [Email]         NVARCHAR(MAX)  NULL,
 	[OrganizationID] INT NULL,
     CONSTRAINT [PK_Petition] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_Petition_Entity] FOREIGN KEY ([CategoryID]) REFERENCES [dbo].[Entity] ([ID]),
