@@ -1,6 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[sp_Petition_GetAll]
 	@PetitionID int = null,
-	@ShowPreliminaryPetitions bit = 0
+	@ShowPreliminaryPetitions bit = 0,
+	@SearchText nvarchar(max) = null,
+	@KeyWordText nvarchar(max) = null
 AS
 	;with cte_emailVotes as
 	(
@@ -46,13 +48,39 @@ AS
 				or
 				p.VotesCount > p.RequiredVotesNumber
 			)
+			and
+			(
+				@SearchText is null
+				or
+				(
+					@SearchText is not null
+					and
+					(
+						charindex(@SearchText, p.[Subject]) > 0
+						or
+						charindex(@SearchText, p.[Text]) > 0
+						or
+						charindex(@SearchText, p.Requirements) > 0
+						or
+						charindex(@SearchText, p.KeyWords) > 0
+					)
+				)
+			)
+			and
+			(
+				@KeyWordText is null
+				or
+				exists(select null from [dbo].[tvf_SplitString](p.KeyWords) kw where kw.Word = @KeyWordText)
+			)
 		)
 /**********************************************************************************
 declare @start datetime = getdate()
 
 exec [dbo].[sp_Petition_GetAll]
 	@PetitionID = null,
-	@ShowPreliminaryPetitions = 1
+	@ShowPreliminaryPetitions = 1,
+	@SearchText = null,
+	@KeyWordText = null
 
 select datediff(ms, @start, getdate()) as 'Duration, ms'
 **********************************************************************************/

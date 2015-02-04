@@ -66,11 +66,11 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// <returns></returns>
 		[HttpGet]
 		[Route("api/petition")]
-		public OperationResult<IEnumerable<Petition>> Get()
+		public OperationResult<IEnumerable<Petition>> Get(bool showPreliminaryPetitions = false)
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
-				var petitions = this.petitionRepository.Get();
+				var petitions = this.petitionRepository.Get(showPreliminaryPetitions);
 				
 				this.SetDictionariesValues(petitions);
 
@@ -111,14 +111,15 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// Search petition by specific word in peetition description or subject.
 		/// </summary>
 		/// <param name="query"></param>
+		/// <param name="showPreliminaryPetitions"></param>
 		/// <returns></returns>
 		[HttpGet]
 		[Route("api/petition/search/{query}")]
-		public OperationResult<IEnumerable<Petition>> Search(string query)
+		public OperationResult<IEnumerable<Petition>> Search(string query, bool showPreliminaryPetitions = false)
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
-				var petitions = this.petitionRepository.Search(query);
+				var petitions = this.petitionRepository.Search(query, showPreliminaryPetitions);
 				var clientPetitions = Mapper.Map<IEnumerable<Petition>>(petitions);
 				return OperationResult<IEnumerable<Petition>>.Success(clientPetitions);
 			});
@@ -131,14 +132,15 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// Search petition by specific tag.
 		/// </summary>
 		/// <param name="tag"></param>
+		/// <param name="showPreliminaryPetitions"></param>
 		/// <returns></returns>
 		[HttpGet]
 		[Route("api/petition/tag/{tag}")]
-		public OperationResult<IEnumerable<Petition>> KeyWordSearch(string tag)
+		public OperationResult<IEnumerable<Petition>> KeyWordSearch(string tag, bool showPreliminaryPetitions = false)
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
-				var petitions = this.petitionRepository.KeyWordSearch(tag);
+				var petitions = this.petitionRepository.KeyWordSearch(tag, showPreliminaryPetitions);
 				var clientPetitions = Mapper.Map<IEnumerable<Petition>>(petitions);
 				return OperationResult<IEnumerable<Petition>>.Success(clientPetitions);
 			});

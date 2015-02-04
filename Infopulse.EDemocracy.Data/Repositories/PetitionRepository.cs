@@ -20,9 +20,8 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			using (var db = new EDEntities())
 			{
 				var petition = db.Database.SqlQuery<PetitionWithVote>(
-						"sp_Petition_GetAll @PetitionID, @ShowPreliminaryPetitions",
-						new SqlParameter("PetitionID", petitionID),
-						new SqlParameter("ShowPreliminaryPetitions", true))
+						"sp_Petition_GetAll @PetitionID",
+						new SqlParameter("PetitionID", petitionID))
 					.SingleOrDefault();
 				
 				if (petition == null) return null;
@@ -48,14 +47,13 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		/// Get all petitions.
 		/// </summary>
 		/// <returns></returns>
-		public IEnumerable<PetitionWithVote> Get()
+		public IEnumerable<PetitionWithVote> Get(bool showPreliminaryPetition = false)
 		{
 			using (var db = new EDEntities())
 			{
 				var petitions = db.Database.SqlQuery<PetitionWithVote>(
-					"sp_Petition_GetAll @PetitionID, @ShowPreliminaryPetitions",
-						new SqlParameter("PetitionID", DBNull.Value),
-						new SqlParameter("ShowPreliminaryPetitions", true))
+					"sp_Petition_GetAll @ShowPreliminaryPetitions",
+						new SqlParameter("ShowPreliminaryPetitions", showPreliminaryPetition))
 					.ToList();
 				
 				return petitions;
@@ -64,23 +62,23 @@ namespace Infopulse.EDemocracy.Data.Repositories
 
 
 		/// <summary>
-		/// Search petition by specific word.
+		/// Search petition by specific word in several fields.
 		/// </summary>
 		/// <param name="text"></param>
+		/// <param name="showPreliminaryPetitions">Flag indicating whether preliminary petitions should be returned.</param>
 		/// <returns></returns>
-		public IEnumerable<PetitionWithVote> Search(string text)
+		public IEnumerable<PetitionWithVote> Search(string text, bool showPreliminaryPetitions = false)
 		{
 			var script = string.Empty;
 
 			using (var db = new EDEntities())
 			{
 				db.Database.Log = s => script += s;
-				var petitions = from p in this.GetVisiblePetitons(db)
-								where p.KeyWords.ToUpper().Contains(text.ToUpper())
-								   || p.Requirements.ToUpper().Contains(text.ToUpper())
-								   || p.Subject.ToUpper().Contains(text.ToUpper())
-								   || p.Text.ToUpper().Contains(text.ToUpper())
-								select p;
+				var petitions = db.Database.SqlQuery<PetitionWithVote>(
+						"sp_Petition_GetAll @ShowPreliminaryPetitions, @SearchText",
+						new SqlParameter("ShowPreliminaryPetitions", showPreliminaryPetitions),
+						new SqlParameter("SearchText", text))
+					.ToList();
 
 				var result = petitions
 					.Select(p => new PetitionWithVote(p) { VotesCount = this.CountPetitionVotes(db, p) })
@@ -94,17 +92,20 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		/// Search petition by specific tag.
 		/// </summary>
 		/// <param name="tag"></param>
+		/// <param name="showPreliminaryPetitions"></param>
 		/// <returns></returns>
-		public IEnumerable<PetitionWithVote> KeyWordSearch(string tag)
+		public IEnumerable<PetitionWithVote> KeyWordSearch(string tag, bool showPreliminaryPetitions = false)
 		{
 			var script = string.Empty;
 
 			using (var db = new EDEntities())
 			{
 				db.Database.Log = s => script += s;
-				var petitions = this.GetVisiblePetitons(db)
-					.ToList()
-					.Where(p => p.KeyWords.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Contains(tag));
+				var petitions = db.Database.SqlQuery<PetitionWithVote>(
+						"sp_Petition_GetAll @ShowPreliminaryPetitions, @KeyWordText",
+						new SqlParameter("ShowPreliminaryPetitions", showPreliminaryPetitions),
+						new SqlParameter("KeyWordText", tag))
+					.ToList();
 
 				var result = petitions
 					.Select(p => new PetitionWithVote(p) { VotesCount = this.CountPetitionVotes(db, p) })

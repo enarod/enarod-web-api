@@ -519,7 +519,7 @@
             Default constructor (no DI yet).
             </summary>
         </member>
-        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.Get">
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.Get(System.Boolean)">
             <summary>
             Get all petitions.
             </summary>
@@ -532,18 +532,20 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.Search(System.String)">
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.Search(System.String,System.Boolean)">
             <summary>
             Search petition by specific word in peetition description or subject.
             </summary>
             <param name="query"></param>
+            <param name="showPreliminaryPetitions"></param>
             <returns></returns>
         </member>
-        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.KeyWordSearch(System.String)">
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.KeyWordSearch(System.String,System.Boolean)">
             <summary>
             Search petition by specific tag.
             </summary>
             <param name="tag"></param>
+            <param name="showPreliminaryPetitions"></param>
             <returns></returns>
         </member>
         <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.DigitalSignatureVote(Infopulse.EDemocracy.Model.ClientEntities.ClientPetitionVote)">
