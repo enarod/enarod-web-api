@@ -113,7 +113,7 @@ namespace Infopulse.EDemocracy.Model.Common
 			return new OperationResult
 				   {
 					   ResultCode = resultCode,
-					   Message = string.Format("Unhandled exception has occued. Please contact the administrator.{0}Message:{0}{1}", Environment.NewLine, innerExceptionMessage),
+					   Message = "Unhandled exception has occued. Please contact the administrator.",
 					   DebugMessage = innerExceptionMessage
 				   };
 		}
