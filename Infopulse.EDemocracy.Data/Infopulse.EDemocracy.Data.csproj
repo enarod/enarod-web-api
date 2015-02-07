@@ -128,7 +128,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Service References\Verification.Dpa\Infopulse.EDemocracy.Data.Verification.Dpa.cryptResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
