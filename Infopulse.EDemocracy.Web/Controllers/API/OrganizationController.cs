@@ -5,6 +5,7 @@ using Infopulse.EDemocracy.Model.BusinessEntities;
 using Infopulse.EDemocracy.Model.Common;
 using System.Collections.Generic;
 using System.Web.Http;
+using Infopulse.EDemocracy.Web.CORS;
 using DALModels = Infopulse.EDemocracy.Model;
 
 namespace Infopulse.EDemocracy.Web.Controllers.API
@@ -12,7 +13,8 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 	/// <summary>
 	/// Controller to operate with Organizrion entity.
 	/// </summary>
-    public class OrganizationController : BaseApiController
+	[CorsPolicyProvider]
+	public class OrganizationController : BaseApiController
     {
 	    private readonly IOrganizationRepository organizationRepository;
 
