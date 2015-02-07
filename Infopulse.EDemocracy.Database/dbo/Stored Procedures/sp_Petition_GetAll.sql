@@ -4,6 +4,7 @@
 	@SearchText nvarchar(max) = null,
 	@KeyWordText nvarchar(max) = null
 AS
+set nocount on
 	;with cte_emailVotes as
 	(
 		select
@@ -35,7 +36,22 @@ AS
 	)
 
 	select
-		*
+		 p.[ID]
+		,p.[LevelID]
+		,p.[AddressedTo]
+		,p.[Subject]
+		,p.[CategoryID]
+		,p.[Text]
+		,p.[Requirements]
+		,p.[KeyWords]
+		,p.[CreatedDate]
+		,p.[CreatedBy]
+		,p.[EffectiveFrom]
+		,p.[EffectiveTo]
+		,p.[Limit]
+		,p.[Email]
+		,p.[OrganizationID]
+		,p.VotesCount
 	from cte_petitions p
 	where
 		(@PetitionID is not null and p.ID = @PetitionID)
@@ -70,7 +86,7 @@ AS
 			(
 				@KeyWordText is null
 				or
-				exists(select null from [dbo].[tvf_SplitString](p.KeyWords) kw where kw.Word = @KeyWordText)
+				exists(select null from [dbo].[tvf_SplitString](p.KeyWords, ',') kw where kw.Word = @KeyWordText)
 			)
 		)
 /**********************************************************************************
