@@ -502,6 +502,12 @@
             </summary>
             <returns>List of organizations.</returns>
         </member>
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.OrganizationController.Get(System.Int32)">
+            <summary>
+            Gets all organization registered in DB.
+            </summary>
+            <returns>List of organizations.</returns>
+        </member>
         <member name="M:Infopulse.EDemocracy.Web.Controllers.API.OrganizationController.Post(Infopulse.EDemocracy.Model.BusinessEntities.Organization)">
             <summary>
             Adds new organization.
