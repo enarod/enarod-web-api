@@ -52,7 +52,8 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			using (var db = new EDEntities())
 			{
 				var petitions = db.Database.SqlQuery<PetitionWithVote>(
-					"sp_Petition_GetAll @ShowPreliminaryPetitions",
+					"sp_Petition_GetAll @PetitionID, @ShowPreliminaryPetitions",
+						new SqlParameter("PetitionID", DBNull.Value),
 						new SqlParameter("ShowPreliminaryPetitions", showPreliminaryPetition))
 					.ToList();
 				
