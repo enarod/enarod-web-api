@@ -76,9 +76,28 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			{
 				db.Database.Log = s => script += s;
 				var petitions = db.Database.SqlQuery<PetitionWithVote>(
-						"sp_Petition_GetAll @ShowPreliminaryPetitions, @SearchText",
-						new SqlParameter("ShowPreliminaryPetitions", showPreliminaryPetitions),
-						new SqlParameter("SearchText", text))
+						"sp_Petition_GetAll @PetitionID, @ShowPreliminaryPetitions, @SearchText",
+						new SqlParameter()
+						{
+							SqlDbType = SqlDbType.Int,
+							Direction = ParameterDirection.Input,
+							ParameterName = "PetitionID",
+							Value = DBNull.Value
+						},
+						new SqlParameter()
+						{
+							SqlDbType = SqlDbType.Bit,
+							Direction = ParameterDirection.Input,
+							ParameterName = "ShowPreliminaryPetitions",
+							Value = showPreliminaryPetitions
+						},
+						new SqlParameter()
+						{
+							SqlDbType = SqlDbType.NVarChar,
+							Direction = ParameterDirection.Input,
+							ParameterName = "SearchText",
+							Value = text
+						})
 					.ToList();
 
 				var result = petitions
