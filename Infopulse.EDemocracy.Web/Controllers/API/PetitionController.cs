@@ -119,7 +119,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
-				var petitions = this.petitionRepository.Search(query, showPreliminaryPetitions);
+				var petitions = this.petitionRepository.Search(query, null, null, null, showPreliminaryPetitions);
 				this.SetDictionariesValues(petitions);
 				var clientPetitions = Mapper.Map<IEnumerable<Petition>>(petitions);
 				return OperationResult<IEnumerable<Petition>>.Success(clientPetitions);
@@ -130,7 +130,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 
 		/// <summary>
-		/// Search petition by specific word in peetition description or subject.
+		/// Search petition by category name.
 		/// </summary>
 		/// <param name="query"></param>
 		/// <param name="showPreliminaryPetitions"></param>
@@ -141,7 +141,29 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
-				var petitions = this.petitionRepository.CategorySearch(query, showPreliminaryPetitions);
+				var petitions = this.petitionRepository.Search(null, query, null, null, showPreliminaryPetitions);
+				this.SetDictionariesValues(petitions);
+				var clientPetitions = Mapper.Map<IEnumerable<Petition>>(petitions);
+				return OperationResult<IEnumerable<Petition>>.Success(clientPetitions);
+			});
+
+			return result;
+		}
+
+
+		/// <summary>
+		/// Search petition by category name.
+		/// </summary>
+		/// <param name="query"></param>
+		/// <param name="showPreliminaryPetitions"></param>
+		/// <returns></returns>
+		[HttpGet]
+		[Route("api/petition/searchorganization/{query}")]
+		public OperationResult<IEnumerable<Petition>> OrganizationSearch(string query, bool showPreliminaryPetitions = false)
+		{
+			var result = OperationExecuter.Execute(() =>
+			{
+				var petitions = this.petitionRepository.Search(null, null, query, null, showPreliminaryPetitions);
 				this.SetDictionariesValues(petitions);
 				var clientPetitions = Mapper.Map<IEnumerable<Petition>>(petitions);
 				return OperationResult<IEnumerable<Petition>>.Success(clientPetitions);
@@ -163,7 +185,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
-				var petitions = this.petitionRepository.KeyWordSearch(tag, showPreliminaryPetitions);
+				var petitions = this.petitionRepository.Search(null, null, null, tag, showPreliminaryPetitions);
 				this.SetDictionariesValues(petitions);
 				var clientPetitions = Mapper.Map<IEnumerable<Petition>>(petitions);
 				return OperationResult<IEnumerable<Petition>>.Success(clientPetitions);

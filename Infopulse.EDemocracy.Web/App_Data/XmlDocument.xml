@@ -548,7 +548,15 @@
         </member>
         <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.CategorySearch(System.String,System.Boolean)">
             <summary>
-            Search petition by specific word in peetition description or subject.
+            Search petition by category name.
+            </summary>
+            <param name="query"></param>
+            <param name="showPreliminaryPetitions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.OrganizationSearch(System.String,System.Boolean)">
+            <summary>
+            Search petition by category name.
             </summary>
             <param name="query"></param>
             <param name="showPreliminaryPetitions"></param>

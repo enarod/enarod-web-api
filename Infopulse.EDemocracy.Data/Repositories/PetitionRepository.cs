@@ -23,11 +23,11 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						"sp_Petition_GetAll @PetitionID",
 						new SqlParameter("PetitionID", petitionID))
 					.SingleOrDefault();
-				
+
 				if (petition == null) return null;
 				petition.Person = db.People.SingleOrDefault(p => p.ID == petition.CreatedBy);
 				petition.Organization = db.Organizations.SingleOrDefault(o => o.ID == petition.OrganizationID);
-				
+
 				if (!string.IsNullOrWhiteSpace(petition.Email))
 				{
 					var creatorVote = db.PetitionEmailVotes.SingleOrDefault(v => v.PetitionID == petitionID && v.Email == petition.Email);
@@ -56,7 +56,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						new SqlParameter("PetitionID", DBNull.Value),
 						new SqlParameter("ShowPreliminaryPetitions", showPreliminaryPetition))
 					.ToList();
-				
+
 				return petitions;
 			}
 		}
@@ -66,9 +66,17 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		/// Search petition by specific word in several fields.
 		/// </summary>
 		/// <param name="text"></param>
+		/// <param name="keyWord"></param>
 		/// <param name="showPreliminaryPetitions">Flag indicating whether preliminary petitions should be returned.</param>
+		/// <param name="categoryName"></param>
+		/// <param name="organizationName"></param>
 		/// <returns></returns>
-		public IEnumerable<PetitionWithVote> Search(string text, bool showPreliminaryPetitions = false)
+		public IEnumerable<PetitionWithVote> Search(
+			string text,
+			string categoryName,
+			string organizationName,
+			string keyWord,
+			bool showPreliminaryPetitions = false)
 		{
 			var script = string.Empty;
 
@@ -76,118 +84,50 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			{
 				db.Database.Log = s => script += s;
 				var petitions = db.Database.SqlQuery<PetitionWithVote>(
-						"sp_Petition_GetAll @PetitionID, @ShowPreliminaryPetitions, @SearchText",
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.Int,
-							Direction = ParameterDirection.Input,
-							ParameterName = "PetitionID",
-							Value = DBNull.Value
-						},
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.Bit,
-							Direction = ParameterDirection.Input,
-							ParameterName = "ShowPreliminaryPetitions",
-							Value = showPreliminaryPetitions
-						},
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.NVarChar,
-							Direction = ParameterDirection.Input,
-							ParameterName = "SearchText",
-							Value = text
-						})
-					.ToList();
-
-				var result = petitions
-					.Select(p => new PetitionWithVote(p) { VotesCount = this.CountPetitionVotes(db, p) })
-					.ToList();
-				return result;
-			}
-		}
-
-
-
-		/// <summary>
-		/// Search petition by category name.
-		/// </summary>
-		/// <param name="text"></param>
-		/// <param name="showPreliminaryPetitions">Flag indicating whether preliminary petitions should be returned.</param>
-		/// <returns></returns>
-		public IEnumerable<PetitionWithVote> CategorySearch(string text, bool showPreliminaryPetitions = false)
-		{
-			var script = string.Empty;
-
-			using (var db = new EDEntities())
-			{
-				db.Database.Log = s => script += s;
-				var petitions = db.Database.SqlQuery<PetitionWithVote>(
-						"sp_Petition_GetAll @PetitionID, @ShowPreliminaryPetitions, @SearchText, @KeyWordText, @Category",
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.Int,
-							Direction = ParameterDirection.Input,
-							ParameterName = "PetitionID",
-							Value = DBNull.Value
-						},
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.Bit,
-							Direction = ParameterDirection.Input,
-							ParameterName = "ShowPreliminaryPetitions",
-							Value = showPreliminaryPetitions
-						},
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.NVarChar,
-							Direction = ParameterDirection.Input,
-							ParameterName = "SearchText",
-							Value = DBNull.Value
-						},
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.NVarChar,
-							Direction = ParameterDirection.Input,
-							ParameterName = "KeyWordText",
-							Value = DBNull.Value
-						},
-
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.NVarChar,
-							Direction = ParameterDirection.Input,
-							ParameterName = "Category",
-							Value = text
-						})
-					.ToList();
-
-				var result = petitions
-					.Select(p => new PetitionWithVote(p) { VotesCount = this.CountPetitionVotes(db, p) })
-					.ToList();
-				return result;
-			}
-		}
-		
-
-		/// <summary>
-		/// Search petition by specific tag.
-		/// </summary>
-		/// <param name="tag"></param>
-		/// <param name="showPreliminaryPetitions"></param>
-		/// <returns></returns>
-		public IEnumerable<PetitionWithVote> KeyWordSearch(string tag, bool showPreliminaryPetitions = false)
-		{
-			var script = string.Empty;
-
-			using (var db = new EDEntities())
-			{
-				db.Database.Log = s => script += s;
-				var petitions = db.Database.SqlQuery<PetitionWithVote>(
-						"sp_Petition_GetAll @ShowPreliminaryPetitions, @KeyWordText",
-						new SqlParameter("ShowPreliminaryPetitions", showPreliminaryPetitions),
-						new SqlParameter("KeyWordText", tag))
-					.ToList();
+					"sp_Petition_GetAll @PetitionID, @ShowPreliminaryPetitions, @SearchText, @KeyWordText, @Category, @Organization",
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.Int,
+						Direction = ParameterDirection.Input,
+						ParameterName = "PetitionID",
+						Value = DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.Bit,
+						Direction = ParameterDirection.Input,
+						ParameterName = "ShowPreliminaryPetitions",
+						Value = showPreliminaryPetitions
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.NVarChar,
+						Direction = ParameterDirection.Input,
+						ParameterName = "SearchText",
+						Value = (object)text ?? DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.NVarChar,
+						Direction = ParameterDirection.Input,
+						ParameterName = "KeyWordText",
+						Value = (object)keyWord ?? DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.NVarChar,
+						Direction = ParameterDirection.Input,
+						ParameterName = "Category",
+						Value = (object)categoryName ?? DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.NVarChar,
+						Direction = ParameterDirection.Input,
+						ParameterName = "Organization",
+						Value = (object)organizationName ?? DBNull.Value
+					})
+				.ToList();
 
 				var result = petitions
 					.Select(p => new PetitionWithVote(p) { VotesCount = this.CountPetitionVotes(db, p) })

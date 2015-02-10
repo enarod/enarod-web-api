@@ -3,7 +3,8 @@
 	@ShowPreliminaryPetitions bit = 0,
 	@SearchText nvarchar(max) = null,
 	@KeyWordText nvarchar(max) = null,
-	@Category nvarchar(max) = null
+	@Category nvarchar(max) = null,
+	@Organization nvarchar(max) = null
 AS
 set nocount on
 declare
@@ -43,7 +44,8 @@ declare
 			p.*,
 			(isnull(cv.VotesCount, 0) + isnull(ev.VotesCount, 0)) as VotesCount,
 			coalesce(o.PreliminaryVoteCount, p.Limit) as RequiredVotesNumber,
-			e.[Description] as Category
+			e.[Description] as Category,
+			o.Name as OrganizationName
 		from dbo.Petition p
 		left join cte_certVotes cv on cv.PetitionID = p.ID
 		left join cte_emailVotes ev on ev.PetitionID = p.ID
@@ -110,6 +112,11 @@ declare
 			(
 				@Category is null
 				or charindex(@Category, p.Category ) > 0
+			)
+			and
+			(
+				@Organization is null
+				or charindex(@Organization, p.OrganizationName ) > 0
 			)
 		)
 /**********************************************************************************
