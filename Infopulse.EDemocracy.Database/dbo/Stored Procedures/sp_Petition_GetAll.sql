@@ -81,6 +81,14 @@ declare
 		(
 			@PetitionID is null
 			and
+
+			-- petition confirmed by creator
+			exists(
+				select null
+				from dbo.PetitionEmailVote pev
+				join dbo.PetitionSigner ps on ps.ID = pev.PetitionSignerID
+				where ps.Email = p.Email)
+			and
 			(
 				(@ShowPreliminaryPetitions = 1 and p.OrganizationID is not null) -- preliminary petition linked to organization
 				or p.VotesCount > p.RequiredVotesNumber
