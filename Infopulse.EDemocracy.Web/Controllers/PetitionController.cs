@@ -1,4 +1,5 @@
-﻿using Infopulse.EDemocracy.Data.Interfaces;
+﻿using System.Configuration;
+using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Data.Repositories;
 using System.Web.Mvc;
 
@@ -29,7 +30,7 @@ namespace Infopulse.EDemocracy.Web.Controllers
 
 		public ActionResult Vote(string hash)
 		{
-			const string redirectUrl = "https://enarod.org/petition/#petition/{0}/{1}";
+			const string redirectUrl = "{0}/petition/#petition/{1}/{2}";
 			long petitionID = -1;
 			string actionResult;
 			
@@ -69,7 +70,11 @@ namespace Infopulse.EDemocracy.Web.Controllers
 					}
 			}
 
-			return this.Redirect(string.Format(redirectUrl, petitionID, actionResult));
+			return this.Redirect(string.Format(
+				redirectUrl,
+				ConfigurationManager.AppSettings["AppDomain"],
+				petitionID,
+				actionResult));
 		}
 	}
 }
