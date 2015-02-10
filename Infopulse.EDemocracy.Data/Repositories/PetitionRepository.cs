@@ -108,6 +108,68 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		}
 
 
+
+		/// <summary>
+		/// Search petition by category name.
+		/// </summary>
+		/// <param name="text"></param>
+		/// <param name="showPreliminaryPetitions">Flag indicating whether preliminary petitions should be returned.</param>
+		/// <returns></returns>
+		public IEnumerable<PetitionWithVote> CategorySearch(string text, bool showPreliminaryPetitions = false)
+		{
+			var script = string.Empty;
+
+			using (var db = new EDEntities())
+			{
+				db.Database.Log = s => script += s;
+				var petitions = db.Database.SqlQuery<PetitionWithVote>(
+						"sp_Petition_GetAll @PetitionID, @ShowPreliminaryPetitions, @SearchText, @KeyWordText, @Category",
+						new SqlParameter()
+						{
+							SqlDbType = SqlDbType.Int,
+							Direction = ParameterDirection.Input,
+							ParameterName = "PetitionID",
+							Value = DBNull.Value
+						},
+						new SqlParameter()
+						{
+							SqlDbType = SqlDbType.Bit,
+							Direction = ParameterDirection.Input,
+							ParameterName = "ShowPreliminaryPetitions",
+							Value = showPreliminaryPetitions
+						},
+						new SqlParameter()
+						{
+							SqlDbType = SqlDbType.NVarChar,
+							Direction = ParameterDirection.Input,
+							ParameterName = "SearchText",
+							Value = DBNull.Value
+						},
+						new SqlParameter()
+						{
+							SqlDbType = SqlDbType.NVarChar,
+							Direction = ParameterDirection.Input,
+							ParameterName = "KeyWordText",
+							Value = DBNull.Value
+						},
+
+						new SqlParameter()
+						{
+							SqlDbType = SqlDbType.NVarChar,
+							Direction = ParameterDirection.Input,
+							ParameterName = "Category",
+							Value = text
+						})
+					.ToList();
+
+				var result = petitions
+					.Select(p => new PetitionWithVote(p) { VotesCount = this.CountPetitionVotes(db, p) })
+					.ToList();
+				return result;
+			}
+		}
+		
+
 		/// <summary>
 		/// Search petition by specific tag.
 		/// </summary>

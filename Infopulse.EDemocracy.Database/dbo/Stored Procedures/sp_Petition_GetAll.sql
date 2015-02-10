@@ -2,9 +2,23 @@
 	@PetitionID int = null,
 	@ShowPreliminaryPetitions bit = 0,
 	@SearchText nvarchar(max) = null,
-	@KeyWordText nvarchar(max) = null
+	@KeyWordText nvarchar(max) = null,
+	@Category nvarchar(max) = null
 AS
 set nocount on
+declare
+	@EntityGroupId_PetitionCategory int =
+	(
+		select top 1
+			eg.ID
+		from dbo.EntityGroup eg
+		join dbo.EntityGroup parentEg on parentEg.ID = eg.ParentID
+		where
+			eg.Name = 'Category'
+			and parentEg.Name = 'Petition'
+	)
+	
+
 	;with cte_emailVotes as
 	(
 		select
@@ -28,11 +42,16 @@ set nocount on
 		select
 			p.*,
 			(isnull(cv.VotesCount, 0) + isnull(ev.VotesCount, 0)) as VotesCount,
-			coalesce(o.PreliminaryVoteCount, p.Limit) as RequiredVotesNumber
+			coalesce(o.PreliminaryVoteCount, p.Limit) as RequiredVotesNumber,
+			e.[Description] as Category
 		from dbo.Petition p
 		left join cte_certVotes cv on cv.PetitionID = p.ID
 		left join cte_emailVotes ev on ev.PetitionID = p.ID
 		left join dbo.Organization o on o.ID = p.OrganizationID
+
+		join dbo.Entity e on e.ID = p.CategoryID
+		where
+			e.EntityGroupID = @EntityGroupId_PetitionCategory
 	)
 
 	select
@@ -53,6 +72,7 @@ set nocount on
 		,p.[OrganizationID]
 		,p.VotesCount
 	from cte_petitions p
+	
 	where
 		(@PetitionID is not null and p.ID = @PetitionID)
 		or
@@ -61,8 +81,7 @@ set nocount on
 			and
 			(
 				(@ShowPreliminaryPetitions = 1 and p.OrganizationID is not null) -- preliminary petition linked to organization
-				or
-				p.VotesCount > p.RequiredVotesNumber
+				or p.VotesCount > p.RequiredVotesNumber
 			)
 			and
 			(
@@ -85,8 +104,12 @@ set nocount on
 			and
 			(
 				@KeyWordText is null
-				or
-				exists(select null from [dbo].[tvf_SplitString](p.KeyWords, ',') kw where kw.Word = @KeyWordText)
+				or exists(select null from [dbo].[tvf_SplitString](p.KeyWords, ',') kw where kw.Word = @KeyWordText)
+			)
+			and
+			(
+				@Category is null
+				or charindex(@Category, p.Category ) > 0
 			)
 		)
 /**********************************************************************************
@@ -96,7 +119,8 @@ exec [dbo].[sp_Petition_GetAll]
 	@PetitionID = null,
 	@ShowPreliminaryPetitions = 1,
 	@SearchText = null,
-	@KeyWordText = null
+	@KeyWordText = null,
+	@Category = null
 
 select datediff(ms, @start, getdate()) as 'Duration, ms'
 **********************************************************************************/
