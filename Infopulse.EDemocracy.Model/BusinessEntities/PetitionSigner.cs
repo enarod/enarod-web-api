@@ -1,7 +1,6 @@
 ﻿using System;
-using Newtonsoft.Json;
 
-namespace Infopulse.EDemocracy.Model.ClientEntities.v2
+namespace Infopulse.EDemocracy.Model.BusinessEntities
 {
 	public class PetitionSigner
 	{

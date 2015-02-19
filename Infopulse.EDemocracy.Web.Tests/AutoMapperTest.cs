@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using AutoMapper;
-using Infopulse.EDemocracy.Model.ClientEntities.v2;
-using Infopulse.EDemocracy.Model.Common;
+﻿using AutoMapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 using DataModels = Infopulse.EDemocracy.Model;
 using WebModels = Infopulse.EDemocracy.Model.BusinessEntities;
 
@@ -194,7 +192,7 @@ namespace Infopulse.EDemocracy.Web.Tests
 			var webEmailVote = new Infopulse.EDemocracy.Model.ClientEntities.v2.EmailVote2
 			{
 				ID = 42,
-				Signer = new PetitionSigner
+				Signer = new WebModels.PetitionSigner
 				{
 					Email = "jdoe@gmail.com",
 					FirstName = "John",
@@ -238,7 +236,6 @@ namespace Infopulse.EDemocracy.Web.Tests
 			var dalPetitionEmailVote = new Infopulse.EDemocracy.Model.PetitionEmailVote()
 			{
 				ID = -13,
-				Email = "abc@example.com",
 				PetitionID = -111,
 				Hash = "#abcde",
 				IsConfirmed = false,

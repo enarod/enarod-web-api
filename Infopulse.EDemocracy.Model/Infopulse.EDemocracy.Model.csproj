@@ -114,7 +114,7 @@
     <Compile Include="BusinessEntities\PetitionVote.cs" />
     <Compile Include="ClientEntities\ClientPetitionVote.cs" />
     <Compile Include="ClientEntities\v2\EmailVote2.cs" />
-    <Compile Include="ClientEntities\v2\PetitionSigner.cs" />
+    <Compile Include="BusinessEntities\PetitionSigner.cs" />
     <Compile Include="Common\EntityDictionary.cs" />
     <Compile Include="Common\ExceptionExtensions.cs" />
     <Compile Include="Common\HandledException.cs" />
@@ -220,6 +220,7 @@
       <LastGenOutput>EDModel.Designer.cs</LastGenOutput>
       <CustomToolNamespace>Infopulse.EDemocracy.Model</CustomToolNamespace>
     </EntityDeploy>
+    <None Include="App.Config" />
     <None Include="EDModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EDModel.edmx</DependentUpon>

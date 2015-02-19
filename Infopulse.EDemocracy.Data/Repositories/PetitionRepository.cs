@@ -30,7 +30,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 
 				if (!string.IsNullOrWhiteSpace(petition.Email))
 				{
-					var creatorVote = db.PetitionEmailVotes.SingleOrDefault(v => v.PetitionID == petitionID && v.Email == petition.Email);
+					var creatorVote = db.PetitionEmailVotes.SingleOrDefault(v => v.PetitionID == petitionID && v.PetitionSigner.Email == petition.Email);
 
 					if (creatorVote == null)
 					{

@@ -88,8 +88,8 @@
           </Key>
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EntityGroupID" Type="bigint" Nullable="false" />
-          <Property Name="Name" Type="varchar(max)" Nullable="false" />
-          <Property Name="Description" Type="varchar(max)" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="EntityGroup">
           <Key>
@@ -97,7 +97,7 @@
           </Key>
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ParentID" Type="bigint" />
-          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Function">
           <Key>
@@ -184,7 +184,7 @@
           <Property Name="EffectiveFrom" Type="datetime" Nullable="false" />
           <Property Name="EffectiveTo" Type="datetime" Nullable="false" />
           <Property Name="Limit" Type="bigint" />
-          <Property Name="Email" Type="varchar(max)" />
+          <Property Name="Email" Type="nvarchar(max)" />
           <Property Name="OrganizationID" Type="int" />
         </EntityType>
         <EntityType Name="PetitionEmailVote">
@@ -193,7 +193,6 @@
           </Key>
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PetitionID" Type="bigint" Nullable="false" />
-          <Property Name="Email" Type="varchar(max)" Nullable="false" />
           <Property Name="PetitionSignerID" Type="int" />
           <Property Name="Hash" Type="varchar(max)" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
@@ -278,7 +277,7 @@
           <Property Name="StatusID" Type="bigint" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwAgreements">
           <Key>
             <PropertyRef Name="ID" />
@@ -870,6 +869,11 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
         </Association>
         <Function Name="sp_Petition_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PetitionID" Type="int" Mode="In" />
+          <Parameter Name="ShowPreliminaryPetitions" Type="bit" Mode="In" />
+          <Parameter Name="SearchText" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="KeyWordText" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Category" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Organization" Type="nvarchar(max)" Mode="In" />
         </Function>
         <EntityContainer Name="EDModelStoreContainer">
           <EntitySet Name="_Invitation" EntityType="Self._Invitation" Schema="dbo" store:Type="Tables" />
@@ -1429,8 +1433,8 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EntityGroupID" Type="Int64" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="C_Invitation" Relationship="EDModel.FK__Invitation_Entity" FromRole="Entity" ToRole="C_Invitation" />
           <NavigationProperty Name="C_Invitation1" Relationship="EDModel.FK__Invitation_Entity1" FromRole="Entity" ToRole="C_Invitation" />
           <NavigationProperty Name="Agreements" Relationship="EDModel.FK_Agreement_Entity" FromRole="Entity" ToRole="Agreement" />
@@ -1458,7 +1462,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ParentID" Type="Int64" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Entities" Relationship="EDModel.FK_Entity_EntityGroup" FromRole="EntityGroup" ToRole="Entity" />
         </EntityType>
         <EntityType Name="Function">
@@ -1555,7 +1559,7 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           <NavigationProperty Name="PetitionLevel" Relationship="EDModel.FK_Petition_PetitionLevel" FromRole="Petition" ToRole="PetitionLevel" />
           <NavigationProperty Name="PetitionVotes" Relationship="EDModel.FK_PetitionVote_Petition" FromRole="Petition" ToRole="PetitionVote" />
           <NavigationProperty Name="PetitionEmailVotes" Relationship="EDModel.FK_PetitionEmailVote_Petition" FromRole="Petition" ToRole="PetitionEmailVote" />
-          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OrganizationID" Type="Int32" />
           <NavigationProperty Name="Organization" Relationship="EDModel.FK_Petition_Organization" FromRole="Petition" ToRole="Organization" />
         </EntityType>
@@ -2193,7 +2197,6 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PetitionID" Type="Int64" Nullable="false" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Hash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsConfirmed" Type="Boolean" Nullable="false" />
@@ -2542,7 +2545,6 @@ warning 6002: The table/view 'ED.dbo.vwAgreements' does not have a primary key d
               <MappingFragment StoreEntitySet="PetitionEmailVote">
                 <ScalarProperty Name="PetitionSignerID" ColumnName="PetitionSignerID" />
                 <ScalarProperty Name="Hash" ColumnName="Hash" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="PetitionID" ColumnName="PetitionID" />
                 <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />

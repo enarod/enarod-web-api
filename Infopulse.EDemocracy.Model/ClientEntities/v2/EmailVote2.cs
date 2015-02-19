@@ -3,6 +3,6 @@
 	public class EmailVote2
 	{
 		public long ID { get; set; }
-		public PetitionSigner Signer { get; set; }
+		public BusinessEntities.PetitionSigner Signer { get; set; }
 	}
 }

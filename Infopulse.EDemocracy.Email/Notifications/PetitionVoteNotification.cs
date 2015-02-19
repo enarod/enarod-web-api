@@ -8,7 +8,7 @@ namespace Infopulse.EDemocracy.Email.Notifications
 		public PetitionVoteNotification(PetitionEmailVote emailVote) :
 			base(
 			Action.PetitionEmailVote,
-			emailVote.Email,
+			emailVote.PetitionSigner.Email,
 			new Dictionary<string, string>()
 			{
 				{"PetitionName", emailVote.Petition.Subject},
@@ -18,7 +18,7 @@ namespace Infopulse.EDemocracy.Email.Notifications
 				{"PetitionUrl", emailVote.Petition.Url},
 				{"PetitionLimit", emailVote.Petition.Limit.ToString()}
 			},
-			string.Format("Для підтврдження голосування перейдіть за посиланням, надісланому вам на email {0}", emailVote.Email)
+			string.Format("Для підтврдження голосування перейдіть за посиланням, надісланому вам на email {0}", emailVote.PetitionSigner.Email)
 			)
 		{
 

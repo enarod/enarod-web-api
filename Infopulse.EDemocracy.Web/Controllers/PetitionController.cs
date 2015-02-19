@@ -1,7 +1,12 @@
-﻿using System.Configuration;
+﻿using System;
+using AutoMapper;
+using Infopulse.EDemocracy.Data.Exceptions;
 using Infopulse.EDemocracy.Data.Interfaces;
-using Infopulse.EDemocracy.Data.Repositories;
+using Infopulse.EDemocracy.Data.Interfaces.v2;
+using Infopulse.EDemocracy.Data.Repositories.v2;
+using System.Configuration;
 using System.Web.Mvc;
+using Infopulse.EDemocracy.Model.BusinessEntities;
 
 namespace Infopulse.EDemocracy.Web.Controllers
 {
@@ -33,41 +38,25 @@ namespace Infopulse.EDemocracy.Web.Controllers
 			const string redirectUrl = "{0}/petition/#petition/{1}/{2}";
 			long petitionID = -1;
 			string actionResult;
-			
-			var confirmedPetitionVoteResult = this.petitionVoteRepository.ConfirmEmailVoteRequest(hash);
-			if (confirmedPetitionVoteResult.IsSuccess)
-			{
-				if (confirmedPetitionVoteResult.Data != null)
-				{
-					petitionID = confirmedPetitionVoteResult.Data.Petition.ID;
-				}
-			}
-			else
-			{
-				var petitionByVoteResult = this.petitionVoteRepository.GetPetition(hash);
-				if (petitionByVoteResult.IsSuccess && petitionByVoteResult.Data != null)
-				{
-					petitionID = petitionByVoteResult.Data.ID;
-				}
-			}
 
-			switch (confirmedPetitionVoteResult.ResultCode)
+			try
 			{
-				case -2:
-					{
-						actionResult = "alreadyVoted";
-						break;
-					}
-				case 1:
-					{
-						actionResult = "voteConfirmed";
-						break;
-					}
-				default:
-					{
-						actionResult = "error";
-						break;
-					}
+				var confirmedPetitionVote = this.petitionVoteRepository.ConfirmEmailVoteRequest(hash);
+				
+				if (confirmedPetitionVote != null && confirmedPetitionVote.IsConfirmed)
+				{
+					petitionID = confirmedPetitionVote.PetitionID;
+				}
+
+				actionResult = "voteConfirmed";
+			}
+			catch (PetitionAlreadyVotedWithEmailException exc)
+			{
+				actionResult = "alreadyVoted";
+			}
+			catch (Exception exc)
+			{
+				actionResult = "error";
 			}
 
 			return this.Redirect(string.Format(

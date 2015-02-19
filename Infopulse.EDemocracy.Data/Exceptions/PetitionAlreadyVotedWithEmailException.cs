@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace Infopulse.EDemocracy.Data.Exceptions
+﻿namespace Infopulse.EDemocracy.Data.Exceptions
 {
-	public class PetitionAlreadyVotedWithEmailException : Exception
+	public class PetitionAlreadyVotedWithEmailException : DomainException
 	{
 		public PetitionAlreadyVotedWithEmailException()
-			: base("This petition was already voted with this email.")
+			: base("Ви вже проголосували за цю петицію.", ExceptionLevel.BusinnessLogic)
 		{
 			
 		}
