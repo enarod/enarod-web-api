@@ -1,5 +1,5 @@
 ﻿using Infopulse.EDemocracy.Common.Exceptions;
-using Infopulse.EDemocracy.Model.Resources;
+using Infopulse.EDemocracy.Common.Resources;
 using System;
 using System.Data.Entity.Core;
 

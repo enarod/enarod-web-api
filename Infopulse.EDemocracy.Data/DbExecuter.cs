@@ -2,9 +2,8 @@
 using System.Data.Entity.Core;
 using System.Runtime.CompilerServices;
 using Infopulse.EDemocracy.Common.Operations;
+using Infopulse.EDemocracy.Common.Resources;
 using Infopulse.EDemocracy.Model;
-using Infopulse.EDemocracy.Model.Common;
-using Infopulse.EDemocracy.Model.Resources;
 
 namespace Infopulse.EDemocracy.Data
 {
