@@ -129,10 +129,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					})
 				.ToList();
 
-				var result = petitions
-					.Select(p => new PetitionWithVote(p) { VotesCount = this.CountPetitionVotes(db, p) })
-					.ToList();
-				return result;
+				return petitions;
 			}
 		}
 

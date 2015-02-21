@@ -66,7 +66,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// <returns></returns>
 		[HttpGet]
 		[Route("api/petition")]
-		public OperationResult<IEnumerable<Petition>> Get(bool showPreliminaryPetitions = false)
+		public OperationResult<IEnumerable<Petition>> GetAll(bool showPreliminaryPetitions = false)
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
@@ -88,7 +88,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// <param name="id"></param>
 		/// <returns></returns>
 		[HttpGet]
-		[Route("api/petition/{id}")]
+		[Route("api/petition/{id:int}")]
 		public OperationResult<Petition> Get(int id)
 		{
 			var result = OperationExecuter.Execute(() =>
@@ -110,62 +110,20 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// <summary>
 		/// Search petition by specific word in peetition description or subject.
 		/// </summary>
-		/// <param name="query"></param>
+		/// <param name="text"></param>
+		/// <param name="category"></param>
+		/// <param name="organization"></param>
 		/// <param name="showPreliminaryPetitions"></param>
 		/// <returns></returns>
 		[HttpGet]
-		[Route("api/petition/search/{query}")]
-		public OperationResult<IEnumerable<Petition>> Search(string query, bool showPreliminaryPetitions = false)
+		[Route("api/petition/search")]
+		public OperationResult<IEnumerable<Petition>> SearchAll(string text = null, string category = null, string organization = null, bool showPreliminaryPetitions = false)
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
-				var petitions = this.petitionRepository.Search(query, null, null, null, showPreliminaryPetitions);
+				var petitions = this.petitionRepository.Search(text, category, organization, null, showPreliminaryPetitions).ToList();
 				this.SetDictionariesValues(petitions);
-				var clientPetitions = Mapper.Map<IEnumerable<Petition>>(petitions);
-				return OperationResult<IEnumerable<Petition>>.Success(clientPetitions);
-			});
-
-			return result;
-		}
-
-
-		/// <summary>
-		/// Search petition by category name.
-		/// </summary>
-		/// <param name="query"></param>
-		/// <param name="showPreliminaryPetitions"></param>
-		/// <returns></returns>
-		[HttpGet]
-		[Route("api/petition/searchcategory/{query}")]
-		public OperationResult<IEnumerable<Petition>> CategorySearch(string query, bool showPreliminaryPetitions = false)
-		{
-			var result = OperationExecuter.Execute(() =>
-			{
-				var petitions = this.petitionRepository.Search(null, query, null, null, showPreliminaryPetitions);
-				this.SetDictionariesValues(petitions);
-				var clientPetitions = Mapper.Map<IEnumerable<Petition>>(petitions);
-				return OperationResult<IEnumerable<Petition>>.Success(clientPetitions);
-			});
-
-			return result;
-		}
-
-
-		/// <summary>
-		/// Search petition by category name.
-		/// </summary>
-		/// <param name="query"></param>
-		/// <param name="showPreliminaryPetitions"></param>
-		/// <returns></returns>
-		[HttpGet]
-		[Route("api/petition/searchorganization/{query}")]
-		public OperationResult<IEnumerable<Petition>> OrganizationSearch(string query, bool showPreliminaryPetitions = false)
-		{
-			var result = OperationExecuter.Execute(() =>
-			{
-				var petitions = this.petitionRepository.Search(null, null, query, null, showPreliminaryPetitions);
-				this.SetDictionariesValues(petitions);
-				var clientPetitions = Mapper.Map<IEnumerable<Petition>>(petitions);
+				var clientPetitions = petitions.Select(Mapper.Map<DALModel.PetitionWithVote, Petition>);
 				return OperationResult<IEnumerable<Petition>>.Success(clientPetitions);
 			});
 

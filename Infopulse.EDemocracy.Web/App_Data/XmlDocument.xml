@@ -525,7 +525,7 @@
             Default constructor (no DI yet).
             </summary>
         </member>
-        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.Get(System.Boolean)">
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.GetAll(System.Boolean)">
             <summary>
             Get all petitions.
             </summary>
@@ -538,27 +538,13 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.Search(System.String,System.Boolean)">
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.SearchAll(System.String,System.String,System.String,System.Boolean)">
             <summary>
             Search petition by specific word in peetition description or subject.
             </summary>
-            <param name="query"></param>
-            <param name="showPreliminaryPetitions"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.CategorySearch(System.String,System.Boolean)">
-            <summary>
-            Search petition by category name.
-            </summary>
-            <param name="query"></param>
-            <param name="showPreliminaryPetitions"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.OrganizationSearch(System.String,System.Boolean)">
-            <summary>
-            Search petition by category name.
-            </summary>
-            <param name="query"></param>
+            <param name="text"></param>
+            <param name="category"></param>
+            <param name="organization"></param>
             <param name="showPreliminaryPetitions"></param>
             <returns></returns>
         </member>
