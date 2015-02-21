@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Data.Entity.Migrations.Model;
 
-namespace Infopulse.EDemocracy.Model.Common
+namespace Infopulse.EDemocracy.Common.Operations
 {
 	/// <summary>
 	/// Represents result of operation that does not returns any data (returns void).

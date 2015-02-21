@@ -1,6 +1,6 @@
-﻿using Infopulse.EDemocracy.Data.Interfaces;
+﻿using Infopulse.EDemocracy.Common.Operations;
+using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Model.BusinessEntities;
-using Infopulse.EDemocracy.Model.Common;
 using System;
 using System.Transactions;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Mail;
+using Infopulse.EDemocracy.Common.Operations;
 using Infopulse.EDemocracy.Email.Notifications;
 using Infopulse.EDemocracy.Model.Common;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Infopulse.EDemocracy.Model.Common
+namespace Infopulse.EDemocracy.Common.Extensions
 {
 	public static class ExceptionExtensions
 	{

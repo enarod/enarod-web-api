@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Infopulse.EDemocracy.Common.Operations;
 using clientEntity = Infopulse.EDemocracy.Model.BusinessEntities;
-using Infopulse.EDemocracy.Model.Common;
 
 
 namespace Infopulse.EDemocracy.Data.Interfaces

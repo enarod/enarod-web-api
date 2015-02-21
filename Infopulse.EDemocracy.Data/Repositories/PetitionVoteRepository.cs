@@ -1,15 +1,9 @@
-﻿using Infopulse.EDemocracy.Data.Exceptions;
-using Infopulse.EDemocracy.Data.Interfaces;
+﻿using Infopulse.EDemocracy.Common.Exceptions;
 using Infopulse.EDemocracy.Model;
-using Infopulse.EDemocracy.Model.ClientEntities;
-using Infopulse.EDemocracy.Model.Common;
 using Infopulse.EDemocracy.Model.Helpers;
-using Infopulse.EDemocracy.Model.Resources;
 using System;
 using System.Linq;
-using Certificate = Infopulse.EDemocracy.Model.Certificate;
 using PetitionEmailVote = Infopulse.EDemocracy.Model.PetitionEmailVote;
-using PetitionVote = Infopulse.EDemocracy.Model.PetitionVote;
 
 namespace Infopulse.EDemocracy.Data.Repositories
 {

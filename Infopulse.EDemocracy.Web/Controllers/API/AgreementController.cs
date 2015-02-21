@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using Infopulse.EDemocracy.Common.Operations;
 using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Data.Repositories;
 using Infopulse.EDemocracy.Model.ClientEntities;

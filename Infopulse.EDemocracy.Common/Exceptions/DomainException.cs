@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Infopulse.EDemocracy.Data.Exceptions
+namespace Infopulse.EDemocracy.Common.Exceptions
 {
 	public abstract class DomainException : Exception
 	{

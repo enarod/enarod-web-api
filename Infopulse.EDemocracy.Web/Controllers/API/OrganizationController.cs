@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using Infopulse.EDemocracy.Common.Operations;
 using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Data.Repositories;
 using Infopulse.EDemocracy.Model.BusinessEntities;
-using Infopulse.EDemocracy.Model.Common;
+using Infopulse.EDemocracy.Web.CORS;
 using System.Collections.Generic;
 using System.Web.Http;
-using Infopulse.EDemocracy.Web.CORS;
 using DALModels = Infopulse.EDemocracy.Model;
 
 namespace Infopulse.EDemocracy.Web.Controllers.API

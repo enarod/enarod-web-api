@@ -1,5 +1,5 @@
-﻿using Infopulse.EDemocracy.Model.BusinessEntities;
-using Infopulse.EDemocracy.Model.Common;
+﻿using Infopulse.EDemocracy.Common.Operations;
+using Infopulse.EDemocracy.Model.BusinessEntities;
 
 namespace Infopulse.EDemocracy.Data.Interfaces
 {

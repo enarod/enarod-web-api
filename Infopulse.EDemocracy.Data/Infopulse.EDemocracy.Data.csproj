@@ -74,14 +74,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DbConnectionHandlerAttribute.cs" />
     <Compile Include="DbExecuter.cs" />
     <Compile Include="DbLog.cs" />
-    <Compile Include="Exceptions\DomainException.cs" />
-    <Compile Include="Exceptions\ExceptionLevel.cs" />
-    <Compile Include="Exceptions\PetitionAlreadyVotedWithEmailException.cs" />
-    <Compile Include="Exceptions\PetitionIsNotConfirmedException.cs" />
-    <Compile Include="Exceptions\PetitionNotFoundException.cs" />
     <Compile Include="Interfaces\IAgreementRepository.cs" />
     <Compile Include="Interfaces\IDictionariesHelper.cs" />
     <Compile Include="Interfaces\IEntityRepository.cs" />
@@ -121,6 +115,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Infopulse.EDemocracy.Common\Infopulse.EDemocracy.Common.csproj">
+      <Project>{7d3f48c5-4389-4347-b5a8-d9a20557843d}</Project>
+      <Name>Infopulse.EDemocracy.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Infopulse.EDemocracy.Email\Infopulse.EDemocracy.Email.csproj">
       <Project>{c4268eaf-5395-4731-ac21-656893e6de9b}</Project>
       <Name>Infopulse.EDemocracy.Email</Name>

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Data.Entity.Core;
+using Infopulse.EDemocracy.Common.Exceptions;
 using Infopulse.EDemocracy.Model.Resources;
 
-namespace Infopulse.EDemocracy.Model.Common
+namespace Infopulse.EDemocracy.Common.Operations
 {
 	public class OperationExecuter
 	{
@@ -23,10 +24,6 @@ namespace Infopulse.EDemocracy.Model.Common
 			{
 				result = procedure.Invoke();
 			}
-			catch (HandledException exception)
-			{
-				result = OperationResult.Fail(-1, exception.GetMostInnerException().Message);
-			}
 			catch (EntityException entityException)
 			{
 				result = OperationExecuter.GetDbConnectionFailedResult();
@@ -42,15 +39,15 @@ namespace Infopulse.EDemocracy.Model.Common
 
 		public static OperationResult<T> Execute<T>(Func<OperationResult<T>> procedure)
 		{
-			OperationResult<T> result;
+			OperationResult<T> result = null;
 
 			try
 			{
 				result = procedure.Invoke();
 			}
-			catch (HandledException exception)
+			catch (DomainException exc)
 			{
-				result = OperationResult<T>.Fail(-1, exception.GetMostInnerException().Message);
+				
 			}
 			catch (EntityException entityException)
 			{

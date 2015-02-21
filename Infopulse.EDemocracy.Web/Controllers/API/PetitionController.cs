@@ -2,6 +2,7 @@
 using AutoMapper;
 using Infopulse.EDemocracy.Common.Cache;
 using Infopulse.EDemocracy.Common.Cache.Interfaces;
+using Infopulse.EDemocracy.Common.Operations;
 using Infopulse.EDemocracy.Common.Services;
 using Infopulse.EDemocracy.Common.Services.Models;
 using Infopulse.EDemocracy.Data.Interfaces;

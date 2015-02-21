@@ -1,6 +1,6 @@
 ﻿using System;
 using AutoMapper;
-using Infopulse.EDemocracy.Data.Exceptions;
+using Infopulse.EDemocracy.Common.Exceptions;
 using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Data.Interfaces.v2;
 using Infopulse.EDemocracy.Data.Repositories.v2;

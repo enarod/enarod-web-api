@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Infopulse.EDemocracy.Common.Operations;
 using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Model;
 using Infopulse.EDemocracy.Model.BusinessEntities;

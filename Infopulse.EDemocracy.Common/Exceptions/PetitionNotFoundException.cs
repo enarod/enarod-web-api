@@ -1,4 +1,4 @@
-﻿namespace Infopulse.EDemocracy.Data.Exceptions
+﻿namespace Infopulse.EDemocracy.Common.Exceptions
 {
 	public class PetitionNotFoundException : DomainException
 	{

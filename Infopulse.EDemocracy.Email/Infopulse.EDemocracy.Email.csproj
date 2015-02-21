@@ -81,6 +81,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Infopulse.EDemocracy.Common\Infopulse.EDemocracy.Common.csproj">
+      <Project>{7d3f48c5-4389-4347-b5a8-d9a20557843d}</Project>
+      <Name>Infopulse.EDemocracy.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Infopulse.EDemocracy.Model\Infopulse.EDemocracy.Model.csproj">
       <Project>{044c41cb-2df9-40da-8a41-d6a54379c76c}</Project>
       <Name>Infopulse.EDemocracy.Model</Name>

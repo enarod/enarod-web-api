@@ -116,11 +116,6 @@
     <Compile Include="ClientEntities\v2\EmailVote2.cs" />
     <Compile Include="BusinessEntities\PetitionSigner.cs" />
     <Compile Include="Common\EntityDictionary.cs" />
-    <Compile Include="Common\ExceptionExtensions.cs" />
-    <Compile Include="Common\HandledException.cs" />
-    <Compile Include="Common\OperationResult.cs" />
-    <Compile Include="Common\OperationResultT.cs" />
-    <Compile Include="Common\OperationExecuter.cs" />
     <Compile Include="Contact.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
