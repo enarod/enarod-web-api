@@ -1,4 +1,5 @@
 ﻿using System;
+using Infopulse.EDemocracy.Common.Exceptions;
 
 namespace Infopulse.EDemocracy.Common.Operations
 {
@@ -96,6 +97,26 @@ namespace Infopulse.EDemocracy.Common.Operations
 				DebugMessage = innerExceptionMessage,
 				Data = default(T)
 			};
+		}
+
+
+		/// <summary>
+		/// Sets failed operation result caused by domain exception.
+		/// </summary>
+		/// <param name="exception">Domain exception instance.</param>
+		/// <param name="resultCode">Operation result code.</param>
+		/// <returns>Failed operation result.</returns>
+		public static new OperationResult<T> ExceptionResult(DomainException exception, int resultCode = -1)
+		{
+			OperationResult<T> result = null;
+			result = new OperationResult<T>()
+			{
+				ResultCode = resultCode,
+				Message = exception.DisplayMessage,
+				DebugMessage = string.Format("{0}: {1}", exception.ExceptionLevel, exception.Message)
+			};
+
+			return result;
 		}
 	}
 }

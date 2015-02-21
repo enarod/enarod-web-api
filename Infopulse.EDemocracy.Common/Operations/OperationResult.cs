@@ -1,4 +1,5 @@
 ﻿using System;
+using Infopulse.EDemocracy.Common.Exceptions;
 
 namespace Infopulse.EDemocracy.Common.Operations
 {
@@ -105,7 +106,7 @@ namespace Infopulse.EDemocracy.Common.Operations
 		/// </summary>
 		/// <param name="exc">Exception that causued operation failure.</param>
 		/// <param name="resultCode">Optional result code.</param>
-		/// <returns>failed operation result.</returns>
+		/// <returns>Failed operation result.</returns>
 		public static OperationResult ExceptionResult(Exception exc, int resultCode = -1)
 		{
 			var innerExceptionMessage = OperationResult.GetInnerException(exc).Message;
@@ -115,6 +116,26 @@ namespace Infopulse.EDemocracy.Common.Operations
 					   Message = "Unhandled exception has occued. Please contact the administrator.",
 					   DebugMessage = innerExceptionMessage
 				   };
+		}
+
+
+		/// <summary>
+		/// Sets failed operation result caused by domain exception.
+		/// </summary>
+		/// <param name="exception">Domain exception instance.</param>
+		/// <param name="resultCode">Operation result code.</param>
+		/// <returns>Failed operation result.</returns>
+		public static OperationResult ExceptionResult(DomainException exception, int resultCode = -1)
+		{
+			OperationResult result = null;
+			result = new OperationResult()
+			{
+				ResultCode = resultCode,
+				Message = exception.DisplayMessage,
+				DebugMessage = string.Format("{0}: {1}", exception.ExceptionLevel, exception.Message)
+			};
+
+			return result;
 		}
 
 

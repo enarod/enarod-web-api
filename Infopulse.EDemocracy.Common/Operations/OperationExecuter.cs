@@ -1,7 +1,7 @@
-﻿using System;
-using System.Data.Entity.Core;
-using Infopulse.EDemocracy.Common.Exceptions;
+﻿using Infopulse.EDemocracy.Common.Exceptions;
 using Infopulse.EDemocracy.Model.Resources;
+using System;
+using System.Data.Entity.Core;
 
 namespace Infopulse.EDemocracy.Common.Operations
 {
@@ -23,6 +23,10 @@ namespace Infopulse.EDemocracy.Common.Operations
 			try
 			{
 				result = procedure.Invoke();
+			}
+			catch (DomainException exc)
+			{
+				result = OperationResult.ExceptionResult(exc);
 			}
 			catch (EntityException entityException)
 			{
@@ -47,7 +51,7 @@ namespace Infopulse.EDemocracy.Common.Operations
 			}
 			catch (DomainException exc)
 			{
-				
+				result = OperationResult<T>.ExceptionResult(exc);
 			}
 			catch (EntityException entityException)
 			{
