@@ -556,7 +556,7 @@
             <param name="showPreliminaryPetitions"></param>
             <returns></returns>
         </member>
-        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.EmailVote2(Infopulse.EDemocracy.Model.ClientEntities.v2.EmailVote2)">
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.EmailVote2(Infopulse.EDemocracy.Model.ClientEntities.EmailVote)">
             <summary>
             Vote for petition by email.
             </summary>

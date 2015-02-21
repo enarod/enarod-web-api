@@ -11,7 +11,6 @@ using Infopulse.EDemocracy.Email;
 using Infopulse.EDemocracy.Email.Notifications;
 using Infopulse.EDemocracy.Model.BusinessEntities;
 using Infopulse.EDemocracy.Model.ClientEntities;
-using Infopulse.EDemocracy.Model.ClientEntities.v2;
 using Infopulse.EDemocracy.Model.Common;
 using Infopulse.EDemocracy.Web.CORS;
 using System;
@@ -54,7 +53,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 			this.geoService = new GeoService();
 
-			this.petitionVoteRepository = new EDemocracy.Data.Repositories.v2.PetitionVoteRepository();
+			this.petitionVoteRepository = new PetitionVoteRepository();
 		}
 
 
@@ -266,14 +265,14 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// <remarks>Version 2</remarks>
 		[HttpPost]
 		[Route("api/petition/v2/emailVote")]
-		public OperationResult EmailVote2(EDemocracy.Model.ClientEntities.v2.EmailVote2 vote2)
+		public OperationResult EmailVote2(EmailVote vote)
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
 				OperationResult voteResult;
 
 				var emailVoteRequest = this.petitionVoteRepository.CreateEmailVoteRequest(
-					Mapper.Map<Infopulse.EDemocracy.Model.PetitionEmailVote>(vote2));
+					Mapper.Map<Infopulse.EDemocracy.Model.PetitionEmailVote>(vote));
 
 				var webPetitionVote = Mapper.Map<Infopulse.EDemocracy.Model.BusinessEntities.PetitionEmailVote>(emailVoteRequest);
 				var notification = new PetitionVoteNotification(webPetitionVote);
@@ -287,7 +286,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 				{
 					voteResult = OperationResult.Fail(
 						-11,
-						string.Format("Не вдалось відправити запит на підтвердження голосування на email {0}", vote2.Signer.Email));
+						string.Format("Не вдалось відправити запит на підтвердження голосування на email {0}", vote.Signer.Email));
 				}
 
 				return voteResult;

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Infopulse.EDemocracy.Model.ClientEntities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -189,7 +190,7 @@ namespace Infopulse.EDemocracy.Web.Tests
 		{
 			MapperConfig.Map();
 
-			var webEmailVote = new Infopulse.EDemocracy.Model.ClientEntities.v2.EmailVote2
+			var webEmailVote = new EmailVote
 			{
 				ID = 42,
 				Signer = new WebModels.PetitionSigner

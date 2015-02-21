@@ -105,7 +105,6 @@
     <Compile Include="Certificate.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ClientEntities\EmailVote.cs" />
     <Compile Include="BusinessEntities\Entity.cs" />
     <Compile Include="BusinessEntities\EntityGroup.cs" />
     <Compile Include="BusinessEntities\People.cs" />
@@ -113,7 +112,7 @@
     <Compile Include="BusinessEntities\PetitionLevel.cs" />
     <Compile Include="BusinessEntities\PetitionVote.cs" />
     <Compile Include="ClientEntities\ClientPetitionVote.cs" />
-    <Compile Include="ClientEntities\v2\EmailVote2.cs" />
+    <Compile Include="ClientEntities\EmailVote.cs" />
     <Compile Include="BusinessEntities\PetitionSigner.cs" />
     <Compile Include="Common\EntityDictionary.cs" />
     <Compile Include="Contact.cs">
@@ -227,7 +226,9 @@
   <ItemGroup>
     <Content Include="pub_Petitions_GetVisible.sql" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ClientEntities\v2\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

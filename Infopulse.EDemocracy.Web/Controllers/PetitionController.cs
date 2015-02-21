@@ -3,9 +3,9 @@ using AutoMapper;
 using Infopulse.EDemocracy.Common.Exceptions;
 using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Data.Interfaces.v2;
-using Infopulse.EDemocracy.Data.Repositories.v2;
 using System.Configuration;
 using System.Web.Mvc;
+using Infopulse.EDemocracy.Data.Repositories;
 using Infopulse.EDemocracy.Model.BusinessEntities;
 
 namespace Infopulse.EDemocracy.Web.Controllers
