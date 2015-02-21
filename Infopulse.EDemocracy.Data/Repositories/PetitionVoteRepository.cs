@@ -267,7 +267,7 @@ namespace Infopulse.EDemocracy.Data.Repositories.v2
 				{
 					if (!dbEmailVote.IsConfirmed)
 					{
-						throw new PetitionIsNotConfirmedException();
+						throw new PetitionVoteIsNotConfirmedException(emailVote.PetitionSigner.Email);
 					}
 
 					throw new PetitionAlreadyVotedWithEmailException();

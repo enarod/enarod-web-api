@@ -79,6 +79,33 @@ namespace Infopulse.EDemocracy.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ви вже проголосували за цю петицію..
+        /// </summary>
+        public static string PetitionAlreadyVotedException {
+            get {
+                return ResourceManager.GetString("PetitionAlreadyVotedException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Петиція не знайдена..
+        /// </summary>
+        public static string PetitionNofFoundException {
+            get {
+                return ResourceManager.GetString("PetitionNofFoundException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ваш голос чекає підтвердження. Перевірте вашу поштову скриньку {0}..
+        /// </summary>
+        public static string PetitionVoteNotConfirmedException_Mask {
+            get {
+                return ResourceManager.GetString("PetitionVoteNotConfirmedException_Mask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to -13.
         /// </summary>
         public static string SendEmailFailedCode {

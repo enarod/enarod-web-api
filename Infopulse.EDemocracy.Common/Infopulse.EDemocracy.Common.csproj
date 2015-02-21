@@ -84,7 +84,7 @@
     <Compile Include="Exceptions\DomainException.cs" />
     <Compile Include="Exceptions\ExceptionLevel.cs" />
     <Compile Include="Exceptions\PetitionAlreadyVotedWithEmailException.cs" />
-    <Compile Include="Exceptions\PetitionIsNotConfirmedException.cs" />
+    <Compile Include="Exceptions\PetitionVoteIsNotConfirmedException.cs" />
     <Compile Include="Exceptions\PetitionNotFoundException.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Operations\OperationExecuter.cs" />

@@ -7,6 +7,9 @@ namespace Infopulse.EDemocracy.Common.Exceptions
 		public ExceptionLevel ExceptionLevel { get; set; }
 		public string DisplayMessage { get; set; }
 		
+		protected DomainException()
+		{ }
+
 		protected DomainException(string displayName, ExceptionLevel exceptionLevel = ExceptionLevel.Other)
 		{
 			this.DisplayMessage = displayName;

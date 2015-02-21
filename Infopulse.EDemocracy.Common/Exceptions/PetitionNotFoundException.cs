@@ -1,11 +1,20 @@
-﻿namespace Infopulse.EDemocracy.Common.Exceptions
+﻿using Infopulse.EDemocracy.Common.Resources;
+
+namespace Infopulse.EDemocracy.Common.Exceptions
 {
 	public class PetitionNotFoundException : DomainException
 	{
 		public PetitionNotFoundException()
-			: base("Петиція не знайдена.", ExceptionLevel.Database)
+			: base(Errors.PetitionNofFoundException, ExceptionLevel.Database)
 		{
 			
+		}
+
+
+		public PetitionNotFoundException(string message)
+			: base(Errors.PetitionNofFoundException, message, ExceptionLevel.Database)
+		{
+
 		}
 	}
 }

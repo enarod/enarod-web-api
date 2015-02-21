@@ -123,6 +123,15 @@
   <data name="DbConnectionFailedMessage" xml:space="preserve">
     <value>Вибачте, на разі база данних не доступна.</value>
   </data>
+  <data name="PetitionAlreadyVotedException" xml:space="preserve">
+    <value>Ви вже проголосували за цю петицію.</value>
+  </data>
+  <data name="PetitionNofFoundException" xml:space="preserve">
+    <value>Петиція не знайдена.</value>
+  </data>
+  <data name="PetitionVoteNotConfirmedException_Mask" xml:space="preserve">
+    <value>Ваш голос чекає підтвердження. Перевірте вашу поштову скриньку {0}.</value>
+  </data>
   <data name="SendEmailFailedCode" xml:space="preserve">
     <value>-13</value>
   </data>
