@@ -79,6 +79,15 @@ namespace Infopulse.EDemocracy.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Помилка! Не можу виконати операцію. Якщо проблема повториться, зв&apos;яжіться, будь ласка, з адміністратором..
+        /// </summary>
+        public static string GeneralException {
+            get {
+                return ResourceManager.GetString("GeneralException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ви вже проголосували за цю петицію..
         /// </summary>
         public static string PetitionAlreadyVotedException {
@@ -120,6 +129,15 @@ namespace Infopulse.EDemocracy.Common.Resources {
         public static string SendEmailFailedMessage {
             get {
                 return ResourceManager.GetString("SendEmailFailedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не можу створити петицію через внутрішню помилку..
+        /// </summary>
+        public static string UnableToReadPetitionException {
+            get {
+                return ResourceManager.GetString("UnableToReadPetitionException", resourceCulture);
             }
         }
     }

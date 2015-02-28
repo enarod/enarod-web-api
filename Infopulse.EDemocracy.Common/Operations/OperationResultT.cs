@@ -1,5 +1,6 @@
 ﻿using System;
 using Infopulse.EDemocracy.Common.Exceptions;
+using Infopulse.EDemocracy.Common.Resources;
 
 namespace Infopulse.EDemocracy.Common.Operations
 {
@@ -93,7 +94,7 @@ namespace Infopulse.EDemocracy.Common.Operations
 			return new OperationResult<T>
 			{
 				ResultCode = -1,
-				Message = "Unhandled exception has occued. Please contact the administrator.",
+				Message = Errors.GeneralException,
 				DebugMessage = innerExceptionMessage,
 				Data = default(T)
 			};

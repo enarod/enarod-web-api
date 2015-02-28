@@ -123,6 +123,9 @@
   <data name="DbConnectionFailedMessage" xml:space="preserve">
     <value>Вибачте, на разі база данних не доступна.</value>
   </data>
+  <data name="GeneralException" xml:space="preserve">
+    <value>Помилка! Не можу виконати операцію. Якщо проблема повториться, зв'яжіться, будь ласка, з адміністратором.</value>
+  </data>
   <data name="PetitionAlreadyVotedException" xml:space="preserve">
     <value>Ви вже проголосували за цю петицію.</value>
   </data>
@@ -137,5 +140,8 @@
   </data>
   <data name="SendEmailFailedMessage" xml:space="preserve">
     <value>Під час спроби відправити листа сталася помилка. Перевірте правильність вказаного вами email'а і спробуйте ще раз.</value>
+  </data>
+  <data name="UnableToReadPetitionException" xml:space="preserve">
+    <value>Не можу створити петицію через внутрішню помилку.</value>
   </data>
 </root>

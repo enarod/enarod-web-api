@@ -208,6 +208,22 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					petition.PetitionLevel = null;
 				}
 
+				// author
+				if (newPetition.Issuer == null)
+				{
+					throw new Exception("Unable to create petition without author.");
+				}
+
+				var existedSigner = db.PetitionSigners.SingleOrDefault(ps => ps.Email == newPetition.Issuer.Email);
+				if (existedSigner == null)
+				{
+					existedSigner = db.PetitionSigners.Add(newPetition.Issuer);
+					db.SaveChanges();
+				}
+
+				newPetition.IssuerID = existedSigner.ID;
+				newPetition.Issuer.ID = existedSigner.ID;
+				
 				var addedPetition = db.Petitions.Add(petition);
 				db.SaveChanges();
 

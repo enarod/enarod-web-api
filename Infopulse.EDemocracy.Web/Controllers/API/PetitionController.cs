@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Infopulse.EDemocracy.Common.Cache;
 using Infopulse.EDemocracy.Common.Cache.Interfaces;
+using Infopulse.EDemocracy.Common.Exceptions;
 using Infopulse.EDemocracy.Common.Operations;
 using Infopulse.EDemocracy.Common.Services;
 using Infopulse.EDemocracy.Common.Services.Models;
@@ -324,7 +325,11 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			{
 				OperationResult<Petition> result = null;
 
-				if (petition == null) return OperationResult<Petition>.Fail(-1, "Unable to parse incoming petition info.");
+				if (petition == null)
+				{
+					return OperationResult<Petition>.ExceptionResult(
+						new UnableToReadPetitionException("Unalbe to parse incoming JSON."));
+				}
 
 				// HACK:
 				if (petition.Category == null || string.IsNullOrWhiteSpace(petition.Category.Name))
