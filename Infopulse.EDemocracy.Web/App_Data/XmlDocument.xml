@@ -550,11 +550,14 @@
             <param name="searchParameters">All search attributes.</param>
             <returns></returns>
         </member>
-        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.KeyWordSearch(Infopulse.EDemocracy.Model.ClientEntities.Search.PetitionSearchParameters)">
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.KeyWordSearch(System.String,Infopulse.EDemocracy.Model.ClientEntities.Search.SearchParameters,System.Boolean,System.Boolean)">
             <summary>
             Search petition by specific tag.
             </summary>
+            <param name="keyWord">Tag text.</param>
             <param name="searchParameters">Search parameters which includes keyword.</param>
+            <param name="showNewPetitions"></param>
+            <param name="showPreliminaryPetitions"></param>
             <returns></returns>
         </member>
         <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.EmailVote2(Infopulse.EDemocracy.Model.ClientEntities.EmailVote)">

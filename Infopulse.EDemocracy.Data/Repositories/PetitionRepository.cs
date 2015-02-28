@@ -33,6 +33,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						throw new Exception("Ця петиція ще не підтверджена.");
 					}
 				}
+				this.LoadPetitionAuthors(db, new[] {petition});
 
 				return petition;
 			}
@@ -48,6 +49,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						new SqlParameter("PetitionID", DBNull.Value),
 						new SqlParameter("ShowPreliminaryPetitions", showPreliminaryPetition))
 					.ToList();
+				this.LoadPetitionAuthors(db, petitions);
 
 				return petitions;
 			}
@@ -137,6 +139,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						"@PageNumber, @PageSize, @OrderBy",
 					sqlParameters)
 				.ToList();
+				this.LoadPetitionAuthors(db, petitions);
 
 				return petitions;
 			}
@@ -209,6 +212,17 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				db.SaveChanges();
 
 				return addedPetition;
+			}
+		}
+
+
+		private void LoadPetitionAuthors(EDEntities db, IEnumerable<PetitionWithVote> petitions)
+		{
+			var issuerIDs = petitions.Select(p => p.IssuerID);
+			var issuers = db.PetitionSigners.Where(ps => issuerIDs.Contains(ps.ID)).ToList();
+			foreach (var petition in petitions)
+			{
+				petition.Issuer = issuers.SingleOrDefault(i => i.ID == petition.IssuerID);
 			}
 		}
 	}
