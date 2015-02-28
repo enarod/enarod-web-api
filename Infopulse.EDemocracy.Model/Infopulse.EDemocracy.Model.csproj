@@ -114,6 +114,8 @@
     <Compile Include="ClientEntities\ClientPetitionVote.cs" />
     <Compile Include="ClientEntities\EmailVote.cs" />
     <Compile Include="BusinessEntities\PetitionSigner.cs" />
+    <Compile Include="ClientEntities\Search\PetitionSearchParameters.cs" />
+    <Compile Include="ClientEntities\Search\SearchParameters.cs" />
     <Compile Include="Common\EntityDictionary.cs" />
     <Compile Include="Contact.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
@@ -226,9 +228,7 @@
   <ItemGroup>
     <Content Include="pub_Petitions_GetVisible.sql" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ClientEntities\v2\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

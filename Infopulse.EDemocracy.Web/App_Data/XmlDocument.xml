@@ -515,6 +515,11 @@
             <param name="organizationToAdd">New organization.</param>
             <returns>Organization been added.</returns>
         </member>
+        <member name="T:Infopulse.EDemocracy.Web.Controllers.PetitionController">
+            <summary>
+            MVC controller for all petition pages.
+            </summary>
+        </member>
         <member name="T:Infopulse.EDemocracy.Web.Controllers.API.PetitionController">
             <summary>
             APIs for managing petitions.
@@ -538,22 +543,18 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.SearchAll(System.String,System.String,System.String,System.Boolean)">
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.Search(Infopulse.EDemocracy.Model.ClientEntities.Search.PetitionSearchParameters)">
             <summary>
             Search petition by specific word in peetition description or subject.
             </summary>
-            <param name="text"></param>
-            <param name="category"></param>
-            <param name="organization"></param>
-            <param name="showPreliminaryPetitions"></param>
+            <param name="searchParameters">All search attributes.</param>
             <returns></returns>
         </member>
-        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.KeyWordSearch(System.String,System.Boolean)">
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.KeyWordSearch(Infopulse.EDemocracy.Model.ClientEntities.Search.PetitionSearchParameters)">
             <summary>
             Search petition by specific tag.
             </summary>
-            <param name="tag"></param>
-            <param name="showPreliminaryPetitions"></param>
+            <param name="searchParameters">Search parameters which includes keyword.</param>
             <returns></returns>
         </member>
         <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.EmailVote2(Infopulse.EDemocracy.Model.ClientEntities.EmailVote)">

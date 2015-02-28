@@ -5,16 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using Infopulse.EDemocracy.Model.ClientEntities.Search;
 
 namespace Infopulse.EDemocracy.Data.Repositories
 {
 	public class PetitionRepository : BaseRepository, IPetitionRepository
 	{
-		/// <summary>
-		/// Get petition by ID.
-		/// </summary>
-		/// <param name="petitionID"></param>
-		/// <returns></returns>
 		public PetitionWithVote Get(int petitionID)
 		{
 			using (var db = new EDEntities())
@@ -43,10 +39,6 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		}
 
 
-		/// <summary>
-		/// Get all petitions.
-		/// </summary>
-		/// <returns></returns>
 		public IEnumerable<PetitionWithVote> Get(bool showPreliminaryPetition = false)
 		{
 			using (var db = new EDEntities())
@@ -62,29 +54,16 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		}
 
 
-		/// <summary>
-		/// Search petition by specific word in several fields.
-		/// </summary>
-		/// <param name="text"></param>
-		/// <param name="keyWord"></param>
-		/// <param name="showPreliminaryPetitions">Flag indicating whether preliminary petitions should be returned.</param>
-		/// <param name="categoryName"></param>
-		/// <param name="organizationName"></param>
-		/// <returns></returns>
-		public IEnumerable<PetitionWithVote> Search(
-			string text,
-			string categoryName,
-			string organizationName,
-			string keyWord,
-			bool showPreliminaryPetitions = false)
+		public IEnumerable<PetitionWithVote> Search(PetitionSearchParameters searchParameters)
 		{
 			var script = string.Empty;
 
 			using (var db = new EDEntities())
 			{
 				db.Database.Log = s => script += s;
-				var petitions = db.Database.SqlQuery<PetitionWithVote>(
-					"sp_Petition_GetAll @PetitionID, @ShowPreliminaryPetitions, @SearchText, @KeyWordText, @Category, @Organization",
+
+				var sqlParameters = this.AddDefaultSearchParameters(new[]
+				{
 					new SqlParameter()
 					{
 						SqlDbType = SqlDbType.Int,
@@ -94,39 +73,69 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					},
 					new SqlParameter()
 					{
-						SqlDbType = SqlDbType.Bit,
-						Direction = ParameterDirection.Input,
-						ParameterName = "ShowPreliminaryPetitions",
-						Value = showPreliminaryPetitions
-					},
-					new SqlParameter()
-					{
 						SqlDbType = SqlDbType.NVarChar,
 						Direction = ParameterDirection.Input,
 						ParameterName = "SearchText",
-						Value = (object)text ?? DBNull.Value
+						Value = (object)searchParameters.Text ?? DBNull.Value
 					},
 					new SqlParameter()
 					{
 						SqlDbType = SqlDbType.NVarChar,
 						Direction = ParameterDirection.Input,
 						ParameterName = "KeyWordText",
-						Value = (object)keyWord ?? DBNull.Value
+						Value = (object)searchParameters.KeyWord ?? DBNull.Value
 					},
 					new SqlParameter()
 					{
 						SqlDbType = SqlDbType.NVarChar,
 						Direction = ParameterDirection.Input,
 						ParameterName = "Category",
-						Value = (object)categoryName ?? DBNull.Value
+						Value = (object)searchParameters.Category ?? DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.NVarChar,
+						Direction = ParameterDirection.Input,
+						ParameterName = "CategoryID",
+						Value = (object)searchParameters.CategoryID ?? DBNull.Value
 					},
 					new SqlParameter()
 					{
 						SqlDbType = SqlDbType.NVarChar,
 						Direction = ParameterDirection.Input,
 						ParameterName = "Organization",
-						Value = (object)organizationName ?? DBNull.Value
-					})
+						Value = (object)searchParameters.Organization ?? DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.NVarChar,
+						Direction = ParameterDirection.Input,
+						ParameterName = "OrganizationID",
+						Value = (object)searchParameters.OrganizationID ?? DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.Bit,
+						Direction = ParameterDirection.Input,
+						ParameterName = "ShowPreliminaryPetitions",
+						Value = searchParameters.ShowPreliminaryPetitions
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.Bit,
+						Direction = ParameterDirection.Input,
+						ParameterName = "ShowNewPetitions",
+						Value = searchParameters.ShowNewPetitions
+					}
+				},
+				searchParameters);
+
+				var petitions = db.Database.SqlQuery<PetitionWithVote>(
+					"sp_Petition_GetAll @PetitionID, @SearchText, @KeyWordText, " +
+						"@Category, @CategoryID, @Organization, @OrganizationID, " +
+						"@ShowNewPetitions, @ShowPreliminaryPetitions, " +
+						"@PageNumber, @PageSize, @OrderBy",
+					sqlParameters)
 				.ToList();
 
 				return petitions;
@@ -134,11 +143,6 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		}
 
 
-		/// <summary>
-		/// Create new petitions.
-		/// </summary>
-		/// <param name="newPetition"></param>
-		/// <returns></returns>
 		public Petition AddNewPetition(Petition newPetition)
 		{
 			using (var db = new EDEntities())
@@ -206,29 +210,6 @@ namespace Infopulse.EDemocracy.Data.Repositories
 
 				return addedPetition;
 			}
-		}
-
-
-		private IQueryable<Petition> GetVisiblePetitons(EDEntities db)
-		{
-			// TODO: use stored procedure for getting not Petition, but another model with counted votes
-
-			var petitions = from petition in db.Petitions
-							where petition.PetitionVotes.Count(p => p.PetitionID == petition.ID)
-							+ petition.PetitionEmailVotes.Count(p => p.PetitionID == petition.ID && p.IsConfirmed)
-								  >= petition.Limit
-							select petition;
-			return petitions;
-		}
-
-
-		// TODO: get rid of following method. Use SP instead.
-		private int CountPetitionVotes(EDEntities db, Petition petition)
-		{
-			var votesCount =
-				db.PetitionVotes.Count(p => p.PetitionID == petition.ID)
-				+ db.PetitionEmailVotes.Count(p => p.PetitionID == petition.ID && p.IsConfirmed);
-			return votesCount;
 		}
 	}
 }

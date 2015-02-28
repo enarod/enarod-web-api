@@ -1,5 +1,4 @@
-﻿using System.Data.Entity;
-using AutoMapper;
+﻿using AutoMapper;
 using Infopulse.EDemocracy.Common.Cache;
 using Infopulse.EDemocracy.Common.Cache.Interfaces;
 using Infopulse.EDemocracy.Common.Operations;
@@ -11,9 +10,9 @@ using Infopulse.EDemocracy.Email;
 using Infopulse.EDemocracy.Email.Notifications;
 using Infopulse.EDemocracy.Model.BusinessEntities;
 using Infopulse.EDemocracy.Model.ClientEntities;
+using Infopulse.EDemocracy.Model.ClientEntities.Search;
 using Infopulse.EDemocracy.Model.Common;
 using Infopulse.EDemocracy.Web.CORS;
-using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -109,18 +108,15 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// <summary>
 		/// Search petition by specific word in peetition description or subject.
 		/// </summary>
-		/// <param name="text"></param>
-		/// <param name="category"></param>
-		/// <param name="organization"></param>
-		/// <param name="showPreliminaryPetitions"></param>
+		/// <param name="searchParameters">All search attributes.</param>
 		/// <returns></returns>
 		[HttpGet]
 		[Route("api/petition/search")]
-		public OperationResult<IEnumerable<Petition>> SearchAll(string text = null, string category = null, string organization = null, bool showPreliminaryPetitions = false)
+		public OperationResult<IEnumerable<Petition>> Search([FromUri] PetitionSearchParameters searchParameters)
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
-				var petitions = this.petitionRepository.Search(text, category, organization, null, showPreliminaryPetitions).ToList();
+				var petitions = this.petitionRepository.Search(searchParameters).ToList();
 				this.SetDictionariesValues(petitions);
 				var clientPetitions = petitions.Select(Mapper.Map<DALModel.PetitionWithVote, Petition>);
 				return OperationResult<IEnumerable<Petition>>.Success(clientPetitions);
@@ -133,16 +129,26 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// <summary>
 		/// Search petition by specific tag.
 		/// </summary>
-		/// <param name="tag"></param>
-		/// <param name="showPreliminaryPetitions"></param>
+		/// <param name="searchParameters">Search parameters which includes keyword.</param>
 		/// <returns></returns>
 		[HttpGet]
 		[Route("api/petition/tag/{tag}")]
-		public OperationResult<IEnumerable<Petition>> KeyWordSearch(string tag, bool showPreliminaryPetitions = false)
+		public OperationResult<IEnumerable<Petition>> KeyWordSearch([FromUri] PetitionSearchParameters searchParameters)
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
-				var petitions = this.petitionRepository.Search(null, null, null, tag, showPreliminaryPetitions);
+				var keyWordSearchParameters = new PetitionSearchParameters()
+				{
+					KeyWord = searchParameters.KeyWord,
+					PageNumber = searchParameters.PageNumber,
+					PageSize = searchParameters.PageSize,
+					OrderBy = searchParameters.OrderBy,
+					OrderDirection = searchParameters.OrderDirection,
+					ShowNewPetitions = searchParameters.ShowNewPetitions,
+					ShowPreliminaryPetitions = searchParameters.ShowPreliminaryPetitions
+				};
+
+				var petitions = this.petitionRepository.Search(keyWordSearchParameters);
 				this.SetDictionariesValues(petitions);
 				var clientPetitions = Mapper.Map<IEnumerable<Petition>>(petitions);
 				return OperationResult<IEnumerable<Petition>>.Success(clientPetitions);

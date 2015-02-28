@@ -1,15 +1,15 @@
-﻿using System;
-using AutoMapper;
-using Infopulse.EDemocracy.Common.Exceptions;
-using Infopulse.EDemocracy.Data.Interfaces;
+﻿using Infopulse.EDemocracy.Common.Exceptions;
 using Infopulse.EDemocracy.Data.Interfaces.v2;
+using Infopulse.EDemocracy.Data.Repositories;
+using System;
 using System.Configuration;
 using System.Web.Mvc;
-using Infopulse.EDemocracy.Data.Repositories;
-using Infopulse.EDemocracy.Model.BusinessEntities;
 
 namespace Infopulse.EDemocracy.Web.Controllers
 {
+	/// <summary>
+	/// MVC controller for all petition pages.
+	/// </summary>
 	public class PetitionController : Controller
 	{
 		private readonly IPetitionVoteRepository petitionVoteRepository;
