@@ -130,15 +130,15 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// <summary>
 		/// Search petition by specific tag.
 		/// </summary>
-		/// <param name="keyWord">Tag text.</param>
+		/// <param name="tag">Tag text.</param>
 		/// <param name="searchParameters">Search parameters which includes keyword.</param>
 		/// <param name="showNewPetitions"></param>
 		/// <param name="showPreliminaryPetitions"></param>
 		/// <returns></returns>
 		[HttpGet]
-		[Route("api/petition/tag/{tag}")]
+		[Route("api/petition/tag")]
 		public OperationResult<IEnumerable<Petition>> KeyWordSearch(
-			string keyWord,
+			string tag,
 			[FromUri] SearchParameters searchParameters,
 			bool showNewPetitions = false,
 			bool showPreliminaryPetitions = false)
@@ -147,7 +147,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			{
 				var keyWordSearchParameters = new PetitionSearchParameters()
 				{
-					KeyWord = keyWord,
+					KeyWord = tag,
 					PageNumber = searchParameters.PageNumber,
 					PageSize = searchParameters.PageSize,
 					OrderBy = searchParameters.OrderBy,

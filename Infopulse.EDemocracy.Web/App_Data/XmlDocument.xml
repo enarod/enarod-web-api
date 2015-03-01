@@ -554,7 +554,7 @@
             <summary>
             Search petition by specific tag.
             </summary>
-            <param name="keyWord">Tag text.</param>
+            <param name="tag">Tag text.</param>
             <param name="searchParameters">Search parameters which includes keyword.</param>
             <param name="showNewPetitions"></param>
             <param name="showPreliminaryPetitions"></param>
