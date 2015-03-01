@@ -221,11 +221,20 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					db.SaveChanges();
 				}
 
-				newPetition.IssuerID = existedSigner.ID;
-				newPetition.Issuer.ID = existedSigner.ID;
-				
+				petition.IssuerID = existedSigner.ID;
+				petition.Issuer = null;
+
 				var addedPetition = db.Petitions.Add(petition);
 				db.SaveChanges();
+
+				addedPetition = db.Petitions
+					.Include("Issuer")
+					.Include("Organization")
+					.Include("Person")
+					.Include("Category")
+					.Include("Category.EntityGroup")
+					.Include("PetitionLevel")
+					.SingleOrDefault(p => p.ID == addedPetition.ID);
 
 				return addedPetition;
 			}
