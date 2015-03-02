@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Data.Entity.Core.Common.CommandTrees;
 using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Model;
 using System;
@@ -128,17 +129,53 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						Direction = ParameterDirection.Input,
 						ParameterName = "ShowNewPetitions",
 						Value = searchParameters.ShowNewPetitions
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.DateTime2,
+						Direction = ParameterDirection.Input,
+						ParameterName = "CreatedDateStart",
+						Value = searchParameters.CreatedDateStart.HasValue
+							? (object)searchParameters.CreatedDateStart.Value
+							: DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.DateTime2,
+						Direction = ParameterDirection.Input,
+						ParameterName = "CreatedDateEnd",
+						Value = searchParameters.CreatedDateEnd.HasValue
+							? (object)searchParameters.CreatedDateEnd.Value
+							: DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.DateTime2,
+						Direction = ParameterDirection.Input,
+						ParameterName = "FinishDateStart",
+						Value = searchParameters.FinishDateStart.HasValue
+							? (object)searchParameters.FinishDateStart.Value
+							: DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.DateTime2,
+						Direction = ParameterDirection.Input,
+						ParameterName = "FinishDateEnd",
+						Value = searchParameters.FinishDateEnd.HasValue
+							? (object)searchParameters.FinishDateEnd.Value
+							: DBNull.Value
 					}
 				},
 				searchParameters);
 
-				var petitions = db.Database.SqlQuery<PetitionWithVote>(
-					"sp_Petition_GetAll @PetitionID, @SearchText, @KeyWordText, " +
-						"@Category, @CategoryID, @Organization, @OrganizationID, " +
-						"@ShowNewPetitions, @ShowPreliminaryPetitions, " +
-						"@PageNumber, @PageSize, @OrderBy",
-					sqlParameters)
-				.ToList();
+				var sql = "sp_Petition_GetAll @PetitionID, " +
+				          "@SearchText, @KeyWordText, " +
+				          "@Category, @CategoryID, @Organization, @OrganizationID, " +
+				          "@ShowNewPetitions, @ShowPreliminaryPetitions, " +
+				          "@CreatedDateStart, @CreatedDateEnd, @FinishDateStart, @FinishDateEnd, " +
+				          "@PageNumber, @PageSize, @OrderBy";
+				var petitions = db.Database.SqlQuery<PetitionWithVote>(sql, sqlParameters).ToList();
 				this.LoadPetitionAuthors(db, petitions);
 
 				return petitions;

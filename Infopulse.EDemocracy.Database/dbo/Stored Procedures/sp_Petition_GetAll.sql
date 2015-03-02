@@ -10,6 +10,11 @@
 	@ShowPreliminaryPetitions bit = 0,
 	@ShowNewPetitions bit = 0,
 
+	@CreatedDateStart datetime2 = null,
+	@CreatedDateEnd datetime2 = null,
+	@FinishDateStart datetime2 = null,
+	@FinishDateEnd datetime2 = null,
+
 	@PageNumber int = 1,
 	@PageSize int = 50,
 	@OrderBy nvarchar(max) = 'CreatedDate'
@@ -26,7 +31,8 @@ declare
 		where
 			eg.Name = 'Category'
 			and parentEg.Name = 'Petition'
-	)
+	),
+	@Now datetime2 = getutcdate()
 	
 begin
 	if @PageNumber is null or @PageNumber < 1
@@ -155,6 +161,26 @@ begin
 				@OrganizationID is null
 				or p.OrganizationID = @OrganizationID
 			)
+			and
+			(
+				@CreatedDateStart is null
+				or datediff(day, @CreatedDateStart, p.EffectiveFrom) >= 0
+			)
+			and
+			(
+				@CreatedDateEnd is null
+				or datediff(day, p.EffectiveFrom, @CreatedDateEnd) >= 0
+			)
+			and
+			(
+				@FinishDateStart is null
+				or datediff(day, @FinishDateStart, p.EffectiveTo) >= 0
+			)
+			and
+			(
+				@FinishDateEnd is null
+				or datediff(day, p.EffectiveTo, @FinishDateEnd) >= 0
+			)
 		)
 	order by
 		case @OrderBy
@@ -165,9 +191,10 @@ begin
 			when 'CreatedDate DESC' then cast(p.CreatedDate as nvarchar(max))
 			else null
 		end desc,
-		cast(p.CreatedDate as nvarchar(max))
 		-- TODO: add other sort columns
 	
+		p.CreatedDate
+		
 	offset @PageSize * (@PageNumber - 1) rows
 	fetch next @PageSize rows only
 end

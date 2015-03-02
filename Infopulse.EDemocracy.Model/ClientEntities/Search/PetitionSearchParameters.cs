@@ -1,4 +1,6 @@
-﻿namespace Infopulse.EDemocracy.Model.ClientEntities.Search
+﻿using System;
+
+namespace Infopulse.EDemocracy.Model.ClientEntities.Search
 {
 	public class PetitionSearchParameters : SearchParameters
 	{
@@ -12,5 +14,11 @@
 
 		public bool ShowPreliminaryPetitions { get; set; }
 		public bool ShowNewPetitions { get; set; }
+
+		public DateTime? CreatedDateStart { get; set; }
+		public DateTime? CreatedDateEnd { get; set; }
+
+		public DateTime? FinishDateStart { get; set; }
+		public DateTime? FinishDateEnd { get; set; }
 	}
 }
