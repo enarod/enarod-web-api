@@ -69,13 +69,14 @@ begin
 			(isnull(cv.VotesCount, 0) + isnull(ev.VotesCount, 0)) as VotesCount,
 			coalesce(o.PreliminaryVoteCount, p.Limit) as RequiredVotesNumber,
 			e.[Description] as Category,
-			o.Name as OrganizationName
+			o.Name as OrganizationName,
+			coalesce(o.VoteCount, pl.Limit, p.Limit) as RequiredVoteLimit
 		from dbo.Petition p
 		left join cte_certVotes cv on cv.PetitionID = p.ID
 		left join cte_emailVotes ev on ev.PetitionID = p.ID
 		left join dbo.Organization o on o.ID = p.OrganizationID
-
 		join dbo.Entity e on e.ID = p.CategoryID
+		join dbo.PetitionLevel pl on pl.ID = p.LevelID
 		where
 			e.EntityGroupID = @EntityGroupId_PetitionCategory
 	)
