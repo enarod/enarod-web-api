@@ -3,12 +3,15 @@
 	@SearchText nvarchar(max) = null,
 	@KeyWordText nvarchar(max) = null,
 	@Category nvarchar(max) = null,
-	@CategoryID int = null,
+	@CategoryIDs dbo.IntList readonly,
 	@Organization nvarchar(max) = null,
 	@OrganizationID int = null,
 
 	@ShowPreliminaryPetitions bit = 0,
 	@ShowNewPetitions bit = 0,
+
+	@SearchInPetitions bit = 0,
+	@SearchInOrganizations bit = 0,
 
 	@CreatedDateStart datetime2 = null,
 	@CreatedDateEnd datetime2 = null,
@@ -67,10 +70,9 @@ begin
 		select
 			p.*,
 			(isnull(cv.VotesCount, 0) + isnull(ev.VotesCount, 0)) as VotesCount,
-			coalesce(o.PreliminaryVoteCount, p.Limit) as RequiredVotesNumber,
+			coalesce(o.PreliminaryVoteCount, o.VoteCount, p.Limit) as RequiredVotesNumber,
 			e.[Description] as Category,
-			o.Name as OrganizationName,
-			coalesce(o.VoteCount, pl.Limit, p.Limit) as RequiredVoteLimit
+			o.Name as OrganizationName
 		from dbo.Petition p
 		left join cte_certVotes cv on cv.PetitionID = p.ID
 		left join cte_emailVotes ev on ev.PetitionID = p.ID
@@ -95,7 +97,7 @@ begin
 		,p.[IssuerID]
 		,p.[EffectiveFrom]
 		,p.[EffectiveTo]
-		,p.[Limit]
+		,p.[RequiredVotesNumber] as [Limit]
 		,p.[Email]
 		,p.[OrganizationID]
 		,p.VotesCount
@@ -117,6 +119,7 @@ begin
 			and
 			(
 				(@ShowPreliminaryPetitions = 1 and p.OrganizationID is not null) -- preliminary petition linked to organization
+				or @ShowNewPetitions = 1
 				or p.VotesCount > p.RequiredVotesNumber
 			)
 			and
@@ -127,13 +130,15 @@ begin
 					@SearchText is not null
 					and
 					(
-						charindex(@SearchText, p.[Subject]) > 0
+						(@SearchInPetitions = 1 and charindex(@SearchText, p.[Subject]) > 0)
 						or
-						charindex(@SearchText, p.[Text]) > 0
+						(@SearchInPetitions = 1 and charindex(@SearchText, p.[Text]) > 0)
 						or
-						charindex(@SearchText, p.Requirements) > 0
+						(@SearchInPetitions = 1 and charindex(@SearchText, p.Requirements) > 0)
 						or
-						charindex(@SearchText, p.KeyWords) > 0
+						(@SearchInPetitions = 1 and charindex(@SearchText, p.KeyWords) > 0)
+						or
+						(@SearchInOrganizations = 1 and charindex(@SearchText, p.OrganizationName ) > 0)
 					)
 				)
 			)
@@ -149,8 +154,8 @@ begin
 			)
 			and
 			(
-				@CategoryID is null
-				or p.CategoryID = @CategoryID
+				exists(select null from @CategoryIDs)
+				or p.CategoryID in (select Number from @CategoryIDs)
 			)
 			and
 			(

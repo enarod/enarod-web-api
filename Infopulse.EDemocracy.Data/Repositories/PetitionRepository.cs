@@ -34,7 +34,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						throw new Exception("Ця петиція ще не підтверджена.");
 					}
 				}
-				this.LoadPetitionAuthors(db, new[] {petition});
+				this.LoadPetitionAuthors(db, new[] { petition });
 
 				return petition;
 			}
@@ -65,7 +65,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			{
 				db.Database.Log = s => script += s;
 
-				var sqlParameters = this.AddDefaultSearchParameters(new[]
+				var sqlParameters = new[]
 				{
 					new SqlParameter()
 					{
@@ -79,42 +79,43 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						SqlDbType = SqlDbType.NVarChar,
 						Direction = ParameterDirection.Input,
 						ParameterName = "SearchText",
-						Value = (object)searchParameters.Text ?? DBNull.Value
+						Value = (object) searchParameters.Text ?? DBNull.Value
 					},
 					new SqlParameter()
 					{
 						SqlDbType = SqlDbType.NVarChar,
 						Direction = ParameterDirection.Input,
 						ParameterName = "KeyWordText",
-						Value = (object)searchParameters.KeyWord ?? DBNull.Value
+						Value = (object) searchParameters.KeyWord ?? DBNull.Value
 					},
 					new SqlParameter()
 					{
 						SqlDbType = SqlDbType.NVarChar,
 						Direction = ParameterDirection.Input,
 						ParameterName = "Category",
-						Value = (object)searchParameters.Category ?? DBNull.Value
+						Value = (object) searchParameters.Category ?? DBNull.Value
 					},
 					new SqlParameter()
 					{
-						SqlDbType = SqlDbType.NVarChar,
+						SqlDbType = SqlDbType.Structured,
 						Direction = ParameterDirection.Input,
-						ParameterName = "CategoryID",
-						Value = (object)searchParameters.CategoryID ?? DBNull.Value
+						TypeName = "IntList",
+						ParameterName = "CategoryIDs",
+						Value = (searchParameters.CategoryID ?? new int[0]).Select(c => new { Number = c }).ToDataTable()
 					},
 					new SqlParameter()
 					{
 						SqlDbType = SqlDbType.NVarChar,
 						Direction = ParameterDirection.Input,
 						ParameterName = "Organization",
-						Value = (object)searchParameters.Organization ?? DBNull.Value
+						Value = (object) searchParameters.Organization ?? DBNull.Value
 					},
 					new SqlParameter()
 					{
-						SqlDbType = SqlDbType.NVarChar,
+						SqlDbType = SqlDbType.Int,
 						Direction = ParameterDirection.Input,
 						ParameterName = "OrganizationID",
-						Value = (object)searchParameters.OrganizationID ?? DBNull.Value
+						Value = (object) searchParameters.OrganizationID ?? DBNull.Value
 					},
 					new SqlParameter()
 					{
@@ -132,11 +133,25 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					},
 					new SqlParameter()
 					{
+						SqlDbType = SqlDbType.Bit,
+						Direction = ParameterDirection.Input,
+						ParameterName = "SearchInPetitions",
+						Value = searchParameters.SearchInPetitions
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.Bit,
+						Direction = ParameterDirection.Input,
+						ParameterName = "SearchInOrganizations",
+						Value = searchParameters.SearchInOrganizations
+					},
+					new SqlParameter()
+					{
 						SqlDbType = SqlDbType.DateTime2,
 						Direction = ParameterDirection.Input,
 						ParameterName = "CreatedDateStart",
 						Value = searchParameters.CreatedDateStart.HasValue
-							? (object)searchParameters.CreatedDateStart.Value
+							? (object) searchParameters.CreatedDateStart.Value
 							: DBNull.Value
 					},
 					new SqlParameter()
@@ -145,7 +160,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						Direction = ParameterDirection.Input,
 						ParameterName = "CreatedDateEnd",
 						Value = searchParameters.CreatedDateEnd.HasValue
-							? (object)searchParameters.CreatedDateEnd.Value
+							? (object) searchParameters.CreatedDateEnd.Value
 							: DBNull.Value
 					},
 					new SqlParameter()
@@ -154,7 +169,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						Direction = ParameterDirection.Input,
 						ParameterName = "FinishDateStart",
 						Value = searchParameters.FinishDateStart.HasValue
-							? (object)searchParameters.FinishDateStart.Value
+							? (object) searchParameters.FinishDateStart.Value
 							: DBNull.Value
 					},
 					new SqlParameter()
@@ -163,20 +178,22 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						Direction = ParameterDirection.Input,
 						ParameterName = "FinishDateEnd",
 						Value = searchParameters.FinishDateEnd.HasValue
-							? (object)searchParameters.FinishDateEnd.Value
+							? (object) searchParameters.FinishDateEnd.Value
 							: DBNull.Value
 					}
-				},
-				searchParameters);
+				};
+
+				sqlParameters = this.AddDefaultSearchParameters(sqlParameters, searchParameters);
 
 				var sql = "sp_Petition_GetAll @PetitionID, " +
-				          "@SearchText, @KeyWordText, " +
-				          "@Category, @CategoryID, @Organization, @OrganizationID, " +
-				          "@ShowNewPetitions, @ShowPreliminaryPetitions, " +
-				          "@CreatedDateStart, @CreatedDateEnd, @FinishDateStart, @FinishDateEnd, " +
-				          "@PageNumber, @PageSize, @OrderBy";
+						  "@SearchText, @KeyWordText, " +
+						  "@Category, @CategoryIDs, @Organization, @OrganizationID, " +
+						  "@ShowNewPetitions, @ShowPreliminaryPetitions, " +
+						  "@SearchInPetitions, @SearchInOrganizations, " +
+						  "@CreatedDateStart, @CreatedDateEnd, @FinishDateStart, @FinishDateEnd, " +
+						  "@PageNumber, @PageSize, @OrderBy";
 				var petitions = db.Database.SqlQuery<PetitionWithVote>(sql, sqlParameters).ToList();
-				
+
 				this.LoadPetitionAuthors(db, petitions);
 				this.LoadPetitionOrganizations(db, petitions);
 
