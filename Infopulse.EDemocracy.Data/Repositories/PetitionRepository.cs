@@ -176,7 +176,9 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				          "@CreatedDateStart, @CreatedDateEnd, @FinishDateStart, @FinishDateEnd, " +
 				          "@PageNumber, @PageSize, @OrderBy";
 				var petitions = db.Database.SqlQuery<PetitionWithVote>(sql, sqlParameters).ToList();
+				
 				this.LoadPetitionAuthors(db, petitions);
+				this.LoadPetitionOrganizations(db, petitions);
 
 				return petitions;
 			}
@@ -303,6 +305,19 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			foreach (var petition in petitions)
 			{
 				petition.Issuer = issuers.SingleOrDefault(i => i.ID == petition.IssuerID);
+			}
+		}
+
+
+		private void LoadPetitionOrganizations(EDEntities db, IEnumerable<PetitionWithVote> petitions)
+		{
+			var organizationalPetitions = petitions.Where(p => p.OrganizationID.HasValue).ToList();
+
+			var organizationIDs = organizationalPetitions.Select(p => p.OrganizationID).Distinct();
+			var organizations = db.Organizations.Where(p => organizationIDs.Contains(p.ID)).ToList();
+			foreach (var petition in organizationalPetitions)
+			{
+				petition.Organization = organizations.SingleOrDefault(o => o.ID == petition.OrganizationID);
 			}
 		}
 	}
