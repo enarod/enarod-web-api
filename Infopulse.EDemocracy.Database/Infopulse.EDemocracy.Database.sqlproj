@@ -97,6 +97,7 @@
     <Folder Include="Compares" />
     <Folder Include="dbo\Functions" />
     <Folder Include="dbo\Types" />
+    <Folder Include="Scripts" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\RolePeople.sql" />
@@ -132,10 +133,12 @@
     <Build Include="dbo\Functions\tvf_SplitString.sql" />
     <Build Include="dbo\Types\IntList.sql" />
     <Build Include="dbo\Stored Procedures\sp_PetitionSigner_GetAuthorsPublicInfo.sql" />
+    <Build Include="dbo\Tables\Settings.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Compares\ProdToProject.scmp" />
     <None Include="Compares\ProjectToProd.scmp" />
     <None Include="Compares\ProjectToDev.scmp" />
+    <None Include="Scripts\Dictionaries.sql" />
   </ItemGroup>
 </Project>
