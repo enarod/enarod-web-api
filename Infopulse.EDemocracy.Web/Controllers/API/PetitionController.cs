@@ -132,16 +132,16 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// </summary>
 		/// <param name="tag">Tag text.</param>
 		/// <param name="searchParameters">Search parameters which includes keyword.</param>
-		/// <param name="showNewPetitions"></param>
-		/// <param name="showPreliminaryPetitions"></param>
+		/// <param name="showActivePetitions"></param>
+		/// <param name="showInactivePetitions"></param>
 		/// <returns></returns>
 		[HttpGet]
 		[Route("api/petition/tag")]
 		public OperationResult<IEnumerable<Petition>> KeyWordSearch(
 			string tag,
 			[FromUri] SearchParameters searchParameters,
-			bool showNewPetitions = false,
-			bool showPreliminaryPetitions = false)
+			bool showActivePetitions = true,
+			bool showInactivePetitions = false)
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
@@ -152,8 +152,8 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 					PageSize = searchParameters.PageSize,
 					OrderBy = searchParameters.OrderBy,
 					OrderDirection = searchParameters.OrderDirection,
-					ShowNewPetitions = showNewPetitions,
-					ShowPreliminaryPetitions = showPreliminaryPetitions
+					ShowActivePetitions = showActivePetitions,
+					ShowInactivePetitions = showInactivePetitions
 				};
 
 				var petitions = this.petitionRepository.Search(keyWordSearchParameters);

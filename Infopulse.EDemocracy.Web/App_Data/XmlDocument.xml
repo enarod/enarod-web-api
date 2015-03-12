@@ -556,8 +556,8 @@
             </summary>
             <param name="tag">Tag text.</param>
             <param name="searchParameters">Search parameters which includes keyword.</param>
-            <param name="showNewPetitions"></param>
-            <param name="showPreliminaryPetitions"></param>
+            <param name="showActivePetitions"></param>
+            <param name="showInactivePetitions"></param>
             <returns></returns>
         </member>
         <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.EmailVote2(Infopulse.EDemocracy.Model.ClientEntities.EmailVote)">

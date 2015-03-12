@@ -88,6 +88,7 @@
     <Compile Include="Exceptions\PetitionNotFoundException.cs" />
     <Compile Include="Exceptions\UnableToReadPetitionException.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Operations\OperationExecuter.cs" />
     <Compile Include="Operations\OperationResult.cs" />
     <Compile Include="Operations\OperationResultT.cs" />

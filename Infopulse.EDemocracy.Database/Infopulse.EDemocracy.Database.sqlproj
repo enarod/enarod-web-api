@@ -134,6 +134,7 @@
     <Build Include="dbo\Types\IntList.sql" />
     <Build Include="dbo\Stored Procedures\sp_PetitionSigner_GetAuthorsPublicInfo.sql" />
     <Build Include="dbo\Tables\Settings.sql" />
+    <Build Include="dbo\Functions\svf_Settings_GetByKey.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Compares\ProdToProject.scmp" />

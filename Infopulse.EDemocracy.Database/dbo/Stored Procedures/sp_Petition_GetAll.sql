@@ -7,11 +7,12 @@
 	@Organization nvarchar(max) = null,
 	@OrganizationID int = null,
 
-	@ShowPreliminaryPetitions bit = 0,
-	@ShowNewPetitions bit = 0,
+	@ShowActivePetitions bit = 1,
+	@ShowInactivePetitions bit = 0,
 
 	@SearchInPetitions bit = 0,
 	@SearchInOrganizations bit = 0,
+	@SearchInCategories bit = 0,
 
 	@CreatedDateStart datetime2 = null,
 	@CreatedDateEnd datetime2 = null,
@@ -35,7 +36,8 @@ declare
 			eg.Name = 'Category'
 			and parentEg.Name = 'Petition'
 	),
-	@Now datetime2 = getutcdate()
+	@Now datetime2 = getutcdate(),
+	@SimplePetitionActiveVoteCount int = cast(dbo.svf_Settings_GetByKey('ActivePetitionVoteCount') as int)
 	
 begin
 	if @PageNumber is null or @PageNumber < 1
@@ -70,9 +72,13 @@ begin
 		select
 			p.*,
 			(isnull(cv.VotesCount, 0) + isnull(ev.VotesCount, 0)) as VotesCount,
-			coalesce(o.PreliminaryVoteCount, o.VoteCount, p.Limit) as RequiredVotesNumber,
+			coalesce(o.PreliminaryVoteCount, @SimplePetitionActiveVoteCount) as ActiveVotesNumber,
+			coalesce(o.VoteCount, p.Limit) as RequiredVotesNumber,
 			e.[Description] as Category,
-			o.Name as OrganizationName
+			o.Name as OrganizationName,
+			case
+				when (isnull(cv.VotesCount, 0) + isnull(ev.VotesCount, 0)) >= coalesce(o.PreliminaryVoteCount, @SimplePetitionActiveVoteCount)
+				then cast(1 as bit) else cast(0 as bit) end as IsAcitve
 		from dbo.Petition p
 		left join cte_certVotes cv on cv.PetitionID = p.ID
 		left join cte_emailVotes ev on ev.PetitionID = p.ID
@@ -118,9 +124,15 @@ begin
 				where ps.Email = p.Email)
 			and
 			(
-				(@ShowPreliminaryPetitions = 1 and p.OrganizationID is not null) -- preliminary petition linked to organization
-				or @ShowNewPetitions = 1
-				or p.VotesCount > p.RequiredVotesNumber
+				@ShowActivePetitions = 0
+				or
+				p.IsAcitve = 1
+			)
+			and
+			(
+				@ShowInactivePetitions = 0
+				or
+				p.IsAcitve = 0
 			)
 			and
 			(
@@ -139,6 +151,8 @@ begin
 						(@SearchInPetitions = 1 and charindex(@SearchText, p.KeyWords) > 0)
 						or
 						(@SearchInOrganizations = 1 and charindex(@SearchText, p.OrganizationName ) > 0)
+						or
+						(@SearchInCategories = 1 and charindex(@SearchText, p.Category) > 0)
 					)
 				)
 			)

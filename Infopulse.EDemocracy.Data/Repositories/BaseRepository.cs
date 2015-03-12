@@ -39,7 +39,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		}
 
 
-		protected SqlParameter[] AddDefaultSearchParameters(SqlParameter[] sqlParameters, SearchParameters searchParameters)
+		protected SqlParameter[] AddDefaultSearchParameters(IEnumerable<SqlParameter> sqlParameters, SearchParameters searchParameters)
 		{
 			var sqlParametersList = sqlParameters.ToList();
 			sqlParametersList.AddRange(this.GetDefaultSearchParameters(searchParameters));
