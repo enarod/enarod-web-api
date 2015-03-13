@@ -1,23 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[sp_Petition_GetAll]
 	@PetitionID int = null,
-	@SearchText nvarchar(max) = null,
-	@KeyWordText nvarchar(max) = null,
-	@Category nvarchar(max) = null,
-	@CategoryIDs dbo.IntList readonly,
-	@Organization nvarchar(max) = null,
-	@OrganizationID int = null,
-
+	
 	@ShowActivePetitions bit = 1,
 	@ShowInactivePetitions bit = 0,
-
-	@SearchInPetitions bit = 0,
-	@SearchInOrganizations bit = 0,
-	@SearchInCategories bit = 0,
-
-	@CreatedDateStart datetime2 = null,
-	@CreatedDateEnd datetime2 = null,
-	@FinishDateStart datetime2 = null,
-	@FinishDateEnd datetime2 = null,
 
 	@PageNumber int = 1,
 	@PageSize int = 50,
@@ -26,18 +11,7 @@
 AS
 set nocount on
 declare
-	@EntityGroupId_PetitionCategory int =
-	(
-		select top 1
-			eg.ID
-		from dbo.EntityGroup eg
-		join dbo.EntityGroup parentEg on parentEg.ID = eg.ParentID
-		where
-			eg.Name = 'Category'
-			and parentEg.Name = 'Petition'
-	),
-	@Now datetime2 = getutcdate(),
-	@SimplePetitionActiveVoteCount int = cast(dbo.svf_Settings_GetByKey('ActivePetitionVoteCount') as int)
+	@Now datetime2 = getutcdate()
 	
 begin
 	if @PageNumber is null or @PageNumber < 1
@@ -49,45 +23,8 @@ begin
 	print 'Page number: ' + isnull(cast(@PageNumber as varchar(max)), 'none')
 	print 'Page size: ' + isnull(cast(@PageSize as varchar(max)), 'none')
 
-	;with cte_emailVotes as
-	(
-		select
-			ev.PetitionID,
-			count(ev.PetitionID) as VotesCount
-		from dbo.PetitionEmailVote ev
-		where
-			ev.IsConfirmed = 1
-		group by ev.PetitionID
-	),
-	cte_certVotes as
-	(
-		select
-			pv.PetitionID,
-			count(pv.PetitionID) as VotesCount
-		from dbo.PetitionVote pv
-		group by pv.PetitionID
-	),
-	cte_petitions as
-	(
-		select
-			p.*,
-			(isnull(cv.VotesCount, 0) + isnull(ev.VotesCount, 0)) as VotesCount,
-			coalesce(o.PreliminaryVoteCount, @SimplePetitionActiveVoteCount) as ActiveVotesNumber,
-			coalesce(o.VoteCount, p.Limit) as RequiredVotesNumber,
-			e.[Description] as Category,
-			o.Name as OrganizationName,
-			case
-				when (isnull(cv.VotesCount, 0) + isnull(ev.VotesCount, 0)) >= coalesce(o.PreliminaryVoteCount, @SimplePetitionActiveVoteCount)
-				then cast(1 as bit) else cast(0 as bit) end as IsAcitve
-		from dbo.Petition p
-		left join cte_certVotes cv on cv.PetitionID = p.ID
-		left join cte_emailVotes ev on ev.PetitionID = p.ID
-		left join dbo.Organization o on o.ID = p.OrganizationID
-		join dbo.Entity e on e.ID = p.CategoryID
-		join dbo.PetitionLevel pl on pl.ID = p.LevelID
-		where
-			e.EntityGroupID = @EntityGroupId_PetitionCategory
-	)
+	print 'Show active petitions: ' + case when @ShowActivePetitions = 1 then 'yes' else 'no' end
+	print 'Show inactive petitions: ' + case when @ShowInactivePetitions = 1 then 'yes' else 'no' end
 
 	select
 		 p.[ID]
@@ -107,101 +44,13 @@ begin
 		,p.[Email]
 		,p.[OrganizationID]
 		,p.VotesCount
-	from cte_petitions p
+	from dbo.vPetitionWithVote p
 	
 	where
-		(@PetitionID is not null and p.ID = @PetitionID)
+		@PetitionID is null
 		or
-		(
-			@PetitionID is null
-			and
-
-			-- petition confirmed by creator
-			exists(
-				select null
-				from dbo.PetitionEmailVote pev
-				join dbo.PetitionSigner ps on ps.ID = pev.PetitionSignerID
-				where ps.Email = p.Email)
-			and
-			(
-				@ShowActivePetitions = 0
-				or
-				p.IsAcitve = 1
-			)
-			and
-			(
-				@ShowInactivePetitions = 0
-				or
-				p.IsAcitve = 0
-			)
-			and
-			(
-				@SearchText is null
-				or
-				(
-					@SearchText is not null
-					and
-					(
-						(@SearchInPetitions = 1 and charindex(@SearchText, p.[Subject]) > 0)
-						or
-						(@SearchInPetitions = 1 and charindex(@SearchText, p.[Text]) > 0)
-						or
-						(@SearchInPetitions = 1 and charindex(@SearchText, p.Requirements) > 0)
-						or
-						(@SearchInPetitions = 1 and charindex(@SearchText, p.KeyWords) > 0)
-						or
-						(@SearchInOrganizations = 1 and charindex(@SearchText, p.OrganizationName ) > 0)
-						or
-						(@SearchInCategories = 1 and charindex(@SearchText, p.Category) > 0)
-					)
-				)
-			)
-			and
-			(
-				@KeyWordText is null
-				or exists(select null from [dbo].[tvf_SplitString](p.KeyWords, ',') kw where kw.Word = @KeyWordText)
-			)
-			and
-			(
-				@Category is null
-				or charindex(@Category, p.Category ) > 0
-			)
-			and
-			(
-				exists(select null from @CategoryIDs)
-				or p.CategoryID in (select Number from @CategoryIDs)
-			)
-			and
-			(
-				@Organization is null
-				or charindex(@Organization, p.OrganizationName ) > 0
-			)
-			and
-			(
-				@OrganizationID is null
-				or p.OrganizationID = @OrganizationID
-			)
-			and
-			(
-				@CreatedDateStart is null
-				or datediff(day, @CreatedDateStart, p.EffectiveFrom) >= 0
-			)
-			and
-			(
-				@CreatedDateEnd is null
-				or datediff(day, p.EffectiveFrom, @CreatedDateEnd) >= 0
-			)
-			and
-			(
-				@FinishDateStart is null
-				or datediff(day, @FinishDateStart, p.EffectiveTo) >= 0
-			)
-			and
-			(
-				@FinishDateEnd is null
-				or datediff(day, p.EffectiveTo, @FinishDateEnd) >= 0
-			)
-		)
+		p.ID = @PetitionID
+			
 	order by
 		case @OrderBy
 			when 'CreatedDate' then cast(p.CreatedDate as nvarchar(max))

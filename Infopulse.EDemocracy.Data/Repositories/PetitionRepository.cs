@@ -1,14 +1,12 @@
-﻿using System.Data;
-using System.Data.Entity.Core.Common.CommandTrees;
-using System.Text;
-using Infopulse.EDemocracy.Common.Extensions;
-using Infopulse.EDemocracy.Data.Interfaces;
+﻿using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Model;
+using Infopulse.EDemocracy.Model.ClientEntities.Search;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using Infopulse.EDemocracy.Model.ClientEntities.Search;
+using System.Text;
 
 namespace Infopulse.EDemocracy.Data.Repositories
 {
@@ -43,15 +41,40 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		}
 
 
-		public IEnumerable<PetitionWithVote> Get(bool showPreliminaryPetition = false)
+		public IEnumerable<PetitionWithVote> Get(bool showInactivePetition = false)
 		{
 			using (var db = new EDEntities())
 			{
+				var sqlParameters = new[]
+				{
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.Int,
+						Direction = ParameterDirection.Input,
+						ParameterName = "PetitionID",
+						Value = DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.Bit,
+						Direction = ParameterDirection.Input,
+						ParameterName = "ShowInactivePetitions",
+						Value = (object)showInactivePetition
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.Bit,
+						Direction = ParameterDirection.Input,
+						ParameterName = "ShowActivePetitions",
+						Value = (object)true
+					}
+				};
+
 				var petitions = db.Database.SqlQuery<PetitionWithVote>(
-					"sp_Petition_GetAll @PetitionID, @ShowPreliminaryPetitions",
-						new SqlParameter("PetitionID", DBNull.Value),
-						new SqlParameter("ShowPreliminaryPetitions", showPreliminaryPetition))
+					"sp_Petition_GetAll @PetitionID, @ShowInactivePetitions, @ShowActivePetitions",
+					sqlParameters.ToArray())
 					.ToList();
+
 				this.LoadPetitionAuthors(db, petitions);
 
 				return petitions;
@@ -67,201 +90,148 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			{
 				db.Database.Log = s => script += s;
 
-				var sqlParameters = new List<SqlParameter>
+				var sqlParameters = new[]
 				{
+					//new SqlParameter()
+					//{
+					//	SqlDbType = SqlDbType.Int,
+					//	Direction = ParameterDirection.Input,
+					//	ParameterName = "PetitionID",
+					//	Value = DBNull.Value
+					//},
 					new SqlParameter()
 					{
-						SqlDbType = SqlDbType.Int,
+						SqlDbType = SqlDbType.NVarChar,
 						Direction = ParameterDirection.Input,
-						ParameterName = "PetitionID",
-						Value = DBNull.Value
-					}
-				};
-
-				if (!searchParameters.Text.IsEmpty())
-				{
-					sqlParameters.Add(
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.NVarChar,
-							Direction = ParameterDirection.Input,
-							ParameterName = "SearchText",
-							Value = (object)searchParameters.Text
-						});
-				}
-
-				if (!searchParameters.KeyWord.IsEmpty())
-				{
-					sqlParameters.Add(
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.NVarChar,
-							Direction = ParameterDirection.Input,
-							ParameterName = "KeyWordText",
-							Value = (object)searchParameters.KeyWord
-						});
-				}
-
-				if (!searchParameters.Category.IsEmpty())
-				{
-					sqlParameters.Add(new SqlParameter()
-						{
-							SqlDbType = SqlDbType.NVarChar,
-							Direction = ParameterDirection.Input,
-							ParameterName = "Category",
-							Value = (object)searchParameters.Category
-						});
-				}
-
-				sqlParameters.Add(
+						ParameterName = "SearchText",
+						Value = (object) searchParameters.Text ?? DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.NVarChar,
+						Direction = ParameterDirection.Input,
+						ParameterName = "KeyWordText",
+						Value = (object) searchParameters.KeyWord ?? DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.NVarChar,
+						Direction = ParameterDirection.Input,
+						ParameterName = "Category",
+						Value = (object) searchParameters.Category ?? DBNull.Value
+					},
 					new SqlParameter()
 					{
 						SqlDbType = SqlDbType.Structured,
 						Direction = ParameterDirection.Input,
 						TypeName = "IntList",
 						ParameterName = "CategoryIDs",
-						Value = (object) ((searchParameters.CategoryID ?? new int[0]).Select(c => new { Number = c }).ToDataTable())
-					});
-
-				if (!searchParameters.Organization.IsEmpty())
-				{
-					sqlParameters.Add(
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.NVarChar,
-							Direction = ParameterDirection.Input,
-							ParameterName = "Organization",
-							Value = (object)searchParameters.Organization
-						});
-				}
-
-				if (searchParameters.OrganizationID.HasValue)
-				{
-					sqlParameters.Add(
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.Int,
-							Direction = ParameterDirection.Input,
-							ParameterName = "OrganizationID",
-							Value = (object)searchParameters.OrganizationID.Value
-						});
-				}
-
-				if (searchParameters.ShowActivePetitions.HasValue)
-				{
-					sqlParameters.Add(
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.Bit,
-							Direction = ParameterDirection.Input,
-							ParameterName = "ShowActivePetitions",
-							Value = (object)searchParameters.ShowActivePetitions.Value
-						});
-				}
-
-				if (searchParameters.ShowInactivePetitions.HasValue)
-				{
-					sqlParameters.Add(
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.Bit,
-							Direction = ParameterDirection.Input,
-							ParameterName = "ShowInactivePetitions",
-							Value = (object)searchParameters.ShowInactivePetitions.Value
-						});
-				}
-
-				if (searchParameters.SearchInPetitions.HasValue)
-				{
-					sqlParameters.Add(
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.Bit,
-							Direction = ParameterDirection.Input,
-							ParameterName = "SearchInPetitions",
-							Value = (object)searchParameters.SearchInPetitions.Value
-						});
-				}
-
-				if (searchParameters.SearchInOrganizations.HasValue)
-				{
-					sqlParameters.Add(
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.Bit,
-							Direction = ParameterDirection.Input,
-							ParameterName = "SearchInOrganizations",
-							Value = (object)searchParameters.SearchInOrganizations.Value
-						});
-				}
-
-				if (searchParameters.SearchInCategories.HasValue)
-				{
-					sqlParameters.Add(
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.Bit,
-							Direction = ParameterDirection.Input,
-							ParameterName = "SearchInCategories",
-							Value = (object)searchParameters.SearchInCategories.Value
-						});
-				}
-
-				if (searchParameters.CreatedDateStart.HasValue)
-				{
-					sqlParameters.Add(
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.DateTime2,
-							Direction = ParameterDirection.Input,
-							ParameterName = "CreatedDateStart",
-							Value = (object)searchParameters.CreatedDateStart.Value
-						});
-				}
-
-				if (searchParameters.CreatedDateEnd.HasValue)
-				{
-					sqlParameters.Add(
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.DateTime2,
-							Direction = ParameterDirection.Input,
-							ParameterName = "CreatedDateEnd",
-							Value = (object)searchParameters.CreatedDateEnd.Value
-						});
-				}
-
-				if (searchParameters.FinishDateStart.HasValue)
-				{
-					sqlParameters.Add(
-						new SqlParameter()
-						{
-							SqlDbType = SqlDbType.DateTime2,
-							Direction = ParameterDirection.Input,
-							ParameterName = "FinishDateStart",
-							Value = (object)searchParameters.FinishDateStart.Value
-						});
-				}
-
-				if (searchParameters.FinishDateEnd.HasValue)
-				{
-					sqlParameters.Add(
-						new SqlParameter()
+						Value = (searchParameters.CategoryID ?? new int[0]).Select(c => new { Number = c }).ToDataTable()
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.NVarChar,
+						Direction = ParameterDirection.Input,
+						ParameterName = "Organization",
+						Value = (object) searchParameters.Organization ?? DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.Int,
+						Direction = ParameterDirection.Input,
+						ParameterName = "OrganizationID",
+						Value = (object) searchParameters.OrganizationID ?? DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.Bit,
+						Direction = ParameterDirection.Input,
+						ParameterName = "ShowActivePetitions",
+						Value = searchParameters.ShowActivePetitions.HasValue
+							? (object) searchParameters.ShowActivePetitions.Value
+							: DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.Bit,
+						Direction = ParameterDirection.Input,
+						ParameterName = "ShowInactivePetitions",
+						Value = searchParameters.ShowInactivePetitions.HasValue
+							? (object) searchParameters.ShowInactivePetitions.Value
+							: DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.Bit,
+						Direction = ParameterDirection.Input,
+						ParameterName = "SearchInPetitions",
+						Value = searchParameters.SearchInPetitions.HasValue
+							? (object) searchParameters.SearchInPetitions.Value
+							: DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.Bit,
+						Direction = ParameterDirection.Input,
+						ParameterName = "SearchInOrganizations",
+						Value = searchParameters.SearchInOrganizations.HasValue
+							? (object) searchParameters.SearchInOrganizations.Value
+							: DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.Bit,
+						Direction = ParameterDirection.Input,
+						ParameterName = "SearchInCategories",
+						Value = searchParameters.SearchInCategories.HasValue
+							? (object) searchParameters.SearchInCategories.Value
+							: DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.DateTime2,
+						Direction = ParameterDirection.Input,
+						ParameterName = "CreatedDateStart",
+						Value = searchParameters.CreatedDateStart.HasValue
+							? (object) searchParameters.CreatedDateStart.Value
+							: DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.DateTime2,
+						Direction = ParameterDirection.Input,
+						ParameterName = "CreatedDateEnd",
+						Value = searchParameters.CreatedDateEnd.HasValue
+							? (object) searchParameters.CreatedDateEnd.Value
+							: DBNull.Value
+					},
+					new SqlParameter()
+					{
+						SqlDbType = SqlDbType.DateTime2,
+						Direction = ParameterDirection.Input,
+						ParameterName = "FinishDateStart",
+						Value = searchParameters.FinishDateStart.HasValue
+							? (object) searchParameters.FinishDateStart.Value
+							: DBNull.Value
+					},
+					new SqlParameter()
 					{
 						SqlDbType = SqlDbType.DateTime2,
 						Direction = ParameterDirection.Input,
 						ParameterName = "FinishDateEnd",
-						Value = (object)searchParameters.FinishDateEnd.Value
-					});
-				}
+						Value = searchParameters.FinishDateEnd.HasValue
+							? (object) searchParameters.FinishDateEnd.Value
+							: DBNull.Value
+					}
+				};
 
-				sqlParameters = this.AddDefaultSearchParameters(sqlParameters, searchParameters).ToList();
+				sqlParameters = this.AddDefaultSearchParameters(sqlParameters, searchParameters);
 
-				var sql = "sp_Petition_GetAll " + this.GetSqlParametersNames(sqlParameters);
-				var petitions = db.Database.SqlQuery<PetitionWithVote>(sql, sqlParameters.ToArray()).ToList();
+				var sql = "sp_Petition_Search " + this.GetSqlParametersNames(sqlParameters);
+				var petitions = db.Database.SqlQuery<PetitionWithVote>(sql, sqlParameters).ToList();
 
-				//this.LoadPetitionAuthors(db, petitions);
-				//this.LoadPetitionOrganizations(db, petitions);
+				this.LoadPetitionAuthors(db, petitions);
+				this.LoadPetitionOrganizations(db, petitions);
 
 				return petitions;
 			}
