@@ -65,11 +65,11 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// <returns></returns>
 		[HttpGet]
 		[Route("api/petition")]
-		public OperationResult<IEnumerable<Petition>> GetAll(bool showPreliminaryPetitions = false)
+		public OperationResult<IEnumerable<Petition>> GetAll(bool showInactivePetitions = false)
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
-				var petitions = this.petitionRepository.Get(showPreliminaryPetitions);
+				var petitions = this.petitionRepository.Get(showInactivePetitions);
 				
 				this.SetDictionariesValues(petitions);
 
@@ -115,6 +115,11 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		[Route("api/petition/search")]
 		public OperationResult<IEnumerable<Petition>> Search([FromUri] PetitionSearchParameters searchParameters)
 		{
+			if (searchParameters == null)
+			{
+				return this.GetAll();
+			}
+
 			var result = OperationExecuter.Execute(() =>
 			{
 				var petitions = this.petitionRepository.Search(searchParameters).ToList();
