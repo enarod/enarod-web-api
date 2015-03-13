@@ -15,7 +15,7 @@ namespace Infopulse.EDemocracy.Data.Interfaces
 		/// <summary>
 		/// Get all petitions.
 		/// </summary>
-		IEnumerable<PetitionWithVote> Get(bool showPreliminaryPetitions = false);
+		IEnumerable<PetitionWithVote> Get(SearchParameters searchParameters, bool showPreliminaryPetitions = false);
 
 
 		/// <summary>

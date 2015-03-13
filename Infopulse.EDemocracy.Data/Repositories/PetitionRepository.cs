@@ -41,7 +41,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		}
 
 
-		public IEnumerable<PetitionWithVote> Get(bool showInactivePetition = false)
+		public IEnumerable<PetitionWithVote> Get(SearchParameters searchParameters, bool showInactivePetition = false)
 		{
 			using (var db = new EDEntities())
 			{
@@ -70,8 +70,10 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					}
 				};
 
+				sqlParameters = this.AddDefaultSearchParameters(sqlParameters, searchParameters);
+
 				var petitions = db.Database.SqlQuery<PetitionWithVote>(
-					"sp_Petition_GetAll @PetitionID, @ShowInactivePetitions, @ShowActivePetitions",
+					string.Format("sp_Petition_GetAll {0}", this.GetSqlParametersNames(sqlParameters)), 
 					sqlParameters.ToArray())
 					.ToList();
 
