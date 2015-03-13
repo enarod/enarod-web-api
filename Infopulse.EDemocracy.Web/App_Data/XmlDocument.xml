@@ -530,7 +530,7 @@
             Default constructor (no DI yet).
             </summary>
         </member>
-        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.GetAll(System.Boolean)">
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.GetAll(Infopulse.EDemocracy.Model.ClientEntities.Search.SearchParameters,System.Boolean)">
             <summary>
             Get all petitions.
             </summary>

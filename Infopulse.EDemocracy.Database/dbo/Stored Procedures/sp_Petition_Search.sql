@@ -9,7 +9,7 @@
 	@ShowActivePetitions bit = 1,
 	@ShowInactivePetitions bit = 0,
 
-	@SearchInPetitions bit = 0,
+	@SearchInPetitions bit = 1,
 	@SearchInOrganizations bit = 0,
 	@SearchInCategories bit = 0,
 
@@ -33,6 +33,21 @@ begin
 
 	if @PageSize is null or @PageSize < 1
 	set @PageSize = 50
+
+	if @ShowActivePetitions is null
+	set @ShowActivePetitions = 1
+
+	if @ShowInactivePetitions is null
+	set @ShowInactivePetitions = 0
+
+	if (@SearchInPetitions = 0 or @SearchInPetitions is null)
+		and (@SearchInOrganizations = 0 or @SearchInOrganizations is null)
+		and (@SearchInCategories = 0 or @SearchInCategories is null)
+		and @SearchText is not null and len(ltrim(rtrim(@Searchtext))) <> 0
+	set @SearchInPetitions = 1
+
+	if @SearchText is not null and len(ltrim(rtrim(@Searchtext))) = 0
+	set @SearchText = null
 
 	print 'Page number: ' + isnull(cast(@PageNumber as varchar(max)), 'none')
 	print 'Page size: ' + isnull(cast(@PageSize as varchar(max)), 'none')
