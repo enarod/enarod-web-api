@@ -2,7 +2,7 @@
 using
 (
 	values
-	(1, 'ActivePetitionVoteCount', '10', 'Кількість голосів за петицію, яка необхідна для того, щоб петиція вважалась активною.')
+	(1, 'ActivePetitionVoteCount', '7', 'Кількість голосів за петицію, яка необхідна для того, щоб петиція вважалась активною.')
 ) as source (ID, [Key], [Value], [Description])
 on target.ID = source.ID
 
