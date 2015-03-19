@@ -319,6 +319,17 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				petition.IssuerID = existedSigner.ID;
 				petition.Issuer = null;
 
+				// organization
+				if (newPetition.OrganizationID.HasValue)
+				{
+					var organizationFromDb = db.Organizations.SingleOrDefault(o => o.ID == newPetition.OrganizationID);
+					if (organizationFromDb == null)
+					{
+						throw new Exception("Unable to link petition to not existed organization.");
+					}
+				}
+
+
 				var addedPetition = db.Petitions.Add(petition);
 				db.SaveChanges();
 
