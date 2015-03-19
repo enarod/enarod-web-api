@@ -78,6 +78,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					.ToList();
 
 				this.LoadPetitionAuthors(db, petitions);
+				this.LoadPetitionOrganizations(db, petitions);
 
 				return petitions;
 			}
