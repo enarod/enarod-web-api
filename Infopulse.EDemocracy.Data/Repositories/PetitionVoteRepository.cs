@@ -46,7 +46,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				emailVote.IsConfirmed = false;
 				emailVote.CreatedDate = createdDate;
 
-				var petitionSigner = db.PetitionSigners.SingleOrDefault(s => s.Email == emailVote.PetitionSigner.Email);
+				var petitionSigner = db.PetitionSigners.OrderByDescending(ps => ps.CreatedDate).FirstOrDefault(s => s.Email == emailVote.PetitionSigner.Email);
 				if (petitionSigner == null)
 				{
 					emailVote.PetitionSigner.CreatedDate = createdDate;
