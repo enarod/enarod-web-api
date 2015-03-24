@@ -248,6 +248,8 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				var script = string.Empty;
 				db.Database.Log = s => script += s;
 
+				var now = DateTime.Now;
+
 				// TODO: add petition already exists check
 				var petition =
 					new Petition()
@@ -256,12 +258,14 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						Text = newPetition.Text,
 						Requirements = newPetition.Requirements,
 						KeyWords = newPetition.KeyWords,
-						EffectiveFrom = newPetition.EffectiveFrom == default(DateTime) ? DateTime.Now : newPetition.EffectiveFrom,
-						EffectiveTo = newPetition.EffectiveTo == default(DateTime) ? DateTime.Now.AddDays(7) : newPetition.EffectiveTo,
-						CreatedDate = DateTime.Now,
+						EffectiveFrom = newPetition.EffectiveFrom == default(DateTime) ? now : newPetition.EffectiveFrom,
+						EffectiveTo = newPetition.EffectiveTo == default(DateTime) ? now.AddDays(7) : newPetition.EffectiveTo,
+						CreatedDate = now,
 						Limit = newPetition.Limit,
 						AddressedTo = newPetition.AddressedTo,
-						Email = newPetition.Email
+						Email = newPetition.Email,
+						OrganizationID = newPetition.OrganizationID,
+						Issuer = newPetition.Issuer
 					};
 
 				// CreatedBy
@@ -308,16 +312,17 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				{
 					throw new Exception("Unable to create petition without author.");
 				}
-
-				var existedSigner = db.PetitionSigners.SingleOrDefault(ps => ps.Email == newPetition.Issuer.Email);
-				if (existedSigner == null)
+				else
 				{
-					existedSigner = db.PetitionSigners.Add(newPetition.Issuer);
-					db.SaveChanges();
-				}
+					newPetition.Issuer.CreatedDate = now;
+					newPetition.Issuer.CreatedBy = this.UnknownAppUser;
 
-				petition.IssuerID = existedSigner.ID;
-				petition.Issuer = null;
+					var author = db.PetitionSigners.Add(newPetition.Issuer);
+					db.SaveChanges();
+
+					petition.IssuerID = author.ID;
+					petition.Issuer = null;
+				}
 
 				// organization
 				if (newPetition.OrganizationID.HasValue)
@@ -327,6 +332,8 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					{
 						throw new Exception("Unable to link petition to not existed organization.");
 					}
+
+					petition.OrganizationID = organizationFromDb.ID;
 				}
 
 
