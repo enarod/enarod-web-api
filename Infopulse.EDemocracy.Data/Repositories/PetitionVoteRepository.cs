@@ -71,6 +71,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					.Include("PetitionLevel")
 					.Include("Organization")
 					.Include("Person")
+					.Include("Issuer")
 					.SingleOrDefault(p => p.ID == emailVote.PetitionID);
 
 				return emailVote;
