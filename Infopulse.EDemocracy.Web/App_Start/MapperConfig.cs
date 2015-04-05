@@ -24,7 +24,8 @@ namespace Infopulse.EDemocracy.Web
 			Mapper.CreateMap<DataModels.EntityGroup, WebModels.EntityGroup>();
 			Mapper.CreateMap<DataModels.Person, WebModels.People>();
 			Mapper.CreateMap<DataModels.PetitionVote, WebModels.PetitionVote>();
-			Mapper.CreateMap<DataModels.PetitionEmailVote, WebModels.PetitionEmailVote>();
+			Mapper.CreateMap<DataModels.PetitionEmailVote, WebModels.PetitionEmailVote>()
+				.ForMember(webPetitionVote => webPetitionVote.ConfirmUrl, f => f.Ignore());
 			Mapper.CreateMap<DataModels.Petition, WebModels.Petition>()
 				.ForMember(webPetition => webPetition.CreatedBy, createdBy => createdBy.MapFrom(dataPetition => dataPetition.Person))
 				.ForMember(webPetition => webPetition.Level, level => level.MapFrom(dataPetition => dataPetition.PetitionLevel))

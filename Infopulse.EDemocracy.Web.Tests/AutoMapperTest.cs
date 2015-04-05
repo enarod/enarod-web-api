@@ -315,6 +315,24 @@ namespace Infopulse.EDemocracy.Web.Tests
 						CreatedDate = now,
 						ModifiedBy = null,
 						ModifiedDate = null
+					},
+					IssuerID = -15,
+					Issuer = new DataModels.PetitionSigner()
+					{
+						ID = -16,
+						Email = "jdoe@example.com",
+						FirstName = "John",
+						MiddleName = "?",
+						LastName = "Doe",
+						AddressLine1 = "street",
+						AddressLine2 = null,
+						City = "Kyiv",
+						Country = "Ukraine",
+						Region = "Kyiv",
+						CreatedBy = "text",
+						CreatedDate = DateTime.Now,
+						ModifiedBy = null,
+						ModifiedDate = null
 					}
 				}
 			};
