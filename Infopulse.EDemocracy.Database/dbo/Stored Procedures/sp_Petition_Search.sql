@@ -146,15 +146,25 @@ begin
 		)
 	order by
 		case @OrderBy
-			when 'CreatedDate' then cast(p.CreatedDate as nvarchar(max))
+			when 'CreatedDate' then p.CreatedDate
 			else null
 		end asc,
 		case @OrderBy
-			when 'CreatedDate DESC' then cast(p.CreatedDate as nvarchar(max))
+			when 'Subject' then p.[Subject]
+			when 'OrganizationName' then p.OrganizationName
+			else null
+		end asc,
+
+		case @OrderBy
+			when 'CreatedDate DESC' then p.CreatedDate
 			else null
 		end desc,
-		-- TODO: add other sort columns
-	
+		case @OrderBy
+			when 'Subject DESC' then p.[Subject]
+			when 'OrganizationName DESC' then p.OrganizationName
+			else null
+		end desc,
+			
 		p.CreatedDate
 		
 	offset @PageSize * (@PageNumber - 1) rows
