@@ -1,12 +1,14 @@
-﻿using System.Web.Http;
-using System.Web.Mvc;
-using System.Web.Routing;
+﻿using Infopulse.EDemocracy.Web.Auth;
+using Infopulse.EDemocracy.Web.Auth.Providers;
 using Microsoft.Owin;
+using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json;
 using Owin;
-using Microsoft.Owin.Security.OAuth;
 using System;
-using Infopulse.EDemocracy.Web.Auth.Providers;
+using System.Data.Entity;
+using System.Web.Http;
+using System.Web.Mvc;
+using System.Web.Routing;
 
 [assembly: OwinStartup(typeof(Infopulse.EDemocracy.Web.Startup))]
 namespace Infopulse.EDemocracy.Web
@@ -30,7 +32,7 @@ namespace Infopulse.EDemocracy.Web
 			MapperConfig.Map();
 
 			GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling =
-				PreserveReferencesHandling.None;			
+				PreserveReferencesHandling.None;
 		}
 
 		public void ConfigureOAuth(IAppBuilder app)

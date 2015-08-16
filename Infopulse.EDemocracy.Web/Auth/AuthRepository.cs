@@ -1,4 +1,5 @@
-﻿using Infopulse.EDemocracy.Web.Auth;
+﻿using Infopulse.EDemocracy.Common.Extensions;
+using Infopulse.EDemocracy.Web.Auth;
 using Infopulse.EDemocracy.Web.Models;
 using Microsoft.AspNet.Identity;
 using System;
@@ -9,13 +10,12 @@ namespace Infopulse.EDemocracy.Data.Repositories
 	public class AuthRepository : IDisposable
 	{
 		private AuthContext authContext;
-
-		private ApplicationUserManager userManager;
+		private ApplicationUserManager applicationUserManager;
 
 		public AuthRepository()
 		{
 			authContext = new AuthContext();
-			userManager = new ApplicationUserManager(new CustomUserStore(authContext));
+			applicationUserManager = new ApplicationUserManager(new ApplicationUserStore(authContext));
 		}
 
 		public async Task<IdentityResult> RegisterUser(UserModel userModel)
@@ -29,19 +29,19 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					EmailConfirmed = false
 				};
 
-				var result = await userManager.CreateAsync(user, userModel.Password);
+				var result = await applicationUserManager.CreateAsync(user, userModel.Password);
 
 				return result;
 			}
-			catch (Exception exp)
+			catch (Exception exc)
 			{
-				throw;
+				throw exc.GetMostInnerException();
 			}			
 		}
 
 		public async Task<ApplicationUser> FindUser(string userName, string password)
 		{
-			var user = await userManager.FindAsync(userName, password);
+			var user = await applicationUserManager.FindAsync(userName, password);
 
 			return user;
 		}
@@ -49,7 +49,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		public void Dispose()
 		{
 			authContext.Dispose();
-			userManager.Dispose();
+			applicationUserManager.Dispose();
 		}
 	}
 }

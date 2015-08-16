@@ -233,11 +233,15 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Auth\Stores\ApplicationRoleStore.cs" />
     <Compile Include="Auth\ApplicationUserManager.cs" />
-    <Compile Include="Auth\AppUser.cs" />
+    <Compile Include="Auth\Models\ApplicationUser.cs" />
+    <Compile Include="Auth\Stores\ApplicationUserStore.cs" />
     <Compile Include="Auth\AuthContext.cs" />
     <Compile Include="Auth\AuthRepository.cs" />
     <Compile Include="Auth\Providers\SimpleAuthorizationServerProvider.cs" />
+    <Compile Include="Auth\Validators\ApplicationUserValidator.cs" />
+    <Compile Include="Auth\Validators\ApplicationPasswordValidator.cs" />
     <Compile Include="Controllers\API\AccountController.cs" />
     <Compile Include="Controllers\API\TestController.cs" />
     <Compile Include="Models\UserModel.cs" />
