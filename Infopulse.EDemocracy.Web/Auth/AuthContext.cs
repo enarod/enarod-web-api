@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Infopulse.EDemocracy.Web.Auth.Models;
 
 namespace Infopulse.EDemocracy.Web.Auth
 {

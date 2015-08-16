@@ -1,4 +1,5 @@
-﻿using Infopulse.EDemocracy.Web.Auth.Validators;
+﻿using Infopulse.EDemocracy.Web.Auth.Models;
+using Infopulse.EDemocracy.Web.Auth.Validators;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;

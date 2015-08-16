@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Infopulse.EDemocracy.Web.Auth.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Infopulse.EDemocracy.Web.Auth.Validators
 {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Infopulse.EDemocracy.Web.Auth.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Infopulse.EDemocracy.Web.Auth
 {

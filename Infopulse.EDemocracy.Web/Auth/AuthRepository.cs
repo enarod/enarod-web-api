@@ -1,5 +1,6 @@
 ﻿using Infopulse.EDemocracy.Common.Extensions;
 using Infopulse.EDemocracy.Web.Auth;
+using Infopulse.EDemocracy.Web.Auth.Models;
 using Infopulse.EDemocracy.Web.Models;
 using Microsoft.AspNet.Identity;
 using System;
