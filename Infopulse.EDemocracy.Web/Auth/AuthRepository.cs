@@ -1,7 +1,6 @@
 ﻿using Infopulse.EDemocracy.Web.Auth;
 using Infopulse.EDemocracy.Web.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Threading.Tasks;
 
@@ -11,29 +10,36 @@ namespace Infopulse.EDemocracy.Data.Repositories
 	{
 		private AuthContext authContext;
 
-		private UserManager<IdentityUser> userManager;
+		private ApplicationUserManager userManager;
 
 		public AuthRepository()
 		{
 			authContext = new AuthContext();
-			userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(authContext));
+			userManager = new ApplicationUserManager(new CustomUserStore(authContext));
 		}
 
 		public async Task<IdentityResult> RegisterUser(UserModel userModel)
 		{
-			var user = new IdentityUser
+			try
 			{
-				UserName = userModel.UserName
-				//,
-				//PetitionSignerId = null
-			};
+				var user = new ApplicationUser
+				{
+					UserName = userModel.UserEmail,
+					Email = userModel.UserEmail,
+					EmailConfirmed = false
+				};
 
-			var result = await userManager.CreateAsync(user, userModel.Password);
+				var result = await userManager.CreateAsync(user, userModel.Password);
 
-			return result;
+				return result;
+			}
+			catch (Exception exp)
+			{
+				throw;
+			}			
 		}
 
-		public async Task<IdentityUser> FindUser(string userName, string password)
+		public async Task<ApplicationUser> FindUser(string userName, string password)
 		{
 			var user = await userManager.FindAsync(userName, password);
 

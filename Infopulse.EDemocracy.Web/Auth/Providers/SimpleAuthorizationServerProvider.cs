@@ -20,7 +20,7 @@ namespace Infopulse.EDemocracy.Web.Auth.Providers
 
 			using (AuthRepository _repo = new AuthRepository())
 			{
-				IdentityUser user = await _repo.FindUser(context.UserName, context.Password);
+				var user = await _repo.FindUser(context.UserName, context.Password);
 
 				if (user == null)
 				{

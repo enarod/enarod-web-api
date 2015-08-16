@@ -3,7 +3,13 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Infopulse.EDemocracy.Web.Auth
 {
-	public class AuthContext : IdentityDbContext<IdentityUser>
+	public class AuthContext : IdentityDbContext<
+		ApplicationUser,
+		CustomRole,
+		int,
+		CustomUserLogin,
+		CustomUserRole,
+		CustomUserClaim>
 	{
 		public AuthContext()
 			: base("AuthContext")

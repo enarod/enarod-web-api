@@ -9,11 +9,11 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 	[RoutePrefix("api/Account")]
 	public class AccountController : ApiController
 	{
-		private AuthRepository _repo = null;
+		private AuthRepository authRepository = null;
 
 		public AccountController()
 		{
-			_repo = new AuthRepository();
+			authRepository = new AuthRepository();
 		}
 
 		// POST api/Account/Register
@@ -26,7 +26,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 				return BadRequest(ModelState);
 			}
 
-			IdentityResult result = await _repo.RegisterUser(userModel);
+			IdentityResult result = await authRepository.RegisterUser(userModel);
 
 			IHttpActionResult errorResult = GetErrorResult(result);
 
@@ -42,7 +42,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		{
 			if (disposing)
 			{
-				_repo.Dispose();
+				authRepository.Dispose();
 			}
 
 			base.Dispose(disposing);
