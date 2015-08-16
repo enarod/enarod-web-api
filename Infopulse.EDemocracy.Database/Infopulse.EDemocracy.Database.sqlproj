@@ -98,6 +98,7 @@
     <Folder Include="dbo\Functions" />
     <Folder Include="dbo\Types" />
     <Folder Include="Scripts" />
+    <Folder Include="Security\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\RolePeople.sql" />
@@ -137,11 +138,16 @@
     <Build Include="dbo\Functions\svf_Settings_GetByKey.sql" />
     <Build Include="dbo\Views\vPetitionWithVote.sql" />
     <Build Include="dbo\Stored Procedures\sp_Petition_Search.sql" />
+    <Build Include="Security\enarod_app_dev.sql" />
+    <Build Include="Security\enarod_app_admin.sql" />
+    <Build Include="Security\RoleMemberships.sql" />
+    <Build Include="Security\auth.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Compares\ProdToProject.scmp" />
     <None Include="Compares\ProjectToProd.scmp" />
     <None Include="Compares\ProjectToDev.scmp" />
     <None Include="Scripts\Dictionaries.sql" />
+    <None Include="Compares\DevToProject.scmp" />
   </ItemGroup>
 </Project>
