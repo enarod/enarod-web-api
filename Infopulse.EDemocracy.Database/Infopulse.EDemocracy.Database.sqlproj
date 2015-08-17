@@ -154,5 +154,6 @@
     <None Include="Compares\ProjectToDev.scmp" />
     <None Include="Scripts\Dictionaries.sql" />
     <None Include="Compares\DevToProject.scmp" />
+    <None Include="Compares\LocalToProject.scmp" />
   </ItemGroup>
 </Project>
