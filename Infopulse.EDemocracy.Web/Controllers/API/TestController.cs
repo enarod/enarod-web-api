@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Web;
+using System.Web.Http;
 
 namespace Infopulse.EDemocracy.Web.Controllers.API
 {
@@ -9,7 +10,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		[Route("api/test/ping")]
 		public string Ping()
 		{
-			return "pong";
+			return "pong from " + this.GetSignedInUserEmail();
 		}
 	}
 }
