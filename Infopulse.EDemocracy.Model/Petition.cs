@@ -29,7 +29,7 @@ namespace Infopulse.EDemocracy.Model
         public string Requirements { get; set; }
         public string KeyWords { get; set; }
         public System.DateTime CreatedDate { get; set; }
-        public long CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
         public System.DateTime EffectiveFrom { get; set; }
         public System.DateTime EffectiveTo { get; set; }
         public Nullable<long> Limit { get; set; }
@@ -38,11 +38,11 @@ namespace Infopulse.EDemocracy.Model
         public int IssuerID { get; set; }
     
         public virtual Entity Category { get; set; }
-        public virtual Person Person { get; set; }
         public virtual PetitionLevel PetitionLevel { get; set; }
         public virtual ICollection<PetitionVote> PetitionVotes { get; set; }
         public virtual ICollection<PetitionEmailVote> PetitionEmailVotes { get; set; }
         public virtual Organization Organization { get; set; }
         public virtual PetitionSigner Issuer { get; set; }
+        public virtual UserDetail CreatedByUser { get; set; }
     }
 }

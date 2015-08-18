@@ -22,7 +22,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					.SingleOrDefault();
 
 				if (petition == null) return null;
-				petition.Person = db.People.SingleOrDefault(p => p.ID == petition.CreatedBy);
+				////petition.Person = db.People.SingleOrDefault(p => p.ID == petition.CreatedBy);
 				petition.Organization = db.Organizations.SingleOrDefault(o => o.ID == petition.OrganizationID);
 
 				if (!string.IsNullOrWhiteSpace(petition.Email))
@@ -270,8 +270,8 @@ namespace Infopulse.EDemocracy.Data.Repositories
 
 				// CreatedBy
 				var creator = db.People.SingleOrDefault(p => p.ID == newPetition.CreatedBy) ?? this.GetAnonymousUser(db);
-				petition.CreatedBy = creator.ID;
-				petition.Person = null;
+				////petition.CreatedBy = creator.ID;
+				////petition.Person = null;
 
 				// Category
 				if (newPetition.Category == null)

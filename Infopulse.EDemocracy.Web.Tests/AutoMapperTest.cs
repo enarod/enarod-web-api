@@ -82,11 +82,11 @@ namespace Infopulse.EDemocracy.Web.Tests
 														Name = "Thousand level"
 													},
 									Limit = 1100,
-									Person = new DataModels.Person()
-											 {
-												 ID = 5,
-												 Login = "anonymous"
-											 },
+									//Person = new DataModels.Person()
+									//		 {
+									//			 ID = 5,
+									//			 Login = "anonymous"
+									//		 },
 									Requirements = "Long text",
 									Subject = "Petition caption",
 									Text = "Short text"
@@ -141,11 +141,11 @@ namespace Infopulse.EDemocracy.Web.Tests
 						         }
 					}
 				},
-				CreatedBy = new WebModels.People()
-				            {
-					            ID = 1,
-								Login = "anonymous"
-				            },
+				//CreatedBy = new WebModels.People()
+				//            {
+				//	            ID = 1,
+				//				Login = "anonymous"
+				//            },
 				CreatedDate = DateTime.Now,
 				EffectiveFrom = DateTime.Now,
 				EffectiveTo = DateTime.Now.AddMinutes(1),
@@ -179,8 +179,8 @@ namespace Infopulse.EDemocracy.Web.Tests
 			Assert.IsNotNull(dataPetition1.PetitionLevel);
 			Assert.AreEqual(dataPetition1.LevelID, 4);
 
-			Assert.IsNotNull(dataPetition1.Person);
-			Assert.AreEqual(dataPetition1.Person.ID, 1);
+			//Assert.IsNotNull(dataPetition1.Person);
+			//Assert.AreEqual(dataPetition1.Person.ID, 1);
 			Assert.AreEqual(dataPetition1.CreatedBy, 1);
 		}
 
@@ -282,11 +282,11 @@ namespace Infopulse.EDemocracy.Web.Tests
 					},
 					CreatedDate = now,
 					CreatedBy = -111,
-					Person = new DataModels.Person()
-					{
-						ID = -111,
-						Login = "Test user"
-					},
+					//Person = new DataModels.Person()
+					//{
+					//	ID = -111,
+					//	Login = "Test user"
+					//},
 					LevelID = 1,
 					PetitionLevel = new DataModels.PetitionLevel()
 					{

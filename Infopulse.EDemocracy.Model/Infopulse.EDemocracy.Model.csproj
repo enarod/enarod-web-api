@@ -99,18 +99,19 @@
     <Compile Include="BusinessEntities\Organization.cs" />
     <Compile Include="BusinessEntities\PetitionEmailVote.cs" />
     <Compile Include="BusinessEntities\Region.cs" />
-    <Compile Include="Candidate.cs">
-      <DependentUpon>EDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Certificate.cs">
-      <DependentUpon>EDModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="BusinessEntities\Entity.cs" />
     <Compile Include="BusinessEntities\EntityGroup.cs" />
     <Compile Include="BusinessEntities\People.cs" />
     <Compile Include="BusinessEntities\Petition.cs" />
     <Compile Include="BusinessEntities\PetitionLevel.cs" />
     <Compile Include="BusinessEntities\PetitionVote.cs" />
+    <Compile Include="BusinessEntities\UserDetail.cs" />
+    <Compile Include="Candidate.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Certificate.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ClientEntities\ClientPetitionVote.cs" />
     <Compile Include="ClientEntities\EmailVote.cs" />
     <Compile Include="BusinessEntities\PetitionSigner.cs" />
@@ -181,10 +182,10 @@
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="PetitionWithVote.cs" />
+    <Compile Include="Helpers\HashGenerator.cs" />
     <Compile Include="Photo.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\HashGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ClientEntities\ClientAgreementVote.cs" />
     <Compile Include="Role.cs">
@@ -194,6 +195,9 @@
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="RolePeople.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserDetail.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="vwAgreement.cs">

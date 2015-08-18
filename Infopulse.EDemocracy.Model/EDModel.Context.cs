@@ -50,5 +50,6 @@ namespace Infopulse.EDemocracy.Model
         public virtual DbSet<PetitionEmailVote> PetitionEmailVotes { get; set; }
         public virtual DbSet<Organization> Organizations { get; set; }
         public virtual DbSet<PetitionSigner> PetitionSigners { get; set; }
+        public virtual DbSet<UserDetail> UserDetails { get; set; }
     }
 }

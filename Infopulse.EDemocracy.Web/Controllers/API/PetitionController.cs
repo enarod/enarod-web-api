@@ -266,7 +266,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 				}
 
 				petition.Limit = int.Parse(ConfigurationManager.AppSettings["NewPetitionLimit"]);
-				petition.CreatedBy = new People() { Login = ConfigurationManager.AppSettings["AnonymousUserName"] };
+				////petition.CreatedBy = new People() { Login = ConfigurationManager.AppSettings["AnonymousUserName"] };
 
 				// create petition:
 				var dalPetition = Mapper.Map<DALModel.Petition>(petition);

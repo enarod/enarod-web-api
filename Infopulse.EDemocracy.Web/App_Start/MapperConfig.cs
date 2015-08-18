@@ -27,12 +27,12 @@ namespace Infopulse.EDemocracy.Web
 			Mapper.CreateMap<DataModels.PetitionEmailVote, WebModels.PetitionEmailVote>()
 				.ForMember(webPetitionVote => webPetitionVote.ConfirmUrl, f => f.Ignore());
 			Mapper.CreateMap<DataModels.Petition, WebModels.Petition>()
-				.ForMember(webPetition => webPetition.CreatedBy, createdBy => createdBy.MapFrom(dataPetition => dataPetition.Person))
+				.ForMember(webPetition => webPetition.CreatedBy, createdBy => createdBy.MapFrom(dataPetition => dataPetition.CreatedByUser))
 				.ForMember(webPetition => webPetition.Level, level => level.MapFrom(dataPetition => dataPetition.PetitionLevel))
 				.ForMember(webPetition => webPetition.KeyWords, keyWords => keyWords.MapFrom(dataPetition => dataPetition.KeyWords.Split(',').Select(w => w.Trim())))
 				.ForMember(webPetition => webPetition.Author, f => f.MapFrom(serverPetition => serverPetition.Issuer));
 			Mapper.CreateMap<DataModels.PetitionWithVote, WebModels.Petition>()
-				.ForMember(webPetition => webPetition.CreatedBy, createdBy => createdBy.MapFrom(dataPetition => dataPetition.Person))
+				.ForMember(webPetition => webPetition.CreatedBy, createdBy => createdBy.MapFrom(dataPetition => dataPetition.CreatedByUser))
 				.ForMember(webPetition => webPetition.Level, level => level.MapFrom(dataPetition => dataPetition.PetitionLevel))
 				.ForMember(webPetition => webPetition.KeyWords, keyWords => keyWords.MapFrom(dataPetition => dataPetition.KeyWords.Split(',').Select(w => w.Trim())))
 				.ForMember(webPetition => webPetition.Author, f => f.MapFrom(serverPetition => serverPetition.Issuer));
@@ -52,7 +52,7 @@ namespace Infopulse.EDemocracy.Web
 			Mapper.CreateMap<WebModels.PetitionVote, DataModels.PetitionVote>();
 			Mapper.CreateMap<WebModels.PetitionEmailVote, DataModels.PetitionEmailVote>();
 			Mapper.CreateMap<WebModels.Petition, DataModels.Petition>()
-				.ForMember(dataPetition => dataPetition.Person, createdBy => createdBy.MapFrom(webPetition => webPetition.CreatedBy))
+				.ForMember(dataPetition => dataPetition.CreatedByUser, createdBy => createdBy.MapFrom(webPetition => webPetition.CreatedBy))
 				.ForMember(dataPetition => dataPetition.CreatedBy, createdBy => createdBy.MapFrom(webPetition => webPetition.CreatedBy.ID))
 				.ForMember(dataPetition => dataPetition.PetitionLevel, level => level.MapFrom(webPetition => webPetition.Level))
 				.ForMember(dataPetition => dataPetition.KeyWords, keyWords => keyWords.MapFrom(webPetition => string.Join(", ", webPetition.KeyWords)))
