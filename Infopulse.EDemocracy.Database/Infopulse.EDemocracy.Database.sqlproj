@@ -152,6 +152,7 @@
     <Build Include="Security\Users\enarod_app_admin.sql" />
     <Build Include="dbo\Tables\UserDetail.sql" />
     <Build Include="auth\Tables\App_User.sql" />
+    <Build Include="dbo\Stored Procedures\sp_User_GetIdByEmail.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Compares\ProdToProject.scmp" />
