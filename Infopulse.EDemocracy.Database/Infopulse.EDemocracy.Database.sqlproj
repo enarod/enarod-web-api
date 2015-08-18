@@ -162,5 +162,6 @@
     <None Include="Compares\LocalToProject.scmp" />
     <None Include="Scripts\Misc\Migration_Move PetitionSigners into auth.App_User.sql" />
     <None Include="Scripts\Misc\Migration_Move PetitionSigners into UserDetails.sql" />
+    <None Include="Scripts\Misc\Migration_Petition.CreatedBy to auth.App_User.sql" />
   </ItemGroup>
 </Project>
