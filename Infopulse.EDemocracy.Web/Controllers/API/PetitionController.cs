@@ -19,6 +19,7 @@ using System.Configuration;
 using System.Linq;
 using System.Web.Http;
 using DALModel = Infopulse.EDemocracy.Model;
+using System;
 
 namespace Infopulse.EDemocracy.Web.Controllers.API
 {
@@ -241,31 +242,9 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 						new UnableToReadPetitionException("Unalbe to parse incoming JSON."));
 				}
 
-				// HACK:
-				if (petition.Category == null || string.IsNullOrWhiteSpace(petition.Category.Name))
-				{
-					petition.Category = new Entity()
-					{
-						Name = EntityDictionary.Petition.Category.Etc
-					};
-				}
+				SetPetitionDefaultValues(petition);
 
-				// HACK:
-				if (petition.Level == null || petition.Level.ID == default(int))
-				{
-					petition.Level = new PetitionLevel()
-					{
-						ID = 3
-					};
-				}
-
-				// HACK:
-				if (string.IsNullOrWhiteSpace(petition.AddressedTo))
-				{
-					petition.AddressedTo = string.Empty;
-				}
-
-				petition.Limit = int.Parse(ConfigurationManager.AppSettings["NewPetitionLimit"]);
+				
 				////petition.CreatedBy = new People() { Login = ConfigurationManager.AppSettings["AnonymousUserName"] };
 
 				// create petition:
@@ -312,7 +291,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			
 		}
 
-
+		
 		#region Clear votes
 
 		//[HttpDelete]
@@ -429,6 +408,35 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		private void SetDictionariesValues(params DALModel.Petition[] petitions)
 		{
 			this.SetDictionariesValues(petitions.ToList());
+		}
+
+		private void SetPetitionDefaultValues(Petition petition)
+		{
+			// HACK:
+			if (petition.Category == null || string.IsNullOrWhiteSpace(petition.Category.Name))
+			{
+				petition.Category = new Entity()
+				{
+					Name = EntityDictionary.Petition.Category.Etc
+				};
+			}
+
+			// HACK:
+			if (petition.Level == null || petition.Level.ID == default(int))
+			{
+				petition.Level = new PetitionLevel()
+				{
+					ID = 3
+				};
+			}
+
+			// HACK:
+			if (string.IsNullOrWhiteSpace(petition.AddressedTo))
+			{
+				petition.AddressedTo = string.Empty;
+			}
+
+			petition.Limit = int.Parse(ConfigurationManager.AppSettings["NewPetitionLimit"]);
 		}
 	}
 }
