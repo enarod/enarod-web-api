@@ -14,11 +14,6 @@ namespace Infopulse.EDemocracy.Model
     
     public partial class UserDetail
     {
-        public UserDetail()
-        {
-            this.Petitions = new HashSet<Petition>();
-        }
-    
         public int ID { get; set; }
         public int UserID { get; set; }
         public string FirstName { get; set; }
@@ -34,7 +29,5 @@ namespace Infopulse.EDemocracy.Model
         public System.DateTime CreatedDate { get; set; }
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
-    
-        public virtual ICollection<Petition> Petitions { get; set; }
     }
 }

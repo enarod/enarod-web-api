@@ -1343,14 +1343,10 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
             <End Role="PetitionEmailVote" EntitySet="PetitionEmailVotes" />
           </AssociationSet>
           <AssociationSet Name="FK_Petition_Issuer" Association="EDModel.FK_Petition_Issuer">
-            <End Role="PetitionSigner" EntitySet="PetitionSigners" />
-            <End Role="Petition" EntitySet="Petitions" />
+            <End EntitySet="PetitionSigners" Role="PetitionSigner" />
+            <End EntitySet="Petitions" Role="Petition" />
           </AssociationSet>
           <EntitySet Name="UserDetails" EntityType="EDModel.UserDetail" />
-          <AssociationSet Name="PetitionUserDetail" Association="EDModel.PetitionUserDetail">
-            <End Role="Petition" EntitySet="Petitions" />
-            <End Role="UserDetail" EntitySet="UserDetails" />
-          </AssociationSet>
         </EntityContainer>
         <EntityType Name="C_Invitation">
           <Key>
@@ -1589,7 +1585,6 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <NavigationProperty Name="Organization" Relationship="EDModel.FK_Petition_Organization" FromRole="Petition" ToRole="Organization" />
           <Property Name="IssuerID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Issuer" Relationship="EDModel.FK_Petition_Issuer" FromRole="Petition" ToRole="PetitionSigner" />
-          <NavigationProperty Name="CreatedByUser" Relationship="EDModel.PetitionUserDetail" FromRole="Petition" ToRole="UserDetail" />
         </EntityType>
         <EntityType Name="PetitionLevel">
           <Key>
@@ -2298,8 +2293,8 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Petition_Issuer">
-          <End Type="EDModel.PetitionSigner" Role="PetitionSigner" Multiplicity="1" />
-          <End Type="EDModel.Petition" Role="Petition" Multiplicity="*" />
+          <End Type="EDModel.PetitionSigner" Multiplicity="1" Role="PetitionSigner" />
+          <End Type="EDModel.Petition" Multiplicity="*" Role="Petition" />
           <ReferentialConstraint>
             <Principal Role="PetitionSigner">
               <PropertyRef Name="ID" />
@@ -2328,20 +2323,7 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="ModifiedBy" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
-          <NavigationProperty Name="Petitions" Relationship="EDModel.PetitionUserDetail" FromRole="UserDetail" ToRole="Petition" />
         </EntityType>
-        <Association Name="PetitionUserDetail">
-          <End Type="EDModel.Petition" Role="Petition" Multiplicity="*" />
-          <End Type="EDModel.UserDetail" Role="UserDetail" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="UserDetail">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Petition">
-              <PropertyRef Name="CreatedBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

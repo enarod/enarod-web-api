@@ -43,6 +43,5 @@ namespace Infopulse.EDemocracy.Model
         public virtual ICollection<PetitionEmailVote> PetitionEmailVotes { get; set; }
         public virtual Organization Organization { get; set; }
         public virtual PetitionSigner Issuer { get; set; }
-        public virtual UserDetail CreatedByUser { get; set; }
     }
 }

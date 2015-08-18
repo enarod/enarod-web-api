@@ -79,7 +79,6 @@
         <AssociationConnector Association="EDModel.FK_PetitionEmailVote_PetitionSigner" />
         <AssociationConnector Association="EDModel.FK_Petition_Issuer" />
         <EntityTypeShape EntityType="EDModel.UserDetail" Width="1.5" PointX="14.375" PointY="18.875" />
-        <AssociationConnector Association="EDModel.PetitionUserDetail" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
