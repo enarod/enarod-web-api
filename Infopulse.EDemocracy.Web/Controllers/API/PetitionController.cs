@@ -43,7 +43,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// <summary>
 		/// Default constructor (no DI yet).
 		/// </summary>
-		public PetitionController()
+		public PetitionController() : base()
 		{
 			this.petitionRepository = new PetitionRepository();
 			this.petitionLevelRepository = new PetitionLevelRepository();
@@ -229,6 +229,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// <param name="petition"></param>
 		/// <returns></returns>
 		[HttpPost]
+		[Authorize]
 		[Route("api/petition")]
 		public OperationResult<Petition> CreatePetition([FromBody]Petition petition)
 		{
@@ -243,12 +244,13 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 				}
 
 				SetPetitionDefaultValues(petition);
-
 				
-				////petition.CreatedBy = new People() { Login = ConfigurationManager.AppSettings["AnonymousUserName"] };
-
 				// create petition:
 				var dalPetition = Mapper.Map<DALModel.Petition>(petition);
+				var petitionAuthor = this.userDetailRepository.Update(dalPetition.CreatedByUser);
+                dalPetition.CreatedByUser = petitionAuthor;
+				dalPetition.CreatedBy = petitionAuthor.ID;
+								
 				dalPetition = this.petitionRepository.AddNewPetition(dalPetition);
 				
 				// add email vote record to DB:
@@ -437,6 +439,13 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			}
 
 			petition.Limit = int.Parse(ConfigurationManager.AppSettings["NewPetitionLimit"]);
-		}
+
+			if (petition.CreatedBy == null)
+			{
+				petition.CreatedBy = new UserDetail();
+            }
+
+			petition.CreatedBy.UserID = this.GetSignedInUserId();
+        }
 	}
 }

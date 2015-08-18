@@ -260,6 +260,8 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						KeyWords = newPetition.KeyWords,
 						EffectiveFrom = newPetition.EffectiveFrom == default(DateTime) ? now : newPetition.EffectiveFrom,
 						EffectiveTo = newPetition.EffectiveTo == default(DateTime) ? now.AddDays(7) : newPetition.EffectiveTo,
+						CreatedBy = newPetition.CreatedByUser.ID,
+						CreatedByUser = newPetition.CreatedByUser,
 						CreatedDate = now,
 						Limit = newPetition.Limit,
 						AddressedTo = newPetition.AddressedTo,
@@ -267,11 +269,6 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						OrganizationID = newPetition.OrganizationID,
 						Issuer = newPetition.Issuer
 					};
-
-				// CreatedBy
-				var creator = db.People.SingleOrDefault(p => p.ID == newPetition.CreatedBy) ?? this.GetAnonymousUser(db);
-				////petition.CreatedBy = creator.ID;
-				////petition.Person = null;
 
 				// Category
 				if (newPetition.Category == null)
@@ -343,7 +340,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				addedPetition = db.Petitions
 					.Include("Issuer")
 					.Include("Organization")
-					.Include("Person")
+					.Include("UserDetail")
 					.Include("Category")
 					.Include("Category.EntityGroup")
 					.Include("PetitionLevel")
