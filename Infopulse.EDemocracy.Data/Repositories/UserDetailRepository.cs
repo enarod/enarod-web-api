@@ -34,12 +34,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				var userDetailFromDb = db.UserDetails.SingleOrDefault(ud => ud.UserID == user.UserID);
 				user.ID = userDetailFromDb.ID;
 
-				db.Entry(userDetailFromDb).CurrentValues.SetValues(user);
-
-				////db.UserDetails.Attach(user);
-				//var entry = db.Entry(user);
-				//entry.State = EntityState.Modified;
-				
+				db.Entry(userDetailFromDb).CurrentValues.SetValues(user);				
 				db.SaveChanges();
 
 				return db.UserDetails.SingleOrDefault(ud => ud.ID == user.ID);
