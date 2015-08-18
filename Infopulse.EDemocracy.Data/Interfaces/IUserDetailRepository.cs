@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Infopulse.EDemocracy.Data.Interfaces
+﻿namespace Infopulse.EDemocracy.Data.Interfaces
 {
 	public interface IUserDetailRepository
 	{
-		
+		int GetUserId(string userEmail);
 	}
 }
