@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Infopulse.EDemocracy.Model.BusinessEntities
 {
-	public class UserDetail : BaseEntity
+	public class UserInfo : BaseEntity
 	{
 		public int UserID { get; set; }
 		public string FirstName { get; set; }
@@ -22,7 +22,7 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 
 		public List<Petition> CreatedPetitions { get; set; }
 
-		public UserDetail()
+		public UserInfo()
 		{
 			this.CreatedPetitions = new List<Petition>();
 		}

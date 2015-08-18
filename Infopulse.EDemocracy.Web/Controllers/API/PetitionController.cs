@@ -244,12 +244,12 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 				}
 
 				SetPetitionDefaultValues(petition);
-				
+				var datAuthorDetails = Mapper.Map<UserInfo, DALModel.UserDetail>(petition.CreatedBy);
+				var petitionAuthorDetails = this.userDetailRepository.Update(datAuthorDetails);
+
 				// create petition:
 				var dalPetition = Mapper.Map<DALModel.Petition>(petition);
-				var petitionAuthor = this.userDetailRepository.Update(dalPetition.CreatedByUser);
-                dalPetition.CreatedByUser = petitionAuthor;
-				dalPetition.CreatedBy = petitionAuthor.ID;
+				dalPetition.CreatedBy = petitionAuthorDetails.UserID;
 								
 				dalPetition = this.petitionRepository.AddNewPetition(dalPetition);
 				
@@ -263,7 +263,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 							Email = petition.Email
 						}
 					});
-				var emailVoteAdded = Mapper.Map<Model.PetitionEmailVote, PetitionEmailVote>(dalEmailVoteAdded);
+				var emailVoteAdded = Mapper.Map<DALModel.PetitionEmailVote, PetitionEmailVote>(dalEmailVoteAdded);
 				
 				// send creation confirmation notification:
 				petition = Mapper.Map<Model.Petition, Petition>(dalPetition);
@@ -442,7 +442,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 			if (petition.CreatedBy == null)
 			{
-				petition.CreatedBy = new UserDetail();
+				petition.CreatedBy = new UserInfo();
             }
 
 			petition.CreatedBy.UserID = this.GetSignedInUserId();
