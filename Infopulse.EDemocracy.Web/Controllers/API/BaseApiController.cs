@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using Infopulse.EDemocracy.Data.Interfaces;
+using Infopulse.EDemocracy.Data.Repositories;
+using System.Linq;
 using System.Security.Claims;
 using System.Web.Http;
 
@@ -9,6 +11,17 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
     /// </summary>
     public class BaseApiController : ApiController
     {
+		protected IUserDetailRepository userDetailRepository;
+
+		public BaseApiController()
+		{
+			this.userDetailRepository = new UserDetailRepository();
+        }
+
+		/// <summary>
+		/// Gets UserEmail of signed in user.
+		/// </summary>
+		/// <returns>Signed in user's email.</returns>
 		public string GetSignedInUserEmail()
 		{
 			var identity = User.Identity as ClaimsIdentity;
@@ -20,6 +33,17 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			}
 
 			return null;
+		}
+
+		/// <summary>
+		/// Gets ID of signed in user.
+		/// </summary>
+		/// <returns>User ID.</returns>
+		public int GetSignedInUserId()
+		{
+			var userEmail = GetSignedInUserEmail();
+			var userId = userDetailRepository.GetUserId(userEmail);
+			return userId;
 		}
     }
 }

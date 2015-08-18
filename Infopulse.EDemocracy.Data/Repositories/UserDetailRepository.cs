@@ -26,5 +26,24 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				return userID.SingleOrDefault();
 			}
 		}
-    }
+
+		public UserDetail Update(UserDetail user)
+		{
+			using (var db = new EDEntities())
+			{
+				var userDetailFromDb = db.UserDetails.SingleOrDefault(ud => ud.UserID == user.UserID);
+				user.ID = userDetailFromDb.ID;
+
+				db.Entry(userDetailFromDb).CurrentValues.SetValues(user);
+
+				////db.UserDetails.Attach(user);
+				//var entry = db.Entry(user);
+				//entry.State = EntityState.Modified;
+				
+				db.SaveChanges();
+
+				return db.UserDetails.SingleOrDefault(ud => ud.ID == user.ID);
+			}
+		}
+	}
 }

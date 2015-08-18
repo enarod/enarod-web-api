@@ -486,6 +486,18 @@
             The base class for api controllers
             </summary>
         </member>
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.BaseApiController.GetSignedInUserEmail">
+            <summary>
+            Gets UserEmail of signed in user.
+            </summary>
+            <returns>Signed in user's email.</returns>
+        </member>
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.BaseApiController.GetSignedInUserId">
+            <summary>
+            Gets ID of signed in user.
+            </summary>
+            <returns>User ID.</returns>
+        </member>
         <member name="T:Infopulse.EDemocracy.Web.Controllers.API.OrganizationController">
             <summary>
             Controller to operate with Organizrion entity.
