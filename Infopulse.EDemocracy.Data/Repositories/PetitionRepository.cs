@@ -260,8 +260,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						KeyWords = newPetition.KeyWords,
 						EffectiveFrom = newPetition.EffectiveFrom == default(DateTime) ? now : newPetition.EffectiveFrom,
 						EffectiveTo = newPetition.EffectiveTo == default(DateTime) ? now.AddDays(7) : newPetition.EffectiveTo,
-						CreatedBy = newPetition.CreatedByUser.ID,
-						CreatedByUser = newPetition.CreatedByUser,
+						CreatedBy = newPetition.CreatedBy,
 						CreatedDate = now,
 						Limit = newPetition.Limit,
 						AddressedTo = newPetition.AddressedTo,
@@ -340,7 +339,6 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				addedPetition = db.Petitions
 					.Include("Issuer")
 					.Include("Organization")
-					.Include("UserDetail")
 					.Include("Category")
 					.Include("Category.EntityGroup")
 					.Include("PetitionLevel")

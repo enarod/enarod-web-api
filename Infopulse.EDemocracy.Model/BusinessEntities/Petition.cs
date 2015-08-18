@@ -15,7 +15,7 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		public string Requirements { get; set; }
 		public List<string> KeyWords { get; set; }
 		public DateTime CreatedDate { get; set; }
-		public UserDetail CreatedBy { get; set; }
+		public UserInfo CreatedBy { get; set; }
 		public DateTime EffectiveFrom { get; set; }
 		public DateTime EffectiveTo { get; set; }
 		public long? Limit { get; set; }
