@@ -153,6 +153,7 @@
     <Build Include="dbo\Tables\UserDetail.sql" />
     <Build Include="auth\Tables\App_User.sql" />
     <Build Include="dbo\Stored Procedures\sp_User_GetIdByEmail.sql" />
+    <None Include="Scripts\Misc\Migration_Change PetitionEmailVote table to reference User.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Compares\ProdToProject.scmp" />
