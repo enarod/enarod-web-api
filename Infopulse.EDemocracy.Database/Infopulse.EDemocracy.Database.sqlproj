@@ -166,5 +166,6 @@
     <None Include="Scripts\Dictionaries.sql" />
     <None Include="Compares\DevToProject.scmp" />
     <None Include="Compares\LocalToProject.scmp" />
+    <None Include="Scripts\Migrations\5_Remove links to PetitionSigner table from Petition table.sql" />
   </ItemGroup>
 </Project>

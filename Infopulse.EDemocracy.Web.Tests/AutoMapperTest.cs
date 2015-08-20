@@ -193,9 +193,8 @@ namespace Infopulse.EDemocracy.Web.Tests
 			var webEmailVote = new EmailVote
 			{
 				ID = 42,
-				Signer = new WebModels.PetitionSignerWeb
+				Signer = new WebModels.UserInfo
 				{
-					Email = "jdoe@gmail.com",
 					FirstName = "John",
 					MiddleName = "S",
 					LastName = "Doe",

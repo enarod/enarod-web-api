@@ -20,7 +20,6 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		public DateTime EffectiveTo { get; set; }
 		public long? Limit { get; set; }
 		public string Email { get; set; }
-		public PetitionSignerWeb Author { get; set; }
 
 		public Organization Organization { get; set; }
 

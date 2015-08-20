@@ -105,6 +105,7 @@
     <Compile Include="BusinessEntities\Petition.cs" />
     <Compile Include="BusinessEntities\PetitionLevel.cs" />
     <Compile Include="BusinessEntities\PetitionVote.cs" />
+    <Compile Include="BusinessEntities\User.cs" />
     <Compile Include="BusinessEntities\UserInfo.cs" />
     <Compile Include="Candidate.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
@@ -114,7 +115,6 @@
     </Compile>
     <Compile Include="ClientEntities\ClientPetitionVote.cs" />
     <Compile Include="ClientEntities\EmailVote.cs" />
-    <Compile Include="BusinessEntities\PetitionSigner.cs" />
     <Compile Include="ClientEntities\Search\PetitionSearchParameters.cs" />
     <Compile Include="ClientEntities\Search\SearchParameters.cs" />
     <Compile Include="Common\EntityDictionary.cs" />
@@ -173,9 +173,6 @@
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="PetitionLevel.cs">
-      <DependentUpon>EDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PetitionSigner.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="PetitionVote.cs">

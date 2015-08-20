@@ -212,7 +212,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 				{
 					voteResult = OperationResult.Fail(
 						-11,
-						string.Format("Не вдалось відправити запит на підтвердження голосування на email {0}", vote.Signer.Email));
+						string.Format("Не вдалось відправити запит на підтвердження голосування на email {0}", vote.Signer.User.Email));
 				}
 
 				return voteResult;

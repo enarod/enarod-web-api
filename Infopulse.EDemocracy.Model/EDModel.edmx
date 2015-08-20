@@ -198,7 +198,6 @@
           <Property Name="KeyWords" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
-          <Property Name="IssuerID" Type="int" Nullable="false" />
           <Property Name="EffectiveFrom" Type="datetime" Nullable="false" />
           <Property Name="EffectiveTo" Type="datetime" Nullable="false" />
           <Property Name="Limit" Type="bigint" />

@@ -20,6 +20,7 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		public string ModifiedBy { get; set; }
 		public DateTime? ModifiedDate { get; set; }
 
+		public User User { get; set; }
 		public List<Petition> CreatedPetitions { get; set; }
 
 		public UserInfo()

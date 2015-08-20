@@ -10,7 +10,7 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		public DateTime CreatedDate { get; set; }
 		public bool IsConfirmed { get; set; }
 
-		public PetitionSignerWeb PetitionSigner { get; set; }
+		public UserDetail PetitionSigner { get; set; }
 
 		public string ConfirmUrl
 		{

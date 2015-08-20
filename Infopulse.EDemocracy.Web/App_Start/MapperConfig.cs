@@ -35,8 +35,6 @@ namespace Infopulse.EDemocracy.Web
 				.ForMember(webPetition => webPetition.CreatedBy, createdBy => createdBy.Ignore())
 				.ForMember(webPetition => webPetition.Level, level => level.MapFrom(dataPetition => dataPetition.PetitionLevel))
 				.ForMember(webPetition => webPetition.KeyWords, keyWords => keyWords.MapFrom(dataPetition => dataPetition.KeyWords.Split(',').Select(w => w.Trim())));
-				//.ForMember(webPetition => webPetition.Author, f => f.MapFrom(serverPetition => serverPetition.Issuer));
-			Mapper.CreateMap<DataModels.PetitionSigner, WebModels.PetitionSignerWeb>();
 			Mapper.CreateMap<DataModels.UserDetail, WebModels.UserInfo>();
 		}
 
@@ -58,11 +56,7 @@ namespace Infopulse.EDemocracy.Web
 				.ForMember(dataPetition => dataPetition.KeyWords, keyWords => keyWords.MapFrom(webPetition => string.Join(", ", webPetition.KeyWords)))
 				.ForMember(dataPetition => dataPetition.CategoryID, categoryID => categoryID.MapFrom(webPetition => webPetition.Category.ID))
 				.ForMember(dataPetition => dataPetition.LevelID, levelID => levelID.MapFrom(webPetition => webPetition.Level.ID))
-				.ForMember(dataPetition => dataPetition.OrganizationID, organizationID => organizationID.MapFrom(webPetition => webPetition.Organization == null ? (int?)null : webPetition.Organization.ID))
-				//.ForMember(dataPetition => dataPetition.Issuer, organizationID => organizationID.MapFrom(webPetition => webPetition.Author))
-				;
-			Mapper.CreateMap<WebModels.PetitionSignerWeb, DataModels.PetitionSigner>()
-				.ForMember(dalSigner => dalSigner.ID, field => field.UseValue(-1));
+				.ForMember(dataPetition => dataPetition.OrganizationID, organizationID => organizationID.MapFrom(webPetition => webPetition.Organization == null ? (int?)null : webPetition.Organization.ID));
 			Mapper.CreateMap<EmailVote, DataModels.PetitionEmailVote>()
 				.ForMember(dalVote => dalVote.ID, field => field.UseValue(-1))
 				.ForMember(dalVote => dalVote.PetitionID, field => field.MapFrom(webVote => webVote.ID));

@@ -66,7 +66,6 @@ begin
 		,p.[KeyWords]
 		,p.[CreatedDate]
 		,p.[CreatedBy]
-		,p.[IssuerID]
 		,p.[EffectiveFrom]
 		,p.[EffectiveTo]
 		,p.[RequiredVotesNumber] as [Limit]
