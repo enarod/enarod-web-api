@@ -29,5 +29,7 @@ namespace Infopulse.EDemocracy.Model
         public System.DateTime CreatedDate { get; set; }
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
+    
+        public virtual User User { get; set; }
     }
 }

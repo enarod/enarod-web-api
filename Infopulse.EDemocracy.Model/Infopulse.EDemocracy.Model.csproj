@@ -197,6 +197,9 @@
     <Compile Include="RolePeople.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>EDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="UserDetail.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>

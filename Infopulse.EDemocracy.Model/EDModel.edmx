@@ -5,6 +5,23 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="EDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="App_User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
         <EntityType Name="_Invitation">
           <Key>
             <PropertyRef Name="ID" />
@@ -660,6 +677,18 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Petition_CreatedBy">
+          <End Role="App_User" Type="Self.App_User" Multiplicity="1" />
+          <End Role="Petition" Type="Self.Petition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App_User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Petition">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Petition_Entity">
           <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
           <End Role="Petition" Type="Self.Petition" Multiplicity="*" />
@@ -888,6 +917,18 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserDetail_Auth_App_User">
+          <End Role="App_User" Type="Self.App_User" Multiplicity="1" />
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App_User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserDetail">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="sp_Petition_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PetitionID" Type="int" Mode="In" />
           <Parameter Name="ShowActivePetitions" Type="bit" Mode="In" />
@@ -897,6 +938,7 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <Parameter Name="OrderBy" Type="nvarchar(max)" Mode="In" />
         </Function>
         <EntityContainer Name="EDModelStoreContainer">
+          <EntitySet Name="App_User" EntityType="Self.App_User" Schema="auth" store:Type="Tables" />
           <EntitySet Name="_Invitation" EntityType="Self._Invitation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Agreement" EntityType="Self.Agreement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AgreementVote" EntityType="Self.AgreementVote" Schema="dbo" store:Type="Tables" />
@@ -1047,6 +1089,10 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
             <End Role="Invitation" EntitySet="Invitation" />
             <End Role="InvitationLink" EntitySet="InvitationLink" />
           </AssociationSet>
+          <AssociationSet Name="FK_Petition_CreatedBy" Association="Self.FK_Petition_CreatedBy">
+            <End Role="App_User" EntitySet="App_User" />
+            <End Role="Petition" EntitySet="Petition" />
+          </AssociationSet>
           <AssociationSet Name="FK_Petition_Entity" Association="Self.FK_Petition_Entity">
             <End Role="Entity" EntitySet="Entity" />
             <End Role="Petition" EntitySet="Petition" />
@@ -1122,6 +1168,10 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <AssociationSet Name="FK_RolePeople_Role" Association="Self.FK_RolePeople_Role">
             <End Role="Role" EntitySet="Role" />
             <End Role="RolePeople" EntitySet="RolePeople" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDetail_Auth_App_User" Association="Self.FK_UserDetail_Auth_App_User">
+            <End Role="App_User" EntitySet="App_User" />
+            <End Role="UserDetail" EntitySet="UserDetail" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -1347,6 +1397,15 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
             <End EntitySet="Petitions" Role="Petition" />
           </AssociationSet>
           <EntitySet Name="UserDetails" EntityType="EDModel.UserDetail" />
+          <EntitySet Name="Users" EntityType="EDModel.User" />
+          <AssociationSet Name="FK_Petition_CreatedBy" Association="EDModel.FK_Petition_CreatedBy">
+            <End Role="App_User" EntitySet="Users" />
+            <End Role="Petition" EntitySet="Petitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDetail_Auth_App_User" Association="EDModel.FK_UserDetail_Auth_App_User">
+            <End Role="App_User" EntitySet="Users" />
+            <End Role="UserDetail" EntitySet="UserDetails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="C_Invitation">
           <Key>
@@ -1585,6 +1644,7 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <NavigationProperty Name="Organization" Relationship="EDModel.FK_Petition_Organization" FromRole="Petition" ToRole="Organization" />
           <Property Name="IssuerID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Issuer" Relationship="EDModel.FK_Petition_Issuer" FromRole="Petition" ToRole="PetitionSigner" />
+          <NavigationProperty Name="Author" Relationship="EDModel.FK_Petition_CreatedBy" FromRole="Petition" ToRole="App_User" />
         </EntityType>
         <EntityType Name="PetitionLevel">
           <Key>
@@ -2323,7 +2383,50 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="ModifiedBy" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="User" Relationship="EDModel.FK_UserDetail_Auth_App_User" FromRole="UserDetail" ToRole="App_User" />
         </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Petitions" Relationship="EDModel.FK_Petition_CreatedBy" FromRole="App_User" ToRole="Petition" />
+          <NavigationProperty Name="UserDetails" Relationship="EDModel.FK_UserDetail_Auth_App_User" FromRole="App_User" ToRole="UserDetail" />
+        </EntityType>
+        <Association Name="FK_Petition_CreatedBy">
+          <End Type="EDModel.User" Role="App_User" Multiplicity="1" />
+          <End Type="EDModel.Petition" Role="Petition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App_User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Petition">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDetail_Auth_App_User">
+          <End Type="EDModel.User" Role="App_User" Multiplicity="1" />
+          <End Type="EDModel.UserDetail" Role="UserDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App_User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserDetail">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2655,6 +2758,23 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="EDModel.User">
+              <MappingFragment StoreEntitySet="App_User">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
