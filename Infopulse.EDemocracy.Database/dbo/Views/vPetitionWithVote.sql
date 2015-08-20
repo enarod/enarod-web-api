@@ -26,7 +26,19 @@ AS
 			coalesce(o.PreliminaryVoteCount, cast(dbo.svf_Settings_GetByKey('ActivePetitionVoteCount') as int)) as ActiveVotesNumber,
 			coalesce(o.VoteCount, p.Limit) as RequiredVotesNumber,
 			e.[Description] as Category,
-			o.Name as OrganizationName
+			o.Name as OrganizationName,
+			case
+				when exists
+				(
+					select null
+					from dbo.PetitionEmailVote pev					
+					where
+						pev.VoterID = p.CreatedBy
+						and pev.IsConfirmed = 1
+				)
+				then cast(1 as bit)
+				else cast(0 as bit)
+			end as IsConfirmed
 		from dbo.Petition p
 		left join cte_certVotes cv on cv.PetitionID = p.ID
 		left join cte_emailVotes ev on ev.PetitionID = p.ID
@@ -35,25 +47,13 @@ AS
 		join dbo.PetitionLevel pl on pl.ID = p.LevelID
 		where
 			e.EntityGroupID = 6
-	),
-	cte_petitions as
-	(
-		select
-			p.*,
-			case
-				when p.VotesCount >= p.ActiveVotesNumber
-				then cast(1 as bit) else cast(0 as bit) end as IsActive,
-			case when exists(
-				select null
-				from dbo.PetitionEmailVote pev
-				join dbo.PetitionSigner ps on ps.ID = pev.PetitionSignerID
-				where ps.Email = p.Email)
-				then cast(1 as bit)
-				else cast(0 as bit) end as IsConfirmed
-		from cte_petitionsInfo p
 	)
 	select
-		p.*
-	from cte_Petitions p
+		p.*,
+		case
+			when p.VotesCount >= p.ActiveVotesNumber
+			then cast(1 as bit) else cast(0 as bit)
+		end as IsActive
+	from cte_petitionsInfo p
 	where
 		p.IsConfirmed = 1

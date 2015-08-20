@@ -215,15 +215,15 @@ namespace Infopulse.EDemocracy.Web.Tests
 			Assert.IsNotNull(dalEmailVote);
 			Assert.AreEqual(dalEmailVote.ID, -1);
 			Assert.AreEqual(webEmailVote.ID, dalEmailVote.PetitionID);
-			Assert.AreEqual(webEmailVote.Signer.Email, dalEmailVote.PetitionSigner.Email);
-			Assert.AreEqual(webEmailVote.Signer.FirstName, dalEmailVote.PetitionSigner.FirstName);
-			Assert.AreEqual(webEmailVote.Signer.MiddleName, dalEmailVote.PetitionSigner.MiddleName);
-			Assert.AreEqual(webEmailVote.Signer.LastName, dalEmailVote.PetitionSigner.LastName);
-			Assert.AreEqual(webEmailVote.Signer.AddressLine1, dalEmailVote.PetitionSigner.AddressLine1);
-			Assert.AreEqual(webEmailVote.Signer.AddressLine2, dalEmailVote.PetitionSigner.AddressLine2);
-			Assert.AreEqual(webEmailVote.Signer.Region, dalEmailVote.PetitionSigner.Region);
-			Assert.AreEqual(webEmailVote.Signer.City, dalEmailVote.PetitionSigner.City);
-			Assert.AreEqual(webEmailVote.Signer.Country, dalEmailVote.PetitionSigner.Country);
+			//Assert.AreEqual(webEmailVote.Signer.Email, dalEmailVote.PetitionSigner.Email);
+			//Assert.AreEqual(webEmailVote.Signer.FirstName, dalEmailVote.PetitionSigner.FirstName);
+			//Assert.AreEqual(webEmailVote.Signer.MiddleName, dalEmailVote.PetitionSigner.MiddleName);
+			//Assert.AreEqual(webEmailVote.Signer.LastName, dalEmailVote.PetitionSigner.LastName);
+			//Assert.AreEqual(webEmailVote.Signer.AddressLine1, dalEmailVote.PetitionSigner.AddressLine1);
+			//Assert.AreEqual(webEmailVote.Signer.AddressLine2, dalEmailVote.PetitionSigner.AddressLine2);
+			//Assert.AreEqual(webEmailVote.Signer.Region, dalEmailVote.PetitionSigner.Region);
+			//Assert.AreEqual(webEmailVote.Signer.City, dalEmailVote.PetitionSigner.City);
+			//Assert.AreEqual(webEmailVote.Signer.Country, dalEmailVote.PetitionSigner.Country);
 		}
 
 
@@ -241,24 +241,24 @@ namespace Infopulse.EDemocracy.Web.Tests
 				Hash = "#abcde",
 				IsConfirmed = false,
 				CreatedDate = now,
-				PetitionSignerID = -4,
-				PetitionSigner = new DataModels.PetitionSigner()
-				{
-					ID = -2,
-					Email = "abc@example.com",
-					FirstName = "",
-					LastName = "",
-					MiddleName = "",
-					AddressLine1 = "address 1",
-					AddressLine2 = "address 2",
-					City = "city 2",
-					Region = "region 3",
-					Country = "Ukraine",
-					CreatedDate = now,
-					CreatedBy = "test",
-					ModifiedBy = "test",
-					ModifiedDate = now
-				},
+				//PetitionSignerID = -4,
+				//PetitionSigner = new DataModels.PetitionSigner()
+				//{
+				//	ID = -2,
+				//	Email = "abc@example.com",
+				//	FirstName = "",
+				//	LastName = "",
+				//	MiddleName = "",
+				//	AddressLine1 = "address 1",
+				//	AddressLine2 = "address 2",
+				//	City = "city 2",
+				//	Region = "region 3",
+				//	Country = "Ukraine",
+				//	CreatedDate = now,
+				//	CreatedBy = "test",
+				//	ModifiedBy = "test",
+				//	ModifiedDate = now
+				//},
 				Petition = new DataModels.Petition()
 				{
 					ID = -1,
@@ -341,7 +341,7 @@ namespace Infopulse.EDemocracy.Web.Tests
 
 			Assert.IsNotNull(webPetitionEmailVote);
 			Assert.AreEqual(dalPetitionEmailVote.Petition.ID, webPetitionEmailVote.Petition.ID);
-			Assert.AreEqual(dalPetitionEmailVote.PetitionSigner.FirstName, webPetitionEmailVote.PetitionSigner.FirstName);
+			//Assert.AreEqual(dalPetitionEmailVote.PetitionSigner.FirstName, webPetitionEmailVote.PetitionSigner.FirstName);
 			Assert.AreEqual(dalPetitionEmailVote.Petition.Organization.ID, webPetitionEmailVote.Petition.Organization.ID);
 		}
 

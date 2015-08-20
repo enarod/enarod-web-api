@@ -22,12 +22,12 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					.SingleOrDefault();
 
 				if (petition == null) return null;
-				////petition.Person = db.People.SingleOrDefault(p => p.ID == petition.CreatedBy);
 				petition.Organization = db.Organizations.SingleOrDefault(o => o.ID == petition.OrganizationID);
 
 				if (!string.IsNullOrWhiteSpace(petition.Email))
 				{
-					var creatorVote = db.PetitionEmailVotes.SingleOrDefault(v => v.PetitionID == petitionID && v.PetitionSigner.Email == petition.Email);
+					var creatorVote = db.PetitionEmailVotes
+						.SingleOrDefault(v => v.PetitionID == petitionID && v.VoterID == petition.CreatedBy);
 
 					if (creatorVote == null)
 					{

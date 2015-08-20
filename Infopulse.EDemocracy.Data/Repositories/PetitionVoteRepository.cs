@@ -16,51 +16,54 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				throw new NullReferenceException("Unable to create email vote request with null PetitionEmailVote.");
 			}
 
-			if (emailVote.PetitionSigner == null)
+			if (emailVote.VoterID == default(int))
 			{
 				throw new ArgumentNullException("emailVote", @"Unable to create email vote requst with null PetitionSigner.");
 			}
 
 			using (var db = new EDEntities())
 			{
-				var dbEmailVote = db.PetitionEmailVotes.SingleOrDefault(v =>
-					v.PetitionID == emailVote.PetitionID &&
-					v.PetitionSigner.Email == emailVote.PetitionSigner.Email);
+				var dbEmailVote = db.PetitionEmailVotes
+					.Include("Voter")
+					.SingleOrDefault(v =>
+						v.PetitionID == emailVote.PetitionID &&
+						v.VoterID == emailVote.VoterID);
 
 				if (dbEmailVote != null)
 				{
 					if (!dbEmailVote.IsConfirmed)
 					{
-						throw new PetitionVoteIsNotConfirmedException(emailVote.PetitionSigner.Email);
+						throw new PetitionVoteIsNotConfirmedException(dbEmailVote.Voter.Email);
 					}
 
 					throw new PetitionAlreadyVotedWithEmailException();
 				}
 
 				var createdDate = DateTime.UtcNow;
-				var createdBy = string.IsNullOrWhiteSpace(emailVote.PetitionSigner.CreatedBy)
+				var createdBy = string.IsNullOrWhiteSpace(dbEmailVote.Voter.Email)
 					? this.UnknownAppUser
-					: emailVote.PetitionSigner.CreatedBy;
+					: dbEmailVote.Voter.Email;
 
 				emailVote.Hash = HashGenerator.Generate();
 				emailVote.IsConfirmed = false;
 				emailVote.CreatedDate = createdDate;
 
-				var petitionSigner = db.PetitionSigners.OrderByDescending(ps => ps.CreatedDate).FirstOrDefault(s => s.Email == emailVote.PetitionSigner.Email);
-				if (petitionSigner == null)
-				{
-					emailVote.PetitionSigner.CreatedDate = createdDate;
-					emailVote.PetitionSigner.CreatedBy = createdBy;
+				// update petition creator UserDetails:
+				////var petitionSigner = db.PetitionSigners.OrderByDescending(ps => ps.CreatedDate).FirstOrDefault(s => s.Email == emailVote.PetitionSigner.Email);
+				////if (petitionSigner == null)
+				////{
+				////	emailVote.PetitionSigner.CreatedDate = createdDate;
+				////	emailVote.PetitionSigner.CreatedBy = createdBy;
 
-					emailVote.PetitionSigner = db.PetitionSigners.Add(emailVote.PetitionSigner);
-					db.SaveChanges();
-				}
-				else
-				{
-					// signer already exists in DB
-					emailVote.PetitionSignerID = petitionSigner.ID;
-					emailVote.PetitionSigner = petitionSigner;
-				}
+				////	emailVote.PetitionSigner = db.PetitionSigners.Add(emailVote.PetitionSigner);
+				////	db.SaveChanges();
+				////}
+				////else
+				////{
+				////	// signer already exists in DB
+				////	emailVote.PetitionSignerID = petitionSigner.ID;
+				////	emailVote.PetitionSigner = petitionSigner;
+				////}
 
 				emailVote = db.PetitionEmailVotes.Add(emailVote);
 				db.SaveChanges();

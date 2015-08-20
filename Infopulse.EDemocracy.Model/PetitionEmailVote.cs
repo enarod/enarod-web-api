@@ -19,9 +19,9 @@ namespace Infopulse.EDemocracy.Model
         public string Hash { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public bool IsConfirmed { get; set; }
-        public Nullable<int> PetitionSignerID { get; set; }
+        public int VoterID { get; set; }
     
         public virtual Petition Petition { get; set; }
-        public virtual PetitionSigner PetitionSigner { get; set; }
+        public virtual User Voter { get; set; }
     }
 }

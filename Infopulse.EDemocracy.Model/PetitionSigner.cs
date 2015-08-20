@@ -16,7 +16,6 @@ namespace Infopulse.EDemocracy.Model
     {
         public PetitionSigner()
         {
-            this.PetitionEmailVotes = new HashSet<PetitionEmailVote>();
             this.Petitions = new HashSet<Petition>();
         }
     
@@ -35,7 +34,6 @@ namespace Infopulse.EDemocracy.Model
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
     
-        public virtual ICollection<PetitionEmailVote> PetitionEmailVotes { get; set; }
         public virtual ICollection<Petition> Petitions { get; set; }
     }
 }

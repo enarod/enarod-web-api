@@ -64,9 +64,9 @@ namespace Infopulse.EDemocracy.Web
 				.ForMember(dalSigner => dalSigner.ID, field => field.UseValue(-1));
 			Mapper.CreateMap<EmailVote, DataModels.PetitionEmailVote>()
 				.ForMember(dalVote => dalVote.ID, field => field.UseValue(-1))
-				.ForMember(dalVote => dalVote.PetitionID, field => field.MapFrom(webVote => webVote.ID))
-				.ForMember(dalVote => dalVote.PetitionSignerID, field => field.UseValue(-1))
-				.ForMember(dalVote => dalVote.PetitionSigner, field => field.MapFrom(webVote => webVote.Signer));
+				.ForMember(dalVote => dalVote.PetitionID, field => field.MapFrom(webVote => webVote.ID));
+				//.ForMember(dalVote => dalVote.PetitionSignerID, field => field.UseValue(-1))
+				//.ForMember(dalVote => dalVote.PetitionSigner, field => field.MapFrom(webVote => webVote.Signer));
 			Mapper.CreateMap< WebModels.UserInfo, DataModels.UserDetail>();
 		}
 	}
