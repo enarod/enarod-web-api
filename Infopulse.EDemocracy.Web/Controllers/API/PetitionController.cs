@@ -20,6 +20,7 @@ using System.Linq;
 using System.Web.Http;
 using DALModel = Infopulse.EDemocracy.Model;
 using System;
+using Infopulse.EDemocracy.Model.Helpers;
 
 namespace Infopulse.EDemocracy.Web.Controllers.API
 {
@@ -244,8 +245,8 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 				}
 
 				SetPetitionDefaultValues(petition);
-				var datAuthorDetails = Mapper.Map<UserInfo, DALModel.UserDetail>(petition.CreatedBy);
-				var petitionAuthorDetails = this.userDetailRepository.Update(datAuthorDetails);
+				var petitionAuthor = Mapper.Map<UserInfo, DALModel.UserDetail>(petition.CreatedBy);
+				var petitionAuthorDetails = this.userDetailRepository.Update(petitionAuthor);
 
 				// create petition:
 				var dalPetition = Mapper.Map<DALModel.Petition>(petition);
@@ -258,10 +259,10 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 					new DALModel.PetitionEmailVote()
 					{
 						PetitionID = dalPetition.ID,
-						PetitionSigner = new Model.PetitionSigner()
-						{
-							Email = petition.Email
-						}
+						VoterID = base.GetSignedInUserId(),
+						Hash = HashGenerator.Generate(),
+						IsConfirmed = false,
+						CreatedDate = DateTime.UtcNow
 					});
 				var emailVoteAdded = Mapper.Map<DALModel.PetitionEmailVote, PetitionEmailVote>(dalEmailVoteAdded);
 				

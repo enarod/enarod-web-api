@@ -39,14 +39,10 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					throw new PetitionAlreadyVotedWithEmailException();
 				}
 
-				var createdDate = DateTime.UtcNow;
-				var createdBy = string.IsNullOrWhiteSpace(dbEmailVote.Voter.Email)
-					? this.UnknownAppUser
-					: dbEmailVote.Voter.Email;
-
-				emailVote.Hash = HashGenerator.Generate();
-				emailVote.IsConfirmed = false;
-				emailVote.CreatedDate = createdDate;
+				////var creator = db.Users.SingleOrDefault(u => u.Id == emailVote.VoterID);
+				////var createdBy = creator == null || string.IsNullOrWhiteSpace(creator.Email)
+				////	? this.UnknownAppUser
+				////	: creator.Email;				
 
 				// update petition creator UserDetails:
 				////var petitionSigner = db.PetitionSigners.OrderByDescending(ps => ps.CreatedDate).FirstOrDefault(s => s.Email == emailVote.PetitionSigner.Email);
@@ -79,7 +75,6 @@ namespace Infopulse.EDemocracy.Data.Repositories
 
 				return emailVote;
 			}
-
 		}
 
 		public PetitionEmailVote ConfirmEmailVoteRequest(string hash)
