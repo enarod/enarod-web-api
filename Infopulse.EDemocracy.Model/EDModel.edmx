@@ -224,25 +224,6 @@
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Limit" Type="bigint" Nullable="false" />
         </EntityType>
-        <EntityType Name="PetitionSigner">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="300" />
-          <Property Name="MiddleName" Type="nvarchar" MaxLength="300" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="300" />
-          <Property Name="AddressLine1" Type="nvarchar" MaxLength="4000" />
-          <Property Name="AddressLine2" Type="nvarchar" MaxLength="4000" />
-          <Property Name="City" Type="nvarchar" MaxLength="300" />
-          <Property Name="Region" Type="nvarchar" MaxLength="300" />
-          <Property Name="Country" Type="nvarchar" MaxLength="300" />
-          <Property Name="CreatedBy" Type="nvarchar" MaxLength="4000" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="4000" />
-          <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
-        </EntityType>
         <EntityType Name="PetitionVote">
           <Key>
             <PropertyRef Name="ID" />
@@ -701,18 +682,6 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Petition_Issuer">
-          <End Role="PetitionSigner" Type="Self.PetitionSigner" Multiplicity="1" />
-          <End Role="Petition" Type="Self.Petition" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PetitionSigner">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Petition">
-              <PropertyRef Name="IssuerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Petition_Organization">
           <End Role="Organization" Type="Self.Organization" Multiplicity="0..1" />
           <End Role="Petition" Type="Self.Petition" Multiplicity="*" />
@@ -957,7 +926,6 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <EntitySet Name="Petition" EntityType="Self.Petition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PetitionEmailVote" EntityType="Self.PetitionEmailVote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PetitionLevel" EntityType="Self.PetitionLevel" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PetitionSigner" EntityType="Self.PetitionSigner" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PetitionVote" EntityType="Self.PetitionVote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Photo" EntityType="Self.Photo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
@@ -1095,10 +1063,6 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           </AssociationSet>
           <AssociationSet Name="FK_Petition_Entity" Association="Self.FK_Petition_Entity">
             <End Role="Entity" EntitySet="Entity" />
-            <End Role="Petition" EntitySet="Petition" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Petition_Issuer" Association="Self.FK_Petition_Issuer">
-            <End Role="PetitionSigner" EntitySet="PetitionSigner" />
             <End Role="Petition" EntitySet="Petition" />
           </AssociationSet>
           <AssociationSet Name="FK_Petition_Organization" Association="Self.FK_Petition_Organization">
@@ -1387,11 +1351,6 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
             <End Role="Organization" EntitySet="Organizations" />
             <End Role="Petition" EntitySet="Petitions" />
           </AssociationSet>
-          <EntitySet Name="PetitionSigners" EntityType="EDModel.PetitionSigner" />
-          <AssociationSet Name="FK_Petition_Issuer" Association="EDModel.FK_Petition_Issuer">
-            <End EntitySet="PetitionSigners" Role="PetitionSigner" />
-            <End EntitySet="Petitions" Role="Petition" />
-          </AssociationSet>
           <EntitySet Name="UserDetails" EntityType="EDModel.UserDetail" />
           <EntitySet Name="Users" EntityType="EDModel.User" />
           <AssociationSet Name="FK_Petition_CreatedBy" Association="EDModel.FK_Petition_CreatedBy">
@@ -1642,8 +1601,6 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OrganizationID" Type="Int32" />
           <NavigationProperty Name="Organization" Relationship="EDModel.FK_Petition_Organization" FromRole="Petition" ToRole="Organization" />
-          <Property Name="IssuerID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Issuer" Relationship="EDModel.FK_Petition_Issuer" FromRole="Petition" ToRole="PetitionSigner" />
           <NavigationProperty Name="Author" Relationship="EDModel.FK_Petition_CreatedBy" FromRole="Petition" ToRole="App_User" />
         </EntityType>
         <EntityType Name="PetitionLevel">
@@ -2319,38 +2276,6 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="PetitionSigner">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="MiddleName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="AddressLine1" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="AddressLine2" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="City" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="Region" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="Country" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
-          <NavigationProperty Name="Petitions" Relationship="EDModel.FK_Petition_Issuer" FromRole="PetitionSigner" ToRole="Petition" />
-        </EntityType>
-        <Association Name="FK_Petition_Issuer">
-          <End Type="EDModel.PetitionSigner" Multiplicity="1" Role="PetitionSigner" />
-          <End Type="EDModel.Petition" Multiplicity="*" Role="Petition" />
-          <ReferentialConstraint>
-            <Principal Role="PetitionSigner">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Petition">
-              <PropertyRef Name="IssuerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="UserDetail">
           <Key>
             <PropertyRef Name="ID" />
@@ -2593,7 +2518,6 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <EntitySetMapping Name="Petitions">
             <EntityTypeMapping TypeName="EDModel.Petition">
               <MappingFragment StoreEntitySet="Petition">
-                <ScalarProperty Name="IssuerID" ColumnName="IssuerID" />
                 <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Limit" ColumnName="Limit" />
@@ -2716,26 +2640,6 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
                 <ScalarProperty Name="Logo" ColumnName="Logo" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PetitionSigners">
-            <EntityTypeMapping TypeName="EDModel.PetitionSigner">
-              <MappingFragment StoreEntitySet="PetitionSigner">
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="Region" ColumnName="Region" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
-                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

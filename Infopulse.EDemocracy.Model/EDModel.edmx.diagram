@@ -75,8 +75,6 @@
         <AssociationConnector Association="EDModel.FK_PetitionVote_Petition" />
         <EntityTypeShape EntityType="EDModel.Organization" Width="2.5" PointX="16" PointY="11.75" />
         <AssociationConnector Association="EDModel.FK_Petition_Organization" />
-        <EntityTypeShape EntityType="EDModel.PetitionSigner" Width="1.5" PointX="16.375" PointY="17.875" />
-        <AssociationConnector Association="EDModel.FK_Petition_Issuer" />
         <EntityTypeShape EntityType="EDModel.UserDetail" Width="1.5" PointX="19.25" PointY="18" />
         <EntityTypeShape EntityType="EDModel.User" Width="2.25" PointX="18.875" PointY="13.125" IsExpanded="true" />
         <AssociationConnector Association="EDModel.FK_Petition_CreatedBy" />

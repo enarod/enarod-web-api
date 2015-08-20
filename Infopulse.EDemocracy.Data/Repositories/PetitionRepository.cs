@@ -34,7 +34,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						throw new Exception("Ця петиція ще не підтверджена.");
 					}
 				}
-				this.LoadPetitionAuthors(db, new[] { petition });
+				//this.LoadPetitionAuthors(db, new[] { petition });
 
 				return petition;
 			}
@@ -77,7 +77,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					sqlParameters.ToArray())
 					.ToList();
 
-				this.LoadPetitionAuthors(db, petitions);
+				//this.LoadPetitionAuthors(db, petitions);
 				this.LoadPetitionOrganizations(db, petitions);
 
 				return petitions;
@@ -233,7 +233,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				var sql = "sp_Petition_Search " + this.GetSqlParametersNames(sqlParameters);
 				var petitions = db.Database.SqlQuery<PetitionWithVote>(sql, sqlParameters).ToList();
 
-				this.LoadPetitionAuthors(db, petitions);
+				//this.LoadPetitionAuthors(db, petitions);
 				this.LoadPetitionOrganizations(db, petitions);
 
 				return petitions;
@@ -261,12 +261,12 @@ namespace Infopulse.EDemocracy.Data.Repositories
 						EffectiveFrom = newPetition.EffectiveFrom == default(DateTime) ? now : newPetition.EffectiveFrom,
 						EffectiveTo = newPetition.EffectiveTo == default(DateTime) ? now.AddDays(7) : newPetition.EffectiveTo,
 						CreatedBy = newPetition.CreatedBy,
+						Author = newPetition.Author,
 						CreatedDate = now,
 						Limit = newPetition.Limit,
 						AddressedTo = newPetition.AddressedTo,
 						Email = newPetition.Email,
-						OrganizationID = newPetition.OrganizationID,
-						Issuer = newPetition.Issuer
+						OrganizationID = newPetition.OrganizationID						
 					};
 
 				// Category
@@ -303,22 +303,22 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					petition.PetitionLevel = null;
 				}
 
-				// author
-				if (newPetition.Issuer == null)
-				{
-					throw new Exception("Unable to create petition without author.");
-				}
-				else
-				{
-					newPetition.Issuer.CreatedDate = now;
-					newPetition.Issuer.CreatedBy = this.UnknownAppUser;
+				//// author
+				//if (newPetition.Issuer == null)
+				//{
+				//	throw new Exception("Unable to create petition without author.");
+				//}
+				//else
+				//{
+				//	newPetition.Issuer.CreatedDate = now;
+				//	newPetition.Issuer.CreatedBy = this.UnknownAppUser;
 
-					var author = db.PetitionSigners.Add(newPetition.Issuer);
-					db.SaveChanges();
+				//	var author = db.PetitionSigners.Add(newPetition.Issuer);
+				//	db.SaveChanges();
 
-					petition.IssuerID = author.ID;
-					petition.Issuer = null;
-				}
+				//	petition.IssuerID = author.ID;
+				//	petition.Issuer = null;
+				//}
 
 				// organization
 				if (newPetition.OrganizationID.HasValue)
@@ -337,7 +337,6 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				db.SaveChanges();
 
 				addedPetition = db.Petitions
-					.Include("Issuer")
 					.Include("Organization")
 					.Include("Category")
 					.Include("Category.EntityGroup")
@@ -349,33 +348,33 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		}
 
 
-		private void LoadPetitionAuthors(EDEntities db, IEnumerable<PetitionWithVote> petitions)
-		{
-			var issuerIDs = petitions
-				.Select(p => p.IssuerID)
-				.Distinct()
-				.Select(p => new { Number = p })
-				.ToDataTable();
+		//private void LoadPetitionAuthors(EDEntities db, IEnumerable<PetitionWithVote> petitions)
+		//{
+		//	var issuerIDs = petitions
+		//		.Select(p => p.CreatedBy)
+		//		.Distinct()
+		//		.Select(p => new { Number = p })
+		//		.ToDataTable();
 
-			var sqlParameters = new[]
-			{
-				new SqlParameter
-				{
-					SqlDbType = SqlDbType.Structured,
-					ParameterName = "List",
-					Value = issuerIDs,
-					TypeName = "IntList"
-				}
-			};
+		//	var sqlParameters = new[]
+		//	{
+		//		new SqlParameter
+		//		{
+		//			SqlDbType = SqlDbType.Structured,
+		//			ParameterName = "List",
+		//			Value = issuerIDs,
+		//			TypeName = "IntList"
+		//		}
+		//	};
 
-			var issuers = db.PetitionSigners.SqlQuery("sp_PetitionSigner_GetAuthorsPublicInfo @List", sqlParameters)
-				.ToList();
+		//	var issuers = db.PetitionSigners.SqlQuery("sp_PetitionSigner_GetAuthorsPublicInfo @List", sqlParameters)
+		//		.ToList();
 
-			foreach (var petition in petitions)
-			{
-				petition.Issuer = issuers.SingleOrDefault(i => i.ID == petition.IssuerID);
-			}
-		}
+		//	foreach (var petition in petitions)
+		//	{
+		//		petition.Issuer = issuers.SingleOrDefault(i => i.ID == petition.IssuerID);
+		//	}
+		//}
 
 
 		private void LoadPetitionOrganizations(EDEntities db, IEnumerable<PetitionWithVote> petitions)

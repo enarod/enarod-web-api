@@ -2,7 +2,7 @@
 
 namespace Infopulse.EDemocracy.Model.BusinessEntities
 {
-	public class PetitionSigner : BaseEntity
+	public class PetitionSignerWeb : BaseEntity
 	{
 		public string Email { get; set; }
 		
