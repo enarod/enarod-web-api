@@ -205,6 +205,9 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 				dalUserDetails = this.userDetailRepository.Update(dalUserDetails);
 
 				var dalVote = Mapper.Map<EmailVote, DALModel.PetitionEmailVote>(vote);
+				dalVote.CreatedDate = DateTime.UtcNow;
+				dalVote.Hash = HashGenerator.Generate();
+				dalVote.IsConfirmed = false;
 				var emailVoteRequest = this.petitionVoteRepository.CreateEmailVoteRequest(dalVote);
 
 				var webPetitionVote = Mapper.Map<DALModel.PetitionEmailVote, PetitionEmailVote>(emailVoteRequest);

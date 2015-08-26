@@ -49,6 +49,11 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					.Include("Organization")
 					.Include("Author")
 					.SingleOrDefault(p => p.ID == petitionEmailVote.PetitionID);
+				petitionEmailVote.Voter = db.UserDetails
+					.Include("User")
+					.Include("User.UserDetails")
+					.SingleOrDefault(ud => ud.UserID == petitionEmailVote.VoterID)
+					.User;
 
 				return petitionEmailVote;
 			}
