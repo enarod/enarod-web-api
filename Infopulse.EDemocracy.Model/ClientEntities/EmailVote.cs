@@ -1,10 +1,10 @@
-﻿using Infopulse.EDemocracy.Model.BusinessEntities;
+﻿using WebModels = Infopulse.EDemocracy.Model.BusinessEntities;
 
 namespace Infopulse.EDemocracy.Model.ClientEntities
 {
 	public class EmailVote
 	{
-		public long ID { get; set; }
-		public UserInfo Signer { get; set; }
+		public long PetitionID { get; set; }
+		public WebModels.UserDetailInfo Signer { get; set; }
 	}
 }

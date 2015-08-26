@@ -186,34 +186,29 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// <summary>
 		/// Vote for petition by email.
 		/// </summary>
-		/// <param name="vote2">Information about petition signer.</param>
+		/// <param name="vote">Information about petition vote including signer.</param>
 		/// <returns></returns>
-		/// <remarks>Version 2</remarks>
+		/// <remarks>Version 3</remarks>
 		[HttpPost]
-		[Route("api/petition/v2/emailVote")]
-		public OperationResult EmailVote2(EmailVote vote)
+		[Authorize]
+		[Route("api/petition/emailVote")]
+		public OperationResult EmailVote(EmailVote vote)
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
 				OperationResult voteResult;
 
-				var emailVoteRequest = this.petitionVoteRepository.CreateEmailVoteRequest(
-					Mapper.Map<Infopulse.EDemocracy.Model.PetitionEmailVote>(vote));
+				vote.Signer.UserID = this.GetSignedInUserId();
+				vote.Signer.ModifiedBy = this.GetSignedInUserEmail();
+				vote.Signer.ModifiedDate = DateTime.UtcNow;
+				var dalUserDetails = Mapper.Map<UserDetailInfo, DALModel.UserDetail>(vote.Signer);
+				dalUserDetails = this.userDetailRepository.Update(dalUserDetails);
 
-				var webPetitionVote = Mapper.Map<Infopulse.EDemocracy.Model.BusinessEntities.PetitionEmailVote>(emailVoteRequest);
-				var notification = new PetitionVoteNotification(webPetitionVote);
+				var dalVote = Mapper.Map<EmailVote, DALModel.PetitionEmailVote>(vote);
+				var emailVoteRequest = this.petitionVoteRepository.CreateEmailVoteRequest(dalVote);
 
-				var sendingResult = NotificationService.Send(notification);
-				if (sendingResult.IsSuccess)
-				{
-					voteResult = sendingResult;
-				}
-				else
-				{
-					voteResult = OperationResult.Fail(
-						-11,
-						string.Format("Не вдалось відправити запит на підтвердження голосування на email {0}", vote.Signer.User.Email));
-				}
+				var webPetitionVote = Mapper.Map<DALModel.PetitionEmailVote, PetitionEmailVote>(emailVoteRequest);
+				voteResult = this.SendVoteRequestConfirmationMail(webPetitionVote, this.GetSignedInUserEmail());
 
 				return voteResult;
 			});
@@ -245,7 +240,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 				}
 
 				SetPetitionDefaultValues(petition);
-				var petitionAuthor = Mapper.Map<UserInfo, DALModel.UserDetail>(petition.CreatedBy);
+				var petitionAuthor = Mapper.Map<UserDetailInfo, DALModel.UserDetail>(petition.CreatedBy);
 				var petitionAuthorDetails = this.userDetailRepository.Update(petitionAuthor);
 
 				// create petition:
@@ -443,10 +438,31 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 			if (petition.CreatedBy == null)
 			{
-				petition.CreatedBy = new UserInfo();
+				petition.CreatedBy = new UserDetailInfo();
             }
 
 			petition.CreatedBy.UserID = this.GetSignedInUserId();
         }
+
+		private OperationResult SendVoteRequestConfirmationMail(PetitionEmailVote webPetitionVote, string currentUserEmail)
+		{
+			OperationResult voteResult;
+			var notification = new PetitionVoteNotification(webPetitionVote);
+			var sendingResult = NotificationService.Send(notification);
+			if (sendingResult.IsSuccess)
+			{
+				voteResult = sendingResult;
+			}
+			else
+			{
+				voteResult = OperationResult.Fail(
+					-11,
+					string.Format(
+						"Не вдалось відправити запит на підтвердження голосування на email {0}",
+						currentUserEmail));
+			}
+
+			return voteResult;
+		}
 	}
 }

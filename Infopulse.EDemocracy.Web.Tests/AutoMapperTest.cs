@@ -192,8 +192,8 @@ namespace Infopulse.EDemocracy.Web.Tests
 
 			var webEmailVote = new EmailVote
 			{
-				ID = 42,
-				Signer = new WebModels.UserInfo
+				PetitionID = 42,
+				Signer = new WebModels.UserDetailInfo
 				{
 					FirstName = "John",
 					MiddleName = "S",
@@ -213,7 +213,7 @@ namespace Infopulse.EDemocracy.Web.Tests
 
 			Assert.IsNotNull(dalEmailVote);
 			Assert.AreEqual(dalEmailVote.ID, -1);
-			Assert.AreEqual(webEmailVote.ID, dalEmailVote.PetitionID);
+			Assert.AreEqual(webEmailVote.PetitionID, dalEmailVote.PetitionID);
 			//Assert.AreEqual(webEmailVote.Signer.Email, dalEmailVote.PetitionSigner.Email);
 			//Assert.AreEqual(webEmailVote.Signer.FirstName, dalEmailVote.PetitionSigner.FirstName);
 			//Assert.AreEqual(webEmailVote.Signer.MiddleName, dalEmailVote.PetitionSigner.MiddleName);

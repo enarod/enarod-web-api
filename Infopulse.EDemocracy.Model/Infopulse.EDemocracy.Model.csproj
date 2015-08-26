@@ -106,7 +106,7 @@
     <Compile Include="BusinessEntities\PetitionLevel.cs" />
     <Compile Include="BusinessEntities\PetitionVote.cs" />
     <Compile Include="BusinessEntities\User.cs" />
-    <Compile Include="BusinessEntities\UserInfo.cs" />
+    <Compile Include="BusinessEntities\UserDetailInfo.cs" />
     <Compile Include="Candidate.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>

@@ -9,16 +9,16 @@ namespace Infopulse.EDemocracy.Data.Repositories
 {
 	public class PetitionVoteRepository : BaseRepository, IPetitionVoteRepository
 	{
-		public PetitionEmailVote CreateEmailVoteRequest(PetitionEmailVote emailVote)
+		public PetitionEmailVote CreateEmailVoteRequest(PetitionEmailVote petitionEmailVote)
 		{
-			if (emailVote == null)
+			if (petitionEmailVote == null)
 			{
 				throw new NullReferenceException("Unable to create email vote request with null PetitionEmailVote.");
 			}
 
-			if (emailVote.VoterID == default(int))
+			if (petitionEmailVote.VoterID == default(int))
 			{
-				throw new ArgumentNullException("emailVote", @"Unable to create email vote requst with null PetitionSigner.");
+				throw new ArgumentNullException("emailVote", @"Unable to create email vote requst with null UserID.");
 			}
 
 			using (var db = new EDEntities())
@@ -26,8 +26,8 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				var dbEmailVote = db.PetitionEmailVotes
 					.Include("Voter")
 					.SingleOrDefault(v =>
-						v.PetitionID == emailVote.PetitionID &&
-						v.VoterID == emailVote.VoterID);
+						v.PetitionID == petitionEmailVote.PetitionID &&
+						v.VoterID == petitionEmailVote.VoterID);
 
 				if (dbEmailVote != null)
 				{
@@ -39,40 +39,18 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					throw new PetitionAlreadyVotedWithEmailException();
 				}
 
-				////var creator = db.Users.SingleOrDefault(u => u.Id == emailVote.VoterID);
-				////var createdBy = creator == null || string.IsNullOrWhiteSpace(creator.Email)
-				////	? this.UnknownAppUser
-				////	: creator.Email;				
-
-				// update petition creator UserDetails:
-				////var petitionSigner = db.PetitionSigners.OrderByDescending(ps => ps.CreatedDate).FirstOrDefault(s => s.Email == emailVote.PetitionSigner.Email);
-				////if (petitionSigner == null)
-				////{
-				////	emailVote.PetitionSigner.CreatedDate = createdDate;
-				////	emailVote.PetitionSigner.CreatedBy = createdBy;
-
-				////	emailVote.PetitionSigner = db.PetitionSigners.Add(emailVote.PetitionSigner);
-				////	db.SaveChanges();
-				////}
-				////else
-				////{
-				////	// signer already exists in DB
-				////	emailVote.PetitionSignerID = petitionSigner.ID;
-				////	emailVote.PetitionSigner = petitionSigner;
-				////}
-
-				emailVote = db.PetitionEmailVotes.Add(emailVote);
+				petitionEmailVote = db.PetitionEmailVotes.Add(petitionEmailVote);
 				db.SaveChanges();
 
-				emailVote.Petition = db.Petitions
+				petitionEmailVote.Petition = db.Petitions
 					.Include("Category")
 					.Include("Category.EntityGroup")
 					.Include("PetitionLevel")
 					.Include("Organization")
 					.Include("Author")
-					.SingleOrDefault(p => p.ID == emailVote.PetitionID);
+					.SingleOrDefault(p => p.ID == petitionEmailVote.PetitionID);
 
-				return emailVote;
+				return petitionEmailVote;
 			}
 		}
 
@@ -96,9 +74,6 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				db.SaveChanges();
 
 				return emailVote;
-				//var emailVoteBusiness = new Model.BusinessEntities.PetitionEmailVote(emailVote);
-				//emailVoteBusiness.Petition = new Model.BusinessEntities.Petition(db.Petitions.SingleOrDefault(p => p.ID == emailVote.PetitionID));
-				//result = OperationResult<Model.BusinessEntities.PetitionEmailVote>.Success(1, "Ви успішно проголосували за петицію.", emailVoteBusiness);
 			}
 		}
 
@@ -132,5 +107,4 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			}
 		}
 	}
-
 }
