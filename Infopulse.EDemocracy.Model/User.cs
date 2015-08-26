@@ -21,7 +21,7 @@ namespace Infopulse.EDemocracy.Model
             this.PetitionEmailVotes = new HashSet<PetitionEmailVote>();
         }
     
-        public int Id { get; set; }
+        public int ID { get; set; }
         public string Email { get; set; }
         public bool EmailConfirmed { get; set; }
         public string SecurityStamp { get; set; }

@@ -2298,9 +2298,9 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
         </EntityType>
         <EntityType Name="User">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
           <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -2320,7 +2320,7 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <End Type="EDModel.Petition" Role="Petition" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="App_User">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Petition">
               <PropertyRef Name="CreatedBy" />
@@ -2332,7 +2332,7 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <End Type="EDModel.UserDetail" Role="UserDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="App_User">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="UserDetail">
               <PropertyRef Name="UserID" />
@@ -2344,7 +2344,7 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <End Type="EDModel.PetitionEmailVote" Role="PetitionEmailVote" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="PetitionEmailVote">
               <PropertyRef Name="VoterID" />
@@ -2677,7 +2677,7 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
                 <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
                 <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ID" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

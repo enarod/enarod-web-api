@@ -38,6 +38,7 @@ namespace Infopulse.EDemocracy.Web
 				.ForMember(webPetition => webPetition.Level, level => level.MapFrom(dataPetition => dataPetition.PetitionLevel))
 				.ForMember(webPetition => webPetition.KeyWords, keyWords => keyWords.MapFrom(dataPetition => dataPetition.KeyWords.Split(',').Select(w => w.Trim())));
 			Mapper.CreateMap<DataModels.UserDetail, WebModels.UserDetailInfo>();
+			Mapper.CreateMap<DataModels.User, WebModels.User>();
 		}
 
 
@@ -65,7 +66,17 @@ namespace Infopulse.EDemocracy.Web
 				.ForMember(dalVote => dalVote.Voter, field => field.Ignore());
 				//.ForMember(dalVote => dalVote.PetitionSignerID, field => field.UseValue(-1))
 				//.ForMember(dalVote => dalVote.PetitionSigner, field => field.MapFrom(webVote => webVote.Signer));
-			Mapper.CreateMap< WebModels.UserDetailInfo, DataModels.UserDetail>();
+			Mapper.CreateMap<WebModels.UserDetailInfo, DataModels.UserDetail>();
+			Mapper.CreateMap<WebModels.User, DataModels.User>()
+				.ForMember(dataUser => dataUser.AccessFailedCount, f => f.Ignore())
+				.ForMember(dataUser => dataUser.EmailConfirmed, f => f.Ignore())
+				.ForMember(dataUser => dataUser.LockoutEnabled, f => f.Ignore())
+				.ForMember(dataUser => dataUser.LockoutEndDateUtc, f => f.Ignore())
+				.ForMember(dataUser => dataUser.PhoneNumber, f => f.Ignore())
+				.ForMember(dataUser => dataUser.PhoneNumberConfirmed, f => f.Ignore())
+				.ForMember(dataUser => dataUser.SecurityStamp, f => f.Ignore())
+				.ForMember(dataUser => dataUser.TwoFactorEnabled, f => f.Ignore())
+				.ForMember(dataUser => dataUser.UserName, f => f.Ignore());
 		}
 	}
 }
