@@ -22,14 +22,14 @@ namespace Infopulse.EDemocracy.Common.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class PetitionVoteOperationResult {
+    public class StringConstants {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal PetitionVoteOperationResult() {
+        internal StringConstants() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Infopulse.EDemocracy.Common.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infopulse.EDemocracy.Common.Resources.PetitionVoteOperationResult", typeof(PetitionVoteOperationResult).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infopulse.EDemocracy.Common.Resources.StringConstants", typeof(StringConstants).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,65 +61,20 @@ namespace Infopulse.EDemocracy.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to -2.
+        ///   Looks up a localized string similar to Підтвердження створення петиції.
         /// </summary>
-        public static string AlreadyVotedCode {
+        public static string PetitionCreatedNotificationEmailSubject {
             get {
-                return ResourceManager.GetString("AlreadyVotedCode", resourceCulture);
+                return ResourceManager.GetString("PetitionCreatedNotificationEmailSubject", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ви вже проголосували за цю петицію..
+        ///   Looks up a localized string similar to Підтвердження голосування за петицію.
         /// </summary>
-        public static string AlreadyVotedMessage {
+        public static string PetitionVotedNotificationEmailSubject {
             get {
-                return ResourceManager.GetString("AlreadyVotedMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 1.
-        /// </summary>
-        public static string EmailVoteRequestCreatedCode {
-            get {
-                return ResourceManager.GetString("EmailVoteRequestCreatedCode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ваш голос чекає підтвердження. Перевірте вашу поштову скриньку {0}..
-        /// </summary>
-        public static string EmailVoteRequestCreatedMessage {
-            get {
-                return ResourceManager.GetString("EmailVoteRequestCreatedMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Для підтврдження голосування перейдіть за посиланням, надісланому вам на email {0}.
-        /// </summary>
-        public static string VoteCreatedFormat {
-            get {
-                return ResourceManager.GetString("VoteCreatedFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 2.
-        /// </summary>
-        public static string WaitingConfirmationCode {
-            get {
-                return ResourceManager.GetString("WaitingConfirmationCode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ваш голос чекає підтвердження. Перевірте вашу поштову скриньку {0}..
-        /// </summary>
-        public static string WaitingConfirmationMessage {
-            get {
-                return ResourceManager.GetString("WaitingConfirmationMessage", resourceCulture);
+                return ResourceManager.GetString("PetitionVotedNotificationEmailSubject", resourceCulture);
             }
         }
     }

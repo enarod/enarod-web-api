@@ -117,25 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AlreadyVotedCode" xml:space="preserve">
-    <value>-2</value>
+  <data name="PetitionCreatedNotificationEmailSubject" xml:space="preserve">
+    <value>Підтвердження створення петиції</value>
   </data>
-  <data name="AlreadyVotedMessage" xml:space="preserve">
-    <value>Ви вже проголосували за цю петицію.</value>
-  </data>
-  <data name="EmailVoteRequestCreatedCode" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="EmailVoteRequestCreatedMessage" xml:space="preserve">
-    <value>Ваш голос чекає підтвердження. Перевірте вашу поштову скриньку {0}.</value>
-  </data>
-  <data name="VoteCreatedFormat" xml:space="preserve">
-    <value>Для підтврдження голосування перейдіть за посиланням, надісланому вам на email {0}</value>
-  </data>
-  <data name="WaitingConfirmationCode" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="WaitingConfirmationMessage" xml:space="preserve">
-    <value>Ваш голос чекає підтвердження. Перевірте вашу поштову скриньку {0}.</value>
+  <data name="PetitionVotedNotificationEmailSubject" xml:space="preserve">
+    <value>Підтвердження голосування за петицію</value>
   </data>
 </root>
