@@ -3,6 +3,7 @@ using Infopulse.EDemocracy.Web.Models;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Infopulse.EDemocracy.Common.Operations;
 
 namespace Infopulse.EDemocracy.Web.Controllers.API
 {
@@ -35,7 +36,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 				return errorResult;
 			}
 
-			return Ok();
+			return Ok(OperationResult.Success(1, "Ви зареєстровані"));
 		}
 
 		protected override void Dispose(bool disposing)
