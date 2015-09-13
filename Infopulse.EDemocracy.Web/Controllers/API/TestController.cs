@@ -10,7 +10,9 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		[Route("api/test/ping")]
 		public string Ping()
 		{
-			return "pong from " + this.GetSignedInUserEmail();
+			var repo = new Infopulse.EDemocracy.Data.Repositories.OrganizationRepository();
+			var organization = repo.Get(5);
+			return "понґ від " + this.GetSignedInUserEmail() + " з організації '" + organization.Name + "'";
 		}
 	}
 }

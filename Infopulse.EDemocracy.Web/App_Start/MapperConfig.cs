@@ -25,18 +25,20 @@ namespace Infopulse.EDemocracy.Web
 			Mapper.CreateMap<DataModels.Person, WebModels.People>();
 			Mapper.CreateMap<DataModels.PetitionVote, WebModels.PetitionVote>();
 			Mapper.CreateMap<DataModels.PetitionEmailVote, WebModels.PetitionEmailVote>()
-				.ForMember(webPetitionVote => webPetitionVote.ConfirmUrl, f => f.Ignore());
+				.ForMember(webPetitionVote => webPetitionVote.PetitionSigner, f => f.MapFrom(dataPetitionVote => dataPetitionVote.Voter))
+				.ForMember(webPetitionVote => webPetitionVote.ConfirmUrl, f => f.Ignore())
+				.ForMember(webPetitionVote => webPetitionVote.PetitionSigner, f => f.MapFrom(dataPetitionVote => dataPetitionVote.Voter.UserDetails.SingleOrDefault()));
 			Mapper.CreateMap<DataModels.Petition, WebModels.Petition>()
-				.ForMember(webPetition => webPetition.CreatedBy, createdBy => createdBy.MapFrom(dataPetition => dataPetition.Person))
+				.ForMember(webPetition => webPetition.CreatedBy, createdBy => createdBy.Ignore())
 				.ForMember(webPetition => webPetition.Level, level => level.MapFrom(dataPetition => dataPetition.PetitionLevel))
-				.ForMember(webPetition => webPetition.KeyWords, keyWords => keyWords.MapFrom(dataPetition => dataPetition.KeyWords.Split(',').Select(w => w.Trim())))
-				.ForMember(webPetition => webPetition.Author, f => f.MapFrom(serverPetition => serverPetition.Issuer));
+				.ForMember(webPetition => webPetition.KeyWords, keyWords => keyWords.MapFrom(dataPetition => dataPetition.KeyWords.Split(',').Select(w => w.Trim())));
+			//.ForMember(webPetition => webPetition.Author, f => f.MapFrom(serverPetition => serverPetition.Issuer));
 			Mapper.CreateMap<DataModels.PetitionWithVote, WebModels.Petition>()
-				.ForMember(webPetition => webPetition.CreatedBy, createdBy => createdBy.MapFrom(dataPetition => dataPetition.Person))
+				.ForMember(webPetition => webPetition.CreatedBy, createdBy => createdBy.Ignore())
 				.ForMember(webPetition => webPetition.Level, level => level.MapFrom(dataPetition => dataPetition.PetitionLevel))
-				.ForMember(webPetition => webPetition.KeyWords, keyWords => keyWords.MapFrom(dataPetition => dataPetition.KeyWords.Split(',').Select(w => w.Trim())))
-				.ForMember(webPetition => webPetition.Author, f => f.MapFrom(serverPetition => serverPetition.Issuer));
-			Mapper.CreateMap<EDemocracy.Model.PetitionSigner, WebModels.PetitionSigner>();
+				.ForMember(webPetition => webPetition.KeyWords, keyWords => keyWords.MapFrom(dataPetition => dataPetition.KeyWords.Split(',').Select(w => w.Trim())));
+			Mapper.CreateMap<DataModels.UserDetail, WebModels.UserDetailInfo>();
+			Mapper.CreateMap<DataModels.User, WebModels.User>();
 		}
 
 
@@ -52,21 +54,29 @@ namespace Infopulse.EDemocracy.Web
 			Mapper.CreateMap<WebModels.PetitionVote, DataModels.PetitionVote>();
 			Mapper.CreateMap<WebModels.PetitionEmailVote, DataModels.PetitionEmailVote>();
 			Mapper.CreateMap<WebModels.Petition, DataModels.Petition>()
-				.ForMember(dataPetition => dataPetition.Person, createdBy => createdBy.MapFrom(webPetition => webPetition.CreatedBy))
-				.ForMember(dataPetition => dataPetition.CreatedBy, createdBy => createdBy.MapFrom(webPetition => webPetition.CreatedBy.ID))
+				.ForMember(dataPetition => dataPetition.CreatedBy, createdBy => createdBy.MapFrom(webPetition => webPetition.CreatedBy.UserID))
 				.ForMember(dataPetition => dataPetition.PetitionLevel, level => level.MapFrom(webPetition => webPetition.Level))
 				.ForMember(dataPetition => dataPetition.KeyWords, keyWords => keyWords.MapFrom(webPetition => string.Join(", ", webPetition.KeyWords)))
 				.ForMember(dataPetition => dataPetition.CategoryID, categoryID => categoryID.MapFrom(webPetition => webPetition.Category.ID))
 				.ForMember(dataPetition => dataPetition.LevelID, levelID => levelID.MapFrom(webPetition => webPetition.Level.ID))
-				.ForMember(dataPetition => dataPetition.OrganizationID, organizationID => organizationID.MapFrom(webPetition => webPetition.Organization == null ? (int?)null : webPetition.Organization.ID))
-				.ForMember(dataPetition => dataPetition.Issuer, organizationID => organizationID.MapFrom(webPetition => webPetition.Author));
-			Mapper.CreateMap<WebModels.PetitionSigner, EDemocracy.Model.PetitionSigner>()
-				.ForMember(dalSigner => dalSigner.ID, field => field.UseValue(-1));
-			Mapper.CreateMap<EmailVote, Infopulse.EDemocracy.Model.PetitionEmailVote>()
+				.ForMember(dataPetition => dataPetition.OrganizationID, organizationID => organizationID.MapFrom(webPetition => webPetition.Organization == null ? (int?)null : webPetition.Organization.ID));
+			Mapper.CreateMap<EmailVote, DataModels.PetitionEmailVote>()
 				.ForMember(dalVote => dalVote.ID, field => field.UseValue(-1))
-				.ForMember(dalVote => dalVote.PetitionID, field => field.MapFrom(webVote => webVote.ID))
-				.ForMember(dalVote => dalVote.PetitionSignerID, field => field.UseValue(-1))
-				.ForMember(dalVote => dalVote.PetitionSigner, field => field.MapFrom(webVote => webVote.Signer));
+				.ForMember(dalVote => dalVote.VoterID, field => field.MapFrom(webVote => webVote.Signer.UserID))
+				.ForMember(dalVote => dalVote.Voter, field => field.Ignore());
+				//.ForMember(dalVote => dalVote.PetitionSignerID, field => field.UseValue(-1))
+				//.ForMember(dalVote => dalVote.PetitionSigner, field => field.MapFrom(webVote => webVote.Signer));
+			Mapper.CreateMap<WebModels.UserDetailInfo, DataModels.UserDetail>();
+			Mapper.CreateMap<WebModels.User, DataModels.User>()
+				.ForMember(dataUser => dataUser.AccessFailedCount, f => f.Ignore())
+				.ForMember(dataUser => dataUser.EmailConfirmed, f => f.Ignore())
+				.ForMember(dataUser => dataUser.LockoutEnabled, f => f.Ignore())
+				.ForMember(dataUser => dataUser.LockoutEndDateUtc, f => f.Ignore())
+				.ForMember(dataUser => dataUser.PhoneNumber, f => f.Ignore())
+				.ForMember(dataUser => dataUser.PhoneNumberConfirmed, f => f.Ignore())
+				.ForMember(dataUser => dataUser.SecurityStamp, f => f.Ignore())
+				.ForMember(dataUser => dataUser.TwoFactorEnabled, f => f.Ignore())
+				.ForMember(dataUser => dataUser.UserName, f => f.Ignore());
 		}
 	}
 }

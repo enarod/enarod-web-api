@@ -1,0 +1,1 @@
+﻿GRANT EXECUTE TO [enarod_app_dev]

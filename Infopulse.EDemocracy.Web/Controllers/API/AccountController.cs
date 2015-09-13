@@ -3,9 +3,12 @@ using Infopulse.EDemocracy.Web.Models;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Infopulse.EDemocracy.Common.Operations;
+using Infopulse.EDemocracy.Web.CORS;
 
 namespace Infopulse.EDemocracy.Web.Controllers.API
 {
+	[CorsPolicyProvider]
 	[RoutePrefix("api/Account")]
 	public class AccountController : ApiController
 	{
@@ -35,7 +38,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 				return errorResult;
 			}
 
-			return Ok();
+			return Ok(OperationResult.Success(1, "Ви зареєстровані"));
 		}
 
 		protected override void Dispose(bool disposing)

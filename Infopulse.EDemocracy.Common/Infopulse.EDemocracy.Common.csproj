@@ -102,6 +102,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Resources\StringConstants.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StringConstants.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\GeoService.cs" />
     <Compile Include="Services\Models\Country.cs" />
     <Compile Include="Services\Interfaces\IGeoService.cs" />
@@ -126,6 +131,10 @@
     <EmbeddedResource Include="Resources\PetitionVoteOperationResult.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>PetitionVoteOperationResult.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\StringConstants.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>StringConstants.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

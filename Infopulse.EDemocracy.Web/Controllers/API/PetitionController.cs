@@ -19,6 +19,8 @@ using System.Configuration;
 using System.Linq;
 using System.Web.Http;
 using DALModel = Infopulse.EDemocracy.Model;
+using System;
+using Infopulse.EDemocracy.Model.Helpers;
 
 namespace Infopulse.EDemocracy.Web.Controllers.API
 {
@@ -42,7 +44,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// <summary>
 		/// Default constructor (no DI yet).
 		/// </summary>
-		public PetitionController()
+		public PetitionController() : base()
 		{
 			this.petitionRepository = new PetitionRepository();
 			this.petitionLevelRepository = new PetitionLevelRepository();
@@ -181,137 +183,35 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 		#region Vote
 
-		/////// <summary>
-		/////// Vote for petition by digital signature.
-		/////// </summary>
-		/////// <param name="vote">Petition vote via digital signature tool.</param>
-		/////// <returns></returns>
-		////[HttpPost]
-		////[Route("api/petition/digitalSignatureVote")]
-		////public OperationResult DigitalSignatureVote(ClientPetitionVote vote)
-		////{
-		////	OperationResult result;
-
-		////	try
-		////	{
-		////		if (vote.PetitionID == 0)
-		////		{
-		////			result = OperationResult.Fail(-2, "PetitionID was not provided.");
-		////			return result;
-		////		}
-
-		////		// verify:
-		////		IVerificationRepository verificationRepository;
-		////		switch (vote.CertificateType)
-		////		{
-		////			case EntityDictionary.Certificate.Type.DPA:
-		////				{
-		////					verificationRepository = new DpaVerificationRepository();
-		////					break;
-		////				}
-		////			case EntityDictionary.Certificate.Type.UACrypto:
-		////				{
-		////					verificationRepository = new UaCryptoVerificationRepository();
-		////					break;
-		////				}
-		////			default:
-		////				{
-		////					verificationRepository = new UaCryptoVerificationRepository();
-		////					break;
-		////				}
-		////		}
-
-		////		var verificationResult = verificationRepository.Verify(vote.SignedData);
-		////		var isVerficationSuccessfull =
-		////			verificationResult.Descendants("Result").SingleOrDefault() != null &&
-		////			verificationResult.Descendants("Result").SingleOrDefault().Value == "Success" &&
-		////			verificationResult.Descendants("Serial").SingleOrDefault() != null &&
-		////			verificationResult.Descendants("Serial").SingleOrDefault().Value.Length > 0;
-
-		////		if (!isVerficationSuccessfull)
-		////		{
-		////			result = OperationResult.Fail(-3, "Certificate verification failed.");
-		////			return result;
-		////		}
-
-		////		result = this.petitionVoteRepository.Vote(vote, verificationResult.Descendants("Serial").SingleOrDefault().Value);
-		////	}
-		////	catch (Exception exc)
-		////	{
-		////		result = OperationResult.ExceptionResult(exc);
-		////	}
-
-		////	return result;
-		////}
-
-
-		/////// <summary>
-		/////// Vote for petition by email.
-		/////// </summary>
-		/////// <param name="vote">Petition vote via email.</param>
-		/////// <returns></returns>
-		////[HttpPost]
-		////[Route("api/petition/emailVote")]
-		////public OperationResult EmailVote(EmailVote vote)
-		////{
-		////	OperationResult result;
-
-		////	var emailVoteRequest = this.petitionVoteRepository.CreateEmailVoteRequest(vote);
-
-		////	if (!emailVoteRequest.IsSuccess)
-		////	{
-		////		result = emailVoteRequest;
-		////		return result;
-		////	}
-
-		////	var notification = new PetitionVoteNotification(emailVoteRequest.Data);
-		////	var sendingResult = NotificationService.Send(notification);
-		////	if (sendingResult.IsSuccess)
-		////	{
-		////		result = sendingResult;
-		////	}
-		////	else
-		////	{
-		////		result = OperationResult.Fail(
-		////			-11,
-		////			string.Format("Не вдалось відправити запит на підтвердження голосування на email {0}", vote.Email));
-		////	}
-
-		////	return result;
-		////}
-
-
 		/// <summary>
 		/// Vote for petition by email.
 		/// </summary>
-		/// <param name="vote2">Information about petition signer.</param>
+		/// <param name="vote">Information about petition vote including signer.</param>
 		/// <returns></returns>
-		/// <remarks>Version 2</remarks>
+		/// <remarks>Version 3</remarks>
 		[HttpPost]
-		[Route("api/petition/v2/emailVote")]
-		public OperationResult EmailVote2(EmailVote vote)
+		[Authorize]
+		[Route("api/petition/emailVote")]
+		public OperationResult EmailVote(EmailVote vote)
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
 				OperationResult voteResult;
 
-				var emailVoteRequest = this.petitionVoteRepository.CreateEmailVoteRequest(
-					Mapper.Map<Infopulse.EDemocracy.Model.PetitionEmailVote>(vote));
+				vote.Signer.UserID = this.GetSignedInUserId();
+				vote.Signer.ModifiedBy = this.GetSignedInUserEmail();
+				vote.Signer.ModifiedDate = DateTime.UtcNow;
+				var dalUserDetails = Mapper.Map<UserDetailInfo, DALModel.UserDetail>(vote.Signer);
+				dalUserDetails = this.userDetailRepository.Update(dalUserDetails);
 
-				var webPetitionVote = Mapper.Map<Infopulse.EDemocracy.Model.BusinessEntities.PetitionEmailVote>(emailVoteRequest);
-				var notification = new PetitionVoteNotification(webPetitionVote);
+				var dalVote = Mapper.Map<EmailVote, DALModel.PetitionEmailVote>(vote);
+				dalVote.CreatedDate = DateTime.UtcNow;
+				dalVote.Hash = HashGenerator.Generate();
+				dalVote.IsConfirmed = false;
+				var emailVoteRequest = this.petitionVoteRepository.CreateEmailVoteRequest(dalVote);
 
-				var sendingResult = NotificationService.Send(notification);
-				if (sendingResult.IsSuccess)
-				{
-					voteResult = sendingResult;
-				}
-				else
-				{
-					voteResult = OperationResult.Fail(
-						-11,
-						string.Format("Не вдалось відправити запит на підтвердження голосування на email {0}", vote.Signer.Email));
-				}
+				var webPetitionVote = Mapper.Map<DALModel.PetitionEmailVote, PetitionEmailVote>(emailVoteRequest);
+				voteResult = this.SendVoteRequestConfirmationMail(webPetitionVote, this.GetSignedInUserEmail());
 
 				return voteResult;
 			});
@@ -328,6 +228,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// <param name="petition"></param>
 		/// <returns></returns>
 		[HttpPost]
+		[Authorize]
 		[Route("api/petition")]
 		public OperationResult<Petition> CreatePetition([FromBody]Petition petition)
 		{
@@ -341,35 +242,14 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 						new UnableToReadPetitionException("Unalbe to parse incoming JSON."));
 				}
 
-				// HACK:
-				if (petition.Category == null || string.IsNullOrWhiteSpace(petition.Category.Name))
-				{
-					petition.Category = new Entity()
-					{
-						Name = EntityDictionary.Petition.Category.Etc
-					};
-				}
-
-				// HACK:
-				if (petition.Level == null || petition.Level.ID == default(int))
-				{
-					petition.Level = new PetitionLevel()
-					{
-						ID = 3
-					};
-				}
-
-				// HACK:
-				if (string.IsNullOrWhiteSpace(petition.AddressedTo))
-				{
-					petition.AddressedTo = string.Empty;
-				}
-
-				petition.Limit = int.Parse(ConfigurationManager.AppSettings["NewPetitionLimit"]);
-				petition.CreatedBy = new People() { Login = ConfigurationManager.AppSettings["AnonymousUserName"] };
+				SetPetitionDefaultValues(petition);
+				var petitionAuthor = Mapper.Map<UserDetailInfo, DALModel.UserDetail>(petition.CreatedBy);
+				var petitionAuthorDetails = this.userDetailRepository.Update(petitionAuthor);
 
 				// create petition:
 				var dalPetition = Mapper.Map<DALModel.Petition>(petition);
+				dalPetition.CreatedBy = petitionAuthorDetails.UserID;
+								
 				dalPetition = this.petitionRepository.AddNewPetition(dalPetition);
 				
 				// add email vote record to DB:
@@ -377,12 +257,12 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 					new DALModel.PetitionEmailVote()
 					{
 						PetitionID = dalPetition.ID,
-						PetitionSigner = new Model.PetitionSigner()
-						{
-							Email = petition.Email
-						}
+						VoterID = base.GetSignedInUserId(),
+						Hash = HashGenerator.Generate(),
+						IsConfirmed = false,
+						CreatedDate = DateTime.UtcNow
 					});
-				var emailVoteAdded = Mapper.Map<Model.PetitionEmailVote, PetitionEmailVote>(dalEmailVoteAdded);
+				var emailVoteAdded = Mapper.Map<DALModel.PetitionEmailVote, PetitionEmailVote>(dalEmailVoteAdded);
 				
 				// send creation confirmation notification:
 				petition = Mapper.Map<Model.Petition, Petition>(dalPetition);
@@ -412,7 +292,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			
 		}
 
-
+		
 		#region Clear votes
 
 		//[HttpDelete]
@@ -529,6 +409,63 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		private void SetDictionariesValues(params DALModel.Petition[] petitions)
 		{
 			this.SetDictionariesValues(petitions.ToList());
+		}
+
+		private void SetPetitionDefaultValues(Petition petition)
+		{
+			// HACK:
+			if (petition.Category == null || string.IsNullOrWhiteSpace(petition.Category.Name))
+			{
+				petition.Category = new Entity()
+				{
+					Name = EntityDictionary.Petition.Category.Etc
+				};
+			}
+
+			// HACK:
+			if (petition.Level == null || petition.Level.ID == default(int))
+			{
+				petition.Level = new PetitionLevel()
+				{
+					ID = 3
+				};
+			}
+
+			// HACK:
+			if (string.IsNullOrWhiteSpace(petition.AddressedTo))
+			{
+				petition.AddressedTo = string.Empty;
+			}
+
+			petition.Limit = int.Parse(ConfigurationManager.AppSettings["NewPetitionLimit"]);
+
+			if (petition.CreatedBy == null)
+			{
+				petition.CreatedBy = new UserDetailInfo();
+            }
+
+			petition.CreatedBy.UserID = this.GetSignedInUserId();
+        }
+
+		private OperationResult SendVoteRequestConfirmationMail(PetitionEmailVote webPetitionVote, string currentUserEmail)
+		{
+			OperationResult voteResult;
+			var notification = new PetitionVoteNotification(webPetitionVote);
+			var sendingResult = NotificationService.Send(notification);
+			if (sendingResult.IsSuccess)
+			{
+				voteResult = sendingResult;
+			}
+			else
+			{
+				voteResult = OperationResult.Fail(
+					-11,
+					string.Format(
+						"Не вдалось відправити запит на підтвердження голосування на email {0}",
+						currentUserEmail));
+			}
+
+			return voteResult;
 		}
 	}
 }

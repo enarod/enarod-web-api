@@ -3,6 +3,7 @@ using Infopulse.EDemocracy.Common.Extensions;
 using Infopulse.EDemocracy.Common.Resources;
 using System;
 using System.Data.Entity.Core;
+using System.Data.Entity.Validation;
 
 namespace Infopulse.EDemocracy.Common.Operations
 {
@@ -32,6 +33,20 @@ namespace Infopulse.EDemocracy.Common.Operations
 			catch (EntityException entityException)
 			{
 				result = OperationExecuter.GetDbConnectionFailedResult();
+			}
+			catch (DbEntityValidationException exception)
+			{
+				var errorMessage = string.Empty;
+
+				foreach (var error in exception.EntityValidationErrors)
+				{
+					foreach (var validationError in error.ValidationErrors)
+					{
+						errorMessage += string.Format("{0}; ", validationError.ErrorMessage);
+					}					
+				}
+
+				result = OperationResult.ExceptionResult(errorMessage, -3);
 			}
 			catch (Exception exception)
 			{

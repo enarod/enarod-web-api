@@ -82,11 +82,11 @@ namespace Infopulse.EDemocracy.Web.Tests
 														Name = "Thousand level"
 													},
 									Limit = 1100,
-									Person = new DataModels.Person()
-											 {
-												 ID = 5,
-												 Login = "anonymous"
-											 },
+									//Person = new DataModels.Person()
+									//		 {
+									//			 ID = 5,
+									//			 Login = "anonymous"
+									//		 },
 									Requirements = "Long text",
 									Subject = "Petition caption",
 									Text = "Short text"
@@ -141,11 +141,11 @@ namespace Infopulse.EDemocracy.Web.Tests
 						         }
 					}
 				},
-				CreatedBy = new WebModels.People()
-				            {
-					            ID = 1,
-								Login = "anonymous"
-				            },
+				//CreatedBy = new WebModels.People()
+				//            {
+				//	            ID = 1,
+				//				Login = "anonymous"
+				//            },
 				CreatedDate = DateTime.Now,
 				EffectiveFrom = DateTime.Now,
 				EffectiveTo = DateTime.Now.AddMinutes(1),
@@ -179,8 +179,8 @@ namespace Infopulse.EDemocracy.Web.Tests
 			Assert.IsNotNull(dataPetition1.PetitionLevel);
 			Assert.AreEqual(dataPetition1.LevelID, 4);
 
-			Assert.IsNotNull(dataPetition1.Person);
-			Assert.AreEqual(dataPetition1.Person.ID, 1);
+			//Assert.IsNotNull(dataPetition1.Person);
+			//Assert.AreEqual(dataPetition1.Person.ID, 1);
 			Assert.AreEqual(dataPetition1.CreatedBy, 1);
 		}
 
@@ -192,10 +192,9 @@ namespace Infopulse.EDemocracy.Web.Tests
 
 			var webEmailVote = new EmailVote
 			{
-				ID = 42,
-				Signer = new WebModels.PetitionSigner
+				PetitionID = 42,
+				Signer = new WebModels.UserDetailInfo
 				{
-					Email = "jdoe@gmail.com",
 					FirstName = "John",
 					MiddleName = "S",
 					LastName = "Doe",
@@ -214,16 +213,16 @@ namespace Infopulse.EDemocracy.Web.Tests
 
 			Assert.IsNotNull(dalEmailVote);
 			Assert.AreEqual(dalEmailVote.ID, -1);
-			Assert.AreEqual(webEmailVote.ID, dalEmailVote.PetitionID);
-			Assert.AreEqual(webEmailVote.Signer.Email, dalEmailVote.PetitionSigner.Email);
-			Assert.AreEqual(webEmailVote.Signer.FirstName, dalEmailVote.PetitionSigner.FirstName);
-			Assert.AreEqual(webEmailVote.Signer.MiddleName, dalEmailVote.PetitionSigner.MiddleName);
-			Assert.AreEqual(webEmailVote.Signer.LastName, dalEmailVote.PetitionSigner.LastName);
-			Assert.AreEqual(webEmailVote.Signer.AddressLine1, dalEmailVote.PetitionSigner.AddressLine1);
-			Assert.AreEqual(webEmailVote.Signer.AddressLine2, dalEmailVote.PetitionSigner.AddressLine2);
-			Assert.AreEqual(webEmailVote.Signer.Region, dalEmailVote.PetitionSigner.Region);
-			Assert.AreEqual(webEmailVote.Signer.City, dalEmailVote.PetitionSigner.City);
-			Assert.AreEqual(webEmailVote.Signer.Country, dalEmailVote.PetitionSigner.Country);
+			Assert.AreEqual(webEmailVote.PetitionID, dalEmailVote.PetitionID);
+			//Assert.AreEqual(webEmailVote.Signer.Email, dalEmailVote.PetitionSigner.Email);
+			//Assert.AreEqual(webEmailVote.Signer.FirstName, dalEmailVote.PetitionSigner.FirstName);
+			//Assert.AreEqual(webEmailVote.Signer.MiddleName, dalEmailVote.PetitionSigner.MiddleName);
+			//Assert.AreEqual(webEmailVote.Signer.LastName, dalEmailVote.PetitionSigner.LastName);
+			//Assert.AreEqual(webEmailVote.Signer.AddressLine1, dalEmailVote.PetitionSigner.AddressLine1);
+			//Assert.AreEqual(webEmailVote.Signer.AddressLine2, dalEmailVote.PetitionSigner.AddressLine2);
+			//Assert.AreEqual(webEmailVote.Signer.Region, dalEmailVote.PetitionSigner.Region);
+			//Assert.AreEqual(webEmailVote.Signer.City, dalEmailVote.PetitionSigner.City);
+			//Assert.AreEqual(webEmailVote.Signer.Country, dalEmailVote.PetitionSigner.Country);
 		}
 
 
@@ -241,24 +240,24 @@ namespace Infopulse.EDemocracy.Web.Tests
 				Hash = "#abcde",
 				IsConfirmed = false,
 				CreatedDate = now,
-				PetitionSignerID = -4,
-				PetitionSigner = new DataModels.PetitionSigner()
-				{
-					ID = -2,
-					Email = "abc@example.com",
-					FirstName = "",
-					LastName = "",
-					MiddleName = "",
-					AddressLine1 = "address 1",
-					AddressLine2 = "address 2",
-					City = "city 2",
-					Region = "region 3",
-					Country = "Ukraine",
-					CreatedDate = now,
-					CreatedBy = "test",
-					ModifiedBy = "test",
-					ModifiedDate = now
-				},
+				//PetitionSignerID = -4,
+				//PetitionSigner = new DataModels.PetitionSigner()
+				//{
+				//	ID = -2,
+				//	Email = "abc@example.com",
+				//	FirstName = "",
+				//	LastName = "",
+				//	MiddleName = "",
+				//	AddressLine1 = "address 1",
+				//	AddressLine2 = "address 2",
+				//	City = "city 2",
+				//	Region = "region 3",
+				//	Country = "Ukraine",
+				//	CreatedDate = now,
+				//	CreatedBy = "test",
+				//	ModifiedBy = "test",
+				//	ModifiedDate = now
+				//},
 				Petition = new DataModels.Petition()
 				{
 					ID = -1,
@@ -282,11 +281,11 @@ namespace Infopulse.EDemocracy.Web.Tests
 					},
 					CreatedDate = now,
 					CreatedBy = -111,
-					Person = new DataModels.Person()
-					{
-						ID = -111,
-						Login = "Test user"
-					},
+					//Person = new DataModels.Person()
+					//{
+					//	ID = -111,
+					//	Login = "Test user"
+					//},
 					LevelID = 1,
 					PetitionLevel = new DataModels.PetitionLevel()
 					{
@@ -316,24 +315,24 @@ namespace Infopulse.EDemocracy.Web.Tests
 						ModifiedBy = null,
 						ModifiedDate = null
 					},
-					IssuerID = -15,
-					Issuer = new DataModels.PetitionSigner()
-					{
-						ID = -16,
-						Email = "jdoe@example.com",
-						FirstName = "John",
-						MiddleName = "?",
-						LastName = "Doe",
-						AddressLine1 = "street",
-						AddressLine2 = null,
-						City = "Kyiv",
-						Country = "Ukraine",
-						Region = "Kyiv",
-						CreatedBy = "text",
-						CreatedDate = DateTime.Now,
-						ModifiedBy = null,
-						ModifiedDate = null
-					}
+					//IssuerID = -15,
+					//Issuer = new DataModels.PetitionSigner()
+					//{
+					//	ID = -16,
+					//	Email = "jdoe@example.com",
+					//	FirstName = "John",
+					//	MiddleName = "?",
+					//	LastName = "Doe",
+					//	AddressLine1 = "street",
+					//	AddressLine2 = null,
+					//	City = "Kyiv",
+					//	Country = "Ukraine",
+					//	Region = "Kyiv",
+					//	CreatedBy = "text",
+					//	CreatedDate = DateTime.Now,
+					//	ModifiedBy = null,
+					//	ModifiedDate = null
+					//}
 				}
 			};
 
@@ -341,7 +340,7 @@ namespace Infopulse.EDemocracy.Web.Tests
 
 			Assert.IsNotNull(webPetitionEmailVote);
 			Assert.AreEqual(dalPetitionEmailVote.Petition.ID, webPetitionEmailVote.Petition.ID);
-			Assert.AreEqual(dalPetitionEmailVote.PetitionSigner.FirstName, webPetitionEmailVote.PetitionSigner.FirstName);
+			//Assert.AreEqual(dalPetitionEmailVote.PetitionSigner.FirstName, webPetitionEmailVote.PetitionSigner.FirstName);
 			Assert.AreEqual(dalPetitionEmailVote.Petition.Organization.ID, webPetitionEmailVote.Petition.Organization.ID);
 		}
 

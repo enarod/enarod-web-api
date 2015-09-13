@@ -102,6 +102,10 @@
     <Folder Include="Security\Logins" />
     <Folder Include="Security\Schemas" />
     <Folder Include="Security\Users" />
+    <Folder Include="Scripts\Misc" />
+    <Folder Include="auth\" />
+    <Folder Include="auth\Tables\" />
+    <Folder Include="Scripts\Migrations" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\RolePeople.sql" />
@@ -147,6 +151,13 @@
     <Build Include="Security\Schemas\auth.sql" />
     <Build Include="Security\Users\enarod_app_dev.sql" />
     <Build Include="Security\Users\enarod_app_admin.sql" />
+    <Build Include="dbo\Tables\UserDetail.sql" />
+    <Build Include="auth\Tables\App_User.sql" />
+    <Build Include="dbo\Stored Procedures\sp_User_GetIdByEmail.sql" />
+    <None Include="Scripts\Migrations\4_Change PetitionEmailVote table to reference User.sql" />
+    <None Include="Scripts\Migrations\2_Move PetitionSigners into auth.App_User.sql" />
+    <None Include="Scripts\Migrations\3_Move PetitionSigners into UserDetails.sql" />
+    <None Include="Scripts\Migrations\1_Petition.CreatedBy to auth.App_User.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Compares\ProdToProject.scmp" />
@@ -155,5 +166,8 @@
     <None Include="Scripts\Dictionaries.sql" />
     <None Include="Compares\DevToProject.scmp" />
     <None Include="Compares\LocalToProject.scmp" />
+    <None Include="Scripts\Migrations\5_Remove links to PetitionSigner table from Petition table.sql" />
+    <None Include="Compares\ProjectToProd2.scmp" />
+    <None Include="Scripts\Misc\Grant permission to execute sp.sql" />
   </ItemGroup>
 </Project>

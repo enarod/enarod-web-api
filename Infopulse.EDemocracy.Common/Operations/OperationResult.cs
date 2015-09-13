@@ -120,6 +120,23 @@ namespace Infopulse.EDemocracy.Common.Operations
 
 
 		/// <summary>
+		/// Sets failed operation result with specific error message.
+		/// </summary>
+		/// <param name="message">Debug message.</param>
+		/// <param name="resultCode">Optional result code.</param>
+		/// <returns>Failed operation result.</returns>
+		public static OperationResult ExceptionResult(string message, int resultCode = -1)
+		{
+			return new OperationResult
+			{
+				ResultCode = resultCode,
+				Message = "Unhandled exception has occued. Please contact the administrator.",
+				DebugMessage = message
+			};
+		}
+
+
+		/// <summary>
 		/// Sets failed operation result caused by domain exception.
 		/// </summary>
 		/// <param name="exception">Domain exception instance.</param>

@@ -12,19 +12,14 @@ namespace Infopulse.EDemocracy.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class PetitionSigner
+    public partial class UserDetail
     {
-        public PetitionSigner()
-        {
-            this.PetitionEmailVotes = new HashSet<PetitionEmailVote>();
-            this.Petitions = new HashSet<Petition>();
-        }
-    
         public int ID { get; set; }
-        public string Email { get; set; }
+        public int UserID { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
+        public string ZipCode { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string City { get; set; }
@@ -35,7 +30,6 @@ namespace Infopulse.EDemocracy.Model
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
     
-        public virtual ICollection<PetitionEmailVote> PetitionEmailVotes { get; set; }
-        public virtual ICollection<Petition> Petitions { get; set; }
+        public virtual User User { get; set; }
     }
 }

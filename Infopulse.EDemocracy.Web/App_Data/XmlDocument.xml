@@ -486,6 +486,18 @@
             The base class for api controllers
             </summary>
         </member>
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.BaseApiController.GetSignedInUserEmail">
+            <summary>
+            Gets UserEmail of signed in user.
+            </summary>
+            <returns>Signed in user's email.</returns>
+        </member>
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.BaseApiController.GetSignedInUserId">
+            <summary>
+            Gets ID of signed in user.
+            </summary>
+            <returns>User ID.</returns>
+        </member>
         <member name="T:Infopulse.EDemocracy.Web.Controllers.API.OrganizationController">
             <summary>
             Controller to operate with Organizrion entity.
@@ -555,13 +567,13 @@
             <param name="showInactivePetitions"></param>
             <returns></returns>
         </member>
-        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.EmailVote2(Infopulse.EDemocracy.Model.ClientEntities.EmailVote)">
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.EmailVote(Infopulse.EDemocracy.Model.ClientEntities.EmailVote)">
             <summary>
             Vote for petition by email.
             </summary>
-            <param name="vote2">Information about petition signer.</param>
+            <param name="vote">Information about petition vote including signer.</param>
             <returns></returns>
-            <remarks>Version 2</remarks>
+            <remarks>Version 3</remarks>
         </member>
         <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.CreatePetition(Infopulse.EDemocracy.Model.BusinessEntities.Petition)">
             <summary>

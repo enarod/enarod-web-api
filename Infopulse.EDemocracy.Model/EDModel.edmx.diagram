@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="70ab3dbf88ed43e2a7a3cd9a1637117a" Name="Diagram1" DisplayType="false" ZoomLevel="100">
+      <Diagram DiagramId="70ab3dbf88ed43e2a7a3cd9a1637117a" Name="Diagram1" DisplayType="false" ZoomLevel="83">
         <EntityTypeShape EntityType="EDModel.C_Invitation" Width="1.5" PointX="5.625" PointY="8.875" IsExpanded="true" />
         <EntityTypeShape EntityType="EDModel.Agreement" Width="1.5" PointX="10.875" PointY="8.25" IsExpanded="true" />
         <EntityTypeShape EntityType="EDModel.AgreementVote" Width="1.5" PointX="13.125" PointY="6.125" IsExpanded="true" />
@@ -70,15 +70,16 @@
         <EntityTypeShape EntityType="EDModel.PetitionEmailVote" Width="1.75" PointX="10.875" PointY="14.125" IsExpanded="true" />
         <EntityTypeShape EntityType="EDModel.Petition" Width="1.75" PointX="8.625" PointY="12.875" IsExpanded="true" />
         <AssociationConnector Association="EDModel.FK_Petition_Entity" />
-        <AssociationConnector Association="EDModel.FK_Petition_People" />
         <AssociationConnector Association="EDModel.FK_Petition_PetitionLevel" />
         <AssociationConnector Association="EDModel.FK_PetitionEmailVote_Petition" />
         <AssociationConnector Association="EDModel.FK_PetitionVote_Petition" />
-        <EntityTypeShape EntityType="EDModel.Organization" Width="2.5" PointX="16.125" PointY="13.125" />
+        <EntityTypeShape EntityType="EDModel.Organization" Width="2.5" PointX="16" PointY="11.75" />
         <AssociationConnector Association="EDModel.FK_Petition_Organization" />
-        <EntityTypeShape EntityType="EDModel.PetitionSigner" Width="1.5" PointX="16.375" PointY="17.875" />
-        <AssociationConnector Association="EDModel.FK_PetitionEmailVote_PetitionSigner" />
-        <AssociationConnector Association="EDModel.FK_Petition_Issuer" />
+        <EntityTypeShape EntityType="EDModel.UserDetail" Width="1.5" PointX="19.25" PointY="18" />
+        <EntityTypeShape EntityType="EDModel.User" Width="2.25" PointX="18.875" PointY="13.125" IsExpanded="true" />
+        <AssociationConnector Association="EDModel.FK_Petition_CreatedBy" />
+        <AssociationConnector Association="EDModel.FK_UserDetail_Auth_App_User" />
+        <AssociationConnector Association="EDModel.FK_PetitionEmailVote_User" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

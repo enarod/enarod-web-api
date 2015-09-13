@@ -1,18 +1,19 @@
-﻿CREATE TABLE [dbo].[Organization]
-(
-	[ID] INT IDENTITY(1, 1) NOT NULL,
-	[Name] NVARCHAR(255) NOT NULL,
-	[Description] NVARCHAR(MAX),
-	[PrivateDescription] NVARCHAR(MAX),
-	[Logo] NVARCHAR(MAX),
-	[AcceptancePolicy] NVARCHAR(MAX),
-	[PreliminaryVoteCount] INT,
-	[PreliminaryGatheringDays] INT,
-	[VoteCount] INT,
-	[GatheringDays] INT,
-	[CreatedDate] DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
-	[CreatedBy] NVARCHAR(4000) NOT NULL DEFAULT 'Unknown DB user',
-	[ModifiedDate] DATETIME2,
-	[ModifiedBy] NVARCHAR(4000),
-	CONSTRAINT PK_Organization PRIMARY KEY([ID])
-)
+﻿CREATE TABLE [dbo].[Organization] (
+    [ID]                       INT             IDENTITY (1, 1) NOT NULL,
+    [Name]                     NVARCHAR (255)  NOT NULL,
+    [Description]              NVARCHAR (MAX)  NULL,
+    [PrivateDescription]       NVARCHAR (MAX)  NULL,
+    [Logo]                     NVARCHAR (MAX)  NULL,
+    [AcceptancePolicy]         NVARCHAR (MAX)  NULL,
+    [PreliminaryVoteCount]     INT             NULL,
+    [PreliminaryGatheringDays] INT             NULL,
+    [VoteCount]                INT             NULL,
+    [GatheringDays]            INT             NULL,
+    [CreatedDate]              DATETIME2 (7)   CONSTRAINT [DF_Organization_CreatedDate] DEFAULT (getutcdate()) NOT NULL,
+    [CreatedBy]                NVARCHAR (4000) CONSTRAINT [DF_Organization_CreatedBy] DEFAULT ('Unknown DB user') NOT NULL,
+    [ModifiedDate]             DATETIME2 (7)   NULL,
+    [ModifiedBy]               NVARCHAR (4000) NULL,
+    CONSTRAINT [PK_Organization] PRIMARY KEY CLUSTERED ([ID] ASC)
+);
+
+
