@@ -168,5 +168,6 @@
     <None Include="Compares\LocalToProject.scmp" />
     <None Include="Scripts\Migrations\5_Remove links to PetitionSigner table from Petition table.sql" />
     <None Include="Compares\ProjectToProd2.scmp" />
+    <None Include="Scripts\Misc\Grant permission to execute sp.sql" />
   </ItemGroup>
 </Project>
