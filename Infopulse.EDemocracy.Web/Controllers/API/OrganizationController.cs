@@ -31,6 +31,8 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// Gets all organization registered in DB.
 		/// </summary>
 		/// <returns>List of organizations.</returns>
+		[HttpGet]
+		[Route("api/Organizations/all")]
 		public OperationResult<IEnumerable<Organization>> Get()
 		{
 			var result = OperationExecuter.Execute(() =>
@@ -48,6 +50,8 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// Gets all organization registered in DB.
 		/// </summary>
 		/// <returns>List of organizations.</returns>
+		[HttpGet]
+		[Route("api/Organizations/{id:int}")]
 		public OperationResult<Organization> Get(int id)
 		{
 			var result = OperationExecuter.Execute(() =>
