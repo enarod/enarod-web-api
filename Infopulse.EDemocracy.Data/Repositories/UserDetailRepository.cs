@@ -1,4 +1,5 @@
-﻿using Infopulse.EDemocracy.Data.Interfaces;
+﻿using System;
+using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Model;
 using System.Data;
 using System.Data.Entity;
@@ -7,7 +8,7 @@ using System.Linq;
 
 namespace Infopulse.EDemocracy.Data.Repositories
 {
-	public class UserDetailRepository : IUserDetailRepository
+	public class UserDetailRepository : BaseRepository, IUserDetailRepository
 	{
 		public int GetUserId(string userEmail)
 		{
@@ -32,12 +33,22 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			using (var db = new EDEntities())
 			{
 				var userDetailFromDb = db.UserDetails.SingleOrDefault(ud => ud.UserID == user.UserID);
-				user.ID = userDetailFromDb.ID;
+				if (userDetailFromDb == null)
+				{
+					user.CreatedBy = this.UnknownAppUser;
+					user.CreatedDate = DateTime.UtcNow;
+					db.UserDetails.Add(user);
+				}
+				else
+				{
+					user.ID = userDetailFromDb.ID;
 
-				var entry = db.Entry(userDetailFromDb);
-				entry.CurrentValues.SetValues(user);
-				entry.Property(u => u.CreatedBy).IsModified = false;
-				entry.Property(u => u.CreatedDate).IsModified = false;
+					var entry = db.Entry(userDetailFromDb);
+					entry.CurrentValues.SetValues(user);
+					entry.Property(u => u.CreatedBy).IsModified = false;
+					entry.Property(u => u.CreatedDate).IsModified = false;
+				}
+
 				db.SaveChanges();
 
 				return db.UserDetails.SingleOrDefault(ud => ud.ID == user.ID);
