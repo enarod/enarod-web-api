@@ -73,7 +73,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			{
 				if (searchParameters == null)
 				{
-					searchParameters = SearchParameters.Default;
+					searchParameters = new SearchParameters();
 				}
 
 				var petitions = this.petitionRepository.Get(searchParameters, showInactivePetitions);
@@ -124,7 +124,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		{
 			if (searchParameters == null)
 			{
-				return this.GetAll(SearchParameters.Default);
+				return this.GetAll(new SearchParameters());
 			}
 
 			var result = OperationExecuter.Execute(() =>
