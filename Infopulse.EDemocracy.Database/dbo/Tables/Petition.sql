@@ -14,12 +14,17 @@
     [Limit]          BIGINT         NULL,
     [Email]          NVARCHAR (MAX) NULL,
     [OrganizationID] INT            NULL,
+    [ApprovedBy]     INT            NULL,
+    [ApprovedDate]   DATETIME       NULL,
     CONSTRAINT [PK_Petition] PRIMARY KEY CLUSTERED ([ID] ASC),
+    CONSTRAINT [FK_Petition_ApprovedBy] FOREIGN KEY ([ApprovedBy]) REFERENCES [auth].[App_User] ([Id]),
     CONSTRAINT [FK_Petition_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [auth].[App_User] ([Id]),
     CONSTRAINT [FK_Petition_Entity] FOREIGN KEY ([CategoryID]) REFERENCES [dbo].[Entity] ([ID]),
     CONSTRAINT [FK_Petition_Organization] FOREIGN KEY ([OrganizationID]) REFERENCES [dbo].[Organization] ([ID]),
     CONSTRAINT [FK_Petition_PetitionLevel] FOREIGN KEY ([LevelID]) REFERENCES [dbo].[PetitionLevel] ([ID])
 );
+
+
 
 
 
