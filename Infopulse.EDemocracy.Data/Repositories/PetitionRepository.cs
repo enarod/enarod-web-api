@@ -348,33 +348,10 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		}
 
 
-		//private void LoadPetitionAuthors(EDEntities db, IEnumerable<PetitionWithVote> petitions)
-		//{
-		//	var issuerIDs = petitions
-		//		.Select(p => p.CreatedBy)
-		//		.Distinct()
-		//		.Select(p => new { Number = p })
-		//		.ToDataTable();
-
-		//	var sqlParameters = new[]
-		//	{
-		//		new SqlParameter
-		//		{
-		//			SqlDbType = SqlDbType.Structured,
-		//			ParameterName = "List",
-		//			Value = issuerIDs,
-		//			TypeName = "IntList"
-		//		}
-		//	};
-
-		//	var issuers = db.PetitionSigners.SqlQuery("sp_PetitionSigner_GetAuthorsPublicInfo @List", sqlParameters)
-		//		.ToList();
-
-		//	foreach (var petition in petitions)
-		//	{
-		//		petition.Issuer = issuers.SingleOrDefault(i => i.ID == petition.IssuerID);
-		//	}
-		//}
+		public IEnumerable<Petition> GetPetitionForAdmin(SearchParameters searchParameters)
+		{
+			throw new NotImplementedException();
+		}
 
 
 		private void LoadPetitionOrganizations(EDEntities db, IEnumerable<PetitionWithVote> petitions)
@@ -407,5 +384,5 @@ namespace Infopulse.EDemocracy.Data.Repositories
 
 			return names.ToString();
 		}
-	}
+    }
 }

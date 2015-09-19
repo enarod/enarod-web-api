@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Infopulse.EDemocracy.Model.BusinessEntities.Petition>
+@{
+    ViewBag.Title = "Petitions administration";
+}
+
+<div class="row">
+	<h2 class="col-md-12">Адміністрування петицій</h2>
+</div>
+
+<ol>
+	@foreach (var petition in Model)
+	{
+		<li>@petition.Subject</li>
+	}
+</ol>

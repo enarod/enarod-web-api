@@ -19,7 +19,7 @@ namespace Infopulse.EDemocracy.Web.Areas.Admin
                 name: "Admin_default",
                 url: "Admin/{controller}/{action}/{id}",
                 defaults: new { action = "Index", id = UrlParameter.Optional },
-				constraints: new { controller = "Home|Log"},
+				constraints: new { controller = "Home|Log|Petitions"},
 				namespaces: new[] { "Infopulse.EDemocracy.Web.Areas.Admin.Controllers" }
             );
         }

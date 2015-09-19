@@ -183,6 +183,7 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Log\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Petitions\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Dev.pubxml" />
     <None Include="Properties\PublishProfiles\LocalM.pubxml" />
     <None Include="Properties\PublishProfiles\Prod.pubxml" />
@@ -206,6 +207,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\LogController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PetitionsController.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
     <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />

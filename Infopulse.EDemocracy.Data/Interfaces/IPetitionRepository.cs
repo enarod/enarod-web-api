@@ -29,5 +29,8 @@ namespace Infopulse.EDemocracy.Data.Interfaces
 		/// </summary>
 		/// <param name="searchParameters">All search attributes.</param>
 		IEnumerable<PetitionWithVote> Search(PetitionSearchParameters searchParameters);
+
+
+		IEnumerable<Petition> GetPetitionForAdmin(SearchParameters searchParameters);
 	}
 }
