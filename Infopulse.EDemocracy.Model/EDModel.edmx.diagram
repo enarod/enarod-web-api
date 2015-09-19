@@ -80,6 +80,7 @@
         <AssociationConnector Association="EDModel.FK_Petition_CreatedBy" />
         <AssociationConnector Association="EDModel.FK_UserDetail_Auth_App_User" />
         <AssociationConnector Association="EDModel.FK_PetitionEmailVote_User" />
+        <AssociationConnector Association="EDModel.FK_Petition_ApprovedBy" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

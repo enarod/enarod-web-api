@@ -35,6 +35,8 @@ namespace Infopulse.EDemocracy.Model
         public Nullable<long> Limit { get; set; }
         public string Email { get; set; }
         public Nullable<int> OrganizationID { get; set; }
+        public Nullable<int> ApprovedBy { get; set; }
+        public Nullable<System.DateTime> ApprovedDate { get; set; }
     
         public virtual Entity Category { get; set; }
         public virtual PetitionLevel PetitionLevel { get; set; }
@@ -42,5 +44,6 @@ namespace Infopulse.EDemocracy.Model
         public virtual ICollection<PetitionEmailVote> PetitionEmailVotes { get; set; }
         public virtual Organization Organization { get; set; }
         public virtual User Author { get; set; }
+        public virtual User Approver { get; set; }
     }
 }

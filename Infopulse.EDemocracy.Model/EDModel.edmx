@@ -203,6 +203,8 @@
           <Property Name="Limit" Type="bigint" />
           <Property Name="Email" Type="nvarchar(max)" />
           <Property Name="OrganizationID" Type="int" />
+          <Property Name="ApprovedBy" Type="int" />
+          <Property Name="ApprovedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="PetitionEmailVote">
           <Key>
@@ -657,6 +659,18 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Petition_ApprovedBy">
+          <End Role="App_User" Type="Self.App_User" Multiplicity="0..1" />
+          <End Role="Petition" Type="Self.Petition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App_User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Petition">
+              <PropertyRef Name="ApprovedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Petition_CreatedBy">
           <End Role="App_User" Type="Self.App_User" Multiplicity="1" />
           <End Role="Petition" Type="Self.Petition" Multiplicity="*" />
@@ -1056,6 +1070,10 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
             <End Role="Invitation" EntitySet="Invitation" />
             <End Role="InvitationLink" EntitySet="InvitationLink" />
           </AssociationSet>
+          <AssociationSet Name="FK_Petition_ApprovedBy" Association="Self.FK_Petition_ApprovedBy">
+            <End Role="App_User" EntitySet="App_User" />
+            <End Role="Petition" EntitySet="Petition" />
+          </AssociationSet>
           <AssociationSet Name="FK_Petition_CreatedBy" Association="Self.FK_Petition_CreatedBy">
             <End Role="App_User" EntitySet="App_User" />
             <End Role="Petition" EntitySet="Petition" />
@@ -1364,6 +1382,10 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
             <End Role="User" EntitySet="Users" />
             <End Role="PetitionEmailVote" EntitySet="PetitionEmailVotes" />
           </AssociationSet>
+          <AssociationSet Name="FK_Petition_ApprovedBy" Association="EDModel.FK_Petition_ApprovedBy">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Petition" EntitySet="Petitions" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="C_Invitation">
           <Key>
@@ -1601,6 +1623,9 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <Property Name="OrganizationID" Type="Int32" />
           <NavigationProperty Name="Organization" Relationship="EDModel.FK_Petition_Organization" FromRole="Petition" ToRole="Organization" />
           <NavigationProperty Name="Author" Relationship="EDModel.FK_Petition_CreatedBy" FromRole="Petition" ToRole="App_User" />
+          <Property Name="ApprovedBy" Type="Int32" />
+          <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Approver" Relationship="EDModel.FK_Petition_ApprovedBy" FromRole="Petition" ToRole="User" />
         </EntityType>
         <EntityType Name="PetitionLevel">
           <Key>
@@ -2314,6 +2339,7 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <NavigationProperty Name="Petitions" Relationship="EDModel.FK_Petition_CreatedBy" FromRole="App_User" ToRole="Petition" />
           <NavigationProperty Name="UserDetails" Relationship="EDModel.FK_UserDetail_Auth_App_User" FromRole="App_User" ToRole="UserDetail" />
           <NavigationProperty Name="PetitionEmailVotes" Relationship="EDModel.FK_PetitionEmailVote_User" FromRole="User" ToRole="PetitionEmailVote" />
+          <NavigationProperty Name="ApprovedPetitions" Relationship="EDModel.FK_Petition_ApprovedBy" FromRole="User" ToRole="Petition" />
         </EntityType>
         <Association Name="FK_Petition_CreatedBy">
           <End Type="EDModel.User" Role="App_User" Multiplicity="1" />
@@ -2348,6 +2374,18 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
             </Principal>
             <Dependent Role="PetitionEmailVote">
               <PropertyRef Name="VoterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Petition_ApprovedBy">
+          <End Type="EDModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="EDModel.Petition" Role="Petition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Petition">
+              <PropertyRef Name="ApprovedBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2517,6 +2555,8 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <EntitySetMapping Name="Petitions">
             <EntityTypeMapping TypeName="EDModel.Petition">
               <MappingFragment StoreEntitySet="Petition">
+                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
                 <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Limit" ColumnName="Limit" />
