@@ -18,38 +18,6 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
             Map(entity);
 		}
 
-        public Entity(string entityName)
-        {
-            using (var db = new EDEntities())
-            {
-                var result = from p in db.Entities
-                             where p.Name == entityName
-                             select p;
-
-                var first = result.FirstOrDefault();
-                if (first == default(Model.Entity))
-                    throw new ApplicationException("Entity not found");
-
-                Map(first);
-            }
-        }
-
-        public Entity(long entityID)
-        {
-            using (var db = new EDEntities())
-            {
-                var result = from p in db.Entities
-                             where p.ID == entityID
-                             select p;
-
-                var first = result.FirstOrDefault();
-                if (first == default(Model.Entity))
-                    throw new ApplicationException("Entity not found");
-
-                Map(first);
-            }
-        }
-
         public bool Equals(string entityName)
         {
             return this.Name.ToUpper().Equals(entityName.ToUpper());

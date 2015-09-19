@@ -4,6 +4,11 @@
         <name>Infopulse.EDemocracy.Web</name>
     </assembly>
     <members>
+        <member name="T:Infopulse.EDemocracy.Web.Areas.Admin.Controllers.PetitionsController">
+            <summary>
+            Controller to contain administration actions regarding petitions.
+            </summary>
+        </member>
         <member name="M:Infopulse.EDemocracy.Web.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
             <summary>
             Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
