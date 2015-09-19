@@ -2,23 +2,9 @@
 {
 	public class SearchParameters
 	{
-		public int? PageNumber { get; set; }
-		public int? PageSize { get; set; }
-		public string OrderBy { get; set; }
-		public string OrderDirection { get; set; }
-
-		public static SearchParameters Default
-		{
-			get
-			{
-				return new SearchParameters
-				{
-					PageNumber = 1,
-					PageSize = 50,
-					OrderBy = "ID",
-					OrderDirection = "ASC"
-				};
-			}
-		}
+		public int? PageNumber { get; set; } = 1;
+		public int? PageSize { get; set; } = 50;
+		public string OrderBy { get; set; } = "ID";
+		public string OrderDirection { get; set; } = "ASC";
 	}
 }
