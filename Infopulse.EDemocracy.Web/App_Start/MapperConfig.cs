@@ -59,8 +59,10 @@ namespace Infopulse.EDemocracy.Web
 				.ForMember(dataPetition => dataPetition.KeyWords, keyWords => keyWords.MapFrom(webPetition => string.Join(", ", webPetition.KeyWords)))
 				.ForMember(dataPetition => dataPetition.CategoryID, categoryID => categoryID.MapFrom(webPetition => webPetition.Category.ID))
 				.ForMember(dataPetition => dataPetition.LevelID, levelID => levelID.MapFrom(webPetition => webPetition.Level.ID))
-				.ForMember(dataPetition => dataPetition.OrganizationID, organizationID => organizationID.MapFrom(webPetition => webPetition.Organization == null ? (int?)null : webPetition.Organization.ID));
-			Mapper.CreateMap<EmailVote, DataModels.PetitionEmailVote>()
+				.ForMember(dataPetition => dataPetition.OrganizationID, organizationID => organizationID.MapFrom(webPetition => webPetition.Organization == null ? (int?)null : webPetition.Organization.ID))
+				.ForMember(dataPetition => dataPetition.ApprovedBy, field => field.Ignore())
+				.ForMember(dataPetition => dataPetition.ApprovedDate, field => field.Ignore());
+            Mapper.CreateMap<EmailVote, DataModels.PetitionEmailVote>()
 				.ForMember(dalVote => dalVote.ID, field => field.UseValue(-1))
 				.ForMember(dalVote => dalVote.VoterID, field => field.MapFrom(webVote => webVote.Signer.UserID))
 				.ForMember(dalVote => dalVote.Voter, field => field.Ignore());
