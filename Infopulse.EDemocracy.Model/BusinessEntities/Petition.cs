@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 
 namespace Infopulse.EDemocracy.Model.BusinessEntities
 {
@@ -37,22 +36,6 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		public Petition()
 		{
 			
-		}
-
-		public string KeyWordsAsSingleString()
-		{
-			var keyWordsString = string.Empty;
-
-			for (int i = 0; i < this.KeyWords.Count; i++)
-			{
-				keyWordsString += this.KeyWords[i].Trim();
-				if (i < this.KeyWords.Count - 1)
-				{
-					keyWordsString += ",";
-				}
-			}
-
-			return keyWordsString;
 		}
 	}
 }

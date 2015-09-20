@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
-
-namespace Infopulse.EDemocracy.Model.BusinessEntities
+﻿namespace Infopulse.EDemocracy.Model.BusinessEntities
 {
     public class EntityGroup : BaseEntity
     {
-		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public EntityGroup Parent { get; set; }
         public string Name { get; set; }
 

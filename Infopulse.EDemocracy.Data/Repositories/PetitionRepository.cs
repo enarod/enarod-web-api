@@ -350,7 +350,8 @@ namespace Infopulse.EDemocracy.Data.Repositories
 
 		public IEnumerable<Petition> GetPetitionForAdmin(SearchParameters searchParameters)
 		{
-			throw new NotImplementedException();
+			var petitions = this.Get(searchParameters, true);
+			return petitions;
 		}
 
 

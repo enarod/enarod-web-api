@@ -85,5 +85,10 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		/// Free form - there are no constraints on this field. It can be enything - email, full name or empty.
 		/// </remarks>
 		public string ModifiedBy { get; set; }
+
+		public Organization()
+		{
+			
+		}
 	}
 }
