@@ -28,13 +28,29 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		{
 			get
 			{
-				var domain = ConfigurationManager.AppSettings["AppDomain"];
-				return string.Format("{0}/petition/#petition/{1}", domain, this.ID);
+				return $"{Petition.Domain}/petition/#petition/{this.ID}";
 			}
 		}
 
 		public Petition()
 		{
+			
+		}
+
+		// TODO: following is code duplicate from Infopulse.EDemocracy.Common.Helpers.AppSettingsHelper.Domain
+		// but Infopulse.EDemocracy.Model cannon reference Infopulse.EDemocracy.Common because of circular dependency
+		private static string domain;
+		private static string Domain
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(domain))
+				{
+					Petition.domain = ConfigurationManager.AppSettings["AppDomain"];
+				}
+
+				return Petition.domain;
+			}
 			
 		}
 	}
