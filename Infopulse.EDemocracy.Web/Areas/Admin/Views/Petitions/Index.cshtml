@@ -1,15 +1,32 @@
 ﻿@model List<Infopulse.EDemocracy.Model.BusinessEntities.Petition>
 @{
-    ViewBag.Title = "Модерація петицій";
+	ViewBag.Title = "Модерація петицій";
 }
 
 <div class="row">
 	<h2 class="col-md-12">Модерація петицій</h2>
 </div>
 
-<ol>
-	@foreach (var petition in Model)
-	{
-		<li>@petition.Subject</li>
-	}
-</ol>
+<table>
+	<thead>
+		<tr>
+			<th>Petition ID</th>
+			<th>Subject</th>
+			<th>Creation date</th>
+			<th>Approved by</th>
+			<th>Approved date</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var petition in Model)
+		{
+			<tr>
+				<td>@petition.ID</td>
+				<td>@petition.Subject</td>
+				<td>@petition.CreatedDate</td>
+				<td>none</td>
+				<td>none</td>
+			</tr>
+		}
+	</tbody>
+</table>
