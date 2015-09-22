@@ -32,15 +32,15 @@ go
 using
 (
 	values
-	(1, NULL,		'Agreement'),
-	(2, 1,			'Status'),
-	(3, NULL,		'Certificate'),
-	(4, 3,			'Type'),
-	(5, NULL,		'Petition'),
-	(6, 5,			'Category'),
-	(8, NULL,		'Candidate'),
-	(9, 8,			'Status'),
-	(10, 8,			'Type')
+	(1,		NULL,		'Agreement'),
+	(2,		1,			'Status'),
+	(3,		NULL,		'Certificate'),
+	(4,		3,			'Type'),
+	(5,		NULL,		'Petition'),
+	(6,		5,			'Category'),
+	(8,		NULL,		'Candidate'),
+	(9,		8,			'Status'),
+	(10,	8,			'Type')
 ) as source (ID, ParentID, Name)
 on target.ID = source.ID
 
@@ -396,3 +396,29 @@ go
 
 set identity_insert dbo.Organization off
 go
+
+
+
+-- dbo.PetitionStatus
+;merge dbo.PetitionStatus as target
+using
+(
+	values
+	(1, N'Модерація'),
+	(2, N'Сбір підписів'),
+	(3, N'На розгляді'),
+	(4, N'З відповіддю')
+) as source (ID, Name)
+on target.ID = source.ID
+
+when matched then
+	update
+	set
+		Name = source.Name
+
+when not matched by target then
+	insert (ID, Name)
+	values (ID, Name)
+
+when not matched by source then
+	delete;

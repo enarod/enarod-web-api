@@ -156,6 +156,7 @@
     <None Include="Scripts\Migrations\2_Move PetitionSigners into auth.App_User.sql" />
     <None Include="Scripts\Migrations\3_Move PetitionSigners into UserDetails.sql" />
     <None Include="Scripts\Migrations\1_Petition.CreatedBy to auth.App_User.sql" />
+    <Build Include="dbo\Tables\PetitionStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Compares\ProdToProject.scmp" />
