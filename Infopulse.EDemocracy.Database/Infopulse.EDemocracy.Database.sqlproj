@@ -169,5 +169,6 @@
     <None Include="Compares\ProjectToProd2.scmp" />
     <None Include="Scripts\Misc\Grant permission to execute sp.sql" />
     <None Include="Compares\ProjectToLocal.scmp" />
+    <None Include="Scripts\Migrations\6_Add PetitionStatusID column into PetitionTable.sql" />
   </ItemGroup>
 </Project>
