@@ -26,5 +26,15 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				return categories;
 			}
 		}
+
+		public IEnumerable<PetitionStatus> GetPetitonStatuses()
+		{
+			using (var db = new EDEntities())
+			{
+				var statuses = db.PetitionStatuses.ToList();
+					
+				return statuses;
+			}
+		}
 	}
 }

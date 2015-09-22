@@ -51,5 +51,6 @@ namespace Infopulse.EDemocracy.Model
         public virtual DbSet<Organization> Organizations { get; set; }
         public virtual DbSet<UserDetail> UserDetails { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<PetitionStatus> PetitionStatuses { get; set; }
     }
 }

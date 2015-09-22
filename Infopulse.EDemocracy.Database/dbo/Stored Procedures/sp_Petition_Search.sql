@@ -64,6 +64,7 @@ begin
 		,p.[Text]
 		,p.[Requirements]
 		,p.[KeyWords]
+		,p.[PetitionStatusID]
 		,p.[CreatedDate]
 		,p.[CreatedBy]
 		,p.[EffectiveFrom]

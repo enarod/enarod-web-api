@@ -398,11 +398,14 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 					as IEnumerable<DALModel.PetitionLevel>;
 			var categories = this.entityCache.Get(CachedElement.PetitionCategory, this.dictionariesHelper.GetCategories)
 				as IEnumerable<DALModel.Entity>;
+			var petitionStatuses = this.entityCache.Get(CachedElement.PetitionStatus, this.dictionariesHelper.GetPetitonStatuses)
+				as IEnumerable<DALModel.PetitionStatus>;
 
 			foreach (var petition in petitions)
 			{
 				petition.PetitionLevel = levels.SingleOrDefault(l => l.ID == petition.LevelID);
 				petition.Category = categories.SingleOrDefault(c => c.ID == petition.CategoryID);
+				petition.PetitionStatus = petitionStatuses.SingleOrDefault(s => s.ID == petition.PetitionStatusID);
 			}
 		}
 

@@ -196,6 +196,7 @@
           <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Requirements" Type="nvarchar(max)" Nullable="false" />
           <Property Name="KeyWords" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PetitionStatusID" Type="int" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="EffectiveFrom" Type="datetime" Nullable="false" />
@@ -224,6 +225,13 @@
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Limit" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PetitionStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="PetitionVote">
           <Key>
@@ -719,6 +727,18 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Petition_Status">
+          <End Role="PetitionStatus" Type="Self.PetitionStatus" Multiplicity="1" />
+          <End Role="Petition" Type="Self.Petition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PetitionStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Petition">
+              <PropertyRef Name="PetitionStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PetitionEmailVote_Petition">
           <End Role="Petition" Type="Self.Petition" Multiplicity="1" />
           <End Role="PetitionEmailVote" Type="Self.PetitionEmailVote" Multiplicity="*" />
@@ -939,6 +959,7 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <EntitySet Name="Petition" EntityType="Self.Petition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PetitionEmailVote" EntityType="Self.PetitionEmailVote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PetitionLevel" EntityType="Self.PetitionLevel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PetitionStatus" EntityType="Self.PetitionStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PetitionVote" EntityType="Self.PetitionVote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Photo" EntityType="Self.Photo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
@@ -1088,6 +1109,10 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           </AssociationSet>
           <AssociationSet Name="FK_Petition_PetitionLevel" Association="Self.FK_Petition_PetitionLevel">
             <End Role="PetitionLevel" EntitySet="PetitionLevel" />
+            <End Role="Petition" EntitySet="Petition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Petition_Status" Association="Self.FK_Petition_Status">
+            <End Role="PetitionStatus" EntitySet="PetitionStatus" />
             <End Role="Petition" EntitySet="Petition" />
           </AssociationSet>
           <AssociationSet Name="FK_PetitionEmailVote_Petition" Association="Self.FK_PetitionEmailVote_Petition">
@@ -1386,6 +1411,11 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
             <End Role="User" EntitySet="Users" />
             <End Role="Petition" EntitySet="Petitions" />
           </AssociationSet>
+          <EntitySet Name="PetitionStatuses" EntityType="EDModel.PetitionStatus" />
+          <AssociationSet Name="FK_Petition_Status" Association="EDModel.FK_Petition_Status">
+            <End Role="PetitionStatu" EntitySet="PetitionStatuses" />
+            <End Role="Petition" EntitySet="Petitions" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="C_Invitation">
           <Key>
@@ -1626,6 +1656,8 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <Property Name="ApprovedBy" Type="Int32" />
           <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Approver" Relationship="EDModel.FK_Petition_ApprovedBy" FromRole="Petition" ToRole="User" />
+          <Property Name="PetitionStatusID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PetitionStatus" Relationship="EDModel.FK_Petition_Status" FromRole="Petition" ToRole="PetitionStatu" />
         </EntityType>
         <EntityType Name="PetitionLevel">
           <Key>
@@ -2389,6 +2421,26 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PetitionStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Petitions" Relationship="EDModel.FK_Petition_Status" FromRole="PetitionStatu" ToRole="Petition" />
+        </EntityType>
+        <Association Name="FK_Petition_Status">
+          <End Type="EDModel.PetitionStatus" Role="PetitionStatu" Multiplicity="1" />
+          <End Type="EDModel.Petition" Role="Petition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PetitionStatu">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Petition">
+              <PropertyRef Name="PetitionStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2555,6 +2607,7 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <EntitySetMapping Name="Petitions">
             <EntityTypeMapping TypeName="EDModel.Petition">
               <MappingFragment StoreEntitySet="Petition">
+                <ScalarProperty Name="PetitionStatusID" ColumnName="PetitionStatusID" />
                 <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
                 <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
                 <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
@@ -2718,6 +2771,14 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
                 <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="ID" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PetitionStatuses">
+            <EntityTypeMapping TypeName="EDModel.PetitionStatus">
+              <MappingFragment StoreEntitySet="PetitionStatus">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

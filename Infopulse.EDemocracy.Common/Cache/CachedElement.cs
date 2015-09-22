@@ -4,6 +4,7 @@
 	{
 		PetitionLevel,
 		PetitionCategory,
-		CountriesList
+		CountriesList,
+		PetitionStatus
 	}
 }

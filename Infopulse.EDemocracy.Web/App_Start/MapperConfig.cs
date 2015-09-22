@@ -39,6 +39,7 @@ namespace Infopulse.EDemocracy.Web
 				.ForMember(webPetition => webPetition.KeyWords, keyWords => keyWords.MapFrom(dataPetition => dataPetition.KeyWords.Split(',').Select(w => w.Trim())));
 			Mapper.CreateMap<DataModels.UserDetail, WebModels.UserDetailInfo>();
 			Mapper.CreateMap<DataModels.User, WebModels.User>();
+			Mapper.CreateMap<DataModels.PetitionStatus, WebModels.StatusBase>();
 		}
 
 
@@ -79,6 +80,7 @@ namespace Infopulse.EDemocracy.Web
 				.ForMember(dataUser => dataUser.SecurityStamp, f => f.Ignore())
 				.ForMember(dataUser => dataUser.TwoFactorEnabled, f => f.Ignore())
 				.ForMember(dataUser => dataUser.UserName, f => f.Ignore());
+			Mapper.CreateMap<WebModels.StatusBase, DataModels.PetitionStatus>();
 		}
 	}
 }

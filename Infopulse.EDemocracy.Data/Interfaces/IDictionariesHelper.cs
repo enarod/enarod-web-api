@@ -7,5 +7,6 @@ namespace Infopulse.EDemocracy.Data.Interfaces
 	{
 		IEnumerable<PetitionLevel> GetPetitionLevels();
 		IEnumerable<Entity> GetCategories();
+		IEnumerable<PetitionStatus> GetPetitonStatuses();
 	}
 }

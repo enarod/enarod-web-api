@@ -21,6 +21,7 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		public string Email { get; set; }
 
 		public Organization Organization { get; set; }
+		public StatusBase PetitionStatus { get; set; }
 
 		public int VotesCount { get; set; }
 
