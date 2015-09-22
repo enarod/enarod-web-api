@@ -392,6 +392,23 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		}
 
 
+		[HttpGet]
+		[Route("api/petitions/statuses")]
+		public OperationResult<IEnumerable<StatusBase>> GetPetitionStatuses()
+		{
+			var result = OperationExecuter.Execute(() =>
+			{
+				var petitionStatuses = this.entityCache
+					.Get(CachedElement.PetitionStatus, this.dictionariesHelper.GetPetitonStatuses)
+						as IEnumerable<DALModel.PetitionStatus>;
+				var webPetitionStatuses = petitionStatuses.Select(Mapper.Map<DALModel.PetitionStatus, StatusBase>);
+				return OperationResult<IEnumerable<StatusBase>>.Success(webPetitionStatuses);
+			});
+
+			return result;
+		}
+
+
 		private void SetDictionariesValues(IEnumerable<DALModel.Petition> petitions)
 		{
 			var levels = this.entityCache.Get(CachedElement.PetitionLevel, this.dictionariesHelper.GetPetitionLevels)
