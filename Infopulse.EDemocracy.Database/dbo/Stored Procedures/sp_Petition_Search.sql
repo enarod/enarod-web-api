@@ -3,6 +3,7 @@
 	@KeyWordText nvarchar(max) = null,
 	@Category nvarchar(max) = null,
 	@CategoryIDs dbo.IntList readonly,
+	@PetitionStatusIDs dbo.IntList readonly,
 	@Organization nvarchar(max) = null,
 	@OrganizationID int = null,
 
@@ -113,6 +114,11 @@ begin
 		(
 			not exists(select null from @CategoryIDs)
 			or p.CategoryID in (select Number from @CategoryIDs)
+		)
+		and
+		(
+			not exists(select null from @PetitionStatusIDs)
+			or p.PetitionStatusID in (select Number from @PetitionStatusIDs)
 		)
 		and
 		(

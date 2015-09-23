@@ -20,15 +20,18 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			return anonymousUser;
 		}
 
+
 		internal string GetMethodName()
 		{
 			return System.Reflection.MethodBase.GetCurrentMethod().Name;
 		}
 
+
 		internal void AddLogging(EDEntities db, [CallerMemberName]string methodName = null)
 		{
 			db.Database.Log = s => DbLog.Add(s, methodName);
 		}
+
 
 		protected string UnknownAppUser
 		{

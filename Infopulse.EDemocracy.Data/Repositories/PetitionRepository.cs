@@ -133,6 +133,14 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					},
 					new SqlParameter()
 					{
+						SqlDbType = SqlDbType.Structured,
+						Direction = ParameterDirection.Input,
+						TypeName = "IntList",
+						ParameterName = "PetitionStatusIDs",
+						Value = (searchParameters.PetitionStatusID ?? new int[0]).Select(c => new { Number = c }).ToDataTable()
+					},
+					new SqlParameter()
+					{
 						SqlDbType = SqlDbType.NVarChar,
 						Direction = ParameterDirection.Input,
 						ParameterName = "Organization",
@@ -377,7 +385,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				var parameterName = sqlParameter.ParameterName[0] == '@'
 					? sqlParameter.ParameterName.Substring(1)
 					: sqlParameter.ParameterName;
-				names.Append(string.Format("@{0}, ", parameterName));
+				names.Append($"@{parameterName}, ");
 			}
 
 			var cutLength = ", ".Length;

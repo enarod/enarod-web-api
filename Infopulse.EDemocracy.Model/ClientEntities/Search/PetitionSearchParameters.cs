@@ -8,8 +8,9 @@ namespace Infopulse.EDemocracy.Model.ClientEntities.Search
 		public string Category { get; set; }
 		public string Organization { get; set; }
 		public string KeyWord { get; set; }
-
+		
 		public int[] CategoryID { get; set; }
+		public int[] PetitionStatusID { get; set; }
 		public int? OrganizationID { get; set; }
 
 		public bool? ShowActivePetitions { get; set; }
