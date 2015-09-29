@@ -37,7 +37,9 @@ namespace Infopulse.EDemocracy.Web
 				.ForMember(webPetition => webPetition.CreatedBy, createdBy => createdBy.Ignore())
 				.ForMember(webPetition => webPetition.Level, level => level.MapFrom(dataPetition => dataPetition.PetitionLevel))
 				.ForMember(webPetition => webPetition.KeyWords, keyWords => keyWords.MapFrom(dataPetition => dataPetition.KeyWords.Split(',').Select(w => w.Trim())));
-			Mapper.CreateMap<DataModels.UserDetail, WebModels.UserDetailInfo>();
+			Mapper.CreateMap<DataModels.UserDetail, WebModels.UserDetailInfo>()
+				.ForMember(webUserInfo => webUserInfo.CreatedPetitions, field => field.Ignore())
+				.ForMember(webUserInfo => webUserInfo.SignedPetitions, field => field.Ignore());
 			Mapper.CreateMap<DataModels.User, WebModels.User>();
 			Mapper.CreateMap<DataModels.PetitionStatus, WebModels.StatusBase>();
 		}

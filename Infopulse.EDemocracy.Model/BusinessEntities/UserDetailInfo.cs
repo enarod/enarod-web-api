@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Infopulse.EDemocracy.Model.BusinessEntities
 {
@@ -8,12 +9,16 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 	{
 		[JsonIgnore]
 		public int UserID { get; set; }
+		[Required]
 		public string FirstName { get; set; }
 		public string MiddleName { get; set; }
+		[Required]
 		public string LastName { get; set; }
 		public string ZipCode { get; set; }
+		[Required]
 		public string AddressLine1 { get; set; }
 		public string AddressLine2 { get; set; }
+		[Required]
 		public string City { get; set; }
 		public string Region { get; set; }
 		public string Country { get; set; }
@@ -28,6 +33,7 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 
 		public User User { get; set; }
 		public List<Petition> CreatedPetitions { get; set; }
+		public List<Petition> SignedPetitions { get; set; }
 
 		public UserDetailInfo()
 		{

@@ -5,6 +5,6 @@
 	/// </summary>
 	public class BaseEntity
 	{
-		public long ID { get; set; }
+		public virtual long ID { get; set; }
 	}
 }
