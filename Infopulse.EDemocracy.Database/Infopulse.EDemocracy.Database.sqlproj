@@ -170,5 +170,6 @@
     <None Include="Scripts\Misc\Grant permission to execute sp.sql" />
     <None Include="Compares\ProjectToLocal.scmp" />
     <None Include="Scripts\Migrations\6_Add PetitionStatusID column into PetitionTable.sql" />
+    <None Include="Scripts\Migrations\7_Add ApprovedBy and ApprovedDate columns to Petitions table.sql" />
   </ItemGroup>
 </Project>
