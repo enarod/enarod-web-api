@@ -12,7 +12,9 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		{
 			using (var db = new EDEntities())
 			{
-				var organizations = db.Organizations.ToList();
+				var organizations = db.Organizations
+					.OrderBy(o => o.Name)
+					.ToList();
 				return organizations;
 			}
 		}

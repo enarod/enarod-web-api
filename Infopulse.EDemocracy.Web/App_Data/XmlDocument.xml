@@ -618,6 +618,19 @@
             Controller for statistics information
             </summary>
         </member>
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.UsersController.Get(System.Boolean,System.Boolean)">
+            <summary>
+            Get UserDetailInfo about current user.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.UsersController.Put(Infopulse.EDemocracy.Model.BusinessEntities.UserDetailInfo)">
+            <summary>
+            Saves changes in current user's details.
+            </summary>
+            <param name="userDetailInfo">Data to save.</param>
+            <returns>Operation result of db update.</returns>
+        </member>
         <member name="T:Infopulse.EDemocracy.Web.Controllers.PetitionController">
             <summary>
             MVC controller for all petition pages.

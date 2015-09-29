@@ -32,5 +32,11 @@ namespace Infopulse.EDemocracy.Data.Interfaces
 
 
 		IEnumerable<Petition> GetPetitionForAdmin(SearchParameters searchParameters);
+
+
+		IEnumerable<Petition> GetPetitionsCreatedByUser(int userID);
+
+
+		IEnumerable<Petition> GetPetitionsSignedByUser(int userID);
 	}
 }

@@ -4,6 +4,7 @@ using Infopulse.EDemocracy.Model.ClientEntities.Search;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -360,6 +361,45 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		{
 			var petitions = this.Get(searchParameters, true);
 			return petitions;
+		}
+
+
+		public IEnumerable<Petition> GetPetitionsCreatedByUser(int userID)
+		{
+			using (var db = new EDEntities())
+			{
+				var petitions = db.Petitions
+					.Where(p => p.CreatedBy == userID)
+					.Include("Organization")
+					.Include("Category")
+					.Include("Category.EntityGroup")
+					.Include("PetitionLevel")
+					.Include("PetitionStatus")
+					.ToList();
+				return petitions;
+			}
+		}
+
+
+		public IEnumerable<Petition> GetPetitionsSignedByUser(int userID)
+		{
+			using (var db = new EDEntities())
+			{
+				var userVotes = db.PetitionEmailVotes
+					.Where(v => v.VoterID == userID && v.IsConfirmed); // TODO: implement separate method to retrieve not-confirmed petitions
+
+				var votedPetitionIDs = userVotes.Select(v => v.PetitionID);
+
+				var petitions = db.Petitions
+					.Where(p => votedPetitionIDs.Contains(p.ID))
+					.Include("Organization")
+					.Include("Category")
+					.Include("Category.EntityGroup")
+					.Include("PetitionLevel")
+					.Include("PetitionStatus")
+					.ToList();
+				return petitions;
+			}
 		}
 
 

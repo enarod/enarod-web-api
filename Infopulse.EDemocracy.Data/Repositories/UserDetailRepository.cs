@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Model;
 using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Infopulse.EDemocracy.Data.Repositories
 {
@@ -33,6 +35,11 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			using (var db = new EDEntities())
 			{
 				var userDetailFromDb = db.UserDetails.SingleOrDefault(ud => ud.UserID == user.UserID);
+				if (userDetailFromDb == null && user.User != null && !string.IsNullOrWhiteSpace(user.User.Email))
+				{
+					userDetailFromDb = db.UserDetails.SingleOrDefault(ud => ud.User.Email == user.User.Email);
+				}
+
 				if (userDetailFromDb == null)
 				{
 					user.CreatedBy = this.UnknownAppUser;
@@ -52,6 +59,28 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				db.SaveChanges();
 
 				return db.UserDetails.SingleOrDefault(ud => ud.ID == user.ID);
+			}
+		}
+
+		//public IEnumerable<UserDetail> Get()
+		//{
+		//	using (var db = new EDEntities())
+		//	{
+		//		var usersInfo = db.UserDetails
+					//.Include("User")
+					//.ToList();
+		//		return usersInfo;
+		//	}
+		//}
+
+		public UserDetail Get(int userID)
+		{
+			using (var db = new EDEntities())
+			{
+				var userInfo = db.UserDetails
+					.Include("User")
+					.SingleOrDefault(u => u.UserID == userID);
+				return userInfo;
 			}
 		}
 	}
