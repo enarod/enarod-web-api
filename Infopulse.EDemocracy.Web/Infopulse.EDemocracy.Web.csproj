@@ -266,7 +266,7 @@
     <Compile Include="Models\HashString.cs" />
     <Compile Include="Controllers\API\PetitionController.cs" />
     <Compile Include="Controllers\API\StatisticsController.cs" />
-    <Compile Include="Controllers\API\UserController.cs" />
+    <Compile Include="Controllers\API\UsersController.cs" />
     <Compile Include="CORS\CorsPolicyProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
