@@ -38,6 +38,7 @@ namespace Infopulse.EDemocracy.Model.BusinessEntities
 		public UserDetailInfo()
 		{
 			this.CreatedPetitions = new List<Petition>();
+			this.SignedPetitions = new List<Petition>();
 		}
 	}
 }
