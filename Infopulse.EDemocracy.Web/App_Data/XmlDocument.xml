@@ -613,6 +613,14 @@
             <param name="petitionLevelID"></param>
             <returns></returns>
         </member>
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.PetitionController.GetPetitionVoters(System.Int32,Infopulse.EDemocracy.Model.ClientEntities.Search.SearchParameters)">
+            <summary>
+            Gets basic info anout votes for specific petition.
+            </summary>
+            <param name="petitionID">Petition ID.</param>
+            <param name="searchParameters">Page params.</param>
+            <returns></returns>
+        </member>
         <member name="T:Infopulse.EDemocracy.Web.Controllers.API.StatisticsController">
             <summary>
             Controller for statistics information

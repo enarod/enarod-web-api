@@ -98,6 +98,7 @@
     <Compile Include="BusinessEntities\Certificate.cs" />
     <Compile Include="BusinessEntities\Organization.cs" />
     <Compile Include="BusinessEntities\PetitionEmailVote.cs" />
+    <Compile Include="BusinessEntities\PetitionVoteInfo.cs" />
     <Compile Include="BusinessEntities\Region.cs" />
     <Compile Include="BusinessEntities\Entity.cs" />
     <Compile Include="BusinessEntities\EntityGroup.cs" />

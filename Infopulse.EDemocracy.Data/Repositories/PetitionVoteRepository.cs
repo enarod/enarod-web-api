@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Infopulse.EDemocracy.Common.Exceptions;
-using Infopulse.EDemocracy.Data.Interfaces.v2;
+using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Model;
-using Infopulse.EDemocracy.Model.Helpers;
+using Infopulse.EDemocracy.Model.ClientEntities.Search;
 
 namespace Infopulse.EDemocracy.Data.Repositories
 {
@@ -59,6 +60,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			}
 		}
 
+
 		public PetitionEmailVote ConfirmEmailVoteRequest(string hash)
 		{
 			using (var db = new EDEntities())
@@ -82,15 +84,79 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			}
 		}
 
+
 		public PetitionEmailVote CreateRecallVoteRequest(PetitionEmailVote emailVote)
 		{
 			throw new NotImplementedException();
 		}
 
+
 		public PetitionEmailVote ConfirmRecallVoteRequest(PetitionEmailVote emailVote)
 		{
 			throw new NotImplementedException();
 		}
+
+
+		public IEnumerable<PetitionEmailVote> GetPetitionVotes(int petitionID, SearchParameters searchParameters)
+		{
+			using (var db = new EDEntities())
+			{
+				var votes = db.PetitionEmailVotes
+					.Include("Voter")
+					.Include("Voter.UserDetails")
+					.Where(v => v.PetitionID == petitionID && v.IsConfirmed);
+				if (searchParameters != null)
+				{
+					if (!string.IsNullOrWhiteSpace(searchParameters.OrderBy))
+					{
+						var isAscending = string.Equals(
+							searchParameters.OrderDirection,
+							"ASC",
+							StringComparison.InvariantCultureIgnoreCase);
+
+						switch (searchParameters.OrderBy.ToLower())
+						{
+							case "date":
+							case "votedate":
+								{
+									votes = isAscending
+										? votes.OrderBy(v => v.CreatedDate)
+										: votes.OrderByDescending(v => v.CreatedDate);
+									break;
+								}
+
+							case "firstname":
+								{
+									votes = isAscending
+										? votes.OrderBy(v => v.Voter.UserDetails.FirstOrDefault().FirstName)
+										: votes.OrderByDescending(v => v.Voter.UserDetails.FirstOrDefault().FirstName);
+									break;
+								}
+
+							case "voter":
+							case "lastname":
+							case "name":
+							default:
+								{
+									votes = isAscending
+										? votes.OrderBy(v => v.Voter.UserDetails.FirstOrDefault().LastName)
+										: votes.OrderByDescending(v => v.Voter.UserDetails.FirstOrDefault().LastName);
+									break;
+								}
+						}
+					}
+
+					if (searchParameters.PageNumber.HasValue && searchParameters.PageSize.HasValue)
+					{
+						votes = votes
+							.Skip((searchParameters.PageNumber.Value - 1) * searchParameters.PageSize.Value);
+					}
+				}
+
+				return votes.ToList();
+			}
+		}
+
 
 		public void ClearVotes()
 		{

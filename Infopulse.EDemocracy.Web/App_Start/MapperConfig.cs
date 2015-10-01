@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using System.Linq;
+using Infopulse.EDemocracy.Common.Extensions;
 using Infopulse.EDemocracy.Model.ClientEntities;
 using DataModels = Infopulse.EDemocracy.Model;
 using WebModels = Infopulse.EDemocracy.Model.BusinessEntities;
@@ -42,6 +43,11 @@ namespace Infopulse.EDemocracy.Web
 				.ForMember(webUserInfo => webUserInfo.SignedPetitions, field => field.Ignore());
 			Mapper.CreateMap<DataModels.User, WebModels.User>();
 			Mapper.CreateMap<DataModels.PetitionStatus, WebModels.StatusBase>();
+			Mapper.CreateMap<DataModels.PetitionEmailVote, WebModels.PetitionVoteInfo>()
+				.ForMember(webPetitionVote => webPetitionVote.Name, f => f.MapFrom(dataPetitionVote =>
+					dataPetitionVote.GetVoterName("Невідомий користувач")))
+				.ForMember(webPetitionVote => webPetitionVote.VoteDate, f => f.MapFrom(dalPetitionVote => dalPetitionVote.CreatedDate));
+
 		}
 
 

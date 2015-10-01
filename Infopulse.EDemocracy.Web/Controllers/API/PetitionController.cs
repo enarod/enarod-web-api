@@ -36,10 +36,9 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		private readonly IRegionRepository regionRepository;
 		private readonly IDictionariesHelper dictionariesHelper;
 		private readonly IEntityCache entityCache;
+		private readonly IPetitionVoteRepository petitionVoteRepository;
 
 		private readonly GeoService geoService;
-
-		private readonly EDemocracy.Data.Interfaces.v2.IPetitionVoteRepository petitionVoteRepository;
 
 		/// <summary>
 		/// Default constructor (no DI yet).
@@ -87,7 +86,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			return result;
 		}
 
-		
+
 		/// <summary>
 		/// Get petition by id.
 		/// </summary>
@@ -249,9 +248,9 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 				// create petition:
 				var dalPetition = Mapper.Map<DALModel.Petition>(petition);
 				dalPetition.CreatedBy = petitionAuthorDetails.UserID;
-								
+
 				dalPetition = this.petitionRepository.AddNewPetition(dalPetition);
-				
+
 				// add email vote record to DB:
 				var dalEmailVoteAdded = this.petitionVoteRepository.CreateEmailVoteRequest(
 					new DALModel.PetitionEmailVote()
@@ -263,7 +262,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 						CreatedDate = DateTime.UtcNow
 					});
 				var emailVoteAdded = Mapper.Map<DALModel.PetitionEmailVote, PetitionEmailVote>(dalEmailVoteAdded);
-				
+
 				// send creation confirmation notification:
 				petition = Mapper.Map<Model.Petition, Petition>(dalPetition);
 				var notification = new PetitionCreatedNotification(petition, emailVoteAdded.ConfirmUrl);
@@ -289,14 +288,14 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 				return result;
 			});
 
-			
+
 		}
 
-		
+
 		#region Clear votes
 
 		//[HttpDelete]
-		//[Route("api/petition")]
+		//[Route("api/petitions")]
 		//public OperationResult Delete()
 		//{
 		//	var result = this.petitionVoteRepository.ClearVotes();
@@ -322,6 +321,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 		#endregion
 
+		#region Get petition's details
 
 		/// <summary>
 		/// Get all petition levels.
@@ -367,7 +367,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// <param name="petitionLevelID"></param>
 		/// <returns></returns>
 		[HttpGet]
-		[Route("api/petition/region/{petitionLevelID}")]
+		[Route("api/petition/region/{petitionLevelID:int}")]
 		public OperationResult<IEnumerable<Region>> GetPetitionRegions(int petitionLevelID)
 		{
 			// TODO: RegionRepo is not implemented yet. So this method should
@@ -375,20 +375,6 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 			var regions = this.regionRepository.GetRegions(petitionLevelID);
 			return regions;
-		}
-
-
-		[HttpGet]
-		[Route("api/countries")]
-		public OperationResult<IEnumerable<Country>> GetCountries()
-		{
-			var countries = this.entityCache.Get(CachedElement.CountriesList, () =>
-			{
-				var countriesList = this.geoService.GetCountries();
-				return countriesList;
-			}) as IEnumerable<Country>;
-
-			return OperationResult<IEnumerable<Country>>.Success(countries);
 		}
 
 
@@ -406,6 +392,44 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			});
 
 			return result;
+		}
+
+
+		/// <summary>
+		/// Gets basic info anout votes for specific petition.
+		/// </summary>
+		/// <param name="petitionID">Petition ID.</param>
+		/// <param name="searchParameters">Page params.</param>
+		/// <returns></returns>
+		[HttpGet]
+		[Route("api/petitions/{petitionID:int}/votes")]
+		public OperationResult<IEnumerable<PetitionVoteInfo>> GetPetitionVoters(
+			int petitionID,
+			[FromUri]SearchParameters searchParameters)
+		{
+			var result = OperationExecuter.Execute(() =>
+			{
+				var dalVotes = this.petitionVoteRepository.GetPetitionVotes(petitionID, searchParameters);
+				var webVotes = dalVotes.Select(Mapper.Map<DALModel.PetitionEmailVote, PetitionVoteInfo>);
+				return OperationResult<IEnumerable<PetitionVoteInfo>>.Success(webVotes);
+			});
+
+			return result;
+		}
+
+		#endregion
+
+		[HttpGet]
+		[Route("api/countries")]
+		public OperationResult<IEnumerable<Country>> GetCountries()
+		{
+			var countries = this.entityCache.Get(CachedElement.CountriesList, () =>
+			{
+				var countriesList = this.geoService.GetCountries();
+				return countriesList;
+			}) as IEnumerable<Country>;
+
+			return OperationResult<IEnumerable<Country>>.Success(countries);
 		}
 
 
@@ -462,10 +486,10 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			if (petition.CreatedBy == null)
 			{
 				petition.CreatedBy = new UserDetailInfo();
-            }
+			}
 
 			petition.CreatedBy.UserID = this.GetSignedInUserId();
-        }
+		}
 
 		private OperationResult SendVoteRequestConfirmationMail(PetitionEmailVote webPetitionVote, string currentUserEmail)
 		{
