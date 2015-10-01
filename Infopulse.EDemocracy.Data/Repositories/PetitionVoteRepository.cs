@@ -116,12 +116,13 @@ namespace Infopulse.EDemocracy.Data.Repositories
 
 						switch (searchParameters.OrderBy.ToLower())
 						{
-							case "date":
-							case "votedate":
+							case "voter":
+							case "lastname":
+							case "name":
 								{
 									votes = isAscending
-										? votes.OrderBy(v => v.CreatedDate)
-										: votes.OrderByDescending(v => v.CreatedDate);
+										? votes.OrderBy(v => v.Voter.UserDetails.FirstOrDefault().LastName)
+										: votes.OrderByDescending(v => v.Voter.UserDetails.FirstOrDefault().LastName);
 									break;
 								}
 
@@ -133,14 +134,13 @@ namespace Infopulse.EDemocracy.Data.Repositories
 									break;
 								}
 
-							case "voter":
-							case "lastname":
-							case "name":
+							case "date":
+							case "votedate":
 							default:
 								{
 									votes = isAscending
-										? votes.OrderBy(v => v.Voter.UserDetails.FirstOrDefault().LastName)
-										: votes.OrderByDescending(v => v.Voter.UserDetails.FirstOrDefault().LastName);
+										? votes.OrderBy(v => v.CreatedDate)
+										: votes.OrderByDescending(v => v.CreatedDate);
 									break;
 								}
 						}
@@ -149,7 +149,8 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					if (searchParameters.PageNumber.HasValue && searchParameters.PageSize.HasValue)
 					{
 						votes = votes
-							.Skip((searchParameters.PageNumber.Value - 1) * searchParameters.PageSize.Value);
+							.Skip((searchParameters.PageNumber.Value - 1) * searchParameters.PageSize.Value)
+							.Take(searchParameters.PageSize.Value);
 					}
 				}
 
