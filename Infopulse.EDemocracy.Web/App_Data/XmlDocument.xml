@@ -9,6 +9,16 @@
             Controller to contain administration actions regarding petitions.
             </summary>
         </member>
+        <member name="T:Infopulse.EDemocracy.Web.Areas.Admin.Models.ModeratedPetition">
+            <summary>
+            Petition with cpecial properties indicating moderation status.
+            </summary>
+        </member>
+        <member name="P:Infopulse.EDemocracy.Web.Areas.Admin.Models.ModeratedPetition.IsChecked">
+            <summary>
+            Indicates whether moderator checked current petition for specific action.
+            </summary>
+        </member>
         <member name="M:Infopulse.EDemocracy.Web.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
             <summary>
             Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
