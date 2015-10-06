@@ -7,20 +7,24 @@
 	<h2 class="col-md-12">Модерація петицій</h2>
 </div>
 
-<table>
-	<thead>
+<div class="row">
+	<table class="col-md-12">
+		<thead>
 		<tr>
+			<th></th>
 			<th>Petition ID</th>
 			<th>Subject</th>
 			<th>Creation date</th>
-			<th>Approved by</th>
-			<th>Approved date</th>
+			<th>Модератор</th>
+			<th>Дата</th>
 		</tr>
-	</thead>
-	<tbody>
-		@foreach (var petition in Model)
+		</thead>
+		<tbody>
+		@for (int i = 0; i < Model.Count; i++)
 		{
-			<tr>
+			var petition = Model[i];
+			<tr class="petition">
+				<td>@Html.CheckBoxFor(m => m[i].IsChecked, new { @class= "petitionInfo", data_id = petition.ID, @checked = "unchecked"})</td>
 				<td>@petition.ID</td>
 				<td>@petition.Subject</td>
 				<td>@petition.CreatedDate</td>
@@ -28,5 +32,60 @@
 				<td>none</td>
 			</tr>
 		}
-	</tbody>
-</table>
+		</tbody>
+	</table>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<button id="AssignToMe">Взяти в роботу</button>
+		<button id="ApprovePetitions">Підтвердити</button>
+		<button id="RejectPetitions">Відхилити</button>
+		<button id="EscalatePetitions">На розгляді</button>
+	</div>
+</div>
+
+<script type="text/javascript" src="~/Areas/Admin/Scripts/moderation.js"></script>
+<script type="text/javascript">
+	function collectCheckedPetitions() {
+		var params = [];
+
+		var petitions = $('.petitionInfo');
+		for (var i in petitions) {
+			if (petitions.hasOwnProperty(i) && i !== 'selector') {
+				var petitionInfo = $(petitions[i]);
+				var isChecked = petitionInfo.is(':checked');
+
+				if (isChecked) {
+					params.push({
+						IsChecked: isChecked,
+						ID: parseInt(petitionInfo.attr('data-id'))
+					});
+				}
+			}
+		}
+
+		return params;
+	}
+
+	$('#AssignToMe').click(function () {
+		var params = collectCheckedPetitions();
+		Moderation.post('petitions/assigntome', params, 'petitions', 'post');
+	});
+
+	$('#ApprovePetitions').click(function () {
+		var params = collectCheckedPetitions();
+		Moderation.post('petitions/ApprovePetitions', params, 'petitions', 'post');
+	});
+
+	$('#RejectPetitions').click(function () {
+		var params = collectCheckedPetitions();
+		Moderation.post('petitions/RejectPetitions', params, 'petitions', 'post');
+	});
+
+	$('#EscalatePetitions').click(function () {
+		var params = collectCheckedPetitions();
+		Moderation.post('petitions/EscalatePetitions', params, 'petitions', 'post');
+	});
+
+</script>

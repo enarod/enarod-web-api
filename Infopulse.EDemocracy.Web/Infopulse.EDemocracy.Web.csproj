@@ -175,6 +175,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Scripts\moderation.js" />
     <Content Include="EmailTemplates\PetitionVoteConfirmation.html" />
     <Content Include="App_Data\XmlDocument.xml" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
