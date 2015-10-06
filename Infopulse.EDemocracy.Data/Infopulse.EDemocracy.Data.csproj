@@ -95,7 +95,9 @@
     <Compile Include="Repositories\DicitionariesHelper.cs" />
     <Compile Include="Repositories\EntityRepository.cs" />
     <Compile Include="Repositories\DpaVerificationRepository.cs" />
+    <Compile Include="Interfaces\IPetitionAdminRepository.cs" />
     <Compile Include="Repositories\OrganizationRepository.cs" />
+    <Compile Include="Repositories\PetitionAdminRepository.cs" />
     <Compile Include="Repositories\PetitionLevelRepository.cs" />
     <Compile Include="Repositories\PeopleRepository.cs" />
     <Compile Include="Repositories\PetitionRepository.cs" />

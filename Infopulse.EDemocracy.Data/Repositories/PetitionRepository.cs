@@ -357,13 +357,6 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		}
 
 
-		public IEnumerable<Petition> GetPetitionForAdmin(SearchParameters searchParameters)
-		{
-			var petitions = this.Get(searchParameters, true);
-			return petitions;
-		}
-
-
 		public IEnumerable<Petition> GetPetitionsCreatedByUser(int userID)
 		{
 			using (var db = new EDEntities())
