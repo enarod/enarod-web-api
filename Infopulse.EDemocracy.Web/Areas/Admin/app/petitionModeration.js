@@ -96,3 +96,35 @@
 	}
 }
 
+function LoginFormViewModel() {
+	var self = this;
+
+	self.login = ko.observable("");
+	self.password = ko.observable("");
+
+	self.signIn = function() {
+		$.ajax({
+			url: "/api/account/signin",
+			type: "POST",
+			body: {
+				grant_type: "password",
+				username: self.login,
+				password: self.password
+			},
+			contentType: "application/x-www-form-urlencoded",
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader("Accept", "application\json");
+			}
+		})
+		.done(function(data) {
+			localStorage.setItem("accessToken", data.access_token);
+		})
+		.error(function(xhr, status, error) {
+			debugger;
+		});
+	};
+
+	self.signOut = function() {
+		localStorage.setItem("accessToken", null);
+	};
+}
