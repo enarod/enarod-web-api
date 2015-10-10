@@ -42,9 +42,13 @@ namespace Infopulse.EDemocracy.Web.Areas.Admin.Controllers
 
 
 		[HttpPost]
-	    public ActionResult AssignToMe(List<ModeratedPetition> petitions)
+	    public ActionResult AssignToMe(IEnumerable<ModeratedPetition> petitions)
 	    {
-			this.petitionAdminRepository.AssignApprover(-1, GetSelectedPetitions(petitions));
+			if (petitions.Any())
+			{
+				this.petitionAdminRepository.AssignApprover(-1, GetSelectedPetitions(petitions));
+			}
+			
 		    return this.RedirectToAction("Index");
 	    }
 

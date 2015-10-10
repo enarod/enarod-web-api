@@ -4,6 +4,13 @@
         <name>Infopulse.EDemocracy.Web</name>
     </assembly>
     <members>
+        <member name="M:Infopulse.EDemocracy.Web.Areas.Admin.Controllers.API.PetitionsController.AssignToMe(System.Collections.Generic.IEnumerable{Infopulse.EDemocracy.Web.Areas.Admin.Models.ModeratedPetition})">
+            <summary>
+            Assigns current user as moderator for specific petitions.
+            </summary>
+            <param name="petitions">List of petitions to assign.</param>
+            <returns></returns>
+        </member>
         <member name="T:Infopulse.EDemocracy.Web.Areas.Admin.Controllers.PetitionsController">
             <summary>
             Controller to contain administration actions regarding petitions.
