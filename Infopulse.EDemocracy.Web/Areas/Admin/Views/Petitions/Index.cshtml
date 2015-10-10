@@ -4,45 +4,11 @@
 	ViewBag.Title = "Модерація петицій";
 }
 
-<div class="row">
-	<div class="col-md-11"></div>
-	<div class="col-md-1">
-		<a href="#" data-bind="click: showLoginDialog">Sign in</a>
-	</div>
-</div>
+
 
 <div class="row">
 	<h2 class="col-md-12">Модерація петицій</h2>
 </div>
-
-@*<div class="row">
-	<table class="col-md-12">
-		<thead>
-			<tr>
-				<th></th>
-				<th>ID петиції</th>
-				<th>Назва</th>
-				<th>Дата створення</th>
-				<th>Модератор</th>
-				<th>Дата</th>
-			</tr>
-		</thead>
-		<tbody>
-			@for (int i = 0; i < Model.Count; i++)
-			{
-				var petition = Model[i];
-				<tr class="petition">
-					<td>@Html.CheckBoxFor(m => m[i].IsChecked, new { @class = "petitionInfo", data_id = petition.ID, @checked = "unchecked" })</td>
-					<td>@petition.ID</td>
-					<td>@petition.Subject</td>
-					<td>@petition.CreatedDate</td>
-					<td>none</td>
-					<td>none</td>
-				</tr>
-			}
-		</tbody>
-	</table>
-</div>*@
 
 <div class="row">
 	<div class="col-md-12">

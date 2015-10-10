@@ -9,8 +9,25 @@
 	<script src="~/Scripts/knockout-3.3.0.js"></script>
 	<script src="~/Scripts/moment.js"></script>
 	<link rel="stylesheet" href="~/Content/themes/base/all.css">
+	<link rel="stylesheet" href="~/Content/bootstrap.css">
+	<link rel="stylesheet" href="~/Content/bootstrap-theme.css">
 </head>
 <body>
+	<nav>
+		<!-- see example here: http://getbootstrap.com/examples/navbar-fixed-top/ -->
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">eNarod Admin</a>
+			</div>
+
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#" data-bind="click: showLoginDialog">Sign in</a></li>
+				</ul>
+			</div>
+
+		</div>
+	</nav>
 	<div class="container body-content">
 		@RenderBody()
 	</div>
