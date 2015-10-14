@@ -1,5 +1,5 @@
 ﻿@using Newtonsoft.Json
-@model List<Infopulse.EDemocracy.Web.Areas.Admin.Models.ModeratedPetition>
+@*@model List<Infopulse.EDemocracy.Web.Areas.Admin.Models.ModeratedPetition>*@
 @{
 	ViewBag.Title = "Модерація петицій";
 }
@@ -45,53 +45,9 @@
 		<button id="EscalatePetitions" data-bind="click: escalateSelectedPetitions">На розгляді</button>
 	</div>
 </div>
-
 @*<script type="text/javascript">
-	//function collectCheckedPetitions() {
-	//	var params = [];
-
-	//	var petitions = $('.petitionInfo');
-	//	for (var i in petitions) {
-	//		if (petitions.hasOwnProperty(i) && i !== 'selector') {
-	//			var petitionInfo = $(petitions[i]);
-	//			var isChecked = petitionInfo.is(':checked');
-
-	//			if (isChecked) {
-	//				params.push({
-	//					IsChecked: isChecked,
-	//					ID: parseInt(petitionInfo.attr('data-id'))
-	//				});
-	//			}
-	//		}
-	//	}
-
-	//	return params;
-	//}
-
-	//$('#AssignToMe').click(function() {
-	//	var params = collectCheckedPetitions();
-	//	Moderation.post('petitions/assigntome', params, 'petitions', 'post');
-	//});
-
-	//$('#ApprovePetitions').click(function() {
-	//	var params = collectCheckedPetitions();
-	//	Moderation.post('petitions/ApprovePetitions', params, 'petitions', 'post');
-	//});
-
-	//$('#RejectPetitions').click(function() {
-	//	var params = collectCheckedPetitions();
-	//	Moderation.post('petitions/RejectPetitions', params, 'petitions', 'post');
-	//});
-
-	//$('#EscalatePetitions').click(function() {
-	//	var params = collectCheckedPetitions();
-	//	Moderation.post('petitions/EscalatePetitions', params, 'petitions', 'post');
-	//});
-
-</script>*@
-<script type="text/javascript">
 	var petitions = @Html.Raw(Json.Encode(Model));
-</script>
+</script>*@
 
 <script src="~/Areas/Admin/app/moderation/PetitionsViewModel.js"></script>
 <script src="~/Areas/Admin/app/AuthViewModel.js"></script>

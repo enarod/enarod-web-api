@@ -2,62 +2,39 @@
 	var self = this;
 
 	self.init = function() {
-		//$("#loginForm").dialog({
-		//	autoOpen: false,
-		//	height: 300,
-		//	width: 350,
-		//	modal: true,
-		//	buttons: {
-		//		"Sign in": self.signIn,
-		//		Cancel: function () {
-		//			console.log("singIn form close button clicked");
-		//			$("#loginForm").dialog("close");
-		//		}
-		//	},
-		//	close: function () {
-		//		console.log("singIn form closed");
-		//	}
-		//});
+		
 	};
 
-	self.petitions = ko.observableArray(petitions); // window.petitions
+	self.petitions = ko.observableArray();
 	self.selectedPetitions = ko.observableArray();
 
-	self.getPetitions = function() {
-		if (!localStorage["accessToken"]) {
-			////self.showLoginDialog();
-			ko.postbox.publish('signInRequested');
-		} else {
+	self.getPetitions = function () {
+		var authorizationHeader = Utils.GetAuthorizationHeader();
+
+		if (authorizationHeader != null) {
 			$.ajax({
 				url: "/api/admin/petitions",
 				type: "GET",
-				//data: JSON.stringify(data),
 				contentType: "application/json",
 				beforeSend: function (xhr) {
-					var token = localStorage["accessToken"];
-					xhr.setRequestHeader("Authorization", Utils.GetAuthorizationHeader());
+					xhr.setRequestHeader("Authorization", authorizationHeader);
 				}
 			})
 			.done(function (responseData) {
-				self.petitions = responseData.Data;
+				self.petitions(responseData.Data);
 			})
 			.error(function (jqXHR, textStatus, errorThrown) {
 				console.log("Error: " + errorThrown);
-
+				alert('Incorrect access token. Please re-signin.');
 				// if error code is 401 Unauthorized then show login window
 				if (errorThrown === "Unauthorized") {
-					////self.showLoginDialog();
 					ko.postbox.publish('signInRequested');
 				}
 			});
+		} else {
+			ko.postbox.publish('signInRequested');
 		}
 	};
-
-	
-
-	//self.signIn = function() {
-
-	//};
 
 	self.assignToMe = function () {
 		console.log("assignToMe");
