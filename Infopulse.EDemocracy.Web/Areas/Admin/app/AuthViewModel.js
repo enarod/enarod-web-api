@@ -6,6 +6,10 @@
 	self.init = function () {
 		updateAuthHeader();
 
+		ko.postbox.subscribe('signInRequested', function (e) {
+			self.showLoginDialog();
+		});
+
 		$("#loginForm").dialog({
 			autoOpen: false,
 			height: 300,
@@ -23,10 +27,6 @@
 			}
 		});
 	};
-
-	ko.postbox.subscribe('signInRequested', function() {
-		self.showLoginDialog();
-	});
 
 	self.login = ko.observable("");
 	self.password = ko.observable("");
@@ -61,7 +61,6 @@
 			$("#loginForm").dialog("close");
 		})
 		.error(function (xhr, status, error) {
-			debugger;
 			if (xhr.responseText && xhr.responseText.length > 0) {
 				var response = JSON.parse(xhr.responseText);
 				self.errorText(response.error_description);

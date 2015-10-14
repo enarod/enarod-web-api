@@ -177,7 +177,6 @@
   <ItemGroup>
     <Content Include="Areas\Admin\app\AuthViewModel.js" />
     <Content Include="Areas\Admin\app\moderation\PetitionsViewModel.js" />
-    <Content Include="Areas\Admin\app\moderation.js" />
     <Content Include="Areas\Admin\app\utils.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
