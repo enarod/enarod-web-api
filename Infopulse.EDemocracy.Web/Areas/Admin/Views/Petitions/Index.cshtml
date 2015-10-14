@@ -93,31 +93,19 @@
 	var petitions = @Html.Raw(Json.Encode(Model));
 </script>
 
-<script src="~/Areas/Admin/app/petitionModeration.js"></script>
+<script src="~/Areas/Admin/app/moderation/PetitionsViewModel.js"></script>
+<script src="~/Areas/Admin/app/AuthViewModel.js"></script>
 <script type="text/javascript" src="~/Areas/Admin/app/moderation.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		var viewModel = new AdminPetitionsViewModel();
-		ko.applyBindings(viewModel);
+		var viewModel = new PetitionsViewModel();
+		ko.applyBindings(viewModel, $('div.body-content')[0]);
 		viewModel.init();
 		viewModel.getPetitions();
+
+		var authViewModel = new AuthViewModel();
+		ko.applyBindings(authViewModel, $('nav')[0]);
+		authViewModel.init();
 	});
 </script>
-
-<div id="loginForm" title="Sign In">
-	<div class="row">
-		<p class="col-md-12">Please login</p>
-	</div>
-	<div class="row">
-		<span class="col-md-3">Login</span>
-		<input type="email" class="col-md-9"/>
-	</div>
-	<div class="row">
-		<span class="col-md-3">Password</span>
-		<input type="password" class="col-md-9" />
-	</div>
-	
-	
-	
-</div>

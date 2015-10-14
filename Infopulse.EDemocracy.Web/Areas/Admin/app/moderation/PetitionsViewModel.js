@@ -1,23 +1,23 @@
-﻿function AdminPetitionsViewModel() {
+﻿function PetitionsViewModel() {
 	var self = this;
 
 	self.init = function() {
-		$("#loginForm").dialog({
-			autoOpen: false,
-			height: 300,
-			width: 350,
-			modal: true,
-			buttons: {
-				"Sign in": self.signIn,
-				Cancel: function () {
-					console.log("singIn form close button clicked");
-					$("#loginForm").dialog("close");
-				}
-			},
-			close: function () {
-				console.log("singIn form closed");
-			}
-		});
+		//$("#loginForm").dialog({
+		//	autoOpen: false,
+		//	height: 300,
+		//	width: 350,
+		//	modal: true,
+		//	buttons: {
+		//		"Sign in": self.signIn,
+		//		Cancel: function () {
+		//			console.log("singIn form close button clicked");
+		//			$("#loginForm").dialog("close");
+		//		}
+		//	},
+		//	close: function () {
+		//		console.log("singIn form closed");
+		//	}
+		//});
 	};
 
 	self.petitions = ko.observableArray(petitions); // window.petitions
@@ -25,7 +25,8 @@
 
 	self.getPetitions = function() {
 		if (!localStorage["accessToken"]) {
-			self.showLoginDialog();
+			////self.showLoginDialog();
+			ko.postbox.publish('signInRequested');
 		} else {
 			$.ajax({
 				url: "/api/admin/petitions",
@@ -44,21 +45,18 @@
 
 				// if error code is 401 Unauthorized then show login window
 				if (errorThrown === "Unauthorized") {
-					self.showLoginDialog();
+					////self.showLoginDialog();
+					ko.postbox.publish('signInRequested');
 				}
 			});
 		}
 	};
 
-	self.showLoginDialog = function() {
-		console.log("not logged in. showing login dialog");
+	
 
-		$("#loginForm").dialog("open");
-	};
+	//self.signIn = function() {
 
-	self.signIn = function() {
-
-	};
+	//};
 
 	self.assignToMe = function () {
 		console.log("assignToMe");
@@ -94,37 +92,4 @@
 			console.log("Error: " + errorThrown);
 		});
 	}
-}
-
-function LoginFormViewModel() {
-	var self = this;
-
-	self.login = ko.observable("");
-	self.password = ko.observable("");
-
-	self.signIn = function() {
-		$.ajax({
-			url: "/api/account/signin",
-			type: "POST",
-			body: {
-				grant_type: "password",
-				username: self.login,
-				password: self.password
-			},
-			contentType: "application/x-www-form-urlencoded",
-			beforeSend: function (xhr) {
-				xhr.setRequestHeader("Accept", "application\json");
-			}
-		})
-		.done(function(data) {
-			localStorage.setItem("accessToken", data.access_token);
-		})
-		.error(function(xhr, status, error) {
-			debugger;
-		});
-	};
-
-	self.signOut = function() {
-		localStorage.setItem("accessToken", null);
-	};
 }
