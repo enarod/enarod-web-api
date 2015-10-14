@@ -25,9 +25,9 @@
 			})
 			.error(function (jqXHR, textStatus, errorThrown) {
 				console.log("Error: " + errorThrown);
-				alert('Incorrect access token. Please re-signin.');
 				// if error code is 401 Unauthorized then show login window
 				if (errorThrown === "Unauthorized") {
+					alert('Incorrect access token. Please re-signin.');
 					ko.postbox.publish('signInRequested');
 				}
 			});
@@ -45,7 +45,42 @@
 				data.push({ ID: selectedPetitions[i].ID });
 			}
 		}
-		sendPostRequest("/api/admin/petitions/AssignToMe", data);
+
+		$.ajax({
+			url: "/api/admin/petitions/AssignToMe",
+			type: "POST",
+			data: JSON.stringify(data),
+			contentType: "application/json",
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader("Authorization", Utils.GetAuthorizationHeader());
+			}
+		})
+		.done(function (responseData) {
+			
+		})
+		.error(function (jqXHR, textStatus, errorThrown) {
+			console.log("Error: " + errorThrown);
+			
+			// if error code is 401 Unauthorized then show login window
+			switch (errorThrown) {
+				case "Unauthorized":
+				{
+					alert('Incorrect access token. Please re-signin.');
+					ko.postbox.publish('signInRequested');
+					break;
+				}
+				case "Internal Server Error":
+				{
+					alert(jqXHR.responseJSON.ExceptionMessage);
+					break;
+				}
+				default:
+				{
+					console.log(jqXHR);
+					break;
+				}
+			}
+		});
 	};
 	self.approveSelectedPetitions = function () {
 		console.log("approveSelectedPetitions");
