@@ -32,9 +32,10 @@
 				url: "/api/admin/petitions",
 				type: "GET",
 				//data: JSON.stringify(data),
+				contentType: "application/json",
 				beforeSend: function (xhr) {
 					var token = localStorage["accessToken"];
-					xhr.setRequestHeader("Authorization", "Basic " + token);
+					xhr.setRequestHeader("Authorization", Utils.GetAuthorizationHeader());
 				}
 			})
 			.done(function (responseData) {

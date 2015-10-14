@@ -4,6 +4,8 @@
 	var tokenKey = 'accessToken';
 
 	self.init = function () {
+		updateAuthHeader();
+
 		$("#loginForm").dialog({
 			autoOpen: false,
 			height: 300,
@@ -28,6 +30,14 @@
 
 	self.login = ko.observable("");
 	self.password = ko.observable("");
+	self.errorText = ko.observable("");
+	self.authorizeHeader = ko.observable("");
+
+	self.showLoginDialog = function () {
+		console.log("not logged in. showing login dialog");
+
+		$("#loginForm").dialog("open");
+	};
 
 	self.signIn = function () {
 		$.ajax({
@@ -41,28 +51,34 @@
 			accepts: 'application/json',
 			contentType: 'application/x-www-form-urlencoded',
 			beforeSend: function (xhr) {
-				////xhr.setRequestHeader("Accept", "application\json");
 			}
 		})
 		.done(function (data) {
 			localStorage.setItem(tokenKey, data.access_token);
+			self.errorText("");
+			updateAuthHeader();
+
+			$("#loginForm").dialog("close");
 		})
 		.error(function (xhr, status, error) {
 			debugger;
+			if (xhr.responseText && xhr.responseText.length > 0) {
+				var response = JSON.parse(xhr.responseText);
+				self.errorText(response.error_description);
+			}
 		});
 	};
 
 	self.signOut = function () {
-		localStorage.setItem(tokenKey, null);
-	};
-
-	self.showLoginDialog = function () {
-		console.log("not logged in. showing login dialog");
-
-		$("#loginForm").dialog("open");
+		localStorage.clear(tokenKey);
+		updateAuthHeader();
 	};
 
 	self.isAuthorized = ko.computed(function () {
-		return localStorage.getItem(tokenKey) != null;
+		return self.authorizeHeader() != null;
 	});
+
+	var updateAuthHeader = function() {
+		self.authorizeHeader(Utils.GetAuthorizationHeader());
+	};
 }
