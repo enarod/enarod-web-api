@@ -151,6 +151,7 @@
     <Compile Include="EntityGroup.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Enum\PetitionStatusEnum.cs" />
     <Compile Include="Function.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
