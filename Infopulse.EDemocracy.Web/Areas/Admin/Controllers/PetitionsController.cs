@@ -5,8 +5,8 @@ using System.Web.Mvc;
 using AutoMapper;
 using Infopulse.EDemocracy.Data.Interfaces;
 using Infopulse.EDemocracy.Data.Repositories;
+using Infopulse.EDemocracy.Model.BusinessEntities.Admin;
 using Infopulse.EDemocracy.Model.ClientEntities.Search;
-using Infopulse.EDemocracy.Web.Areas.Admin.Models;
 using DALModels = Infopulse.EDemocracy.Model;
 using WebModels = Infopulse.EDemocracy.Model.BusinessEntities;
 

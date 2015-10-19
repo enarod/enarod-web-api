@@ -4,7 +4,7 @@
         <name>Infopulse.EDemocracy.Web</name>
     </assembly>
     <members>
-        <member name="M:Infopulse.EDemocracy.Web.Areas.Admin.Controllers.API.PetitionsController.AssignToMe(System.Collections.Generic.IEnumerable{Infopulse.EDemocracy.Web.Areas.Admin.Models.ModeratedPetition})">
+        <member name="M:Infopulse.EDemocracy.Web.Areas.Admin.Controllers.API.PetitionsController.AssignToMe(System.Collections.Generic.IEnumerable{Infopulse.EDemocracy.Model.BusinessEntities.Admin.ModeratedPetition})">
             <summary>
             Assigns current user as moderator for specific petitions.
             </summary>
@@ -14,16 +14,6 @@
         <member name="T:Infopulse.EDemocracy.Web.Areas.Admin.Controllers.PetitionsController">
             <summary>
             Controller to contain administration actions regarding petitions.
-            </summary>
-        </member>
-        <member name="T:Infopulse.EDemocracy.Web.Areas.Admin.Models.ModeratedPetition">
-            <summary>
-            Petition with cpecial properties indicating moderation status.
-            </summary>
-        </member>
-        <member name="P:Infopulse.EDemocracy.Web.Areas.Admin.Models.ModeratedPetition.IsChecked">
-            <summary>
-            Indicates whether moderator checked current petition for specific action.
             </summary>
         </member>
         <member name="M:Infopulse.EDemocracy.Web.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
@@ -659,6 +649,11 @@
         <member name="T:Infopulse.EDemocracy.Web.Controllers.PetitionController">
             <summary>
             MVC controller for all petition pages.
+            </summary>
+        </member>
+        <member name="T:Infopulse.EDemocracy.Web.JsonConverters.ModerationPetitionJsonConverter">
+            <summary>
+            Converter from ModerationPettion to JSON for admin page.
             </summary>
         </member>
         <member name="T:Infopulse.EDemocracy.Web.CORS.CorsPolicyProvider">
