@@ -176,6 +176,12 @@
     <Content Include="Areas\Admin\app\AuthViewModel.js" />
     <Content Include="Areas\Admin\app\moderation\PetitionsViewModel.js" />
     <Content Include="Areas\Admin\app\utils.js" />
+    <Content Include="Content\admin.css">
+      <DependentUpon>admin.less</DependentUpon>
+    </Content>
+    <Content Include="Content\admin.min.css">
+      <DependentUpon>admin.css</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -229,6 +235,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\admin.less" />
+    <None Include="compilerconfig.json" />
+    <Content Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\Dev.pubxml" />
     <None Include="Properties\PublishProfiles\LocalM.pubxml" />
     <None Include="Properties\PublishProfiles\Prod.pubxml" />
