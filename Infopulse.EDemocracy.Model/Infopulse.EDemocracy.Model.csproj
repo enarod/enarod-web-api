@@ -91,6 +91,7 @@
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AgreementVoteResponse.cs" />
+    <Compile Include="BusinessEntities\Admin\ModeratedPetition.cs" />
     <Compile Include="BusinessEntities\Agreement.cs" />
     <Compile Include="BusinessEntities\AgreementVote.cs" />
     <Compile Include="BusinessEntities\BaseEntity.cs" />
