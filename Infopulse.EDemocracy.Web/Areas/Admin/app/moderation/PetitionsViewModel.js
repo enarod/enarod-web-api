@@ -21,7 +21,25 @@
 				}
 			})
 			.done(function (responseData) {
-				self.petitions(responseData.Data);
+					for (var petitionIndex in responseData.Data) {
+						if (responseData.Data.hasOwnProperty(petitionIndex)) {
+							var petition = responseData.Data[petitionIndex];
+							petition.ApproverEmail = (petition.Approver && petition.Approver.User)
+								? petition.Approver.User.Email
+								: '';
+							petition.ApprovedDate = petition.ApprovedDate == null
+								? ''
+								: moment(ApprovedDate).format('DD.MM.YYYY hh:mm');
+							if (petition.PetitionStatus.ID === 1 && petition.Approver != null) {
+								petition.AdminStatus = 'На модерації';
+							} else if (petition.PetitionStatus.ID === 1 && petition.Approver == null) {
+								petition.AdminStatus = 'Створена';
+							} else {
+								petition.AdminStatus = petition.PetitionStatus.Name;
+							}
+						}
+					}
+					self.petitions(responseData.Data);
 			})
 			.error(function (jqXHR, textStatus, errorThrown) {
 				console.log("Error: " + errorThrown);

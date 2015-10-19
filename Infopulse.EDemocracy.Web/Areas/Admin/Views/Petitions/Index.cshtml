@@ -12,15 +12,16 @@
 
 <div class="row">
 	<div class="col-md-12">
-		<table>
+		<table id="petitionList">
 			<thead>
 			<tr>
 				<th></th>
 				<th>ID петиції</th>
 				<th>Назва</th>
-				<th>Дата створення</th>
+				<th class="dataType-dateTime">Дата створення</th>
 				<th>Модератор</th>
-				<th>Дата</th>
+				<th class="dataType-dateTime">Дата допуску</th>
+				<th class="petitionStatus">Статус</th>
 			</tr>
 			</thead>
 			<tbody data-bind="foreach: petitions">
@@ -29,8 +30,9 @@
 				<td data-bind="text: ID"></td>
 				<td data-bind="text: Subject"></td>
 				<td data-bind="text: moment(CreatedDate).format('DD.MM.YYYY hh:mm')"></td>
-				<td data-bind=""></td>
-				<td data-bind=""></td>
+				<td data-bind="text: ApproverEmail"></td>
+				<td data-bind="text: ApprovedDate"></td>
+				<td data-bind="text: AdminStatus"></td>
 			</tr>
 			</tbody>
 		</table>
