@@ -350,6 +350,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					.Include("Category")
 					.Include("Category.EntityGroup")
 					.Include("PetitionLevel")
+					.Include("PetitionStatus")
 					.SingleOrDefault(p => p.ID == addedPetition.ID);
 
 				return addedPetition;
