@@ -422,3 +422,36 @@ when not matched by target then
 
 when not matched by source then
 	delete;
+
+
+
+-- auth.App_Role
+set identity_insert auth.App_Role on
+go
+
+;merge auth.App_Role as target
+using
+(
+	values
+	(1,		'Admin'),
+	(2,		'Moderator'),
+	(3,		'TeamMember'),
+	(4,		'User')
+) as source (ID, Name)
+on target.ID = source.ID
+
+when matched then
+	update
+	set
+		Name = source.Name
+
+when not matched by target then
+	insert (ID, Name)
+	values (ID, Name)
+	
+when not matched by source then
+	delete;
+go
+
+set identity_insert auth.App_Role off
+go
