@@ -8,7 +8,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 	{
 		[HttpGet]
 		[Authorize]
-		[AuthorizationCheckFilter(RequiredRoles = "admin")]
+		[AuthorizationCheckFilter(RequiredRolesString = "admin")]
 		[Route("api/test/ping")]
 		public string Ping()
 		{

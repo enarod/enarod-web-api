@@ -493,9 +493,32 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="T:Infopulse.EDemocracy.Web.Auth.AuthorizationCheckFilter">
+            <summary>
+            Checks authorization of the user for specific criteria.
+            </summary>
+            <remarks>
+            Allows mutiple check. If user must have all of two roles - then use multiple attributes:
+            <code>
+            	[AuthorizationCheckFilter(RequiredRoleString="role1")]
+            	[AuthorizationCheckFilter(RequiredRoleString="role1")]
+            	public HttpResponseMessage Action() { ... }
+            </code>
+            If user can have any role from list - then use comma separated string:
+            <code>
+            	[AuthorizationCheckFilter(RequiredRoleString="role1,role2")]
+            	public HttpResponseMessage Action() { ... }
+            </code>
+            </remarks>
+        </member>
+        <member name="P:Infopulse.EDemocracy.Web.Auth.AuthorizationCheckFilter.RequiredRolesString">
+            <summary>
+            If current user has any of these roles then the action is authorized.
+            </summary>
+        </member>
         <member name="P:Infopulse.EDemocracy.Web.Auth.AuthorizationCheckFilter.RequiredRoles">
             <summary>
-            If current user has any of this role then action is authorized.
+            If current user has any of these roles then the action is authorized.
             </summary>
         </member>
         <member name="T:Infopulse.EDemocracy.Web.Controllers.API.BaseApiController">

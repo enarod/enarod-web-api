@@ -152,6 +152,7 @@
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Enum\PetitionStatusEnum.cs" />
+    <Compile Include="Enum\Role.cs" />
     <Compile Include="Function.cs">
       <DependentUpon>EDModel.tt</DependentUpon>
     </Compile>
