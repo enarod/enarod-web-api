@@ -12,29 +12,32 @@ using Infopulse.EDemocracy.Model.BusinessEntities.Admin;
 using WebModels = Infopulse.EDemocracy.Model.BusinessEntities;
 using DalModels = Infopulse.EDemocracy.Model;
 using Infopulse.EDemocracy.Model.ClientEntities.Search;
+using Infopulse.EDemocracy.Model.Enum;
+using Infopulse.EDemocracy.Web.Auth;
 using Infopulse.EDemocracy.Web.Controllers.API;
 
 namespace Infopulse.EDemocracy.Web.Areas.Admin.Controllers.API
 {
-    public class PetitionsController : BaseApiController
-    {
+	public class PetitionsController : BaseApiController
+	{
 		private IPetitionAdminRepository petitionAdminRepository = new PetitionAdminRepository();
 
 
 		[Authorize]
 		[HttpGet]
 		[Route("api/admin/petitions")]
+		[AuthorizationCheckFilter(RequiredRoles = new[] { Role.Admin, Role.Moderator })]
 		public OperationResult<IEnumerable<WebModels.Petition>> Get(SearchParameters pageParameters)
-	    {
-		    var result = OperationExecuter.Execute(() =>
-		    {
-			    var petitions = petitionAdminRepository.GetPetitionForAdmin(pageParameters);
-			    var webPetitions = petitions.Select(Mapper.Map<DalModels.Petition, WebModels.Admin.ModeratedPetition>);
-			    return OperationResult<IEnumerable<WebModels.Petition>>.Success(webPetitions);
-		    });
+		{
+			var result = OperationExecuter.Execute(() =>
+			{
+				var petitions = petitionAdminRepository.GetPetitionForAdmin(pageParameters);
+				var webPetitions = petitions.Select(Mapper.Map<DalModels.Petition, WebModels.Admin.ModeratedPetition>);
+				return OperationResult<IEnumerable<WebModels.Petition>>.Success(webPetitions);
+			});
 
-		    return result;
-	    }
+			return result;
+		}
 
 		/// <summary>
 		/// Assigns current user as moderator for specific petitions.
@@ -42,8 +45,9 @@ namespace Infopulse.EDemocracy.Web.Areas.Admin.Controllers.API
 		/// <param name="petitions">List of petitions to assign.</param>
 		/// <returns></returns>
 		[HttpPost]
+		[AuthorizationCheckFilter(RequiredRoles = new[] { Role.Moderator })]
 		[Route("api/admin/petitions/AssignToMe")]
-        public OperationResult AssignToMe([FromBody]IEnumerable<ModeratedPetition> petitions)
+		public OperationResult AssignToMe([FromBody]IEnumerable<ModeratedPetition> petitions)
 		{
 			if (!petitions.Any()) return OperationResult.Success(1, "No petitions ID was received.");
 			this.petitionAdminRepository = new PetitionAdminRepository();
