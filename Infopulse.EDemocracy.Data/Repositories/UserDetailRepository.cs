@@ -44,6 +44,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				{
 					user.CreatedBy = this.UnknownAppUser;
 					user.CreatedDate = DateTime.UtcNow;
+					user.User = null;
 					db.UserDetails.Add(user);
 				}
 				else
