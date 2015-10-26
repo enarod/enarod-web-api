@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Infopulse.EDemocracy.Common.Extensions
 {
@@ -22,6 +25,17 @@ namespace Infopulse.EDemocracy.Common.Extensions
 			var encoding = Encoding.GetEncoding(1252);
 			text = encoding.GetString(bytes);
 			return text;
+		}
+
+		public static List<string> SplitStringBySeparator(this string text, string separator = ",")
+		{
+			if (string.IsNullOrWhiteSpace(text)) return new List<string>();
+			if (string.IsNullOrWhiteSpace(separator)) return new List<string> {text};
+
+			return text
+				.Split(new string[] { separator }, StringSplitOptions.RemoveEmptyEntries)
+				.Select(s => s.Trim())
+				.ToList();
 		}
 	}
 }

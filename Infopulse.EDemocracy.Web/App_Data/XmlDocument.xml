@@ -493,6 +493,11 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="P:Infopulse.EDemocracy.Web.Auth.AuthorizationCheckFilter.RequiredRoles">
+            <summary>
+            If current user has any of this role then action is authorized.
+            </summary>
+        </member>
         <member name="T:Infopulse.EDemocracy.Web.Controllers.API.BaseApiController">
             <summary>
             The base class for api controllers
@@ -649,11 +654,6 @@
         <member name="T:Infopulse.EDemocracy.Web.Controllers.PetitionController">
             <summary>
             MVC controller for all petition pages.
-            </summary>
-        </member>
-        <member name="T:Infopulse.EDemocracy.Web.JsonConverters.ModerationPetitionJsonConverter">
-            <summary>
-            Converter from ModerationPettion to JSON for admin page.
             </summary>
         </member>
         <member name="T:Infopulse.EDemocracy.Web.CORS.CorsPolicyProvider">
