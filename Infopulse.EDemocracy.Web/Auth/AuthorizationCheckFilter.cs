@@ -73,25 +73,6 @@ namespace Infopulse.EDemocracy.Web.Auth
 			base.OnActionExecuting(actionContext);
 		}
 
-		////private string GetRolesString()
-		////{
-		////	if (string.IsNullOrWhiteSpace(this.RequiredRolesString))
-		////	{
-		////		var requiredRolesString = new StringBuilder();
-		////		for (int i = 0; i < this.RequiredRoles.Count; i++)
-		////		{
-		////			requiredRolesString.AppendFormat("{0},", this.RequiredRoles[i]);
-		////		}
-
-		////		var result = requiredRolesString.Remove(requiredRolesString.Length - 2, 1).ToString();
-		////		return result;
-		////	}
-		////	else
-		////	{
-		////		return this.RequiredRolesString;
-		////	}
-		////}
-
 		private List<string> GetRequiredRoles()
 		{
 			List<string> result;
