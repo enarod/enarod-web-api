@@ -11,3 +11,4 @@ UpgradeLog*.xml
 *.orig
 Infopulse.EDemocracy.Data.DB/Infopulse.EDemocracy.Data.DB.dbmdl
 *.dbmdl
+.vs/
