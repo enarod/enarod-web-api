@@ -324,6 +324,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510261905366_auth_tables.cs" />
+    <Compile Include="Migrations\201510261905366_auth_tables.Designer.cs">
+      <DependentUpon>201510261905366_auth_tables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\API\AgreementController.cs" />
@@ -402,6 +407,11 @@
       <Project>{044C41CB-2DF9-40DA-8A41-D6A54379C76C}</Project>
       <Name>Infopulse.EDemocracy.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201510261905366_auth_tables.resx">
+      <DependentUpon>201510261905366_auth_tables.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
