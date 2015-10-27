@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using Infopulse.EDemocracy.Model.Enum;
 
 namespace Infopulse.EDemocracy.Data.Repositories
 {
@@ -312,23 +313,6 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					petition.PetitionLevel = null;
 				}
 
-				//// author
-				//if (newPetition.Issuer == null)
-				//{
-				//	throw new Exception("Unable to create petition without author.");
-				//}
-				//else
-				//{
-				//	newPetition.Issuer.CreatedDate = now;
-				//	newPetition.Issuer.CreatedBy = this.UnknownAppUser;
-
-				//	var author = db.PetitionSigners.Add(newPetition.Issuer);
-				//	db.SaveChanges();
-
-				//	petition.IssuerID = author.ID;
-				//	petition.Issuer = null;
-				//}
-
 				// organization
 				if (newPetition.OrganizationID.HasValue)
 				{
@@ -341,6 +325,10 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					petition.OrganizationID = organizationFromDb.ID;
 				}
 
+
+				// petition status
+				petition.PetitionStatusID = (int)PetitionStatusEnum.Moderation;
+				petition.PetitionStatus = null;
 
 				var addedPetition = db.Petitions.Add(petition);
 				db.SaveChanges();
