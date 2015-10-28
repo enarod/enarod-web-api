@@ -1,4 +1,6 @@
-﻿html {
+﻿@cellMargin: 15px;
+
+html {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -11,8 +13,12 @@
 }
 
 table#petitionList {
-	th {
+	/*th {
 		padding-right: 20px;
+	}*/
+
+	td {
+		border: 1px solid #161616;
 	}
 
 	th.dataType-dateTime {
@@ -22,4 +28,16 @@ table#petitionList {
 	th.petitionStatus {
 		min-width: 120px;
 	}
+
+	.tableCell {
+		/*padding-left: @cellMargin;*/
+
+		div {
+			margin: 0 @cellMargin;
+			/*margin-right: @cellMargin;*/
+		}
+	}
+	/*.tableCell {
+		margin-left: 15px;
+	}*/
 }
