@@ -5,6 +5,7 @@
 		Moderation = 1,
 		SignaturessGathering = 2,
 		UnderConsideration = 3,
-		Answered = 4
+		Answered = 4,
+		Rejected = 5
 	}
 }
