@@ -9,7 +9,28 @@
             Assigns current user as moderator for specific petitions.
             </summary>
             <param name="petitions">List of petitions to assign.</param>
-            <returns></returns>
+            <returns>Operation result.</returns>
+        </member>
+        <member name="M:Infopulse.EDemocracy.Web.Areas.Admin.Controllers.API.PetitionsController.ApprovePetitions(System.Collections.Generic.IEnumerable{Infopulse.EDemocracy.Model.BusinessEntities.Admin.ModeratedPetition})">
+            <summary>
+            Approve specific petitions for votes gathering.
+            </summary>
+            <param name="petitions">Petitions to approve.</param>
+            <returns>Opertation result.</returns>
+        </member>
+        <member name="M:Infopulse.EDemocracy.Web.Areas.Admin.Controllers.API.PetitionsController.RejectPetitions(System.Collections.Generic.IEnumerable{Infopulse.EDemocracy.Model.BusinessEntities.Admin.ModeratedPetition})">
+            <summary>
+            Rejects specific petitions to show for all users.
+            </summary>
+            <param name="petitions">List of petitions to reject.</param>
+            <returns>Operation result.</returns>
+        </member>
+        <member name="M:Infopulse.EDemocracy.Web.Areas.Admin.Controllers.API.PetitionsController.EscalatePetitions(System.Collections.Generic.IEnumerable{Infopulse.EDemocracy.Model.BusinessEntities.Admin.ModeratedPetition})">
+            <summary>
+            Marks specific petitions as under consideration.
+            </summary>
+            <param name="petitions">Petitions list to escalate.</param>
+            <returns>Operation result.</returns>
         </member>
         <member name="T:Infopulse.EDemocracy.Web.Areas.Admin.Controllers.PetitionsController">
             <summary>

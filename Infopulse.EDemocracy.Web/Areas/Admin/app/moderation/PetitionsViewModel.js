@@ -29,7 +29,7 @@
 								: '';
 							petition.ApprovedDate = petition.ApprovedDate == null
 								? ''
-								: moment(ApprovedDate).format('DD.MM.YYYY hh:mm');
+								: moment(petition.ApprovedDate).format('DD.MM.YYYY hh:mm');
 							if (petition.PetitionStatus.ID === 1 && petition.Approver != null) {
 								petition.AdminStatus = 'На модерації';
 							} else if (petition.PetitionStatus.ID === 1 && petition.Approver == null) {
@@ -54,15 +54,27 @@
 		}
 	};
 
-	self.assignToMe = function () {
-		console.log("assignToMe");
+	function getSelectedPetitions() {
 		var data = [];
 		var selectedPetitions = self.selectedPetitions();
-		for (var i in selectedPetitions) {
-			if (selectedPetitions.hasOwnProperty(i)) {
-				data.push({ ID: selectedPetitions[i].ID });
-			}
+		for (var i = 0; i < selectedPetitions.length; i++) {
+			data.push({ ID: selectedPetitions[i].ID });
 		}
+
+		return data;
+	}
+
+	self.assignToMe = function () {
+		console.log("assignToMe");
+		//var data = [];
+		//var selectedPetitions = self.selectedPetitions();
+		//for (var i in selectedPetitions) {
+		//	if (selectedPetitions.hasOwnProperty(i)) {
+		//		data.push({ ID: selectedPetitions[i].ID });
+		//	}
+		//}
+
+		var data = getSelectedPetitions();
 
 		$.ajax({
 			url: "/api/admin/petitions/AssignToMe",
@@ -74,7 +86,7 @@
 			}
 		})
 		.done(function (responseData) {
-			
+			window.location.href = '/admin/petitions/';
 		})
 		.error(function (jqXHR, textStatus, errorThrown) {
 			console.log("Error: " + errorThrown);
@@ -100,8 +112,45 @@
 			}
 		});
 	};
+
 	self.approveSelectedPetitions = function () {
-		console.log("approveSelectedPetitions");
+		var data = getSelectedPetitions();
+
+		$.ajax({
+			url: "/api/admin/petitions/approve",
+			type: "POST",
+			data: JSON.stringify(data),
+			contentType: "application/json",
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader("Authorization", Utils.GetAuthorizationHeader());
+			}
+		})
+		.done(function (responseData) {
+			window.location.href = '/admin/petitions/';
+		})
+		.error(function (jqXHR, textStatus, errorThrown) {
+			console.log("Error: " + errorThrown);
+
+			// if error code is 401 Unauthorized then show login window
+			switch (errorThrown) {
+				case "Unauthorized":
+					{
+						alert('Incorrect access token. Please re-signin.');
+						ko.postbox.publish('signInRequested');
+						break;
+					}
+				case "Internal Server Error":
+					{
+						alert(jqXHR.responseJSON.ExceptionMessage);
+						break;
+					}
+				default:
+					{
+						console.log(jqXHR);
+						break;
+					}
+			}
+		});
 	};
 	self.rejectSelectedPetitions = function () {
 		console.log("rejectSelectedPetitions");

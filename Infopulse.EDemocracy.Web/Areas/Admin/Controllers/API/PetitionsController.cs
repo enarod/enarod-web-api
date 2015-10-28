@@ -43,7 +43,7 @@ namespace Infopulse.EDemocracy.Web.Areas.Admin.Controllers.API
 		/// Assigns current user as moderator for specific petitions.
 		/// </summary>
 		/// <param name="petitions">List of petitions to assign.</param>
-		/// <returns></returns>
+		/// <returns>Operation result.</returns>
 		[HttpPost]
 		[AuthorizationCheckFilter(RequiredRoles = new[] { Role.Moderator })]
 		[Route("api/admin/petitions/AssignToMe")]
@@ -55,6 +55,76 @@ namespace Infopulse.EDemocracy.Web.Areas.Admin.Controllers.API
 			var result = OperationExecuter.Execute(() =>
 			{
 				this.petitionAdminRepository.AssignApprover(this.GetSignedInUserId(), petitions.Select(p => p.ID));
+
+				return OperationResult.Success();
+			});
+
+			return result;
+		}
+
+
+		/// <summary>
+		/// Approve specific petitions for votes gathering.
+		/// </summary>
+		/// <param name="petitions">Petitions to approve.</param>
+		/// <returns>Opertation result.</returns>
+		[HttpPost]
+		[AuthorizationCheckFilter(RequiredRoles = new[] { Role.Moderator })]
+		[Route("api/admin/petitions/approve")]
+		public OperationResult ApprovePetitions([FromBody]IEnumerable<ModeratedPetition> petitions)
+		{
+			if (!petitions.Any()) return OperationResult.Success(1, "No petitions ID was received.");
+			this.petitionAdminRepository = new PetitionAdminRepository();
+
+			var result = OperationExecuter.Execute(() =>
+			{
+				this.petitionAdminRepository.ApprovePetitions(this.GetSignedInUserId(), petitions.Select(p => p.ID));
+
+				return OperationResult.Success();
+			});
+
+			return result;
+		}
+
+		/// <summary>
+		/// Rejects specific petitions to show for all users.
+		/// </summary>
+		/// <param name="petitions">List of petitions to reject.</param>
+		/// <returns>Operation result.</returns>
+		[HttpPost]
+		[AuthorizationCheckFilter(RequiredRoles = new[] { Role.Moderator })]
+		[Route("api/admin/petitions/reject")]
+		public OperationResult RejectPetitions([FromBody]IEnumerable<ModeratedPetition> petitions)
+		{
+			if (!petitions.Any()) return OperationResult.Success(1, "No petitions ID was received.");
+			this.petitionAdminRepository = new PetitionAdminRepository();
+
+			var result = OperationExecuter.Execute(() =>
+			{
+				this.petitionAdminRepository.RejectPetitions(this.GetSignedInUserId(), petitions.Select(p => p.ID));
+
+				return OperationResult.Success();
+			});
+
+			return result;
+		}
+
+		/// <summary>
+		/// Marks specific petitions as under consideration.
+		/// </summary>
+		/// <param name="petitions">Petitions list to escalate.</param>
+		/// <returns>Operation result.</returns>
+		[HttpPost]
+		[AuthorizationCheckFilter(RequiredRoles = new[] { Role.Moderator })]
+		[Route("api/admin/petitions/escalate")]
+		public OperationResult EscalatePetitions([FromBody]IEnumerable<ModeratedPetition> petitions)
+		{
+			if (!petitions.Any()) return OperationResult.Success(1, "No petitions ID was received.");
+			this.petitionAdminRepository = new PetitionAdminRepository();
+
+			var result = OperationExecuter.Execute(() =>
+			{
+				this.petitionAdminRepository.EscalatePetitions(this.GetSignedInUserId(), petitions.Select(p => p.ID));
 
 				return OperationResult.Success();
 			});

@@ -62,8 +62,11 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				var petitions = db.Petitions.Where(p => petitionIDs.Contains(p.ID));
 				foreach (var petition in petitions)
 				{
-					petition.ApprovedBy = userID;
-					petition.PetitionStatusID = (int)PetitionStatusEnum.Moderation;
+					if (!petition.ApprovedBy.HasValue)
+					{
+						petition.ApprovedBy = userID;
+						petition.PetitionStatusID = (int)PetitionStatusEnum.Moderation;
+					}
 				}
 
 				db.SaveChanges();
@@ -72,17 +75,54 @@ namespace Infopulse.EDemocracy.Data.Repositories
 
 		public void ApprovePetitions(int userID, IEnumerable<long> petitionIDs)
 		{
-			throw new System.NotImplementedException();
+			using (var db = new EDEntities())
+			{
+				var petitions = db.Petitions.Where(p => petitionIDs.Contains(p.ID));
+				foreach (var petition in petitions)
+				{
+					if (petition.ApprovedBy == userID)
+					{
+						petition.ApprovedDate = DateTime.UtcNow;
+						petition.PetitionStatusID = (int)PetitionStatusEnum.SignaturessGathering;
+					}
+				}
+
+				db.SaveChanges();
+			}
 		}
 
 		public void RejectPetitions(int userID, IEnumerable<long> petitionIDs)
 		{
-			throw new System.NotImplementedException();
+			using (var db = new EDEntities())
+			{
+				var petitions = db.Petitions.Where(p => petitionIDs.Contains(p.ID));
+				foreach (var petition in petitions)
+				{
+					if (petition.ApprovedBy == userID)
+					{
+						petition.PetitionStatusID = (int)PetitionStatusEnum.Rejected;
+					}
+				}
+
+				db.SaveChanges();
+			}
 		}
 
 		public void EscalatePetitions(int userID, IEnumerable<long> petitionIDs)
 		{
-			throw new System.NotImplementedException();
+			using (var db = new EDEntities())
+			{
+				var petitions = db.Petitions.Where(p => petitionIDs.Contains(p.ID));
+				foreach (var petition in petitions)
+				{
+					if (petition.ApprovedBy == userID)
+					{
+						petition.PetitionStatusID = (int)PetitionStatusEnum.UnderConsideration;
+					}
+				}
+
+				db.SaveChanges();
+			}
 		}
 	}
 }
