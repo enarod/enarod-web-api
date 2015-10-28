@@ -14,18 +14,19 @@ namespace Infopulse.EDemocracy.Data.Repositories
 		{
 			if (petitionEmailVote == null)
 			{
-				throw new NullReferenceException("Unable to create email vote request with null PetitionEmailVote.");
+				throw new NullReferenceException(@"Unable to create email vote request with null PetitionEmailVote.");
 			}
 
 			if (petitionEmailVote.VoterID == default(int))
 			{
-				throw new ArgumentNullException("emailVote", @"Unable to create email vote requst with null UserID.");
+				throw new ArgumentNullException(nameof(petitionEmailVote.Voter), @"Unable to create email vote requst with null UserID.");
 			}
 
 			using (var db = new EDEntities())
 			{
 				var dbEmailVote = db.PetitionEmailVotes
 					.Include("Voter")
+					.Include("Petition")
 					.SingleOrDefault(v =>
 						v.PetitionID == petitionEmailVote.PetitionID &&
 						v.VoterID == petitionEmailVote.VoterID);
@@ -52,9 +53,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					.SingleOrDefault(p => p.ID == petitionEmailVote.PetitionID);
 				petitionEmailVote.Voter = db.UserDetails
 					.Include("User")
-					.Include("User.UserDetails")
-					.SingleOrDefault(ud => ud.UserID == petitionEmailVote.VoterID)
-					.User;
+					.SingleOrDefault(ud => ud.UserID == petitionEmailVote.VoterID)?.User;
 
 				return petitionEmailVote;
 			}
