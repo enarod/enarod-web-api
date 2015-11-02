@@ -31,7 +31,7 @@
 	self.login = ko.observable("");
 	self.password = ko.observable("");
 	self.errorText = ko.observable("");
-	self.authorizeHeader = ko.observable("");
+	self.authorizeHeader = ko.observable(null);
 
 	self.showLoginDialog = function () {
 		console.log("not logged in. showing login dialog");
@@ -55,8 +55,11 @@
 		})
 		.done(function (data) {
 			localStorage.setItem(tokenKey, data.access_token);
-			self.errorText("");
+			
 			updateAuthHeader();
+			clearCredentials();
+
+			ko.postbox.publish('signedIn');
 
 			$("#loginForm").dialog("close");
 		})
@@ -79,5 +82,11 @@
 
 	var updateAuthHeader = function() {
 		self.authorizeHeader(Utils.GetAuthorizationHeader());
+	};
+
+	var clearCredentials = function () {
+		self.login("");
+		self.password("");
+		self.errorText("");
 	};
 }

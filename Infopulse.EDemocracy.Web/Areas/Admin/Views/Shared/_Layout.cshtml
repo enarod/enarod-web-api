@@ -20,7 +20,7 @@
 		<!-- see example here: http://getbootstrap.com/examples/navbar-fixed-top/ -->
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">eNarod Admin</a>
+				<a class="navbar-brand" href="/admin">eNarod Admin</a>
 			</div>
 
 			<div id="navbar" class="navbar-collapse collapse">
@@ -36,23 +36,20 @@
 				</div>
 				<div class="row formLine">
 					<span class="col-md-4">Login</span>
-					<input type="email" class="col-md-8" data-bind="value: login" />
+					<input type="email" class="col-md-8" data-bind="value: login"/>
 				</div>
 				<div class="row formLine">
 					<span class="col-md-4">Password</span>
-					<input type="password" class="col-md-8" data-bind="value: password" />
+					<input type="password" class="col-md-8" data-bind="value: password"/>
 				</div>
 				<div class="row formLine">
 					<span class="errorText col-md-12" data-bind="text: errorText" ></span>
 				</div>
 			</div>
-
 		</div>
 	</nav>
 	<div class="container body-content">
 		@RenderBody()
 	</div>
-
-
 </body>
 </html>

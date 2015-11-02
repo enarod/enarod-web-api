@@ -1,16 +1,35 @@
 ﻿@{
-    ViewBag.Title = "eNarod - Admin page";
+	ViewBag.Title = "eNarod - Admin page";
 }
 
-<h2>Actions:</h2>
-<ul>
-	<li>
-		<a href="log">Show log</a>
-	</li>
-	<li>
-		<a href="/admin/petitions">Модерація петицій</a>
-	</li>
-	<li>
-		<a>Clear log</a>
-	</li>
-</ul>
+<div class="adminMainPage">
+	<div class="row">
+		<h2>Actions</h2>
+	</div>
+	<div class="row">
+		<ul class="col-md-12">
+			<li data-bind="visible: !isAuthorized">
+				<a href="#" data-bind="click: showLoginDialog">Sign in</a>
+			</li>
+			<li data-bind="visible: isAuthorized">
+				<a href="/admin/petitions">Модерація петицій</a>
+			</li>
+			@*<li data-bind="visible: isAuthorized">
+				<a href="log">Show log</a>
+			</li>*@
+			<li data-bind="visible: isAuthorized">
+				<a href="#" data-bind="click: signOut">Sign out</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<script src="~/Areas/Admin/app/AuthViewModel.js"></script>
+<script src="~/Areas/Admin/app/utils.js"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		var authViewModel = new AuthViewModel();
+		//ko.applyBindings(authViewModel, $('nav')[0]);
+		ko.applyBindings(authViewModel);
+		authViewModel.init();
+	});
+</script>
