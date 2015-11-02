@@ -4,94 +4,95 @@
 	ViewBag.Title = "Модерація петицій";
 }
 
+<div class="petitionsModeration">
 
-
-<div class="row">
-	<h2 class="col-md-12">Модерація петицій</h2>
-</div>
-
-<div class="row">
-	<div class="col-md-12">
-		<table id="petitionList">
-			<thead>
-				<tr>
-					<th></th>
-					<th class="tableCell">
-						<div>ID петиції</div>
-					</th>
-					<th class="tableCell">
-						<div>Назва</div>
-					</th>
-					<th class="dataType-dateTime tableCell">
-						<div>Дата створення</div>
-					</th>
-					<th class="tableCell">
-						<div>Модератор</div>
-					</th>
-					<th class="dataType-dateTime tableCell">
-						<div>Дата допуску</div>
-					</th>
-					<th class="petitionStatus tableCell">
-						<div>Статус</div>
-					</th>
-				</tr>
-			</thead>
-			<tbody data-bind="foreach: petitions">
-				<tr class="petition">
-					<td>
-						<div>
-							<input type="checkbox" data-bind="checkedValue: $data, checked: $root.selectedPetitions" />
-						</div>
-					</td>
-					<td class="tableCell">
-						<div data-bind="text: ID"></div>
-					</td>
-					<td class="tableCell">
-						<div data-bind="text: Subject"></div>
-					</td>
-					<td class="tableCell">
-						<div data-bind="text: moment(CreatedDate).format('DD.MM.YYYY hh:mm')"></div>
-					</td>
-					<td class="tableCell">
-						<div data-bind="text: ApproverEmail"></div>
-					</td>
-					<td class="tableCell">
-						<div data-bind="text: ApprovedDate"></div>
-					</td>
-					<td class="tableCell">
-						<div data-bind="text: AdminStatus"></div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+	<div class="row">
+		<h2 class="col-md-12">Модерація петицій</h2>
 	</div>
-</div>
 
-<div class="row">
-	<div class="col-md-12">
-		<button id="AssignToMe" data-bind="click: assignToMe">Взяти в роботу</button>
-		<button id="ApprovePetitions" data-bind="click: approveSelectedPetitions">Підтвердити</button>
-		<button id="RejectPetitions" data-bind="click: rejectSelectedPetitions">Відхилити</button>
-		<button id="EscalatePetitions" data-bind="click: escalateSelectedPetitions">На розгляді</button>
+	<div class="row">
+		<div class="col-md-12">
+			<table id="petitionList">
+				<thead>
+					<tr>
+						<th></th>
+						<th class="tableCell">
+							<div>ID петиції</div>
+						</th>
+						<th class="tableCell">
+							<div>Назва</div>
+						</th>
+						<th class="dataType-dateTime tableCell">
+							<div>Дата створення</div>
+						</th>
+						<th class="tableCell">
+							<div>Модератор</div>
+						</th>
+						<th class="dataType-dateTime tableCell">
+							<div>Дата допуску</div>
+						</th>
+						<th class="petitionStatus tableCell">
+							<div>Статус</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach: petitions">
+					<tr class="petition">
+						<td>
+							<div>
+								<input type="checkbox" data-bind="checkedValue: $data, checked: $root.selectedPetitions" />
+							</div>
+						</td>
+						<td class="tableCell">
+							<div data-bind="text: ID"></div>
+						</td>
+						<td class="tableCell">
+							<div data-bind="text: Subject"></div>
+						</td>
+						<td class="tableCell">
+							<div data-bind="text: moment(CreatedDate).format('DD.MM.YYYY hh:mm')"></div>
+						</td>
+						<td class="tableCell">
+							<div data-bind="text: ApproverEmail"></div>
+						</td>
+						<td class="tableCell">
+							<div data-bind="text: ApprovedDate"></div>
+						</td>
+						<td class="tableCell">
+							<div data-bind="text: AdminStatus"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
+
+	<div class="row actionButtons">
+		<div class="col-md-12">
+			<button id="AssignToMe" data-bind="click: assignToMe, enable: buttonIsEnabled">Взяти в роботу</button>
+			<button id="ApprovePetitions" data-bind="click: approveSelectedPetitions, enable: buttonIsEnabled">Підтвердити</button>
+			<button id="RejectPetitions" data-bind="click: rejectSelectedPetitions, enable: buttonIsEnabled">Відхилити</button>
+			<button id="EscalatePetitions" data-bind="click: escalateSelectedPetitions, enable: buttonIsEnabled">На розгляді</button>
+		</div>
+	</div>
+
+	<div id="petitionsGrid"></div>
+
+	<script src="~/Areas/Admin/app/moderation/PetitionsViewModel.js"></script>
+	<script src="~/Areas/Admin/app/AuthViewModel.js"></script>
+	<script src="~/Areas/Admin/app/utils.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			var viewModel = new PetitionsViewModel();
+			ko.applyBindings(viewModel, $('div.body-content')[0]);
+			viewModel.init();
+			viewModel.getPetitions();
+
+			var authViewModel = new AuthViewModel();
+			ko.applyBindings(authViewModel, $('nav')[0]);
+			authViewModel.init();
+		});
+	</script>
+
 </div>
-@*<script type="text/javascript">
-		var petitions = @Html.Raw(Json.Encode(Model));
-	</script>*@
-
-<script src="~/Areas/Admin/app/moderation/PetitionsViewModel.js"></script>
-<script src="~/Areas/Admin/app/AuthViewModel.js"></script>
-<script src="~/Areas/Admin/app/utils.js"></script>
-
-<script type="text/javascript">
-	$(document).ready(function () {
-		var viewModel = new PetitionsViewModel();
-		ko.applyBindings(viewModel, $('div.body-content')[0]);
-		viewModel.init();
-		viewModel.getPetitions();
-
-		var authViewModel = new AuthViewModel();
-		ko.applyBindings(authViewModel, $('nav')[0]);
-		authViewModel.init();
-	});
-</script>

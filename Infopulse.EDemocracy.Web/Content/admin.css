@@ -10,27 +10,18 @@
   -moz-box-sizing: inherit;
   box-sizing: inherit;
 }
-table#petitionList {
-  /*th {
-		padding-right: 20px;
-	}*/
-  /*.tableCell {
-		margin-left: 15px;
-	}*/
-}
-table#petitionList td {
+.petitionsModeration table#petitionList td {
   border: 1px solid #161616;
 }
-table#petitionList th.dataType-dateTime {
+.petitionsModeration table#petitionList th.dataType-dateTime {
   min-width: 120px;
 }
-table#petitionList th.petitionStatus {
+.petitionsModeration table#petitionList th.petitionStatus {
   min-width: 120px;
 }
-table#petitionList .tableCell {
-  /*padding-left: @cellMargin;*/
-}
-table#petitionList .tableCell div {
+.petitionsModeration table#petitionList .tableCell div {
   margin: 0 15px;
-  /*margin-right: @cellMargin;*/
+}
+.petitionsModeration .actionButtons button:disabled {
+  color: #C7C7C7;
 }

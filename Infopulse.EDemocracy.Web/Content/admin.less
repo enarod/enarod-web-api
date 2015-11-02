@@ -12,32 +12,37 @@ html {
 	box-sizing: inherit;
 }
 
-table#petitionList {
-	/*th {
-		padding-right: 20px;
-	}*/
+.petitionsModeration {
+	table#petitionList {
+		td {
+			border: 1px solid #161616;
+		}
 
-	td {
-		border: 1px solid #161616;
-	}
+		th.dataType-dateTime {
+			min-width: 120px;
+		}
 
-	th.dataType-dateTime {
-		min-width: 120px;
-	}
+		th.petitionStatus {
+			min-width: 120px;
+		}
 
-	th.petitionStatus {
-		min-width: 120px;
-	}
-
-	.tableCell {
-		/*padding-left: @cellMargin;*/
-
-		div {
-			margin: 0 @cellMargin;
-			/*margin-right: @cellMargin;*/
+		.tableCell {
+			div {
+				margin: 0 @cellMargin;
+			}
 		}
 	}
-	/*.tableCell {
-		margin-left: 15px;
-	}*/
+
+	.actionButtons {
+		button:disabled {
+			color: #C7C7C7;
+		}
+	}
+}
+
+
+
+
+#petitionsGrid {
+	height: 400px;
 }
