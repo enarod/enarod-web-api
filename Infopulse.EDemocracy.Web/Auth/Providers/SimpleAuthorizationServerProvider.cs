@@ -1,9 +1,12 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using Infopulse.EDemocracy.Data.Repositories;
 using Microsoft.Owin.Security.OAuth;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Infopulse.EDemocracy.Common.Extensions;
+using Infopulse.EDemocracy.Model.Enum;
 
 namespace Infopulse.EDemocracy.Web.Auth.Providers
 {
@@ -36,27 +39,31 @@ namespace Infopulse.EDemocracy.Web.Auth.Providers
 			context.Validated(identity);
 		}
 
-		private Claim GetUserRoleClaim(string userEmail)
-		{
-			using (var db = new AuthContext())
-			{
-				var user = db.Users.Include(u => u.Claims).SingleOrDefault(u => u.Email == userEmail);
-				var roleClaim = user.Claims.SingleOrDefault(c => c.ClaimType == ClaimTypes.Role);
-				if (roleClaim != null)
-				{
-					return new Claim(ClaimTypes.Role, roleClaim.ClaimValue);
-				}
-			}
-
-			return null;
-		}
-
 		private void AddRoleClaim(ClaimsIdentity identity, string userEmail)
 		{
 			var roleClaim = GetUserRoleClaim(userEmail);
 			if (roleClaim != null)
 			{
 				identity.AddClaim(roleClaim);
+			}
+		}
+
+		private Claim GetUserRoleClaim(string userEmail)
+		{
+			var roleClaimValue = this.GetUserRolesAsString(userEmail);
+			return new Claim(ClaimTypes.Role, roleClaimValue);
+		}
+
+		private string GetUserRolesAsString(string userEmail)
+		{
+			using (var db = new AuthContext())
+			{
+				var user = db.Users.Include(u => u.Roles).SingleOrDefault(u => u.Email == userEmail);
+				if (user == null || !user.Roles.Any()) return null;
+
+				var userRoles = user.Roles.Select(r => r.RoleId.AsRoleText());
+				var roles = string.Join(",", userRoles);
+				return roles;
 			}
 		}
 	}
