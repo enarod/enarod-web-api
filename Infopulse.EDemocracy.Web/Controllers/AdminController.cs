@@ -6,7 +6,7 @@ namespace Infopulse.EDemocracy.Web.Controllers
 	{
 		public ActionResult Index()
 		{
-			return this.RedirectToAction("index", "home", new { area = "admin" });
+			return this.RedirectToAction("index", "console", new { area = "admin" });
 		}
 	}
 }

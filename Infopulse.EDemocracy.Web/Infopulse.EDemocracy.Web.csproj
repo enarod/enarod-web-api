@@ -231,7 +231,7 @@
     <Content Include="EmailTemplates\PetitionCreateConfirmation.html" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Console\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Log\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Petitions\Index.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -282,7 +282,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\API\PetitionsController.cs" />
-    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ConsoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\LogController.cs" />
     <Compile Include="Areas\Admin\Controllers\PetitionsController.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
