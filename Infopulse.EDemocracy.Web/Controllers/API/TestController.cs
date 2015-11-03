@@ -1,4 +1,4 @@
-﻿using System.Web;
+﻿using System.Linq;
 using System.Web.Http;
 using Infopulse.EDemocracy.Web.Auth;
 
@@ -13,8 +13,8 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		public string Ping()
 		{
 			var repo = new Infopulse.EDemocracy.Data.Repositories.OrganizationRepository();
-			var organization = repo.Get(1);
-			return "понґ від " + this.GetSignedInUserEmail() + " з організації '" + organization.Name + "'";
+			var organization = repo.GetAll().FirstOrDefault();
+			return "понґ від " + this.GetSignedInUserEmail() + " з організації '" + (organization?.Name ?? "unknown") + "'";
 		}
 	}
 }
