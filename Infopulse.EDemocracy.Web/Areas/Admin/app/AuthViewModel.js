@@ -24,6 +24,13 @@
 			},
 			close: function () {
 				console.log("singIn form closed");
+			},
+			open: function() {
+				$("#loginForm").keypress(function (e) {
+					if (e.keyCode == $.ui.keyCode.ENTER) {
+						$(this).parent().find("button:eq(1)").trigger("click");
+					}
+				});
 			}
 		});
 	};
