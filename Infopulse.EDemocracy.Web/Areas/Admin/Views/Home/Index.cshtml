@@ -7,17 +7,17 @@
 		<h2 class="col-md-12">Actions</h2>
 	</div>
 	<div class="row">
-		<div class="col-md-12" data-bind="visible: !isAuthorized">
+		<div class="col-md-12" data-bind="visible: !isAuthorized()">
 			<a href="#" data-bind="click: showLoginDialog">Sign in</a>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-12" data-bind="visible: isAuthorized">
+		<div class="col-md-12" data-bind="visible: isAuthorized()">
 			<a href="/admin/petitions">Модерація петицій</a>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-12" data-bind="visible: isAuthorized">
+		<div class="col-md-12" data-bind="visible: isAuthorized()">
 			<a href="#" data-bind="click: signOut">Sign out</a>
 		</div>
 	</div>
