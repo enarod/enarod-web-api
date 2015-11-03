@@ -11,7 +11,7 @@
 	self.selectedPetitions = ko.observableArray();
 
 	self.buttonIsEnabled = ko.computed(function () {
-		return self.selectedPetitions.length > 0;
+		return self.selectedPetitions().length > 0;
 	});
 
 	self.getPetitions = function () {
