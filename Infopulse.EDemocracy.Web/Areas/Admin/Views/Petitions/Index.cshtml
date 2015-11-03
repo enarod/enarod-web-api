@@ -84,14 +84,19 @@
 
 	<script type="text/javascript">
 		$(document).ready(function () {
-			var viewModel = new PetitionsViewModel();
-			ko.applyBindings(viewModel, $('div.body-content')[0]);
-			viewModel.init();
-			viewModel.getPetitions();
+			var petitionsViewModel = new PetitionsViewModel();
+			ko.applyBindings(petitionsViewModel, $('div.body-content')[0]);
+			petitionsViewModel.init();
 
 			var authViewModel = new AuthViewModel();
 			ko.applyBindings(authViewModel, $('nav')[0]);
 			authViewModel.init();
+
+			petitionsViewModel.getPetitions();
+
+			ko.postbox.subscribe('signedIn', function(e) {
+				console.log('signedIn');
+			});
 		});
 	</script>
 
