@@ -51,7 +51,7 @@ namespace Infopulse.EDemocracy.Web.Auth.Providers
 		private Claim GetUserRoleClaim(string userEmail)
 		{
 			var roleClaimValue = this.GetUserRolesAsString(userEmail);
-			return new Claim(ClaimTypes.Role, roleClaimValue);
+			return new Claim(ClaimTypes.Role, roleClaimValue ?? string.Empty);
 		}
 
 		private string GetUserRolesAsString(string userEmail)
