@@ -5,15 +5,9 @@ namespace Infopulse.EDemocracy.Web.Areas.HelpPage
 {
     public class HelpPageAreaRegistration : AreaRegistration
     {
-        public override string AreaName
-        {
-            get
-            {
-                return "HelpPage";
-            }
-        }
+        public override string AreaName { get; } = "HelpPage";
 
-        public override void RegisterArea(AreaRegistrationContext context)
+	    public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
                 "HelpPage_Default",
