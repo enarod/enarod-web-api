@@ -4,7 +4,10 @@ using Infopulse.EDemocracy.Web.Auth.Models;
 using Infopulse.EDemocracy.Web.Models;
 using Microsoft.AspNet.Identity;
 using System;
+using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
+using Infopulse.EDemocracy.Model.Enum;
 
 namespace Infopulse.EDemocracy.Data.Repositories
 {
@@ -45,6 +48,38 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			var user = await applicationUserManager.FindAsync(userName, password);
 
 			return user;
+		}
+
+		public void AssignRole(string userEmail, params Role[] roles)
+		{
+			var user = authContext.Users
+				.Include(u => u.Roles)
+				.SingleOrDefault(u => u.Email == userEmail);
+			if(user == null) throw new Exception($"User [{userEmail}] not found.");
+
+			var userRoleIds = user.Roles.Select(ur => ur.RoleId).ToList();
+            foreach (var role in roles.Where(r => !userRoleIds.Contains((int)r)))
+			{
+				user.Roles.Add(new ApplicationUserRole() { UserId = user.Id, RoleId = (int)role });
+			}
+
+			authContext.SaveChanges();
+		}
+
+		public void RemoveRole(string userEmail, params Role[] roles)
+		{
+			var user = authContext.Users
+				.Include(u => u.Roles)
+				.SingleOrDefault(u => u.Email == userEmail);
+			if (user == null) throw new Exception($"User [{userEmail}] not found.");
+
+			var userRoleIds = user.Roles.Select(ur => ur.RoleId).ToList();
+			foreach (var roleToDelete in roles.Where(r => userRoleIds.Contains((int)r)).Select(role => user.Roles.SingleOrDefault(ur => ur.RoleId == (int)role)))
+			{
+				user.Roles.Remove(roleToDelete);
+			}
+
+			authContext.SaveChanges();
 		}
 
 		public void Dispose()
