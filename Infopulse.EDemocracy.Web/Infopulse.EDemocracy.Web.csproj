@@ -242,7 +242,6 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\admin.less" />
-    <None Include="Areas\Admin\Views\Users\Index.cshtml" />
     <None Include="Areas\Admin\Views\Users\ManageRoles.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="compilerconfig.json.defaults">
