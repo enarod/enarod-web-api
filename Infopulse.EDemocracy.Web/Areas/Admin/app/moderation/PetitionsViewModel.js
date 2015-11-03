@@ -46,8 +46,6 @@
 					}
 				}
 				self.petitions(responseData.Data);
-
-				var grid = new Slick.Grid("#petitionsGrid", self.petitions(), columns, options);
 			})
 			.error(function (jqXHR, textStatus, errorThrown) {
 				console.log("Error: " + errorThrown);
