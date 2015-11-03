@@ -1,0 +1,53 @@
+﻿@{
+	ViewBag.Title = "Manage roles";
+}
+
+<div id="manageRolesPage">
+	<!-- admins -->
+	<div class="row">
+		<h4 class="col-md-12">Administrators</h4>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+
+		</div>
+	</div>
+
+	<!-- add new admin -->
+	<div class="row">
+		<h4 class="col-md-12">Add new administaror</h4>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+
+		</div>
+	</div>
+
+	<!-- moderators -->
+	<div class="row">
+		<h4 class="col-md-12">Moderators</h4>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+
+		</div>
+	</div>
+
+	<!-- add new moderator -->
+	<div class="row">
+		<h4 class="col-md-12">Add new moderator</h4>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+
+		</div>
+	</div>
+</div>
+
+<script src="~/Areas/Admin/app/AuthViewModel.js"></script>
+<script src="~/Areas/Admin/app/utils.js"></script>
+<script type="text/javascript">
+	var authViewModel = new AuthViewModel();
+	ko.applyBindings(authViewModel, $('nav')[0]);
+	authViewModel.init();
+</script>
