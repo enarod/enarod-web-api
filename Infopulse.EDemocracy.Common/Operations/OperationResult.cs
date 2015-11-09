@@ -91,6 +91,24 @@ namespace Infopulse.EDemocracy.Common.Operations
 		}
 
 
+		/// <summary>
+		/// Sets failed operation result specified by code, message and debug message.
+		/// </summary>
+		/// <param name="resultCode">Operation result code.</param>
+		/// <param name="message">Operation result message.</param>
+		/// <param name="debugMessage">Debug message.</param>
+		/// <returns>Failed operation result.</returns>
+		public static OperationResult Fail(int resultCode, string message, string debugMessage)
+		{
+			return new OperationResult
+			{
+				ResultCode = resultCode,
+				Message = message,
+				DebugMessage = debugMessage
+			};
+		}
+
+
 		public static OperationResult CopyFrom(OperationResult otherResult)
 		{
 			return new OperationResult
