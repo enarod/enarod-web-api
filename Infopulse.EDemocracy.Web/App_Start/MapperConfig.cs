@@ -33,10 +33,14 @@ namespace Infopulse.EDemocracy.Web
 				.ForMember(webPetitionVote => webPetitionVote.ConfirmUrl, f => f.Ignore())
 				.ForMember(webPetitionVote => webPetitionVote.PetitionSigner, f => f.MapFrom(dataPetitionVote => dataPetitionVote.Voter.UserDetails.SingleOrDefault()));
 			Mapper.CreateMap<DataModels.Petition, WebModels.Petition>()
-				.Include<DataModels.PetitionWithVote, WebModels.Petition>()
 				.ForMember(webPetition => webPetition.CreatedBy, createdBy => createdBy.Ignore())
 				.ForMember(webPetition => webPetition.Level, level => level.MapFrom(dataPetition => dataPetition.PetitionLevel))
 				.ForMember(webPetition => webPetition.KeyWords, keyWords => keyWords.MapFrom(dataPetition => dataPetition.KeyWords.Split(',').Select(w => w.Trim())));
+			Mapper.CreateMap<DataModels.PetitionWithVote, WebModels.Petition>()
+				.ForMember(webPetition => webPetition.CreatedBy, createdBy => createdBy.Ignore())
+				.ForMember(webPetition => webPetition.Level, level => level.MapFrom(dataPetition => dataPetition.PetitionLevel))
+				.ForMember(webPetition => webPetition.KeyWords, keyWords => keyWords.MapFrom(dataPetition => dataPetition.KeyWords.Split(',').Select(w => w.Trim())))
+				.ForMember(webPetition => webPetition.VotesCount, field => field.MapFrom(dalPetition => dalPetition.VotesCount ?? 0));
 			Mapper.CreateMap<DataModels.Petition, ModeratedPetition>()
 				.IncludeBase<DataModels.Petition, WebModels.Petition>()
 				.ForMember(webPetition => webPetition.IsChecked, f => f.UseValue(false))
