@@ -11,7 +11,7 @@
   box-sizing: inherit;
 }
 .petitionsModeration table#petitionList td {
-  border: 1px solid #161616;
+  /*border: 1px solid #161616;*/
 }
 .petitionsModeration table#petitionList th.dataType-dateTime {
   min-width: 120px;
