@@ -354,6 +354,11 @@
     <Compile Include="Controllers\API\UsersController.cs" />
     <Compile Include="CORS\CorsPolicyProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\UserMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserMessages.resx</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -421,6 +426,10 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201510261905366_auth_tables.resx">
       <DependentUpon>201510261905366_auth_tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\UserMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
