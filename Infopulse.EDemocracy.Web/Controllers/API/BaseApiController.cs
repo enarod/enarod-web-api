@@ -2,6 +2,7 @@
 using Infopulse.EDemocracy.Data.Repositories;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Authentication;
 using System.Security.Claims;
 using System.ServiceModel.Channels;
 using System.Web;
@@ -31,6 +32,12 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			if (identity != null)
 			{
 				var emailClaim = identity.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Email);
+
+				if (emailClaim == null)
+				{
+					throw new AuthenticationException("Email claim not found");
+				}
+
 				var email = emailClaim.Value;
 				return email;
 			}
