@@ -43,6 +43,20 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			}			
 		}
 
+		public async Task<IdentityResult> ChangePassword(int userID, string currentPassword, string newPassword)
+		{
+			try
+			{
+				var result = await applicationUserManager.ChangePasswordAsync(userID, currentPassword, newPassword);
+
+				return result;
+			}
+			catch (Exception exc)
+			{
+				throw exc.GetMostInnerException();
+			}
+		}
+
 		public async Task<ApplicationUser> FindUser(string userName, string password)
 		{
 			var user = await applicationUserManager.FindAsync(userName, password);
