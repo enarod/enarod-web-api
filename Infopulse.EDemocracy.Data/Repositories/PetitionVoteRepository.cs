@@ -79,6 +79,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				}
 
 				emailVote.IsConfirmed = true;
+				emailVote.ConfirmationDate = DateTime.UtcNow;
 				db.SaveChanges();
 
 				return emailVote;
