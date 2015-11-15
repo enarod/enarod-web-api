@@ -1,10 +1,12 @@
-﻿using Infopulse.EDemocracy.Data.Repositories;
+﻿using System.Linq;
+using Infopulse.EDemocracy.Data.Repositories;
 using Infopulse.EDemocracy.Web.Models;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Infopulse.EDemocracy.Common.Operations;
 using Infopulse.EDemocracy.Web.CORS;
+using Infopulse.EDemocracy.Web.Resources;
 
 namespace Infopulse.EDemocracy.Web.Controllers.API
 {
@@ -39,6 +41,33 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 			}
 
 			return Ok(OperationResult.Success(1, "Ви зареєстровані"));
+		}
+
+		/// <summary>
+		/// Changes current user password.
+		/// </summary>
+		/// <returns>Operation result.</returns>
+		[HttpPost]
+		public OperationResult ChangePassword([FromUri]string currentPassword, [FromUri]string newPassword)
+		{
+			var result = OperationExecuter.Execute(() =>
+			{
+				var changePasswordResult = authRepository.ChangePassword(1, currentPassword, newPassword);
+
+				if (changePasswordResult.Succeeded)
+				{
+					return OperationResult.Success(1, UserMessages.PasswordChanged_Success);
+				}
+				else
+				{
+					var errorMessage = changePasswordResult.Errors.Any()
+						? string.Join(". ", changePasswordResult.Errors)
+						: UserMessages.PasswordChanged_Fail_WrongCurrentPassword;
+					return OperationResult.Fail(-2, errorMessage);
+				}
+			});
+
+			return result;
 		}
 
 		protected override void Dispose(bool disposing)

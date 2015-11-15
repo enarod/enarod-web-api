@@ -9,17 +9,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Infopulse.EDemocracy.Model.Enum;
 
+#pragma warning disable 1591
+
 namespace Infopulse.EDemocracy.Data.Repositories
 {
 	public class AuthRepository : IDisposable
 	{
-		private AuthContext authContext;
-		private ApplicationUserManager applicationUserManager;
+		private readonly AuthContext _authContext;
+		private readonly ApplicationUserManager _applicationUserManager;
 
 		public AuthRepository()
 		{
-			authContext = new AuthContext();
-			applicationUserManager = new ApplicationUserManager(new ApplicationUserStore(authContext));
+			_authContext = new AuthContext();
+			_applicationUserManager = new ApplicationUserManager(new ApplicationUserStore(_authContext));
 		}
 
 		public async Task<IdentityResult> RegisterUser(UserModel userModel)
@@ -33,7 +35,7 @@ namespace Infopulse.EDemocracy.Data.Repositories
 					EmailConfirmed = false
 				};
 
-				var result = await applicationUserManager.CreateAsync(user, userModel.Password);
+				var result = await _applicationUserManager.CreateAsync(user, userModel.Password);
 
 				return result;
 			}
@@ -43,11 +45,25 @@ namespace Infopulse.EDemocracy.Data.Repositories
 			}			
 		}
 
-		public async Task<IdentityResult> ChangePassword(int userID, string currentPassword, string newPassword)
+		public async Task<IdentityResult> ChangePasswordAsync(int userID, string currentPassword, string newPassword)
 		{
 			try
 			{
-				var result = await applicationUserManager.ChangePasswordAsync(userID, currentPassword, newPassword);
+				var result = await _applicationUserManager.ChangePasswordAsync(userID, currentPassword, newPassword);
+
+				return result;
+			}
+			catch (Exception exc)
+			{
+				throw exc.GetMostInnerException();
+			}
+		}
+
+		public IdentityResult ChangePassword(int userID, string currentPassword, string newPassword)
+		{
+			try
+			{
+				var result = _applicationUserManager.ChangePassword(userID, currentPassword, newPassword);
 
 				return result;
 			}
@@ -59,14 +75,14 @@ namespace Infopulse.EDemocracy.Data.Repositories
 
 		public async Task<ApplicationUser> FindUser(string userName, string password)
 		{
-			var user = await applicationUserManager.FindAsync(userName, password);
+			var user = await _applicationUserManager.FindAsync(userName, password);
 
 			return user;
 		}
 
 		public void AssignRole(string userEmail, params Role[] roles)
 		{
-			var user = authContext.Users
+			var user = _authContext.Users
 				.Include(u => u.Roles)
 				.SingleOrDefault(u => u.Email == userEmail);
 			if(user == null) throw new Exception($"User [{userEmail}] not found.");
@@ -77,12 +93,12 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				user.Roles.Add(new ApplicationUserRole() { UserId = user.Id, RoleId = (int)role });
 			}
 
-			authContext.SaveChanges();
+			_authContext.SaveChanges();
 		}
 
 		public void RemoveRole(string userEmail, params Role[] roles)
 		{
-			var user = authContext.Users
+			var user = _authContext.Users
 				.Include(u => u.Roles)
 				.SingleOrDefault(u => u.Email == userEmail);
 			if (user == null) throw new Exception($"User [{userEmail}] not found.");
@@ -93,13 +109,13 @@ namespace Infopulse.EDemocracy.Data.Repositories
 				user.Roles.Remove(roleToDelete);
 			}
 
-			authContext.SaveChanges();
+			_authContext.SaveChanges();
 		}
 
 		public void Dispose()
 		{
-			authContext.Dispose();
-			applicationUserManager.Dispose();
+			_authContext.Dispose();
+			_applicationUserManager.Dispose();
 		}
 	}
 }

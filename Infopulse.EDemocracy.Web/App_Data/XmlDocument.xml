@@ -542,6 +542,12 @@
             If current user has any of these roles then the action is authorized.
             </summary>
         </member>
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.AccountController.ChangePassword(System.String,System.String)">
+            <summary>
+            Changes current user password.
+            </summary>
+            <returns>Operation result.</returns>
+        </member>
         <member name="T:Infopulse.EDemocracy.Web.Controllers.API.BaseApiController">
             <summary>
             The base class for api controllers
@@ -705,6 +711,32 @@
             Custom CORS policy provider based on web.config values.
             </summary>
             <remarks>See http://www.asp.net/web-api/overview/security/enabling-cross-origin-requests-in-web-api#cors-policy-providers for details.</remarks>
+        </member>
+        <member name="T:Infopulse.EDemocracy.Web.Resources.UserMessages">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Infopulse.EDemocracy.Web.Resources.UserMessages.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Infopulse.EDemocracy.Web.Resources.UserMessages.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Infopulse.EDemocracy.Web.Resources.UserMessages.PasswordChanged_Fail_WrongCurrentPassword">
+            <summary>
+              Looks up a localized string similar to Введено неправильний поточний пароль.
+            </summary>
+        </member>
+        <member name="P:Infopulse.EDemocracy.Web.Resources.UserMessages.PasswordChanged_Success">
+            <summary>
+              Looks up a localized string similar to Пароль успішно змінено.
+            </summary>
         </member>
     </members>
 </doc>
