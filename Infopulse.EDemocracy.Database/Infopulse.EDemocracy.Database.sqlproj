@@ -106,6 +106,7 @@
     <Folder Include="auth\" />
     <Folder Include="auth\Tables\" />
     <Folder Include="Scripts\Migrations" />
+    <Folder Include="Scripts\Migrations\2" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\RolePeople.sql" />
@@ -171,5 +172,6 @@
     <None Include="Compares\ProjectToLocal.scmp" />
     <None Include="Scripts\Migrations\6_Add PetitionStatusID column into PetitionTable.sql" />
     <None Include="Scripts\Migrations\7_Add ApprovedBy and ApprovedDate columns to Petitions table.sql" />
+    <None Include="Scripts\Migrations\2\Set PetitionEmailVote.ConfirmationDate.sql" />
   </ItemGroup>
 </Project>
