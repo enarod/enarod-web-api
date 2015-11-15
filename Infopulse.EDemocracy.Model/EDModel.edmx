@@ -217,6 +217,7 @@
           <Property Name="Hash" Type="varchar(max)" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="IsConfirmed" Type="bit" Nullable="false" />
+          <Property Name="ConfirmationDate" Type="datetime" />
         </EntityType>
         <EntityType Name="PetitionLevel">
           <Key>
@@ -2287,6 +2288,7 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <NavigationProperty Name="Petition" Relationship="EDModel.FK_PetitionEmailVote_Petition" FromRole="PetitionEmailVote" ToRole="Petition" />
           <Property Name="VoterID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Voter" Relationship="EDModel.FK_PetitionEmailVote_User" FromRole="PetitionEmailVote" ToRole="User" />
+          <Property Name="ConfirmationDate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_PetitionEmailVote_Petition">
           <End Type="EDModel.Petition" Role="Petition" Multiplicity="1" />
@@ -2707,6 +2709,7 @@ warning 6002: The table/view 'enarod_dev.dbo.vwAgreements' does not have a prima
           <EntitySetMapping Name="PetitionEmailVotes">
             <EntityTypeMapping TypeName="EDModel.PetitionEmailVote">
               <MappingFragment StoreEntitySet="PetitionEmailVote">
+                <ScalarProperty Name="ConfirmationDate" ColumnName="ConfirmationDate" />
                 <ScalarProperty Name="VoterID" ColumnName="VoterID" />
                 <ScalarProperty Name="Hash" ColumnName="Hash" />
                 <ScalarProperty Name="PetitionID" ColumnName="PetitionID" />

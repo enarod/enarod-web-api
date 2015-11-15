@@ -20,6 +20,7 @@ namespace Infopulse.EDemocracy.Model
         public System.DateTime CreatedDate { get; set; }
         public bool IsConfirmed { get; set; }
         public int VoterID { get; set; }
+        public Nullable<System.DateTime> ConfirmationDate { get; set; }
     
         public virtual Petition Petition { get; set; }
         public virtual User Voter { get; set; }
