@@ -339,6 +339,7 @@
       <DependentUpon>201510261905366_auth_tables.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\API\AgreementController.cs" />

@@ -542,7 +542,7 @@
             If current user has any of these roles then the action is authorized.
             </summary>
         </member>
-        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.AccountController.ChangePassword(System.String,System.String)">
+        <member name="M:Infopulse.EDemocracy.Web.Controllers.API.AccountController.ChangePassword(Infopulse.EDemocracy.Web.Models.ChangePasswordModel)">
             <summary>
             Changes current user password.
             </summary>
@@ -704,6 +704,21 @@
         <member name="T:Infopulse.EDemocracy.Web.Controllers.PetitionController">
             <summary>
             MVC controller for all petition pages.
+            </summary>
+        </member>
+        <member name="T:Infopulse.EDemocracy.Web.Models.ChangePasswordModel">
+            <summary>
+            Model to store password changes.
+            </summary>
+        </member>
+        <member name="P:Infopulse.EDemocracy.Web.Models.ChangePasswordModel.CurrentPassword">
+            <summary>
+            Current password.
+            </summary>
+        </member>
+        <member name="P:Infopulse.EDemocracy.Web.Models.ChangePasswordModel.NewPassword">
+            <summary>
+            New passwords. Must comply with password policy.
             </summary>
         </member>
         <member name="T:Infopulse.EDemocracy.Web.CORS.CorsPolicyProvider">

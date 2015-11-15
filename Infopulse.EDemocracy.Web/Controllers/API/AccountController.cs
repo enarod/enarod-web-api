@@ -48,11 +48,12 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		/// </summary>
 		/// <returns>Operation result.</returns>
 		[HttpPost]
-		public OperationResult ChangePassword([FromUri]string currentPassword, [FromUri]string newPassword)
+		[Authorize]
+		public OperationResult ChangePassword(ChangePasswordModel passwordChanges)
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
-				var changePasswordResult = authRepository.ChangePassword(1, currentPassword, newPassword);
+				var changePasswordResult = authRepository.ChangePassword(1, passwordChanges.CurrentPassword, passwordChanges.NewPassword);
 
 				if (changePasswordResult.Succeeded)
 				{
