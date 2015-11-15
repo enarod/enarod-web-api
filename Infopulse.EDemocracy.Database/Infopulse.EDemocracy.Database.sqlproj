@@ -106,6 +106,7 @@
     <Folder Include="auth\" />
     <Folder Include="auth\Tables\" />
     <Folder Include="Scripts\Migrations" />
+    <Folder Include="Scripts\Migrations\1" />
     <Folder Include="Scripts\Migrations\2" />
   </ItemGroup>
   <ItemGroup>
@@ -153,11 +154,14 @@
     <Build Include="dbo\Tables\UserDetail.sql" />
     <Build Include="auth\Tables\App_User.sql" />
     <Build Include="dbo\Stored Procedures\sp_User_GetIdByEmail.sql" />
-    <None Include="Scripts\Migrations\4_Change PetitionEmailVote table to reference User.sql" />
-    <None Include="Scripts\Migrations\2_Move PetitionSigners into auth.App_User.sql" />
-    <None Include="Scripts\Migrations\3_Move PetitionSigners into UserDetails.sql" />
-    <None Include="Scripts\Migrations\1_Petition.CreatedBy to auth.App_User.sql" />
     <Build Include="dbo\Tables\PetitionStatus.sql" />
+    <None Include="Scripts\Migrations\1\1_Petition.CreatedBy to auth.App_User.sql" />
+    <None Include="Scripts\Migrations\1\2_Move PetitionSigners into auth.App_User.sql" />
+    <None Include="Scripts\Migrations\1\3_Move PetitionSigners into UserDetails.sql" />
+    <None Include="Scripts\Migrations\1\4_Change PetitionEmailVote table to reference User.sql" />
+    <None Include="Scripts\Migrations\1\5_Remove links to PetitionSigner table from Petition table.sql" />
+    <None Include="Scripts\Migrations\1\6_Add PetitionStatusID column into PetitionTable.sql" />
+    <None Include="Scripts\Migrations\1\7_Add ApprovedBy and ApprovedDate columns to Petitions table.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Compares\ProdToProject.scmp" />
@@ -166,12 +170,9 @@
     <None Include="Scripts\Dictionaries.sql" />
     <None Include="Compares\DevToProject.scmp" />
     <None Include="Compares\LocalToProject.scmp" />
-    <None Include="Scripts\Migrations\5_Remove links to PetitionSigner table from Petition table.sql" />
     <None Include="Compares\ProjectToProd2.scmp" />
     <None Include="Scripts\Misc\Grant permission to execute sp.sql" />
     <None Include="Compares\ProjectToLocal.scmp" />
-    <None Include="Scripts\Migrations\6_Add PetitionStatusID column into PetitionTable.sql" />
-    <None Include="Scripts\Migrations\7_Add ApprovedBy and ApprovedDate columns to Petitions table.sql" />
     <None Include="Scripts\Migrations\2\Set PetitionEmailVote.ConfirmationDate.sql" />
   </ItemGroup>
 </Project>
