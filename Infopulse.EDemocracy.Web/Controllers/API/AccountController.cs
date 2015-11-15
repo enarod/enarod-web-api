@@ -12,7 +12,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 {
 	[CorsPolicyProvider]
 	[RoutePrefix("api/Account")]
-	public class AccountController : ApiController
+	public class AccountController : BaseApiController
 	{
 		private AuthRepository authRepository = null;
 
@@ -57,7 +57,7 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 
 				if (changePasswordResult.Succeeded)
 				{
-					return OperationResult.Success(1, UserMessages.PasswordChanged_Success);
+					return OperationResult.Success(GetSignedInUserId(), UserMessages.PasswordChanged_Success);
 				}
 				else
 				{
