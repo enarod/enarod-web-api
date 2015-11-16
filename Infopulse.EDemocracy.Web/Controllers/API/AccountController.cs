@@ -53,11 +53,11 @@ namespace Infopulse.EDemocracy.Web.Controllers.API
 		{
 			var result = OperationExecuter.Execute(() =>
 			{
-				var changePasswordResult = authRepository.ChangePassword(1, passwordChanges.CurrentPassword, passwordChanges.NewPassword);
+				var changePasswordResult = authRepository.ChangePassword(GetSignedInUserId(), passwordChanges.CurrentPassword, passwordChanges.NewPassword);
 
 				if (changePasswordResult.Succeeded)
 				{
-					return OperationResult.Success(GetSignedInUserId(), UserMessages.PasswordChanged_Success);
+					return OperationResult.Success(1, UserMessages.PasswordChanged_Success);
 				}
 				else
 				{
